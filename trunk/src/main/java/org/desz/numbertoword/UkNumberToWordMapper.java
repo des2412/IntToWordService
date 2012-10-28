@@ -20,8 +20,7 @@ import org.desz.numbertoword.factory.NumberToWordFactory;
 public class UkNumberToWordMapper implements INumberToWordMapper {
 
 	private static Map<String, String> numToWordMap = new HashMap<String, String>();
-	private static AtomicBoolean SINGLETON_FLAG = new AtomicBoolean();
-	private static INumberToWordMapper numberToWordMapper = null;
+	private INumberToWordMapper numberToWordMapper = null;
 
 	private static UkNumberFormatHelper ukEngNumberFormatter = null;
 
@@ -43,9 +42,12 @@ public class UkNumberToWordMapper implements INumberToWordMapper {
 	}
 
 	/**
-	 * Constructor private to enforce singleton semantics
+	 * Constructor
+	 * @throws Exception 
 	 */
-	public UkNumberToWordMapper() {
+	public UkNumberToWordMapper() throws Exception {
+		/*this.numberToWordMapper = NumberToWordFactory.UK_SINGLETON
+				.getNumberToWordMapper();*/
 		initialiseMapping();
 	}
 
@@ -53,11 +55,11 @@ public class UkNumberToWordMapper implements INumberToWordMapper {
 	 * 
 	 * @return numberToWordMapper
 	 * @throws Exception
-	 */
+	 *
 	public static INumberToWordMapper getInstance() throws Exception {
 		return numberToWordMapper = NumberToWordFactory.UK_SINGLETON
 				.getNumberToWordMapper();
-	}
+	}*/
 
 	public static void setLoggingLevel(Level newLevel) {
 		LOGGER.setLevel(newLevel);
@@ -70,8 +72,8 @@ public class UkNumberToWordMapper implements INumberToWordMapper {
 		LOGGER.setLevel(Level.INFO);
 		ukEngNumberFormatter = UkNumberFormatHelper.getInstance();
 
-		for (UKINTEGERTOWORD ntw : UKINTEGERTOWORD.values()) {
-			numToWordMap.put(ntw.getNum(), ntw.getWord());
+		for (UKINTEGERTOWORD intToWord : UKINTEGERTOWORD.values()) {
+			numToWordMap.put(intToWord.getNum(), intToWord.getWord());
 		}
 	}
 

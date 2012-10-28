@@ -15,7 +15,7 @@ import org.desz.numbertoword.factory.NumberToWordFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-public class NumToWordMapperTest {
+public class UkNumberToWordMapperTest {
 	final private static String[] decimals = { "One", "Two", "Three", "Four",
 			"Five", "Six", "Seven", "Eight", "Nine" };
 	static List<String> l = Arrays.asList(decimals);

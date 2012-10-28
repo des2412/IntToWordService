@@ -32,7 +32,7 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 		case UK_SINGLETON:
 			boolean res = ref.compareAndSet(ukNumberToWordMapper,
 					new UkNumberToWordMapper());
-			LOGGER.info("Result of factory get method:" + res);
+			LOGGER.info("Result of AtomicReference compareAndSet:" + res);
 			return ref.get();
 			// .. other languages
 

@@ -6,7 +6,7 @@ package org.desz.numbertoword.enums;
 /**
  * @author des
  * 
- *         Class for enums for Errors, Format and Units
+ *         enums for int to word mappings, Errors, Format and Units
  * 
  */
 public class EnumHolder {
