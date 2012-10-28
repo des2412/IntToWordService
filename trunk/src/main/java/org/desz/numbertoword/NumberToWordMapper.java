@@ -57,8 +57,8 @@ public class NumberToWordMapper implements INumberToWordMapper {
 		LOGGER.info("Singleton initialised:" + SINGLETON_FLAG.get());
 		return numberToWordMapper;
 	}
-	
-	public static void setLoggingLevel(Level newLevel){
+
+	public static void setLoggingLevel(Level newLevel) {
 		LOGGER.setLevel(newLevel);
 	}
 
@@ -98,7 +98,6 @@ public class NumberToWordMapper implements INumberToWordMapper {
 		numToWordMap.put("70", "Seventy");
 		numToWordMap.put("80", "Eighty");
 		numToWordMap.put("90", "Ninety");
-		//SINGLETON_FLAG.getAndSet(Boolean.TRUE);
 
 	}
 
@@ -149,8 +148,8 @@ public class NumberToWordMapper implements INumberToWordMapper {
 
 		try {
 			formattedNumber = validateAndFormat(num);
-			if(LOGGER.isLoggable(Level.INFO))
-			LOGGER.info("Formatted Number:" + formattedNumber);
+			if (LOGGER.isLoggable(Level.INFO))
+				LOGGER.info("Formatted Number:" + formattedNumber);
 
 		} catch (Exception e) {
 			LOGGER.info(e.getMessage());
@@ -315,8 +314,8 @@ public class NumberToWordMapper implements INumberToWordMapper {
 		} else { // 20-99
 			indZero += "0"; // add "0" to indZero so as to match key of whole
 							// ten
-			if(LOGGER.isLoggable(Level.INFO))
-			LOGGER.info("indZero:" + indZero + "indOne:" + indOne);
+			if (LOGGER.isLoggable(Level.INFO))
+				LOGGER.info("indZero:" + indZero + "indOne:" + indOne);
 			if (!indOne.equals("0")) {
 				result = numToWordMap.get(indZero) + FORMAT.SPACE.val()
 						+ numToWordMap.get(indOne);
