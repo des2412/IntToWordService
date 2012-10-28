@@ -8,26 +8,28 @@ import java.util.logging.Logger;
 
 import org.desz.numbertoword.enums.EnumHolder.ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.FORMAT;
+import org.desz.numbertoword.enums.EnumHolder.UKINTEGERTOWORD;
 import org.desz.numbertoword.enums.EnumHolder.UNITS;
+import org.desz.numbertoword.factory.NumberToWordFactory;
 
 /**
  * 
  * @author des: des_williams_2000@yahoo.com
  * 
  */
-public class NumberToWordMapper implements INumberToWordMapper {
+public class UkNumberToWordMapper implements INumberToWordMapper {
 
 	private static Map<String, String> numToWordMap = new HashMap<String, String>();
 	private static AtomicBoolean SINGLETON_FLAG = new AtomicBoolean();
-	private static NumberToWordMapper numberToWordMapper = null;
+	private static INumberToWordMapper numberToWordMapper = null;
 
 	private static UkNumberFormatHelper ukEngNumberFormatter = null;
 
 	private final static Logger LOGGER = Logger
-			.getLogger(NumberToWordMapper.class.getName());
+			.getLogger(UkNumberToWordMapper.class.getName());
 
 	/**
-	 * Holds the message, typically an error condition. Used by Unit tests for
+	 * message: Typically reports an error condition. Used by Unit tests for
 	 * assertions only.
 	 */
 	private String message;
@@ -43,19 +45,18 @@ public class NumberToWordMapper implements INumberToWordMapper {
 	/**
 	 * Constructor private to enforce singleton semantics
 	 */
-	private NumberToWordMapper() {
-		init();
+	public UkNumberToWordMapper() {
+		initialiseMapping();
 	}
 
-	public static NumberToWordMapper getInstance() {
-		if (!SINGLETON_FLAG.get()) {
-			numberToWordMapper = new NumberToWordMapper();
-			boolean b = SINGLETON_FLAG.getAndSet(true);
-			LOGGER.info("Previous value of FLAG:" + b);
-			LOGGER.info("NEW Value:" + SINGLETON_FLAG.get());
-		}
-		LOGGER.info("Singleton initialised:" + SINGLETON_FLAG.get());
-		return numberToWordMapper;
+	/**
+	 * 
+	 * @return numberToWordMapper
+	 * @throws Exception
+	 */
+	public static INumberToWordMapper getInstance() throws Exception {
+		return numberToWordMapper = NumberToWordFactory.UK_SINGLETON
+				.getNumberToWordMapper();
 	}
 
 	public static void setLoggingLevel(Level newLevel) {
@@ -65,40 +66,13 @@ public class NumberToWordMapper implements INumberToWordMapper {
 	/**
 	 * initialise map of number to corresponding word
 	 */
-	private static void init() {
+	public void initialiseMapping() {
 		LOGGER.setLevel(Level.INFO);
 		ukEngNumberFormatter = UkNumberFormatHelper.getInstance();
-		numToWordMap.put("0", "Zero");
-		numToWordMap.put("1", "One");
-		numToWordMap.put("2", "Two");
-		numToWordMap.put("3", "Three");
-		numToWordMap.put("4", "Four");
-		numToWordMap.put("5", "Five");
-		numToWordMap.put("6", "Six");
-		numToWordMap.put("7", "Seven");
-		numToWordMap.put("8", "Eight");
-		numToWordMap.put("9", "Nine");
-		numToWordMap.put("10", "Ten");
 
-		numToWordMap.put("11", "Eleven");
-		numToWordMap.put("12", "Twelve");
-		numToWordMap.put("13", "Thirteen");
-		numToWordMap.put("14", "Fourteen");
-		numToWordMap.put("15", "Fifteen");
-		numToWordMap.put("16", "Sixteen");
-		numToWordMap.put("17", "Seventeen");
-		numToWordMap.put("18", "Eighteen");
-		numToWordMap.put("19", "Nineteen");
-
-		numToWordMap.put("20", "Twenty");
-		numToWordMap.put("30", "Thirty");
-		numToWordMap.put("40", "Forty");
-		numToWordMap.put("50", "Fifty");
-		numToWordMap.put("60", "Sixty");
-		numToWordMap.put("70", "Seventy");
-		numToWordMap.put("80", "Eighty");
-		numToWordMap.put("90", "Ninety");
-
+		for (UKINTEGERTOWORD ntw : UKINTEGERTOWORD.values()) {
+			numToWordMap.put(ntw.getNum(), ntw.getWord());
+		}
 	}
 
 	/**

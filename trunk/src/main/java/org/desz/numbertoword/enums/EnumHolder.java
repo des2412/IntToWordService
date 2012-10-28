@@ -11,6 +11,36 @@ package org.desz.numbertoword.enums;
  */
 public class EnumHolder {
 
+	public enum UKINTEGERTOWORD {
+		ZERO("0", "Zero"), ONE("1", "One"), TWO("2", "Two"), THREE("3", "Three"), FOUR(
+				"4", "Four"), FIVE("5", "Five"), SIX("6", "Six"), SEVEN("7",
+				"Seven"), EIGHT("8", "Eight"), NINE("9", "Nine"), TEN("10",
+				"Ten"), ELEVEN("11", "Eleven"), TWELVE("12", "Twelve"), THIRTEEN(
+				"13", "Thirteen"), FOURTEEN("14", "Fourteen"), FIFTEEN("15",
+				"Fifteen"), SIXTEEN("16", "Sixteen"), SEVENTEEN("17",
+				"Seventeen"), EIGHTEEN("18", "Eighteen"), NINETEEN("19",
+				"Nineteen"), TWENTY("20", "Twenty"), THIRTY("30", "Thirty"), FORTY(
+				"40", "Forty"), FIFTY("50", "Fifty"), SIXTY("60", "Sixty"), SEVENTY(
+				"70", "Seventy"), EIGHTY("80", "Eighty"), NINETY("90", "Ninety");
+
+		private String word;
+		private String num;
+
+		private UKINTEGERTOWORD(String num, String word) {
+			this.num = num;
+			this.word = word;
+		}
+
+		public String getWord() {
+			return word;
+		}
+
+		public String getNum() {
+			return num;
+		}
+
+	};
+
 	/**
 	 * Errors possible during conversion
 	 * 

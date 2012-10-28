@@ -5,7 +5,7 @@ package org.desz.numbertoword.interaction;
  */
 import java.util.Scanner;
 
-import org.desz.numbertoword.NumberToWordMapper;
+import org.desz.numbertoword.UkNumberToWordMapper;
 
 public class UKIntegerToWordUserInput {
 	public static void main(String args[]) throws Exception {
@@ -29,7 +29,7 @@ public class UKIntegerToWordUserInput {
 				try {
 					num = Integer.valueOf(input);
 					System.out.println("Word conversion of " + num + " = "
-							+ NumberToWordMapper.getInstance().getWord(num));
+							+ UkNumberToWordMapper.getInstance().getWord(num));
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}

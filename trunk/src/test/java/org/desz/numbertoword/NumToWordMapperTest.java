@@ -1,4 +1,4 @@
-package org.desz.word4num.map;
+package org.desz.numbertoword;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -6,10 +6,12 @@ import static org.junit.Assert.assertSame;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 
-import org.desz.numbertoword.NumberToWordMapper;
+import org.desz.numbertoword.UkNumberToWordMapper;
 import org.desz.numbertoword.enums.EnumHolder.ERRORS;
+import org.desz.numbertoword.factory.NumberToWordFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,12 +20,13 @@ public class NumToWordMapperTest {
 			"Five", "Six", "Seven", "Eight", "Nine" };
 	static List<String> l = Arrays.asList(decimals);
 
-	NumberToWordMapper numberToWordMapper = null;
+	UkNumberToWordMapper numberToWordMapper = null;
 
 	@Before
-	public void init() {
-		numberToWordMapper = NumberToWordMapper.getInstance();
-		NumberToWordMapper.setLoggingLevel(Level.OFF);
+	public void init() throws Exception {
+		numberToWordMapper = (UkNumberToWordMapper) NumberToWordFactory.UK_SINGLETON
+				.getNumberToWordMapper();
+		UkNumberToWordMapper.setLoggingLevel(Level.OFF);
 
 	}
 
@@ -33,9 +36,10 @@ public class NumToWordMapperTest {
 	}
 
 	@Test
-	public void testIsSingleton() {
-		NumberToWordMapper.setLoggingLevel(Level.INFO);
-		assertSame(numberToWordMapper, NumberToWordMapper.getInstance());
+	public void testIsSingleton() throws Exception {
+		UkNumberToWordMapper.setLoggingLevel(Level.INFO);
+		assertSame(numberToWordMapper,
+				NumberToWordFactory.UK_SINGLETON.getNumberToWordMapper());
 	}
 
 	@Test(expected = Exception.class)
@@ -108,8 +112,7 @@ public class NumToWordMapperTest {
 		assertEquals("Ten thousand one hundred",
 				numberToWordMapper.getWord(10100));
 
-		assertEquals("One hundred thousand",
-				numberToWordMapper.getWord(100000));
+		assertEquals("One hundred thousand", numberToWordMapper.getWord(100000));
 
 		assertEquals("One million", numberToWordMapper.getWord(1000000));
 
@@ -117,9 +120,9 @@ public class NumToWordMapperTest {
 				numberToWordMapper.getWord(1100000));
 
 	}
-	
-	//@Test
-	public void testError() throws Exception{
+
+	// @Test
+	public void testError() throws Exception {
 		assertEquals(
 				"Nine hundred and ninety nine million nine hundred and nine thousand",
 				numberToWordMapper.getWord(999909000));
