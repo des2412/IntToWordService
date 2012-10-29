@@ -11,7 +11,45 @@ package org.desz.numbertoword.enums;
  */
 public class EnumHolder {
 
-	public enum UKINTEGERTOWORD {
+	
+
+	public enum PROVISIONED_LANGUAGE {
+		UK, FR;
+
+	};
+
+	public enum FRWORD {
+		ZERO("0", "Zéro"), ONE("1", "Un"), TWO("2", "Deux"), THREE("3", "Trois"), FOUR(
+				"4", "Quatre"), FIVE("5", "Cinq"), SIX("6", "Six"), SEVEN("7",
+				"Sept"), EIGHT("8", "Huit"), NINE("9", "Neuf"), TEN("10", "Dix"), ELEVEN(
+				"11", "Onze"), TWELVE("12", "Douze"), THIRTEEN("13", "Treize"), FOURTEEN(
+				"14", "Quatorze"), FIFTEEN("15", "Quinze"), SIXTEEN("16",
+				"Seize"), SEVENTEEN("17", "Dix-sept"), EIGHTEEN("18",
+				"Dix-huit"), NINETEEN("19", "Dix-neuf"), TWENTY("20", "Vingt"), THIRTY(
+				"30", "Trente"), FORTY("40", "Quarante"), FIFTY("50",
+				"Cinquante"), SIXTY("60", "Soixante"), SEVENTY("70",
+				"Soixante-dix"), EIGHTY("80", "Soixante-vingt"), NINETY("90",
+				"Quarante-vingt-dix");
+
+		private String word;
+		private String num;
+
+		private FRWORD(String num, String word) {
+			this.num = num;
+			this.word = word;
+		}
+
+		public String getWord() {
+			return word;
+		}
+
+		public String getNum() {
+			return num;
+		}
+
+	};
+
+	public enum UKWORD {
 		ZERO("0", "Zero"), ONE("1", "One"), TWO("2", "Two"), THREE("3", "Three"), FOUR(
 				"4", "Four"), FIVE("5", "Five"), SIX("6", "Six"), SEVEN("7",
 				"Seven"), EIGHT("8", "Eight"), NINE("9", "Nine"), TEN("10",
@@ -26,7 +64,7 @@ public class EnumHolder {
 		private String word;
 		private String num;
 
-		private UKINTEGERTOWORD(String num, String word) {
+		private UKWORD(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}
@@ -70,11 +108,25 @@ public class EnumHolder {
 	 * @author des
 	 * 
 	 */
-	public enum UNITS {
+	public enum UK_UNITS {
 		MILLS("million"), THOUS("thousand"), HUNS("hundred");
 		private String val;
 
-		UNITS(String val) {
+		UK_UNITS(String val) {
+			this.val = val;
+		}
+
+		public String val() {
+			return val;
+		}
+
+	};
+
+	public enum FR_UNITS {
+		MILLS("million"), THOUS("mille"), HUNS("cent");
+		private String val;
+
+		FR_UNITS(String val) {
 			this.val = val;
 		}
 
@@ -90,12 +142,27 @@ public class EnumHolder {
 	 * @author des
 	 * 
 	 */
-	public enum FORMAT {
-		AND(" and "), SPACE(" "), EMPTY("");
+	public enum UK_FORMAT {
+		AND(" and "), SPACE(" "), EMPTY(""), UKSEP(",");
 
 		private String val;
 
-		FORMAT(String val) {
+		UK_FORMAT(String val) {
+			this.val = val;
+		}
+
+		public String val() {
+			return val;
+		}
+
+	};
+	
+	public enum FR_FORMAT {
+		AND(" et "), SPACE(" "), EMPTY(""), UKSEP(",");
+
+		private String val;
+
+		FR_FORMAT(String val) {
 			this.val = val;
 		}
 

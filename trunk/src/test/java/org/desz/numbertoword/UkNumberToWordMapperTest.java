@@ -6,10 +6,9 @@ import static org.junit.Assert.assertSame;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.logging.Level;
 
-import org.desz.numbertoword.UkNumberToWordMapper;
+import org.desz.numbertoword.NumberToWordMapper;
 import org.desz.numbertoword.enums.EnumHolder.ERRORS;
 import org.desz.numbertoword.factory.NumberToWordFactory;
 import org.junit.Before;
@@ -20,13 +19,14 @@ public class UkNumberToWordMapperTest {
 			"Five", "Six", "Seven", "Eight", "Nine" };
 	static List<String> l = Arrays.asList(decimals);
 
-	UkNumberToWordMapper numberToWordMapper = null;
+	NumberToWordMapper numberToWordMapper = null;
 
 	@Before
 	public void init() throws Exception {
-		numberToWordMapper = (UkNumberToWordMapper) NumberToWordFactory.UK_SINGLETON
+		numberToWordMapper = (NumberToWordMapper) NumberToWordFactory.UK_MAPPER
 				.getNumberToWordMapper();
-		UkNumberToWordMapper.setLoggingLevel(Level.OFF);
+		
+		NumberToWordMapper.setLoggingLevel(Level.ALL);
 
 	}
 
@@ -37,9 +37,9 @@ public class UkNumberToWordMapperTest {
 
 	@Test
 	public void testIsSingleton() throws Exception {
-		UkNumberToWordMapper.setLoggingLevel(Level.INFO);
+		NumberToWordMapper.setLoggingLevel(Level.INFO);
 		assertSame(numberToWordMapper,
-				NumberToWordFactory.UK_SINGLETON.getNumberToWordMapper());
+				NumberToWordFactory.UK_MAPPER.getNumberToWordMapper());
 	}
 
 	@Test(expected = Exception.class)

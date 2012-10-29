@@ -1,9 +1,10 @@
 package org.desz.numbertoword.factory;
 
 import static org.junit.Assert.*;
+import junit.framework.Assert;
 
 import org.desz.numbertoword.INumberToWordMapper;
-import org.desz.numbertoword.UkNumberToWordMapper;
+import org.desz.numbertoword.NumberToWordMapper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,20 +14,21 @@ public class NumberToWordFactoryTest {
 
 	@Before
 	public void init() throws Exception {
-		factory = NumberToWordFactory.UK_SINGLETON.getNumberToWordMapper();
+		factory = NumberToWordFactory.UK_MAPPER.getNumberToWordMapper();
 	}
 
 	@Test
-	public void testUk() throws Exception {
-		INumberToWordMapper mapper = NumberToWordFactory.UK_SINGLETON
+	public void testUkClassEquality() throws Exception {
+		INumberToWordMapper mapper = NumberToWordFactory.UK_MAPPER
 				.getNumberToWordMapper();
-		assertEquals(UkNumberToWordMapper.class, mapper.getClass());
+		assertEquals(NumberToWordMapper.class, mapper.getClass());
 	}
 
-	@Test
-	public void testSingleton() throws Exception {
+	/*@Test
+	public void testUkSingleton() throws Exception {
 		assertSame(factory,
-				NumberToWordFactory.UK_SINGLETON.getNumberToWordMapper());
-	}
+				NumberToWordFactory.UK_MAPPER.getNumberToWordMapper());
+		Assert.assertNotSame(factory, new NumberToWordMapper());
+	}*/
 
 }
