@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.desz.numbertoword.enums.EnumHolder.ERRORS;
+import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
 import org.desz.numbertoword.factory.NumberToWordFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +26,7 @@ public class FrNumberToWordMapperTest {
 		numberToWordMapper = (NumberToWordMapper) NumberToWordFactory.FR_MAPPER
 				.getNumberToWordMapper();
 
-		NumberToWordBase.setLoggingLevel(Level.ALL);
+		NumberToWordMapperParent.setLoggingLevel(Level.ALL);
 
 	}
 
@@ -47,23 +47,24 @@ public class FrNumberToWordMapperTest {
 
 	@Test(expected = Exception.class)
 	public void testNegativeInputMessage() throws Exception {
-		((NumberToWordBase) numberToWordMapper).validateAndFormat(-100);
-		assertEquals(ERRORS.NEGATIVE_INPUT,
-				((NumberToWordBase) numberToWordMapper).getMessage());
+		((NumberToWordMapperParent) numberToWordMapper).validateAndFormat(-100);
+		assertEquals(FR_ERRORS.NEGATIVE_INPUT,
+				((NumberToWordMapperParent) numberToWordMapper).getMessage());
 	}
 
 	@Test(expected = Exception.class)
 	public void testNumberFormatMessage() throws Exception {
-		((NumberToWordBase) numberToWordMapper).validateAndFormat(1.234);
-		assertEquals(ERRORS.NUMBERFORMAT,
-				((NumberToWordBase) numberToWordMapper).getMessage());
+		((NumberToWordMapperParent) numberToWordMapper)
+				.validateAndFormat(1.234);
+		assertEquals(FR_ERRORS.NUMBERFORMAT,
+				((NumberToWordMapperParent) numberToWordMapper).getMessage());
 	}
 
 	@Test(expected = Exception.class)
 	public void testNullInputMessage() throws Exception {
-		((NumberToWordBase) numberToWordMapper).validateAndFormat(null);
-		assertEquals(ERRORS.NULL_INPUT,
-				((NumberToWordBase) numberToWordMapper).getMessage());
+		((NumberToWordMapperParent) numberToWordMapper).validateAndFormat(null);
+		assertEquals(FR_ERRORS.NULL_INPUT,
+				((NumberToWordMapperParent) numberToWordMapper).getMessage());
 	}
 
 	@Test

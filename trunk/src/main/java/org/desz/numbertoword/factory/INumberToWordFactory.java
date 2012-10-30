@@ -4,4 +4,6 @@ import org.desz.numbertoword.INumberToWordMapper;
 
 public interface INumberToWordFactory {
 	public INumberToWordMapper getNumberToWordMapper() throws Exception;
+
+	// public void removeNumberToWordMapper(PROVISIONED_LANGUAGE pl);
 }

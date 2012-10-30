@@ -7,25 +7,29 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.desz.numbertoword.enums.EnumHolder.ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.FRWORD;
-import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
-import org.desz.numbertoword.enums.EnumHolder.UKWORD;
+import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
+import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
+import org.desz.numbertoword.enums.EnumHolder.UK_WORDS;
 
-public abstract class NumberToWordBase implements INumberToWordMapper {
+public abstract class NumberToWordMapperParent implements INumberToWordMapper {
 
 	private static NumberFormat nf = NumberFormat.getInstance(Locale.UK);
 
 	public volatile static Map<String, String> numToWordMap = new HashMap<String, String>();
 
 	protected final static Logger LOGGER = Logger
-			.getLogger(NumberToWordBase.class.getName());
+			.getLogger(NumberToWordMapperParent.class.getName());
 
-	private String formattedNumberSeparator;
+	private static final String FORMATTED_NUMBER_SEPARATOR = UK_FORMAT.UKSEP
+			.val();
 
 	private LanguageSupport languageSupport;
 
+	/**
+	 * 
+	 * @return languageSupport
+	 */
 	public LanguageSupport getLanguageSupport() {
 		return languageSupport;
 	}
@@ -35,15 +39,7 @@ public abstract class NumberToWordBase implements INumberToWordMapper {
 	}
 
 	public String getFormattedNumberSeparator() {
-		return formattedNumberSeparator;
-	}
-
-	public void setFormattedNumberSeparator(String formattedNumberSeparator) {
-		this.formattedNumberSeparator = formattedNumberSeparator;
-	}
-
-	public NumberToWordBase() {
-		super();
+		return FORMATTED_NUMBER_SEPARATOR;
 	}
 
 	/**
@@ -51,8 +47,6 @@ public abstract class NumberToWordBase implements INumberToWordMapper {
 	 * assertions only.
 	 */
 	private String message;
-
-	private PROVISIONED_LANGUAGE provisionedLanguage;
 
 	public String getMessage() {
 		return message;
@@ -72,15 +66,15 @@ public abstract class NumberToWordBase implements INumberToWordMapper {
 	protected String validateAndFormat(Number num) throws Exception {
 
 		if (num == null) {
-			LOGGER.info(ERRORS.NULL_INPUT.val());
-			setMessage(ERRORS.NULL_INPUT.val());
-			throw new Exception(ERRORS.NULL_INPUT.val());
+			LOGGER.info(FR_ERRORS.NULL_INPUT.val());
+			setMessage(FR_ERRORS.NULL_INPUT.val());
+			throw new Exception(FR_ERRORS.NULL_INPUT.val());
 		}
 
 		if ((Integer) num < 0) {
-			LOGGER.info(ERRORS.NEGATIVE_INPUT.val());
-			setMessage(ERRORS.NEGATIVE_INPUT.val());
-			throw new Exception(ERRORS.NEGATIVE_INPUT.val());
+			LOGGER.info(FR_ERRORS.NEGATIVE_INPUT.val());
+			setMessage(FR_ERRORS.NEGATIVE_INPUT.val());
+			throw new Exception(FR_ERRORS.NEGATIVE_INPUT.val());
 		}
 
 		String formattedNumber = null;
@@ -89,44 +83,36 @@ public abstract class NumberToWordBase implements INumberToWordMapper {
 			formattedNumber = convertToNumberFormat(Long.valueOf(String
 					.valueOf(num)));
 		} catch (NumberFormatException nfe) {
-			setMessage(ERRORS.NUMBERFORMAT.val());
-			throw new Exception(ERRORS.NUMBERFORMAT.val());
+			setMessage(FR_ERRORS.NUMBERFORMAT.val());
+			throw new Exception(FR_ERRORS.NUMBERFORMAT.val());
 		}
 		return formattedNumber;
 	}
 
 	/**
-	 * initialise map of number to corresponding word
+	 * initialise map of number to corresponding word specific for
+	 * PROVISIONED_LANGUAGE
 	 * 
 	 * @param ln
 	 */
 	protected void initialiseMapping() {
 
-		switch (getProvisionedLanguage()) {
+		switch (getLanguageSupport().getProvisionedLanguage()) {
 		case UK:
-			for (UKWORD intToWord : UKWORD.values()) {
+			for (UK_WORDS intToWord : UK_WORDS.values()) {
 				numToWordMap.put(intToWord.getNum(), intToWord.getWord());
 			}
 
 			break;
 		case FR:
-			for (FRWORD intToWord : FRWORD.values()) {
+			for (FR_WORDS intToWord : FR_WORDS.values()) {
 				numToWordMap.put(intToWord.getNum(), intToWord.getWord());
 			}
 			break;
 		default:
+			break;
 
 		}
-
-	}
-
-	public void setProvisionedLanguage(PROVISIONED_LANGUAGE ln) {
-		this.provisionedLanguage = ln;
-
-	}
-
-	protected PROVISIONED_LANGUAGE getProvisionedLanguage() {
-		return this.provisionedLanguage;
 
 	}
 
@@ -183,8 +169,8 @@ public abstract class NumberToWordBase implements INumberToWordMapper {
 			break;
 
 		default:
-			setMessage(ERRORS.NUMBERFORMAT.val());
-			throw new Exception(ERRORS.UNKNOWN.val());
+			setMessage(FR_ERRORS.NUMBERFORMAT.val());
+			throw new Exception(FR_ERRORS.UNKNOWN.val());
 
 		}
 

@@ -3,26 +3,28 @@ package org.desz.numbertoword;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.desz.numbertoword.enums.EnumHolder.ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
+import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.UK_UNITS;
+import org.desz.numbertoword.factory.NumberToWordFactory;
 
 /**
  * 
  * @author des: des_williams_2000@yahoo.com
  * 
  */
-public class NumberToWordMapper extends NumberToWordBase {
+public class NumberToWordMapper extends NumberToWordMapperParent {
 
 	/**
-	 * Constructor
+	 * Constructor is private to enforce Singleton semantics
+	 * 
+	 * @see NumberToWordFactory
+	 * @param languageSupport
+	 *            specific text for target PROVISIONED_LANGUAGE
 	 */
-	private NumberToWordMapper(PROVISIONED_LANGUAGE pl) {
-		setProvisionedLanguage(pl);
+	private NumberToWordMapper(LanguageSupport languageSupport) {
+		setLanguageSupport(languageSupport);
 		initialiseMapping();
-		// all numbers will be converted to UK format
-		setFormattedNumberSeparator(UK_FORMAT.UKSEP.val());
 	}
 
 	/**
@@ -51,9 +53,9 @@ public class NumberToWordMapper extends NumberToWordBase {
 				.split(getFormattedNumberSeparator());
 		final int nComps = components.length;
 		if (nComps > 3) {
-			LOGGER.info(ERRORS.INVALID_INPUT_NUMBER.val() + num);
-			setMessage(ERRORS.INVALID_INPUT_NUMBER.val() + num);
-			throw new Exception(ERRORS.INVALID_INPUT_NUMBER.val() + num);
+			LOGGER.info(FR_ERRORS.INVALID_INPUT_NUMBER.val() + num);
+			setMessage(FR_ERRORS.INVALID_INPUT_NUMBER.val() + num);
+			throw new Exception(FR_ERRORS.INVALID_INPUT_NUMBER.val() + num);
 		}
 
 		if (formattedNumber.equals("0")) {

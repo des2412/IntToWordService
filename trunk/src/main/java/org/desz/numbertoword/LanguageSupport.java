@@ -12,16 +12,17 @@ public class LanguageSupport {
 	private String thouUnit;
 	private String hunUnit;
 	private String and;
-	
+	private PROVISIONED_LANGUAGE provisionedLanguage;
 
 	public LanguageSupport(PROVISIONED_LANGUAGE pl) {
-
+		this.provisionedLanguage = pl;
 		switch (pl) {
 		case UK:
 			this.millUnit = UK_UNITS.MILLS.val();
 			this.thouUnit = UK_UNITS.THOUS.val();
 			this.hunUnit = UK_UNITS.HUNS.val();
 			this.and = UK_FORMAT.AND.val();
+
 			break;
 		case FR:
 			this.millUnit = FR_UNITS.MILLS.val();
@@ -34,6 +35,10 @@ public class LanguageSupport {
 			break;
 
 		}
+	}
+
+	public PROVISIONED_LANGUAGE getProvisionedLanguage() {
+		return provisionedLanguage;
 	}
 
 	public String getHunUnit() {

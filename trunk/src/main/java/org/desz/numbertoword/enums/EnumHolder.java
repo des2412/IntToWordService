@@ -16,7 +16,7 @@ public class EnumHolder {
 
 	};
 
-	public enum FRWORD {
+	public enum FR_WORDS {
 		ZERO("0", "Zéro"), ONE("1", "Un"), TWO("2", "Deux"), THREE("3", "Trois"), FOUR(
 				"4", "Quatre"), FIVE("5", "Cinq"), SIX("6", "Six"), SEVEN("7",
 				"Sept"), EIGHT("8", "Huit"), NINE("9", "Neuf"), TEN("10", "Dix"), ELEVEN(
@@ -32,7 +32,7 @@ public class EnumHolder {
 		private String word;
 		private String num;
 
-		private FRWORD(String num, String word) {
+		private FR_WORDS(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}
@@ -47,7 +47,7 @@ public class EnumHolder {
 
 	};
 
-	public enum UKWORD {
+	public enum UK_WORDS {
 		ZERO("0", "Zero"), ONE("1", "One"), TWO("2", "Two"), THREE("3", "Three"), FOUR(
 				"4", "Four"), FIVE("5", "Five"), SIX("6", "Six"), SEVEN("7",
 				"Seven"), EIGHT("8", "Eight"), NINE("9", "Nine"), TEN("10",
@@ -62,7 +62,7 @@ public class EnumHolder {
 		private String word;
 		private String num;
 
-		private UKWORD(String num, String word) {
+		private UK_WORDS(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}
@@ -83,14 +83,33 @@ public class EnumHolder {
 	 * @author des
 	 * 
 	 */
-	public enum ERRORS {
+	public enum UK_ERRORS {
 		INVALID_INPUT_NUMBER("Cannot convert this positive number:"), NULL_INPUT(
 				"No number to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT(
 				"Negative integer input"), NUMBERFORMAT(
-				"Number Format Exception");
+				"Number Format Exception"), LANGUAGE_NOTSUPPORTED(
+				"Language not supported");
 		private String val;
 
-		ERRORS(String val) {
+		UK_ERRORS(String val) {
+			this.val = val;
+		}
+
+		public String val() {
+			return val;
+		}
+
+	};
+
+	public enum FR_ERRORS {
+		INVALID_INPUT_NUMBER("Impossible de convertir ce nombre positif:"), NULL_INPUT(
+				"Aucun numéro de convertir"), UNKNOWN("erreur inconnue"), NEGATIVE_INPUT(
+				"L'entrée négative entier"), NUMBERFORMAT(
+				"Exception Format de nombre"), LANGUAGE_NOTSUPPORTED(
+				"Langue non pris en charge");
+		private String val;
+
+		FR_ERRORS(String val) {
 			this.val = val;
 		}
 
