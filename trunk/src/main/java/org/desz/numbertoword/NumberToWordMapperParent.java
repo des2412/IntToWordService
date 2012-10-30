@@ -1,22 +1,19 @@
 package org.desz.numbertoword;
 
 import java.text.NumberFormat;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
-import org.desz.numbertoword.enums.EnumHolder.UK_WORDS;
 
 public abstract class NumberToWordMapperParent implements INumberToWordMapper {
 
 	private static NumberFormat nf = NumberFormat.getInstance(Locale.UK);
 
-	public volatile static Map<String, String> numToWordMap = new HashMap<String, String>();
+	public volatile Map<String, String> numToWordMap = null;
 
 	protected final static Logger LOGGER = Logger
 			.getLogger(NumberToWordMapperParent.class.getName());
@@ -89,32 +86,6 @@ public abstract class NumberToWordMapperParent implements INumberToWordMapper {
 		return formattedNumber;
 	}
 
-	/**
-	 * initialise map of number to corresponding word specific for
-	 * PROVISIONED_LANGUAGE
-	 * 
-	 * @param ln
-	 */
-	protected void initialiseMapping() {
-
-		switch (getLanguageSupport().getProvisionedLanguage()) {
-		case UK:
-			for (UK_WORDS intToWord : UK_WORDS.values()) {
-				numToWordMap.put(intToWord.getNum(), intToWord.getWord());
-			}
-
-			break;
-		case FR:
-			for (FR_WORDS intToWord : FR_WORDS.values()) {
-				numToWordMap.put(intToWord.getNum(), intToWord.getWord());
-			}
-			break;
-		default:
-			break;
-
-		}
-
-	}
 
 	/**
 	 * set Level of Logging

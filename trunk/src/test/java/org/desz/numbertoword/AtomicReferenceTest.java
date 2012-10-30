@@ -21,7 +21,7 @@ public class AtomicReferenceTest {
 			IllegalArgumentException, InvocationTargetException {
 		Constructor<?>[] c = NumberToWordMapper.class.getDeclaredConstructors();
 		c[0].setAccessible(true);
-		args[0] = PROVISIONED_LANGUAGE.UK;
+		args[0] = new LanguageSupport(PROVISIONED_LANGUAGE.UK);
 		mapper = (NumberToWordMapper) c[0].newInstance(args);
 	}
 

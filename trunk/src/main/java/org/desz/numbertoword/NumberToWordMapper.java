@@ -1,15 +1,14 @@
 package org.desz.numbertoword;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
-import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.UK_UNITS;
 import org.desz.numbertoword.factory.NumberToWordFactory;
 
 /**
- * 
+ * Class is configured by NumberToWordFactory
  * @author des: des_williams_2000@yahoo.com
  * 
  */
@@ -24,7 +23,6 @@ public class NumberToWordMapper extends NumberToWordMapperParent {
 	 */
 	private NumberToWordMapper(LanguageSupport languageSupport) {
 		setLanguageSupport(languageSupport);
-		initialiseMapping();
 	}
 
 	/**
@@ -38,6 +36,14 @@ public class NumberToWordMapper extends NumberToWordMapperParent {
 	public String getWord(Integer num) throws Exception {
 
 		String formattedNumber = null;
+		// internationalisation variables
+		// units
+		String millUnit = getLanguageSupport().getMillUnit();
+		String thouUnit = getLanguageSupport().getThouUnit();
+		String and = getLanguageSupport().getAnd();
+		//errors
+		String invalidInput = getLanguageSupport().getInvalidInput();
+		
 
 		try {
 			formattedNumber = validateAndFormat(num);
@@ -53,9 +59,9 @@ public class NumberToWordMapper extends NumberToWordMapperParent {
 				.split(getFormattedNumberSeparator());
 		final int nComps = components.length;
 		if (nComps > 3) {
-			LOGGER.info(FR_ERRORS.INVALID_INPUT_NUMBER.val() + num);
-			setMessage(FR_ERRORS.INVALID_INPUT_NUMBER.val() + num);
-			throw new Exception(FR_ERRORS.INVALID_INPUT_NUMBER.val() + num);
+			LOGGER.info(invalidInput + num);
+			setMessage(invalidInput + num);
+			throw new Exception(invalidInput + num);
 		}
 
 		if (formattedNumber.equals("0")) {
@@ -66,13 +72,9 @@ public class NumberToWordMapper extends NumberToWordMapperParent {
 		String thous = UK_FORMAT.EMPTY.val();
 		String huns = UK_FORMAT.EMPTY.val();
 
-		Map<UK_UNITS, Integer> numAtIndex = new HashMap<UK_UNITS, Integer>();
+		Map<UK_UNITS, Integer> numAtIndex = new EnumMap<UK_UNITS, Integer>(UK_UNITS.class);
 
 		StringBuffer result = new StringBuffer();
-
-		String millUnit = getLanguageSupport().getMillUnit();
-		String thouUnit = getLanguageSupport().getThouUnit();
-		String and = getLanguageSupport().getAnd();
 
 		Integer val = null;
 		if (nComps == 3) {
@@ -138,6 +140,11 @@ public class NumberToWordMapper extends NumberToWordMapperParent {
 		}
 
 		return result.toString();
+	}
+
+	public void setMapping(Map<String, String> numToWordMap) {
+		this.numToWordMap = numToWordMap;
+		
 	}
 
 }

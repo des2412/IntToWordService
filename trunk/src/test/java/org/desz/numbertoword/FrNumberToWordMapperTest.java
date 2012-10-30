@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
+import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
 import org.desz.numbertoword.factory.NumberToWordFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,6 +30,11 @@ public class FrNumberToWordMapperTest {
 
 		NumberToWordMapperParent.setLoggingLevel(Level.ALL);
 
+	}
+	
+	@After
+	public void clean() throws Exception{
+		NumberToWordFactory.removeNumberToWordMapper(PROVISIONED_LANGUAGE.FR);
 	}
 
 	@Test
@@ -62,9 +69,9 @@ public class FrNumberToWordMapperTest {
 
 	@Test(expected = Exception.class)
 	public void testNullInputMessage() throws Exception {
-		((NumberToWordMapperParent) numberToWordMapper).validateAndFormat(null);
+		numberToWordMapper.validateAndFormat(null);
 		assertEquals(FR_ERRORS.NULL_INPUT,
-				((NumberToWordMapperParent) numberToWordMapper).getMessage());
+				numberToWordMapper.getMessage());
 	}
 
 	@Test

@@ -4,18 +4,22 @@
 package org.desz.numbertoword.factory;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
 import org.desz.numbertoword.INumberToWordMapper;
 import org.desz.numbertoword.LanguageSupport;
 import org.desz.numbertoword.NumberToWordMapper;
 import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
+import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
 import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
+import org.desz.numbertoword.enums.EnumHolder.UK_WORDS;
 
 /**
  * @author des
@@ -31,17 +35,16 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 	private final static Logger LOGGER = Logger
 			.getLogger(NumberToWordFactory.class.getName());
 
-	final AtomicReference<INumberToWordMapper> ukRef = new AtomicReference<INumberToWordMapper>();
-	final AtomicReference<INumberToWordMapper> frRef = new AtomicReference<INumberToWordMapper>();
-
-	private static Map<PROVISIONED_LANGUAGE, AtomicReference<INumberToWordMapper>> mappers = new HashMap<PROVISIONED_LANGUAGE, AtomicReference<INumberToWordMapper>>();
+	private static Map<PROVISIONED_LANGUAGE, INumberToWordMapper> mappers = Collections
+			.synchronizedMap(new EnumMap<PROVISIONED_LANGUAGE, INumberToWordMapper>(
+					PROVISIONED_LANGUAGE.class));
 
 	/**
 	 * Uses Reflection to invoke private constructor of NumberToWordMapper
 	 * 
 	 */
 	@Override
-	public INumberToWordMapper getNumberToWordMapper() throws Exception {
+	public INumberToWordMapper getNumberToWordMapper() {
 		// access the private Constructor
 		Constructor<?>[] c = NumberToWordMapper.class.getDeclaredConstructors();
 		c[0].setAccessible(true);
@@ -49,45 +52,72 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 		String ln = UK_FORMAT.EMPTY.val();
 		switch (this) {
 		case UK_MAPPER:
-			if (ukRef.get() == null) {
+			if (!mappers.containsKey(PROVISIONED_LANGUAGE.UK)) {
 
 				args[0] = new LanguageSupport(PROVISIONED_LANGUAGE.UK);
 				// invoke the private constructor
-				NumberToWordMapper ukNumberToWordMapper = (NumberToWordMapper) c[0]
-						.newInstance(args);
-
-				ukRef.set(ukNumberToWordMapper);
-				LOGGER.info("set AtomicReference for UkNumberToWordMapper instance");
-				mappers.put(PROVISIONED_LANGUAGE.UK, ukRef);
+				NumberToWordMapper ukNumberToWordMapper = null;
+				try {
+					ukNumberToWordMapper = (NumberToWordMapper) c[0]
+							.newInstance(args);
+				} catch (InstantiationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IllegalAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IllegalArgumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InvocationTargetException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				ukNumberToWordMapper.setMapping(initialiseMapping());
+				mappers.put(PROVISIONED_LANGUAGE.UK, ukNumberToWordMapper);
 				LOGGER.info("List of mappers [size]:" + mappers.size());
 				ln = PROVISIONED_LANGUAGE.UK.name();
-				return ukRef.get();
+				return ukNumberToWordMapper;
 			} else {
-				return mappers.get(PROVISIONED_LANGUAGE.UK).get();
+				return mappers.get(PROVISIONED_LANGUAGE.UK);
 			}
 
 		case FR_MAPPER:
-			if (frRef.get() == null) {
+			if (!mappers.containsKey(PROVISIONED_LANGUAGE.FR)) {
 
 				args[0] = new LanguageSupport(PROVISIONED_LANGUAGE.FR);
-				NumberToWordMapper frNumberToWordMapper = (NumberToWordMapper) c[0]
-						.newInstance(args);
-				frRef.set(frNumberToWordMapper);
-				LOGGER.info("set AtomicReference for FrNumberToWordMapper instance");
-				mappers.put(PROVISIONED_LANGUAGE.FR, frRef);
+				NumberToWordMapper frNumberToWordMapper = null;
+				try {
+					frNumberToWordMapper = (NumberToWordMapper) c[0]
+							.newInstance(args);
+				} catch (InstantiationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IllegalAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IllegalArgumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InvocationTargetException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				frNumberToWordMapper.setMapping(initialiseMapping());
+				mappers.put(PROVISIONED_LANGUAGE.FR, frNumberToWordMapper);
 				LOGGER.info("List of mappers [size]:" + mappers.size());
 				ln = PROVISIONED_LANGUAGE.FR.name();
-				return frRef.get();
+				return frNumberToWordMapper;
 			} else {
-				return mappers.get(PROVISIONED_LANGUAGE.FR).get();
+				return mappers.get(PROVISIONED_LANGUAGE.FR);
 			}
 
 		default:
-			Exception e = new Exception();
+			RuntimeException e = null;
 			if (ln.equals(PROVISIONED_LANGUAGE.UK.name())) {
-				e = new Exception(UK_ERRORS.LANGUAGE_NOTSUPPORTED.val());
+				e = new RuntimeException(UK_ERRORS.LANGUAGE_NOTSUPPORTED.val());
 			} else if (ln.equals(PROVISIONED_LANGUAGE.FR.name())) {
-				e = new Exception(FR_ERRORS.LANGUAGE_NOTSUPPORTED.val());
+				e = new RuntimeException(FR_ERRORS.LANGUAGE_NOTSUPPORTED.val());
 			}
 
 			throw e;
@@ -102,6 +132,34 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 	}
 
 	/**
+	 * initialise map of number to corresponding word specific for
+	 * PROVISIONED_LANGUAGE
+	 * 
+	 * @param ln
+	 * @return
+	 */
+	protected Map<String, String> initialiseMapping() {
+		Map<String, String> numToWordMap = new HashMap<String, String>();
+		switch (this) {
+		case UK_MAPPER:
+			for (UK_WORDS intToWord : UK_WORDS.values()) {
+				numToWordMap.put(intToWord.getNum(), intToWord.getWord());
+			}
+
+			break;
+		case FR_MAPPER:
+			for (FR_WORDS intToWord : FR_WORDS.values()) {
+				numToWordMap.put(intToWord.getNum(), intToWord.getWord());
+			}
+			break;
+		default:
+			break;
+
+		}
+		return numToWordMap;
+	}
+
+	/**
 	 * @throws Exception
 	 * 
 	 */
@@ -111,10 +169,13 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 
 		if (mappers.containsKey(pl)) {
 
-			NumberToWordMapper mapper = (NumberToWordMapper) mappers.get(pl)
-					.get();
+			NumberToWordMapper mapper = (NumberToWordMapper) mappers.get(pl);
 			s = mapper.getLanguageSupport().getProvisionedLanguage().name();
-			mappers.remove(pl);
+			try {
+				mappers.remove(pl);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
 			if (mappers.containsKey(pl)) {
 				throw new Exception("Failed to remove");
 			}

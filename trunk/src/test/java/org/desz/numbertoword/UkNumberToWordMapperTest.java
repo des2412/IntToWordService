@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
+import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
+import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
 import org.desz.numbertoword.factory.NumberToWordFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,6 +31,11 @@ public class UkNumberToWordMapperTest {
 		NumberToWordMapper.setLoggingLevel(Level.ALL);
 
 	}
+	
+	@After
+	public void clean() throws Exception{
+		NumberToWordFactory.removeNumberToWordMapper(PROVISIONED_LANGUAGE.UK);
+	}
 
 	@Test
 	public void testNotNull() {
@@ -44,19 +52,19 @@ public class UkNumberToWordMapperTest {
 	@Test(expected = Exception.class)
 	public void testNegativeInputMessage() throws Exception {
 		numberToWordMapper.validateAndFormat(-100);
-		assertEquals(FR_ERRORS.NEGATIVE_INPUT, numberToWordMapper.getMessage());
+		assertEquals(UK_ERRORS.NEGATIVE_INPUT, numberToWordMapper.getMessage());
 	}
 
 	@Test(expected = Exception.class)
 	public void testNumberFormatMessage() throws Exception {
 		numberToWordMapper.validateAndFormat(1.234);
-		assertEquals(FR_ERRORS.NUMBERFORMAT, numberToWordMapper.getMessage());
+		assertEquals(UK_ERRORS.NUMBERFORMAT, numberToWordMapper.getMessage());
 	}
 
 	@Test(expected = Exception.class)
 	public void testNullInputMessage() throws Exception {
 		numberToWordMapper.validateAndFormat(null);
-		assertEquals(FR_ERRORS.NULL_INPUT, numberToWordMapper.getMessage());
+		assertEquals(UK_ERRORS.NULL_INPUT, numberToWordMapper.getMessage());
 	}
 
 	@Test
@@ -117,18 +125,6 @@ public class UkNumberToWordMapperTest {
 
 		assertEquals("One million one hundred thousand",
 				numberToWordMapper.getWord(1100000));
-
-	}
-
-	// @Test
-	public void testError() throws Exception {
-		assertEquals(
-				"Nine hundred and ninety nine million nine hundred and nine thousand",
-				numberToWordMapper.getWord(999909000));
-	}
-
-	@Test
-	public void testLatest() throws Exception {
 		assertEquals(
 				"Nine hundred and ninety nine million nine hundred and nine thousand",
 				numberToWordMapper.getWord(999909000));
@@ -149,6 +145,7 @@ public class UkNumberToWordMapperTest {
 		assertEquals(
 				"Nine hundred and ninety nine million nine hundred and ninety nine thousand nine hundred and ninety nine",
 				numberToWordMapper.getWord(999999999));
+
 	}
 
 }
