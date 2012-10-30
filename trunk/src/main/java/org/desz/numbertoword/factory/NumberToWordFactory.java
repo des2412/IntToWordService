@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.desz.numbertoword.INumberToWordMapper;
+import org.desz.numbertoword.IntegerToWordMapper;
 import org.desz.numbertoword.LanguageSupport;
-import org.desz.numbertoword.NumberToWordMapper;
 import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
@@ -40,13 +40,13 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 					PROVISIONED_LANGUAGE.class));
 
 	/**
-	 * Uses Reflection to invoke private constructor of NumberToWordMapper
+	 * Uses Reflection to invoke private constructor of IntegerToWordMapper
 	 * 
 	 */
 	@Override
 	public INumberToWordMapper getNumberToWordMapper() {
 		// access the private Constructor
-		Constructor<?>[] c = NumberToWordMapper.class.getDeclaredConstructors();
+		Constructor<?>[] c = IntegerToWordMapper.class.getDeclaredConstructors();
 		c[0].setAccessible(true);
 		Object[] args = new Object[1];
 		String ln = UK_FORMAT.EMPTY.val();
@@ -56,9 +56,9 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 
 				args[0] = new LanguageSupport(PROVISIONED_LANGUAGE.UK);
 				// invoke the private constructor
-				NumberToWordMapper ukNumberToWordMapper = null;
+				IntegerToWordMapper ukNumberToWordMapper = null;
 				try {
-					ukNumberToWordMapper = (NumberToWordMapper) c[0]
+					ukNumberToWordMapper = (IntegerToWordMapper) c[0]
 							.newInstance(args);
 				} catch (InstantiationException e1) {
 					// TODO Auto-generated catch block
@@ -86,9 +86,9 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 			if (!mappers.containsKey(PROVISIONED_LANGUAGE.FR)) {
 
 				args[0] = new LanguageSupport(PROVISIONED_LANGUAGE.FR);
-				NumberToWordMapper frNumberToWordMapper = null;
+				IntegerToWordMapper frNumberToWordMapper = null;
 				try {
-					frNumberToWordMapper = (NumberToWordMapper) c[0]
+					frNumberToWordMapper = (IntegerToWordMapper) c[0]
 							.newInstance(args);
 				} catch (InstantiationException e1) {
 					// TODO Auto-generated catch block
@@ -169,7 +169,7 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 
 		if (mappers.containsKey(pl)) {
 
-			NumberToWordMapper mapper = (NumberToWordMapper) mappers.get(pl);
+			IntegerToWordMapper mapper = (IntegerToWordMapper) mappers.get(pl);
 			s = mapper.getLanguageSupport().getProvisionedLanguage().name();
 			try {
 				mappers.remove(pl);
