@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
 import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
 import org.desz.numbertoword.factory.NumberToWordFactory;
@@ -16,19 +15,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class UkNumberToWordMapperTest {
+public class UkIntegerToWordMapperTest {
 	final private static String[] decimals = { "One", "Two", "Three", "Four",
 			"Five", "Six", "Seven", "Eight", "Nine" };
 	static List<String> l = Arrays.asList(decimals);
 
-	NumberToWordMapper numberToWordMapper = null;
+	IntegerToWordMapper numberToWordMapper = null;
 
 	@Before
 	public void init() throws Exception {
-		numberToWordMapper = (NumberToWordMapper) NumberToWordFactory.UK_MAPPER
+		numberToWordMapper = (IntegerToWordMapper) NumberToWordFactory.UK_MAPPER
 				.getNumberToWordMapper();
 
-		NumberToWordMapper.setLoggingLevel(Level.ALL);
+		IntegerToWordMapper.setLoggingLevel(Level.ALL);
 
 	}
 	
@@ -44,7 +43,7 @@ public class UkNumberToWordMapperTest {
 
 	@Test
 	public void testIsSingleton() throws Exception {
-		NumberToWordMapper.setLoggingLevel(Level.INFO);
+		IntegerToWordMapper.setLoggingLevel(Level.INFO);
 		assertSame(numberToWordMapper,
 				NumberToWordFactory.UK_MAPPER.getNumberToWordMapper());
 	}

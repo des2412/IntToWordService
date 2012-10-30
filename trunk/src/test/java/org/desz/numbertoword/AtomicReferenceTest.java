@@ -11,18 +11,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class AtomicReferenceTest {
-	final AtomicReference<NumberToWordMapper> ref = new AtomicReference<NumberToWordMapper>();
+	final AtomicReference<IntegerToWordMapper> ref = new AtomicReference<IntegerToWordMapper>();
 
-	NumberToWordMapper mapper = null;
+	IntegerToWordMapper mapper = null;
 	Object[] args = new Object[1];
 
 	@Before
 	public void init() throws InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
-		Constructor<?>[] c = NumberToWordMapper.class.getDeclaredConstructors();
+		Constructor<?>[] c = IntegerToWordMapper.class.getDeclaredConstructors();
 		c[0].setAccessible(true);
 		args[0] = new LanguageSupport(PROVISIONED_LANGUAGE.UK);
-		mapper = (NumberToWordMapper) c[0].newInstance(args);
+		mapper = (IntegerToWordMapper) c[0].newInstance(args);
 	}
 
 	@Test

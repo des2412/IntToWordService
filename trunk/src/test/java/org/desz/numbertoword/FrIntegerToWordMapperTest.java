@@ -16,19 +16,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class FrNumberToWordMapperTest {
+public class FrIntegerToWordMapperTest {
 	final private static String[] decimals = { "One", "Two", "Three", "Four",
 			"Five", "Six", "Seven", "Eight", "Nine" };
 	static List<String> l = Arrays.asList(decimals);
 
-	NumberToWordMapper numberToWordMapper = null;
+	IntegerToWordMapper numberToWordMapper = null;
 
 	@Before
 	public void init() throws Exception {
-		numberToWordMapper = (NumberToWordMapper) NumberToWordFactory.FR_MAPPER
+		numberToWordMapper = (IntegerToWordMapper) NumberToWordFactory.FR_MAPPER
 				.getNumberToWordMapper();
 
-		NumberToWordMapperParent.setLoggingLevel(Level.ALL);
+		NumberToWordMapper.setLoggingLevel(Level.ALL);
 
 	}
 	
@@ -44,7 +44,7 @@ public class FrNumberToWordMapperTest {
 
 	@Test
 	public void testIsSingleton() throws Exception {
-		NumberToWordMapper.setLoggingLevel(Level.INFO);
+		IntegerToWordMapper.setLoggingLevel(Level.INFO);
 		assertNotSame(numberToWordMapper,
 				NumberToWordFactory.UK_MAPPER.getNumberToWordMapper());
 
@@ -54,17 +54,17 @@ public class FrNumberToWordMapperTest {
 
 	@Test(expected = Exception.class)
 	public void testNegativeInputMessage() throws Exception {
-		((NumberToWordMapperParent) numberToWordMapper).validateAndFormat(-100);
+		((IntegerToWordMapper) numberToWordMapper).validateAndFormat(-100);
 		assertEquals(FR_ERRORS.NEGATIVE_INPUT,
-				((NumberToWordMapperParent) numberToWordMapper).getMessage());
+				((NumberToWordMapper) numberToWordMapper).getMessage());
 	}
 
 	@Test(expected = Exception.class)
 	public void testNumberFormatMessage() throws Exception {
-		((NumberToWordMapperParent) numberToWordMapper)
+		((IntegerToWordMapper) numberToWordMapper)
 				.validateAndFormat(1.234);
 		assertEquals(FR_ERRORS.NUMBERFORMAT,
-				((NumberToWordMapperParent) numberToWordMapper).getMessage());
+				((NumberToWordMapper) numberToWordMapper).getMessage());
 	}
 
 	@Test(expected = Exception.class)

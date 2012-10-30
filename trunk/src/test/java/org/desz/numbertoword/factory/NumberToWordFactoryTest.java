@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.desz.numbertoword.INumberToWordMapper;
-import org.desz.numbertoword.NumberToWordMapper;
+import org.desz.numbertoword.IntegerToWordMapper;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
 import org.junit.After;
 import org.junit.Before;
@@ -28,7 +28,7 @@ public class NumberToWordFactoryTest {
 	public void testUkClassEquality() throws Exception {
 		INumberToWordMapper mapper = NumberToWordFactory.UK_MAPPER
 				.getNumberToWordMapper();
-		assertEquals(NumberToWordMapper.class, mapper.getClass());
+		assertEquals(IntegerToWordMapper.class, mapper.getClass());
 	}
 
 	@Test
