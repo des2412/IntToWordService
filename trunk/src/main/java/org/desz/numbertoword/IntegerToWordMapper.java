@@ -12,13 +12,18 @@ import org.desz.numbertoword.factory.NumberToWordFactory;
 
 /**
  * Class is configured by NumberToWordFactory
+ * 
  * @author des: des_williams_2000@yahoo.com
  * 
  */
-public class IntegerToWordMapper extends NumberToWordMapper implements INumberToWordMapper{
+public class IntegerToWordMapper extends NumberToWordMapper implements
+		INumberToWordMapper {
 
-	private static NumberFormat integerFormatter = NumberFormat.getIntegerInstance(Locale.UK);
-	
+	public volatile Map<String, String> numToWordMap = null;
+
+	private static NumberFormat integerFormatter = NumberFormat
+			.getIntegerInstance(Locale.UK);
+
 	/**
 	 * Constructor is private to enforce Singleton semantics
 	 * 
@@ -46,9 +51,8 @@ public class IntegerToWordMapper extends NumberToWordMapper implements INumberTo
 		String millUnit = getLanguageSupport().getMillUnit();
 		String thouUnit = getLanguageSupport().getThouUnit();
 		String and = getLanguageSupport().getAnd();
-		//errors
+		// errors
 		String invalidInput = getLanguageSupport().getInvalidInput();
-		
 
 		try {
 			formattedNumber = validateAndFormat(num);
@@ -77,7 +81,8 @@ public class IntegerToWordMapper extends NumberToWordMapper implements INumberTo
 		String thous = UK_FORMAT.EMPTY.val();
 		String huns = UK_FORMAT.EMPTY.val();
 
-		Map<UK_UNITS, Integer> numAtIndex = new EnumMap<UK_UNITS, Integer>(UK_UNITS.class);
+		Map<UK_UNITS, Integer> numAtIndex = new EnumMap<UK_UNITS, Integer>(
+				UK_UNITS.class);
 
 		StringBuffer result = new StringBuffer();
 
@@ -147,11 +152,16 @@ public class IntegerToWordMapper extends NumberToWordMapper implements INumberTo
 		return result.toString();
 	}
 
+	/**
+	 * Injected by NumberToWordFactory
+	 * 
+	 * @param numToWordMap
+	 */
 	public void setMapping(Map<String, String> numToWordMap) {
 		this.numToWordMap = numToWordMap;
-		
+
 	}
-	
+
 	/**
 	 * validate and formats num
 	 * 
@@ -184,9 +194,6 @@ public class IntegerToWordMapper extends NumberToWordMapper implements INumberTo
 		}
 		return formattedNumber;
 	}
-
-
-	
 
 	/**
 	 * 

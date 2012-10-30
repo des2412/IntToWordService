@@ -16,8 +16,6 @@ public abstract class NumberToWordMapper  {
 
 	
 
-	public volatile Map<String, String> numToWordMap = null;
-
 	protected final static Logger LOGGER = Logger
 			.getLogger(NumberToWordMapper.class.getName());
 
