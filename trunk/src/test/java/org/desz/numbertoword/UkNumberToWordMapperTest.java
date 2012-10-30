@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.desz.numbertoword.NumberToWordMapper;
 import org.desz.numbertoword.enums.EnumHolder.ERRORS;
 import org.desz.numbertoword.factory.NumberToWordFactory;
 import org.junit.Before;
@@ -25,7 +24,7 @@ public class UkNumberToWordMapperTest {
 	public void init() throws Exception {
 		numberToWordMapper = (NumberToWordMapper) NumberToWordFactory.UK_MAPPER
 				.getNumberToWordMapper();
-		
+
 		NumberToWordMapper.setLoggingLevel(Level.ALL);
 
 	}

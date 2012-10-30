@@ -3,12 +3,14 @@
  */
 package org.desz.numbertoword.factory;
 
+import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
 import org.desz.numbertoword.INumberToWordMapper;
+import org.desz.numbertoword.LanguageSupport;
 import org.desz.numbertoword.NumberToWordMapper;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
 
@@ -31,13 +33,28 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 
 	private Map<PROVISIONED_LANGUAGE, AtomicReference<INumberToWordMapper>> mappers = new HashMap<PROVISIONED_LANGUAGE, AtomicReference<INumberToWordMapper>>();
 
+	/**
+	 * Factory that uses Refelection to invoke private constructor of
+	 * NumberToWordMapper
+	 */
 	@Override
 	public INumberToWordMapper getNumberToWordMapper() throws Exception {
+
+		Constructor<?>[] c = NumberToWordMapper.class.getDeclaredConstructors();
+		c[0].setAccessible(true);
+
+		Object[] args = new Object[1];
+
 		switch (this) {
 		case UK_MAPPER:
 			if (ukRef.get() == null) {
-				NumberToWordMapper ukNumberToWordMapper = new NumberToWordMapper(PROVISIONED_LANGUAGE.UK);
-				//ukNumberToWordMapper.setProvisionedLanguage(PROVISIONED_LANGUAGE.UK);
+
+				args[0] = PROVISIONED_LANGUAGE.UK;
+				// invoke the private constructor
+				NumberToWordMapper ukNumberToWordMapper = (NumberToWordMapper) c[0]
+						.newInstance(args);
+				ukNumberToWordMapper.setLanguageSupport(new LanguageSupport((PROVISIONED_LANGUAGE) args[0]));
+
 				ukRef.set(ukNumberToWordMapper);
 				LOGGER.info("set AtomicReference for UkNumberToWordMapper instance");
 				mappers.put(PROVISIONED_LANGUAGE.UK, ukRef);
@@ -49,8 +66,11 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 
 		case FR_MAPPER:
 			if (frRef.get() == null) {
-				NumberToWordMapper frNumberToWordMapper = new NumberToWordMapper(PROVISIONED_LANGUAGE.FR);
-				//frNumberToWordMapper.setProvisionedLanguage(PROVISIONED_LANGUAGE.FR);
+
+				args[0] = PROVISIONED_LANGUAGE.FR;
+				NumberToWordMapper frNumberToWordMapper = (NumberToWordMapper) c[0]
+						.newInstance(args);
+				frNumberToWordMapper.setLanguageSupport(new LanguageSupport((PROVISIONED_LANGUAGE) args[0]));
 				frRef.set(frNumberToWordMapper);
 				LOGGER.info("set AtomicReference for FrNumberToWordMapper instance");
 				mappers.put(PROVISIONED_LANGUAGE.FR, frRef);

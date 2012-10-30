@@ -1,7 +1,6 @@
 package org.desz.numbertoword.factory;
 
-import static org.junit.Assert.*;
-import junit.framework.Assert;
+import static org.junit.Assert.assertEquals;
 
 import org.desz.numbertoword.INumberToWordMapper;
 import org.desz.numbertoword.NumberToWordMapper;
@@ -24,11 +23,11 @@ public class NumberToWordFactoryTest {
 		assertEquals(NumberToWordMapper.class, mapper.getClass());
 	}
 
-	/*@Test
-	public void testUkSingleton() throws Exception {
-		assertSame(factory,
-				NumberToWordFactory.UK_MAPPER.getNumberToWordMapper());
-		Assert.assertNotSame(factory, new NumberToWordMapper());
-	}*/
+	/*
+	 * @Test public void testUkSingleton() throws Exception {
+	 * assertSame(factory,
+	 * NumberToWordFactory.UK_MAPPER.getNumberToWordMapper());
+	 * Assert.assertNotSame(factory, new NumberToWordMapper()); }
+	 */
 
 }

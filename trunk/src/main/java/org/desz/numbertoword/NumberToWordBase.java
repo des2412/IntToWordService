@@ -8,17 +8,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.desz.numbertoword.enums.EnumHolder.ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.FR_FORMAT;
-import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.FRWORD;
-import org.desz.numbertoword.enums.EnumHolder.FR_UNITS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
 import org.desz.numbertoword.enums.EnumHolder.UKWORD;
-import org.desz.numbertoword.enums.EnumHolder.UK_UNITS;
+import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
 
 public abstract class NumberToWordBase implements INumberToWordMapper {
 
-	private NumberFormat nf = null;
+	private static NumberFormat nf = NumberFormat.getInstance(Locale.UK);
 
 	public volatile static Map<String, String> numToWordMap = new HashMap<String, String>();
 
@@ -26,6 +23,16 @@ public abstract class NumberToWordBase implements INumberToWordMapper {
 			.getLogger(NumberToWordBase.class.getName());
 
 	private String formattedNumberSeparator;
+
+	private LanguageSupport languageSupport;
+
+	public LanguageSupport getLanguageSupport() {
+		return languageSupport;
+	}
+
+	public void setLanguageSupport(LanguageSupport languageSupport) {
+		this.languageSupport = languageSupport;
+	}
 
 	public String getFormattedNumberSeparator() {
 		return formattedNumberSeparator;
@@ -95,18 +102,14 @@ public abstract class NumberToWordBase implements INumberToWordMapper {
 	 */
 	protected void initialiseMapping() {
 
-		nf = NumberFormat.getInstance(Locale.UK);
 		switch (getProvisionedLanguage()) {
 		case UK:
-			// setUnits(UK_UNITS.class);
-			
 			for (UKWORD intToWord : UKWORD.values()) {
 				numToWordMap.put(intToWord.getNum(), intToWord.getWord());
 			}
 
 			break;
 		case FR:
-			//nf = NumberFormat.getInstance(Locale.FRANCE);
 			for (FRWORD intToWord : FRWORD.values()) {
 				numToWordMap.put(intToWord.getNum(), intToWord.getWord());
 			}
@@ -132,7 +135,7 @@ public abstract class NumberToWordBase implements INumberToWordMapper {
 	 * 
 	 * @param newLevel
 	 */
-	public static void setLoggingLevel(Level newLevel) {
+	protected static void setLoggingLevel(Level newLevel) {
 		LOGGER.setLevel(newLevel);
 	}
 
@@ -147,24 +150,6 @@ public abstract class NumberToWordBase implements INumberToWordMapper {
 		String indZero;
 		String indOne;
 		String indTwo;
-
-		String hunUnits = null;
-		String and = null;
-		switch (this.provisionedLanguage) {
-		case UK:
-			hunUnits = UK_UNITS.HUNS.val();
-			and = UK_FORMAT.AND.val();
-			break;
-		case FR:
-			hunUnits = FR_UNITS.HUNS.val();
-			and = FR_FORMAT.AND.val();
-			break;
-
-		default:
-			break;
-
-		}
-
 		String result = null;
 		Integer rem = null;
 		switch (numStr.length()) {
@@ -189,10 +174,11 @@ public abstract class NumberToWordBase implements INumberToWordMapper {
 			indTwo = String.valueOf(numStr.charAt(2));
 
 			rem = num % 100;
-			result = numToWordMap.get(indZero) + " " + hunUnits;
+			result = numToWordMap.get(indZero) + " "
+					+ getLanguageSupport().getHunUnit();
 			if (rem > 0) { // not whole hundredth
 				String decs = getDecimalPart(rem, indOne, indTwo);
-				result += and + decs.toLowerCase();
+				result += getLanguageSupport().getAnd() + decs.toLowerCase();
 			}
 			break;
 

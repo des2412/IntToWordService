@@ -4,10 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.desz.numbertoword.enums.EnumHolder.ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.FR_FORMAT;
-import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
-import org.desz.numbertoword.enums.EnumHolder.FR_UNITS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
+import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.UK_UNITS;
 
 /**
@@ -20,13 +18,13 @@ public class NumberToWordMapper extends NumberToWordBase {
 	/**
 	 * Constructor
 	 */
-	public NumberToWordMapper(PROVISIONED_LANGUAGE pl) {
+	private NumberToWordMapper(PROVISIONED_LANGUAGE pl) {
 		setProvisionedLanguage(pl);
 		initialiseMapping();
 		// all numbers will be converted to UK format
 		setFormattedNumberSeparator(UK_FORMAT.UKSEP.val());
 	}
-	
+
 	/**
 	 * 
 	 * @param num
@@ -47,9 +45,10 @@ public class NumberToWordMapper extends NumberToWordBase {
 			LOGGER.info(e.getMessage());
 			throw (e);
 		}
-		// TODO check for null separator..
+
 		LOGGER.info("Format Separator:" + getFormattedNumberSeparator());
-		String[] components = formattedNumber.split(getFormattedNumberSeparator());
+		String[] components = formattedNumber
+				.split(getFormattedNumberSeparator());
 		final int nComps = components.length;
 		if (nComps > 3) {
 			LOGGER.info(ERRORS.INVALID_INPUT_NUMBER.val() + num);
@@ -68,28 +67,11 @@ public class NumberToWordMapper extends NumberToWordBase {
 		Map<UK_UNITS, Integer> numAtIndex = new HashMap<UK_UNITS, Integer>();
 
 		StringBuffer result = new StringBuffer();
-		
-		String millUnit = null;
-		String thouUnit = null;
-		String and = null;
-		// internationalisation
-		switch (getProvisionedLanguage()) {
-		case UK:
-			millUnit = UK_UNITS.MILLS.val();
-			thouUnit = UK_UNITS.THOUS.val();
-			and = UK_FORMAT.AND.val();
-			break;
-		case FR:
-			millUnit = FR_UNITS.MILLS.val();
-			thouUnit = FR_UNITS.THOUS.val();
-			and = FR_FORMAT.AND.val();
-			break;
 
-		default:
-			break;
+		String millUnit = getLanguageSupport().getMillUnit();
+		String thouUnit = getLanguageSupport().getThouUnit();
+		String and = getLanguageSupport().getAnd();
 
-		}
-				
 		Integer val = null;
 		if (nComps == 3) {
 
@@ -132,8 +114,8 @@ public class NumberToWordMapper extends NumberToWordBase {
 			if (mills == UK_FORMAT.EMPTY.val()) {
 				result.append(thous + UK_FORMAT.SPACE.val() + thouUnit);
 			} else if (numAtIndex.get(UK_UNITS.THOUS) < 100) {
-				result.append(and + thous.toLowerCase()
-						+ UK_FORMAT.SPACE.val() + thouUnit);
+				result.append(and + thous.toLowerCase() + UK_FORMAT.SPACE.val()
+						+ thouUnit);
 
 			} else {
 				result.append(UK_FORMAT.SPACE.val() + thous.toLowerCase()
@@ -155,6 +137,5 @@ public class NumberToWordMapper extends NumberToWordBase {
 
 		return result.toString();
 	}
-
 
 }

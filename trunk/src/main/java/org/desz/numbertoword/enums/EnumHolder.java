@@ -11,8 +11,6 @@ package org.desz.numbertoword.enums;
  */
 public class EnumHolder {
 
-	
-
 	public enum PROVISIONED_LANGUAGE {
 		UK, FR;
 
@@ -156,7 +154,7 @@ public class EnumHolder {
 		}
 
 	};
-	
+
 	public enum FR_FORMAT {
 		AND(" et "), SPACE(" "), EMPTY(""), UKSEP(",");
 
