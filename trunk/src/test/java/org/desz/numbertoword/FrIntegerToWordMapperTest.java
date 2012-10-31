@@ -21,14 +21,13 @@ public class FrIntegerToWordMapperTest {
 			"Five", "Six", "Seven", "Eight", "Nine" };
 	static List<String> l = Arrays.asList(decimals);
 
-	IntegerToWordMapper numberToWordMapper = null;
+	IntegerToWordMapper intToWordMapper = null;
 
 	@Before
 	public void init() throws Exception {
-		numberToWordMapper = (IntegerToWordMapper) NumberToWordFactory.FR_MAPPER
+		intToWordMapper = (IntegerToWordMapper) NumberToWordFactory.FR_MAPPER
 				.getNumberToWordMapper();
 
-		NumberToWordMapper.setLoggingLevel(Level.ALL);
 
 	}
 	
@@ -39,65 +38,64 @@ public class FrIntegerToWordMapperTest {
 
 	@Test
 	public void testNotNull() {
-		assertNotNull(numberToWordMapper);
+		assertNotNull(intToWordMapper);
 	}
 
 	@Test
 	public void testIsSingleton() throws Exception {
-		IntegerToWordMapper.setLoggingLevel(Level.INFO);
-		assertNotSame(numberToWordMapper,
+		assertNotSame(intToWordMapper,
 				NumberToWordFactory.UK_MAPPER.getNumberToWordMapper());
 
-		assertSame(numberToWordMapper,
+		assertSame(intToWordMapper,
 				NumberToWordFactory.FR_MAPPER.getNumberToWordMapper());
 	}
 
 	@Test(expected = Exception.class)
 	public void testNegativeInputMessage() throws Exception {
-		((IntegerToWordMapper) numberToWordMapper).validateAndFormat(-100);
+		((IntegerToWordMapper) intToWordMapper).validateAndFormat(-100);
 		assertEquals(FR_ERRORS.NEGATIVE_INPUT,
-				((NumberToWordMapper) numberToWordMapper).getMessage());
+				((IntegerToWordMapper) intToWordMapper).getMessage());
 	}
 
 	@Test(expected = Exception.class)
 	public void testNumberFormatMessage() throws Exception {
-		((IntegerToWordMapper) numberToWordMapper)
+		((IntegerToWordMapper) intToWordMapper)
 				.validateAndFormat(1.234);
 		assertEquals(FR_ERRORS.NUMBERFORMAT,
-				((NumberToWordMapper) numberToWordMapper).getMessage());
+				((IntegerToWordMapper) intToWordMapper).getMessage());
 	}
 
 	@Test(expected = Exception.class)
 	public void testNullInputMessage() throws Exception {
-		numberToWordMapper.validateAndFormat(null);
+		intToWordMapper.validateAndFormat(null);
 		assertEquals(FR_ERRORS.NULL_INPUT,
-				numberToWordMapper.getMessage());
+				intToWordMapper.getMessage());
 	}
 
 	@Test
 	public void testZero() throws Exception {
-		assertEquals("Zéro", numberToWordMapper.getWord(0));
+		assertEquals("Zéro", intToWordMapper.getWord(0));
 	}
 
 	@Test
 	public void testDecimals() throws Exception {
 
-		assertEquals("Un", numberToWordMapper.getWord(1));
-		assertEquals("Dix", numberToWordMapper.getWord(10));
+		assertEquals("Un", intToWordMapper.getWord(1));
+		assertEquals("Dix", intToWordMapper.getWord(10));
 
 	}
 
 	@Test
 	public void testTeens() throws Exception {
-		assertEquals("Onze", numberToWordMapper.getWord(11));
-		assertEquals("Quatorze", numberToWordMapper.getWord(14));
+		assertEquals("Onze", intToWordMapper.getWord(11));
+		assertEquals("Quatorze", intToWordMapper.getWord(14));
 	}
 
 	@Test
 	public void testGetWords() throws Exception {
 
 		assertEquals("Onze million un cent et onze mille un cent et onze",
-				numberToWordMapper.getWord(11111111));
+				intToWordMapper.getWord(11111111));
 
 		/*
 		 * assertEquals("One thousand and nine",

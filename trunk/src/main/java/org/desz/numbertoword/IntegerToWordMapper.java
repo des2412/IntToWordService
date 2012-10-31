@@ -4,10 +4,11 @@ import java.text.NumberFormat;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Logger;
 
-import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.UK_UNITS;
+import org.desz.numbertoword.exceptions.IntegerToWordException;
 import org.desz.numbertoword.factory.NumberToWordFactory;
 
 /**
@@ -16,13 +17,31 @@ import org.desz.numbertoword.factory.NumberToWordFactory;
  * @author des: des_williams_2000@yahoo.com
  * 
  */
-public class IntegerToWordMapper extends NumberToWordMapper implements
-		INumberToWordMapper {
+public final class IntegerToWordMapper implements INumberToWordMapper {
 
-	public volatile Map<String, String> numToWordMap = null;
+	private LanguageAndFormatHelper languageAndFormatHelper;
 
-	private static NumberFormat integerFormatter = NumberFormat
+	protected final static Logger LOGGER = Logger
+			.getLogger(IntegerToWordMapper.class.getName());
+
+	public Map<String, String> numToWordMap = null;
+
+	private transient static NumberFormat integerFormatter = NumberFormat
 			.getIntegerInstance(Locale.UK);
+
+	/**
+	 * message: Typically reports an error condition. Used by Unit tests for
+	 * assertions only.
+	 */
+	private String message;
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 	/**
 	 * Constructor is private to enforce Singleton semantics
@@ -31,8 +50,8 @@ public class IntegerToWordMapper extends NumberToWordMapper implements
 	 * @param languageSupport
 	 *            specific text for target PROVISIONED_LANGUAGE
 	 */
-	private IntegerToWordMapper(LanguageSupport languageSupport) {
-		setLanguageSupport(languageSupport);
+	private IntegerToWordMapper(LanguageAndFormatHelper languageAndFormatHelper) {
+		this.languageAndFormatHelper = languageAndFormatHelper;
 	}
 
 	/**
@@ -43,34 +62,31 @@ public class IntegerToWordMapper extends NumberToWordMapper implements
 	 *             if validate throws Exception type
 	 */
 
-	public String getWord(Integer num) throws Exception {
+	@Override
+	public String getWord(Integer num) throws IntegerToWordException {
 
 		String formattedNumber = null;
-		// internationalisation variables
-		// units
-		String millUnit = getLanguageSupport().getMillUnit();
-		String thouUnit = getLanguageSupport().getThouUnit();
-		String and = getLanguageSupport().getAnd();
-		// errors
-		String invalidInput = getLanguageSupport().getInvalidInput();
-
 		try {
 			formattedNumber = validateAndFormat(num);
 			LOGGER.info("Formatted Number:" + formattedNumber);
 
 		} catch (Exception e) {
 			LOGGER.info(e.getMessage());
-			throw (e);
+			throw new IntegerToWordException(e);
 		}
 
-		LOGGER.info("Format Separator:" + getFormattedNumberSeparator());
-		String[] components = formattedNumber
-				.split(getFormattedNumberSeparator());
+		LOGGER.info("Format Separator:"
+				+ languageAndFormatHelper.getFormattedNumberSeparator());
+		String[] components = formattedNumber.split(languageAndFormatHelper
+				.getFormattedNumberSeparator());
 		final int nComps = components.length;
 		if (nComps > 3) {
-			LOGGER.info(invalidInput + num);
-			setMessage(invalidInput + num);
-			throw new Exception(invalidInput + num);
+			LOGGER.info(languageAndFormatHelper.getLanguageSupport()
+					.getInvalidInput() + num);
+			setMessage(languageAndFormatHelper.getLanguageSupport()
+					.getInvalidInput() + num);
+			throw new IntegerToWordException(languageAndFormatHelper
+					.getLanguageSupport().getInvalidInput() + num);
 		}
 
 		if (formattedNumber.equals("0")) {
@@ -121,19 +137,32 @@ public class IntegerToWordMapper extends NumberToWordMapper implements
 		// Concatenate the units of the number
 
 		if (numAtIndex.get(UK_UNITS.MILLS) > 0) {
-			String mn = mills + UK_FORMAT.SPACE.val() + millUnit;
+			String mn = mills
+					+ UK_FORMAT.SPACE.val()
+					+ languageAndFormatHelper.getLanguageSupport()
+							.getMillUnit();
 			result.append(mn);
 		}
 		if (numAtIndex.get(UK_UNITS.THOUS) > 0) {
 			if (mills == UK_FORMAT.EMPTY.val()) {
-				result.append(thous + UK_FORMAT.SPACE.val() + thouUnit);
+				result.append(thous
+						+ UK_FORMAT.SPACE.val()
+						+ languageAndFormatHelper.getLanguageSupport()
+								.getThouUnit());
 			} else if (numAtIndex.get(UK_UNITS.THOUS) < 100) {
-				result.append(and + thous.toLowerCase() + UK_FORMAT.SPACE.val()
-						+ thouUnit);
+				result.append(languageAndFormatHelper.getLanguageSupport()
+						.getAnd()
+						+ thous.toLowerCase()
+						+ UK_FORMAT.SPACE.val()
+						+ languageAndFormatHelper.getLanguageSupport()
+								.getThouUnit());
 
 			} else {
-				result.append(UK_FORMAT.SPACE.val() + thous.toLowerCase()
-						+ UK_FORMAT.SPACE.val() + thouUnit);
+				result.append(UK_FORMAT.SPACE.val()
+						+ thous.toLowerCase()
+						+ UK_FORMAT.SPACE.val()
+						+ languageAndFormatHelper.getLanguageSupport()
+								.getThouUnit());
 			}
 		}
 		if (numAtIndex.get(UK_UNITS.HUNS) > 0) {
@@ -142,7 +171,8 @@ public class IntegerToWordMapper extends NumberToWordMapper implements
 				result.append(huns);
 			} else {
 				if (numAtIndex.get(UK_UNITS.HUNS) < 100) {
-					result.append(and + huns.toLowerCase());
+					result.append(languageAndFormatHelper.getLanguageSupport()
+							.getAnd() + huns.toLowerCase());
 				} else {
 					result.append(UK_FORMAT.SPACE.val() + huns.toLowerCase());
 				}
@@ -169,18 +199,29 @@ public class IntegerToWordMapper extends NumberToWordMapper implements
 	 * @return
 	 * @throws Exception
 	 */
-	protected String validateAndFormat(Number num) throws Exception {
+	public String validateAndFormat(Number num) throws IntegerToWordException {
 
 		if (num == null) {
-			LOGGER.info(FR_ERRORS.NULL_INPUT.val());
-			setMessage(FR_ERRORS.NULL_INPUT.val());
-			throw new Exception(FR_ERRORS.NULL_INPUT.val());
+			LOGGER.info(languageAndFormatHelper.getLanguageSupport()
+					.getNullInput());
+			setMessage(languageAndFormatHelper.getLanguageSupport()
+					.getNullInput());
+			throw new IntegerToWordException(languageAndFormatHelper
+					.getLanguageSupport().getNullInput());
+		}
+
+		if (!(num instanceof Integer)) {
+			throw new IntegerToWordException(languageAndFormatHelper
+					.getLanguageSupport().getNumberFormatErr());
 		}
 
 		if ((Integer) num < 0) {
-			LOGGER.info(FR_ERRORS.NEGATIVE_INPUT.val());
-			setMessage(FR_ERRORS.NEGATIVE_INPUT.val());
-			throw new Exception(FR_ERRORS.NEGATIVE_INPUT.val());
+			LOGGER.info(languageAndFormatHelper.getLanguageSupport()
+					.getNegativeInput());
+			setMessage(languageAndFormatHelper.getLanguageSupport()
+					.getNegativeInput());
+			throw new IntegerToWordException(languageAndFormatHelper
+					.getLanguageSupport().getNegativeInput());
 		}
 
 		String formattedNumber = null;
@@ -189,8 +230,10 @@ public class IntegerToWordMapper extends NumberToWordMapper implements
 			formattedNumber = convertToNumberFormat(Long.valueOf(String
 					.valueOf(num)));
 		} catch (NumberFormatException nfe) {
-			setMessage(FR_ERRORS.NUMBERFORMAT.val());
-			throw new Exception(FR_ERRORS.NUMBERFORMAT.val());
+			setMessage(languageAndFormatHelper.getLanguageSupport()
+					.getNumberFormatErr());
+			throw new IntegerToWordException(languageAndFormatHelper
+					.getLanguageSupport().getNumberFormatErr());
 		}
 		return formattedNumber;
 	}
@@ -201,7 +244,7 @@ public class IntegerToWordMapper extends NumberToWordMapper implements
 	 * @return
 	 * @throws Exception
 	 */
-	protected String getWordForInt(Integer num) throws Exception {
+	private String getWordForInt(Integer num) throws IntegerToWordException {
 		String numStr = String.valueOf(num);
 		String indZero;
 		String indOne;
@@ -231,16 +274,19 @@ public class IntegerToWordMapper extends NumberToWordMapper implements
 
 			rem = num % 100;
 			result = numToWordMap.get(indZero) + " "
-					+ getLanguageSupport().getHunUnit();
+					+ languageAndFormatHelper.getLanguageSupport().getHunUnit();
 			if (rem > 0) { // not whole hundredth
 				String decs = getDecimalPart(rem, indOne, indTwo);
-				result += getLanguageSupport().getAnd() + decs.toLowerCase();
+				result += languageAndFormatHelper.getLanguageSupport().getAnd()
+						+ decs.toLowerCase();
 			}
 			break;
 
 		default:
-			setMessage(FR_ERRORS.NUMBERFORMAT.val());
-			throw new Exception(FR_ERRORS.UNKNOWN.val());
+			setMessage(languageAndFormatHelper.getLanguageSupport()
+					.getUnkownErr());
+			throw new IntegerToWordException(languageAndFormatHelper
+					.getLanguageSupport().getUnkownErr());
 
 		}
 
@@ -256,15 +302,20 @@ public class IntegerToWordMapper extends NumberToWordMapper implements
 	 */
 	private String getDecimalPart(Integer rem, String indZero, String indOne) {
 		String result;
+		// String atZero = indZero;
 		int decs = Integer.valueOf(indZero + indOne);
 
-		if (rem == 0 | decs > 10 & decs < 20) {// teen
+		if (rem == 0) {// int range[1x-9x] (x IS 0)
 			result = numToWordMap.get(indZero + indOne);
 
-		} else if (indZero.equals("0")) {
+		} else if (decs > 10 & decs < 20) {
+			result = numToWordMap.get(indZero + indOne);
+
+		} else if (indZero.equals("0")) {// eg 09
+			LOGGER.info("ZEEEEEEEEEERO");
 			result = numToWordMap.get(indOne);
 
-		} else { // 20-99
+		} else { // 2x-99 (x NOT 0)
 			indZero += "0"; // add "0" to indZero so as to match key of whole
 							// ten
 			LOGGER.info("indZero:" + indZero + "indOne:" + indOne);

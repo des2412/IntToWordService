@@ -1,9 +1,9 @@
 package org.desz.numbertoword.factory;
 
 import org.desz.numbertoword.INumberToWordMapper;
+import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 
 public interface INumberToWordFactory {
-	public INumberToWordMapper getNumberToWordMapper() throws Exception;
+	INumberToWordMapper getNumberToWordMapper() throws NumberToWordFactoryException;
 
-	// public void removeNumberToWordMapper(PROVISIONED_LANGUAGE pl);
 }

@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
 import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
 import org.desz.numbertoword.factory.NumberToWordFactory;
+import org.desz.numbertoword.exceptions.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +28,6 @@ public class UkIntegerToWordMapperTest {
 		numberToWordMapper = (IntegerToWordMapper) NumberToWordFactory.UK_MAPPER
 				.getNumberToWordMapper();
 
-		IntegerToWordMapper.setLoggingLevel(Level.ALL);
 
 	}
 	
@@ -43,7 +43,6 @@ public class UkIntegerToWordMapperTest {
 
 	@Test
 	public void testIsSingleton() throws Exception {
-		IntegerToWordMapper.setLoggingLevel(Level.INFO);
 		assertSame(numberToWordMapper,
 				NumberToWordFactory.UK_MAPPER.getNumberToWordMapper());
 	}
@@ -54,7 +53,7 @@ public class UkIntegerToWordMapperTest {
 		assertEquals(UK_ERRORS.NEGATIVE_INPUT, numberToWordMapper.getMessage());
 	}
 
-	@Test(expected = Exception.class)
+	@Test(expected = IntegerToWordException.class)
 	public void testNumberFormatMessage() throws Exception {
 		numberToWordMapper.validateAndFormat(1.234);
 		assertEquals(UK_ERRORS.NUMBERFORMAT, numberToWordMapper.getMessage());
@@ -87,6 +86,8 @@ public class UkIntegerToWordMapperTest {
 
 	@Test
 	public void testTens() throws Exception {
+		
+		assertEquals("One hundred and one", numberToWordMapper.getWord(101));
 		assertEquals("Forty", numberToWordMapper.getWord(40));
 		int num = 41;
 		for (String s : l) {

@@ -3,9 +3,13 @@ package org.desz.numbertoword.factory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.logging.Logger;
+
 import org.desz.numbertoword.INumberToWordMapper;
 import org.desz.numbertoword.IntegerToWordMapper;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
+import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
+import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,37 +29,25 @@ public class NumberToWordFactoryTest {
 	}
 
 	@Test
-	public void testUkClassEquality() throws Exception {
-		INumberToWordMapper mapper = NumberToWordFactory.UK_MAPPER
-				.getNumberToWordMapper();
-		assertEquals(IntegerToWordMapper.class, mapper.getClass());
+	public void testClassEquality() {
+		INumberToWordMapper mapper = null;
+		try {
+			mapper = NumberToWordFactory.UK_MAPPER
+					.getNumberToWordMapper();
+		} catch (NumberToWordFactoryException e) {
+			Logger.getAnonymousLogger().severe(e.getMessage());
+		}
+		assertEquals("testUkClassEquality",IntegerToWordMapper.class, mapper.getClass());
 	}
 
-	@Test
+	@Test(expected=FactoryMapperRemovalException.class)
 	public void testRemoveNumberToWordMapper() throws Exception {
-		INumberToWordMapper mapper = NumberToWordFactory.UK_MAPPER
+		NumberToWordFactory.UK_MAPPER
 				.getNumberToWordMapper();
 
-		assertEquals(PROVISIONED_LANGUAGE.UK.name(),
-				NumberToWordFactory
-						.removeNumberToWordMapper(PROVISIONED_LANGUAGE.UK));
+		NumberToWordFactory
+						.removeNumberToWordMapper(PROVISIONED_LANGUAGE.FR);
 
 	}
-
-	@Test
-	public void testRemoveFailure() throws Exception {
-		INumberToWordMapper mapper = NumberToWordFactory.UK_MAPPER
-				.getNumberToWordMapper();
-
-		assertNull(NumberToWordFactory
-				.removeNumberToWordMapper(PROVISIONED_LANGUAGE.FR));
-	}
-
-	/*
-	 * @Test public void testUkSingleton() throws Exception {
-	 * assertSame(factory,
-	 * NumberToWordFactory.UK_MAPPER.getNumberToWordMapper());
-	 * Assert.assertNotSame(factory, new NumberToWordMapper()); }
-	 */
 
 }

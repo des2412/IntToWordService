@@ -13,13 +13,15 @@ import java.util.logging.Logger;
 
 import org.desz.numbertoword.INumberToWordMapper;
 import org.desz.numbertoword.IntegerToWordMapper;
+import org.desz.numbertoword.LanguageAndFormatHelper;
 import org.desz.numbertoword.LanguageSupport;
-import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
 import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.UK_WORDS;
+import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
+import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 
 /**
  * @author des
@@ -44,9 +46,10 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 	 * 
 	 */
 	@Override
-	public INumberToWordMapper getNumberToWordMapper() {
+	public INumberToWordMapper getNumberToWordMapper() throws NumberToWordFactoryException{
 		// access the private Constructor
-		Constructor<?>[] c = IntegerToWordMapper.class.getDeclaredConstructors();
+		Constructor<?>[] c = IntegerToWordMapper.class
+				.getDeclaredConstructors();
 		c[0].setAccessible(true);
 		Object[] args = new Object[1];
 		String ln = UK_FORMAT.EMPTY.val();
@@ -54,24 +57,23 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 		case UK_MAPPER:
 			if (!mappers.containsKey(PROVISIONED_LANGUAGE.UK)) {
 
-				args[0] = new LanguageSupport(PROVISIONED_LANGUAGE.UK);
+				LanguageAndFormatHelper helper = new LanguageAndFormatHelper();
+				helper.setLanguageSupport(new LanguageSupport(
+						PROVISIONED_LANGUAGE.UK));
+				args[0] = helper;
 				// invoke the private constructor
 				IntegerToWordMapper ukNumberToWordMapper = null;
 				try {
 					ukNumberToWordMapper = (IntegerToWordMapper) c[0]
 							.newInstance(args);
 				} catch (InstantiationException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					throw new NumberToWordFactoryException(e1);
 				} catch (IllegalAccessException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					throw new NumberToWordFactoryException(e1);
 				} catch (IllegalArgumentException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					throw new NumberToWordFactoryException(e1);
 				} catch (InvocationTargetException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					throw new NumberToWordFactoryException(e1);
 				}
 				ukNumberToWordMapper.setMapping(initialiseMapping());
 				mappers.put(PROVISIONED_LANGUAGE.UK, ukNumberToWordMapper);
@@ -81,27 +83,25 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 			} else {
 				return mappers.get(PROVISIONED_LANGUAGE.UK);
 			}
-
 		case FR_MAPPER:
 			if (!mappers.containsKey(PROVISIONED_LANGUAGE.FR)) {
 
-				args[0] = new LanguageSupport(PROVISIONED_LANGUAGE.FR);
 				IntegerToWordMapper frNumberToWordMapper = null;
+				LanguageAndFormatHelper helper = new LanguageAndFormatHelper();
+				helper.setLanguageSupport(new LanguageSupport(
+						PROVISIONED_LANGUAGE.FR));
+				args[0] = helper;
 				try {
 					frNumberToWordMapper = (IntegerToWordMapper) c[0]
 							.newInstance(args);
 				} catch (InstantiationException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					throw new NumberToWordFactoryException(e1);
 				} catch (IllegalAccessException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					throw new NumberToWordFactoryException(e1);
 				} catch (IllegalArgumentException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					throw new NumberToWordFactoryException(e1);
 				} catch (InvocationTargetException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					throw new NumberToWordFactoryException(e1);
 				}
 				frNumberToWordMapper.setMapping(initialiseMapping());
 				mappers.put(PROVISIONED_LANGUAGE.FR, frNumberToWordMapper);
@@ -113,14 +113,7 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 			}
 
 		default:
-			RuntimeException e = null;
-			if (ln.equals(PROVISIONED_LANGUAGE.UK.name())) {
-				e = new RuntimeException(UK_ERRORS.LANGUAGE_NOTSUPPORTED.val());
-			} else if (ln.equals(PROVISIONED_LANGUAGE.FR.name())) {
-				e = new RuntimeException(FR_ERRORS.LANGUAGE_NOTSUPPORTED.val());
-			}
-
-			throw e;
+			throw new NumberToWordFactoryException(UK_ERRORS.LANGUAGE_NOTSUPPORTED.val());
 
 		}
 	}
@@ -160,28 +153,23 @@ public enum NumberToWordFactory implements INumberToWordFactory {
 	}
 
 	/**
-	 * @throws Exception
 	 * 
+	 * @param pl
+	 * @throws FactoryMapperRemovalException
 	 */
-	public static String removeNumberToWordMapper(PROVISIONED_LANGUAGE pl)
-			throws Exception {
-		String s = null;
+	public static void removeNumberToWordMapper(final PROVISIONED_LANGUAGE pl)
+			throws FactoryMapperRemovalException {
 
 		if (mappers.containsKey(pl)) {
 
-			IntegerToWordMapper mapper = (IntegerToWordMapper) mappers.get(pl);
-			s = mapper.getLanguageSupport().getProvisionedLanguage().name();
 			try {
 				mappers.remove(pl);
 			} catch (Exception e) {
-				throw new Exception(e);
-			}
-			if (mappers.containsKey(pl)) {
-				throw new Exception("Failed to remove");
+				throw new FactoryMapperRemovalException(e.getCause());
 			}
 
-		}
-		return s;
+		}else
+			throw new FactoryMapperRemovalException(pl.name() + " not in Map");
 	}
 
 }

@@ -14,10 +14,14 @@ public final class LanguageSupport {
 	private String thouUnit;
 	private String hunUnit;
 	private String and;
-	
+
 	private String invalidInput;
-	
+
 	private PROVISIONED_LANGUAGE provisionedLanguage;
+	private String nullInput;
+	private String negativeInput;
+	private String numberFormatErr;
+	private String unknownErr;
 
 	public LanguageSupport(PROVISIONED_LANGUAGE pl) {
 		this.provisionedLanguage = pl;
@@ -28,6 +32,10 @@ public final class LanguageSupport {
 			this.hunUnit = UK_UNITS.HUNS.val();
 			this.and = UK_FORMAT.AND.val();
 			this.invalidInput = UK_ERRORS.INVALID_INPUT_NUMBER.val();
+			this.nullInput = UK_ERRORS.NULL_INPUT.val();
+			this.negativeInput = UK_ERRORS.NEGATIVE_INPUT.val();
+			this.negativeInput = UK_ERRORS.NUMBERFORMAT.val();
+			this.unknownErr = UK_ERRORS.UNKNOWN.val();
 			break;
 		case FR:
 			this.millUnit = FR_UNITS.MILLS.val();
@@ -35,6 +43,10 @@ public final class LanguageSupport {
 			this.hunUnit = FR_UNITS.HUNS.val();
 			this.and = FR_FORMAT.AND.val();
 			this.invalidInput = FR_ERRORS.INVALID_INPUT_NUMBER.val();
+			this.nullInput = FR_ERRORS.NULL_INPUT.val();
+			this.negativeInput = FR_ERRORS.NEGATIVE_INPUT.val();
+			this.negativeInput = FR_ERRORS.NUMBERFORMAT.val();
+			this.unknownErr = FR_ERRORS.UNKNOWN.val();
 			break;
 
 		default:
@@ -42,7 +54,10 @@ public final class LanguageSupport {
 
 		}
 	}
-	
+
+	public String getNegativeInput() {
+		return negativeInput;
+	}
 
 	public PROVISIONED_LANGUAGE getProvisionedLanguage() {
 		return provisionedLanguage;
@@ -51,7 +66,6 @@ public final class LanguageSupport {
 	public String getInvalidInput() {
 		return invalidInput;
 	}
-
 
 	public String getHunUnit() {
 		return hunUnit;
@@ -67,6 +81,21 @@ public final class LanguageSupport {
 
 	public String getAnd() {
 		return and;
+	}
+
+	public String getNullInput() {
+		// TODO Auto-generated method stub
+		return this.nullInput;
+	}
+
+	public String getNumberFormatErr() {
+		// TODO Auto-generated method stub
+		return this.numberFormatErr;
+	}
+
+	public String getUnkownErr() {
+		// TODO Auto-generated method stub
+		return this.unknownErr;
 	}
 
 }
