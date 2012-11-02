@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 import org.desz.numbertoword.IFNumberToWordMapper;
 import org.desz.numbertoword.IntegerToWordMapper;
-import org.desz.numbertoword.LanguageAndFormatHelper;
+import org.desz.numbertoword.LanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
@@ -23,19 +23,21 @@ import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(NumberToWordEnumFactory.class)
+@PrepareForTest(IntegerToWordEnumFactory.class)
 public class NumberToWordFactoryTest {
 
 	private final static Logger LOGGER = Logger
 			.getLogger(NumberToWordFactoryTest.class.getName());
 
-	static final Object args[] = new Object[] { new LanguageAndFormatHelper() };
+	static final Object args[] = new Object[] { new LanguageSupport(
+			PROVISIONED_LANGUAGE.UK) };
 
 	@After
 	public void clean() {
 		try {
-			NumberToWordEnumFactory
+			IntegerToWordEnumFactory
 					.removeNumberToWordEnumFactory(PROVISIONED_LANGUAGE.UK);
 		} catch (FactoryMapperRemovalException e) {
 			LOGGER.severe("FactoryMapperRemovalException");
@@ -46,18 +48,18 @@ public class NumberToWordFactoryTest {
 	public void testLookUpPreInitialisedAssertFalseResult() {
 
 		// We create a new instance of test class under test as usually.
-		INumberToWordFactory tested = NumberToWordEnumFactory.UK_MAPPER;
+		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
 
-		PowerMock.mockStaticPartial(NumberToWordEnumFactory.class,
+		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
 				"lookUpPreInitialised");
 
-		replay(NumberToWordEnumFactory.class);
+		replay(IntegerToWordEnumFactory.class);
 
-		boolean isListed = ((NumberToWordEnumFactory) tested)
+		boolean isListed = ((IntegerToWordEnumFactory) tested)
 				.lookUpPreInitialised(PROVISIONED_LANGUAGE.FR);
 
 		// Note how we verify the class, not the instance!
-		verify(NumberToWordEnumFactory.class);
+		verify(IntegerToWordEnumFactory.class);
 
 		// Assert
 		assertFalse(isListed);
@@ -68,13 +70,13 @@ public class NumberToWordFactoryTest {
 	public void testLookUpPreInitialisedAssertTrueResult() {
 
 		// We create a new instance of test class under test as usually.
-		INumberToWordFactory tested = NumberToWordEnumFactory.UK_MAPPER;
+		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
 		IFNumberToWordMapper mapper = null;
 
-		PowerMock.mockStaticPartial(NumberToWordEnumFactory.class,
+		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
 				"lookUpPreInitialised");
 
-		replay(NumberToWordEnumFactory.class);
+		replay(IntegerToWordEnumFactory.class);
 
 		try {
 			mapper = tested.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
@@ -82,11 +84,11 @@ public class NumberToWordFactoryTest {
 			LOGGER.severe("testLookUpPreInitialisedAssertTrueResult invocation failure");
 		}
 
-		boolean isListed = ((NumberToWordEnumFactory) tested)
+		boolean isListed = ((IntegerToWordEnumFactory) tested)
 				.lookUpPreInitialised(PROVISIONED_LANGUAGE.UK);
 
 		// Note how we verify the class, not the instance!
-		verify(NumberToWordEnumFactory.class);
+		verify(IntegerToWordEnumFactory.class);
 
 		// Assert that lookUpPreInitialised returns expected value
 		assertTrue(isListed);
@@ -98,10 +100,10 @@ public class NumberToWordFactoryTest {
 	public void testGetIntegerToWord() {
 
 		// We create a new instance of test class under test as usually.
-		INumberToWordFactory tested = NumberToWordEnumFactory.UK_MAPPER;
+		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
 		IFNumberToWordMapper mapper = null;
 
-		PowerMock.mockStaticPartial(NumberToWordEnumFactory.class,
+		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
 				"getIntegerToWordMapper");
 
 		try {
@@ -110,7 +112,7 @@ public class NumberToWordFactoryTest {
 			LOGGER.severe("testGetIntegerToWord expectStrictNew exception");
 		}
 
-		replay(NumberToWordEnumFactory.class);
+		replay(IntegerToWordEnumFactory.class);
 
 		try {
 			mapper = tested.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
@@ -119,7 +121,7 @@ public class NumberToWordFactoryTest {
 		}
 
 		// Note how we verify the class, not the instance!
-		verify(NumberToWordEnumFactory.class);
+		verify(IntegerToWordEnumFactory.class);
 
 		// Assert that lookUpPreInitialised returns expected value
 		assertNotNull(mapper);
@@ -127,13 +129,13 @@ public class NumberToWordFactoryTest {
 
 	@Test
 	public void testremoveNumberToWordEnumFactory() {
-		INumberToWordFactory tested = NumberToWordEnumFactory.UK_MAPPER;
+		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
 
 		// You need to mock each method called on tested or null pointer thrown
-		PowerMock.mockStaticPartial(NumberToWordEnumFactory.class,
+		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
 				"removeNumberToWordEnumFactory");
 
-		PowerMock.mockStaticPartial(NumberToWordEnumFactory.class,
+		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
 				"getIntegerToWordMapper");
 
 		try {
@@ -142,7 +144,7 @@ public class NumberToWordFactoryTest {
 			LOGGER.severe("testremoveNumberToWordEnumFactory expectStrictNew exception");
 		}
 
-		replay(NumberToWordEnumFactory.class);
+		replay(IntegerToWordEnumFactory.class);
 
 		boolean cleared = false;
 		try {
@@ -151,14 +153,14 @@ public class NumberToWordFactoryTest {
 			} catch (NumberToWordFactoryException e) {
 				LOGGER.severe("testremoveNumberToWordEnumFactory getIntegerToWordMapper invocation failure");
 			}
-			cleared = NumberToWordEnumFactory
+			cleared = IntegerToWordEnumFactory
 					.removeNumberToWordEnumFactory(PROVISIONED_LANGUAGE.UK);
 		} catch (FactoryMapperRemovalException e) {
 			LOGGER.severe("testremoveNumberToWordEnumFactory invocation failure");
 		}
 
 		// Note how we verify the class, not the instance!
-		verify(NumberToWordEnumFactory.class);
+		verify(IntegerToWordEnumFactory.class);
 
 		// Assert that lookUpPreInitialised returns expected value
 		assertTrue(cleared);
@@ -170,14 +172,14 @@ public class NumberToWordFactoryTest {
 	 */
 	@Test
 	public void testSameNumberToWordEnumFactory() {
-		INumberToWordFactory tested = NumberToWordEnumFactory.UK_MAPPER;
-		INumberToWordFactory tested2 = NumberToWordEnumFactory.UK_MAPPER;
+		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
+		INumberToWordFactory tested2 = IntegerToWordEnumFactory.UK_MAPPER;
 
-		INumberToWordFactory tested3 = NumberToWordEnumFactory.FR_MAPPER;
-		PowerMock.mockStaticPartial(NumberToWordEnumFactory.class,
+		INumberToWordFactory tested3 = IntegerToWordEnumFactory.FR_MAPPER;
+		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
 				"getIntegerToWordMapper");
 
-		replay(NumberToWordEnumFactory.class);
+		replay(IntegerToWordEnumFactory.class);
 
 		try {
 			tested.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
@@ -188,7 +190,7 @@ public class NumberToWordFactoryTest {
 		}
 
 		// Note how we verify the class, not the instance!
-		verify(NumberToWordEnumFactory.class);
+		verify(IntegerToWordEnumFactory.class);
 
 		// Assert same
 		assertSame(tested, tested2);
