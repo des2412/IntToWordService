@@ -5,7 +5,7 @@ package org.desz.numbertoword.exceptions;
 
 /**
  * @author des
- *
+ * 
  */
 public class NumberToWordFactoryException extends Exception {
 
@@ -15,9 +15,10 @@ public class NumberToWordFactoryException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public String getMessage(){
+	public String getMessage() {
 		return super.getMessage();
 	}
+
 	/**
 	 * 
 	 */

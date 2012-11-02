@@ -5,7 +5,8 @@ package org.desz.numbertoword.interaction;
  */
 import java.util.Scanner;
 
-import org.desz.numbertoword.factory.NumberToWordFactory;
+import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
+import org.desz.numbertoword.factory.NumberToWordEnumFactory;
 
 public class UKIntegerToWordUserInput {
 	public static void main(String args[]) throws Exception {
@@ -31,8 +32,10 @@ public class UKIntegerToWordUserInput {
 					System.out.println("Word conversion of "
 							+ num
 							+ " = "
-							+ NumberToWordFactory.UK_MAPPER
-									.getNumberToWordMapper().getWord(num));
+							+ NumberToWordEnumFactory.UK_MAPPER
+									.getIntegerToWordMapper(
+											PROVISIONED_LANGUAGE.UK).getWord(
+											num));
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}

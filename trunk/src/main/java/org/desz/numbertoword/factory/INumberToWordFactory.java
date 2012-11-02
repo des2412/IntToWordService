@@ -1,9 +1,12 @@
 package org.desz.numbertoword.factory;
 
-import org.desz.numbertoword.INumberToWordMapper;
+import org.desz.numbertoword.IFNumberToWordMapper;
+import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 
 public interface INumberToWordFactory {
-	INumberToWordMapper getNumberToWordMapper() throws NumberToWordFactoryException;
+
+	IFNumberToWordMapper getIntegerToWordMapper(PROVISIONED_LANGUAGE pl)
+			throws NumberToWordFactoryException;
 
 }
