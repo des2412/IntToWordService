@@ -6,7 +6,7 @@ package org.desz.numbertoword.interaction;
 import java.util.Scanner;
 
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
-import org.desz.numbertoword.factory.NumberToWordEnumFactory;
+import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
 
 public class UKIntegerToWordUserInput {
 	public static void main(String args[]) throws Exception {
@@ -32,7 +32,7 @@ public class UKIntegerToWordUserInput {
 					System.out.println("Word conversion of "
 							+ num
 							+ " = "
-							+ NumberToWordEnumFactory.UK_MAPPER
+							+ IntegerToWordEnumFactory.UK_MAPPER
 									.getIntegerToWordMapper(
 											PROVISIONED_LANGUAGE.UK).getWord(
 											num));
