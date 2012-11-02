@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.UK_UNITS;
 import org.desz.numbertoword.exceptions.IntegerToWordException;
-import org.desz.numbertoword.factory.NumberToWordFactory;
+import org.desz.numbertoword.factory.NumberToWordEnumFactory;
 
 /**
  * Class is configured by NumberToWordFactory
@@ -17,7 +17,7 @@ import org.desz.numbertoword.factory.NumberToWordFactory;
  * @author des: des_williams_2000@yahoo.com
  * 
  */
-public final class IntegerToWordMapper implements INumberToWordMapper {
+public final class IntegerToWordMapper implements IFNumberToWordMapper {
 
 	private LanguageAndFormatHelper languageAndFormatHelper;
 
@@ -46,7 +46,7 @@ public final class IntegerToWordMapper implements INumberToWordMapper {
 	/**
 	 * Constructor is private to enforce Singleton semantics
 	 * 
-	 * @see NumberToWordFactory
+	 * @see NumberToWordEnumFactory
 	 * @param languageSupport
 	 *            specific text for target PROVISIONED_LANGUAGE
 	 */
@@ -302,7 +302,7 @@ public final class IntegerToWordMapper implements INumberToWordMapper {
 	 */
 	private String getDecimalPart(Integer rem, String indZero, String indOne) {
 		String result;
-		// String atZero = indZero;
+		StringBuffer atZero = new StringBuffer(indZero.toString());
 		int decs = Integer.valueOf(indZero + indOne);
 
 		if (rem == 0) {// int range[1x-9x] (x IS 0)
@@ -316,14 +316,15 @@ public final class IntegerToWordMapper implements INumberToWordMapper {
 			result = numToWordMap.get(indOne);
 
 		} else { // 2x-99 (x NOT 0)
-			indZero += "0"; // add "0" to indZero so as to match key of whole
-							// ten
+			atZero.append("0");
+			// indZero += "0"; // add "0" to indZero so as to match key of whole
+			// ten
 			LOGGER.info("indZero:" + indZero + "indOne:" + indOne);
 			if (!indOne.equals("0")) {
-				result = numToWordMap.get(indZero) + UK_FORMAT.SPACE.val()
-						+ numToWordMap.get(indOne);
+				result = numToWordMap.get(atZero.toString())
+						+ UK_FORMAT.SPACE.val() + numToWordMap.get(indOne);
 			} else {
-				result = numToWordMap.get(indZero);
+				result = numToWordMap.get(atZero.toString());
 			}
 		}
 		return result;
