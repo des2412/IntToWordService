@@ -8,6 +8,14 @@ import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.UK_UNITS;
 
+/**
+ * Class that holds the enum values determined by PROVISIONED_LANGUAGE
+ * 
+ * One-to-one relationship with NumberToWordMapper
+ * 
+ * @author des
+ * 
+ */
 public final class LanguageSupport {
 
 	private String millUnit;
@@ -23,6 +31,11 @@ public final class LanguageSupport {
 	private String numberFormatErr;
 	private String unknownErr;
 
+	/**
+	 * Construct state according to pl
+	 * 
+	 * @param pl
+	 */
 	public LanguageSupport(PROVISIONED_LANGUAGE pl) {
 		this.provisionedLanguage = pl;
 		switch (pl) {
@@ -84,17 +97,14 @@ public final class LanguageSupport {
 	}
 
 	public String getNullInput() {
-		// TODO Auto-generated method stub
 		return this.nullInput;
 	}
 
 	public String getNumberFormatErr() {
-		// TODO Auto-generated method stub
 		return this.numberFormatErr;
 	}
 
 	public String getUnkownErr() {
-		// TODO Auto-generated method stub
 		return this.unknownErr;
 	}
 
