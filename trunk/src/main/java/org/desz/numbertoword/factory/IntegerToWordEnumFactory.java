@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 
 import org.desz.numbertoword.IFNumberToWordMapper;
 import org.desz.numbertoword.IntegerToWordMapper;
-import org.desz.numbertoword.LanguageAndFormatHelper;
 import org.desz.numbertoword.LanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
@@ -27,62 +26,57 @@ import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
  *         Flyweight as initialised mappers are stored in a static List
  * 
  */
-public enum NumberToWordEnumFactory implements INumberToWordFactory {
+public enum IntegerToWordEnumFactory implements INumberToWordFactory {
 
 	UK_MAPPER(), FR_MAPPER();
 
-	private static Map<PROVISIONED_LANGUAGE, NumberToWordEnumFactory> FACTORIES = Collections
-			.synchronizedMap(new HashMap<PROVISIONED_LANGUAGE, NumberToWordEnumFactory>());
+	private static Map<PROVISIONED_LANGUAGE, IntegerToWordEnumFactory> CONFIGURED_FACTORIES = Collections
+			.synchronizedMap(new HashMap<PROVISIONED_LANGUAGE, IntegerToWordEnumFactory>());
 
 	private final static Logger LOGGER = Logger
-			.getLogger(NumberToWordEnumFactory.class.getName());
+			.getLogger(IntegerToWordEnumFactory.class.getName());
 
 	private IFNumberToWordMapper integerToWordMapper;
 
 	/**
 	 * 
-	 * @param pl
+	 * @param provLang
 	 * @return
 	 */
-	public boolean lookUpPreInitialised(PROVISIONED_LANGUAGE pl) {
+	public boolean lookUpPreInitialised(PROVISIONED_LANGUAGE provLang) {
 
-		return FACTORIES.containsKey(pl);
+		return CONFIGURED_FACTORIES.containsKey(provLang);
 	}
 
 	/**
 	 * @param PROVISIONED_LANGUAGE
 	 */
 	@Override
-	public IFNumberToWordMapper getIntegerToWordMapper(PROVISIONED_LANGUAGE pl)
+	public IFNumberToWordMapper getIntegerToWordMapper(PROVISIONED_LANGUAGE provLang)
 			throws NumberToWordFactoryException {
 
 		// check if 'this' has already been invoked
-		if (lookUpPreInitialised(pl)) {
+		if (lookUpPreInitialised(provLang)) {
 			LOGGER.info("Initialised instance of IntegerToWordMapper for language "
-					+ pl.name() + " available");
-			return FACTORIES.get(pl).integerToWordMapper;
+					+ provLang.name() + " available");
+			return CONFIGURED_FACTORIES.get(provLang).integerToWordMapper;
 		}
 
 		// access private Constructor of IntegerToWordMapper
-		Constructor<?>[] c = IntegerToWordMapper.class
+		final Constructor<?>[] constructorRef = IntegerToWordMapper.class
 				.getDeclaredConstructors();
-		c[0].setAccessible(true);
-		Object[] args = new Object[1];
+		constructorRef[0].setAccessible(true);
+		final Object[] args = new Object[1];
 
-		IntegerToWordMapper mapper = null;
-
-		LanguageAndFormatHelper languageAndFormatHelper = new LanguageAndFormatHelper();
-		;
-		LanguageSupport languageSupport = new LanguageSupport(pl);
-		languageAndFormatHelper.setLanguageSupport(languageSupport);
-		args[0] = languageAndFormatHelper;
+		final LanguageSupport languageSupport = new LanguageSupport(provLang);
+		args[0] = languageSupport;
 
 		switch (this) {
 		case UK_MAPPER:
 
 			// invoke private constructor
 			try {
-				mapper = (IntegerToWordMapper) c[0].newInstance(args);
+				this.integerToWordMapper = (IntegerToWordMapper) constructorRef[0].newInstance(args);
 			} catch (InstantiationException e1) {
 				throw new NumberToWordFactoryException(e1);
 			} catch (IllegalAccessException e1) {
@@ -92,15 +86,12 @@ public enum NumberToWordEnumFactory implements INumberToWordFactory {
 			} catch (InvocationTargetException e1) {
 				throw new NumberToWordFactoryException(e1);
 			}
-			mapper.setMapping(initialiseMapping());
-			this.integerToWordMapper = mapper;
-			FACTORIES.put(pl, this);
 
 			break;
 
 		case FR_MAPPER:
 			try {
-				mapper = (IntegerToWordMapper) c[0].newInstance(args);
+				this.integerToWordMapper = (IntegerToWordMapper) constructorRef[0].newInstance(args);
 			} catch (InstantiationException e1) {
 				throw new NumberToWordFactoryException(e1);
 			} catch (IllegalAccessException e1) {
@@ -110,9 +101,7 @@ public enum NumberToWordEnumFactory implements INumberToWordFactory {
 			} catch (InvocationTargetException e1) {
 				throw new NumberToWordFactoryException(e1);
 			}
-			mapper.setMapping(initialiseMapping());
-			this.integerToWordMapper = mapper;
-			FACTORIES.put(pl, this);
+
 			break;
 
 		default:
@@ -120,71 +109,73 @@ public enum NumberToWordEnumFactory implements INumberToWordFactory {
 					languageSupport.getUnkownErr());
 
 		}
+		((IntegerToWordMapper) this.integerToWordMapper).setMapping(initialiseMapping());
+		CONFIGURED_FACTORIES.put(provLang, this);
 		LOGGER.info("Added "
 				+ this.name()
-				+ " to Factories Map. Number of configured NumberToWordEnumFactories :"
-				+ FACTORIES.size());
+				+ " to CONFIGURED_FACTORIES Map. Number of configured NumberToWordEnumFactories :"
+				+ CONFIGURED_FACTORIES.size());
 		return this.integerToWordMapper;
 	}
 
 	/**
 	 * Constructor
 	 */
-	private NumberToWordEnumFactory() {
+	private IntegerToWordEnumFactory() {
 	}
 
 	/**
 	 * Provisions Map of Integer to language specific word
 	 * 
-	 * @return
+	 * @return int to word Map
 	 */
 	private Map<String, String> initialiseMapping() {
-		Map<String, String> numToWordMap = new HashMap<String, String>();
+		Map<String, String> intToWordMap = new HashMap<String, String>();
 		switch (this) {
 		case UK_MAPPER:
 			for (UK_WORDS intToWord : UK_WORDS.values()) {
-				numToWordMap.put(intToWord.getNum(), intToWord.getWord());
+				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
 			}
 
 			break;
 		case FR_MAPPER:
 			for (FR_WORDS intToWord : FR_WORDS.values()) {
-				numToWordMap.put(intToWord.getNum(), intToWord.getWord());
+				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
 			}
 			break;
 		default:
 			break;
 
 		}
-		return numToWordMap;
+		return intToWordMap;
 	}
 
 	/**
 	 * 
-	 * @param pl
+	 * @param provLang
 	 * @return
 	 * @throws FactoryMapperRemovalException
 	 */
 	public static boolean removeNumberToWordEnumFactory(
-			final PROVISIONED_LANGUAGE pl) throws FactoryMapperRemovalException {
+			final PROVISIONED_LANGUAGE provLang) throws FactoryMapperRemovalException {
 
-		if (FACTORIES.containsKey(pl)) {
+		if (CONFIGURED_FACTORIES.containsKey(provLang)) {
 
 			try {
-				FACTORIES.remove(pl);
-				LOGGER.info("Removal of " + pl.name()
+				CONFIGURED_FACTORIES.remove(provLang);
+				LOGGER.info("Removal of " + provLang.name()
 						+ " NumberToWordEnumFactory result:"
-						+ !FACTORIES.containsKey(pl));
+						+ !CONFIGURED_FACTORIES.containsKey(provLang));
 
 			} catch (Exception e) {
-				throw new FactoryMapperRemovalException(e.getMessage());
+				throw new FactoryMapperRemovalException(e);
 			}
 
 		} else {
-			LOGGER.info("References absent for " + pl.name());
+			LOGGER.info("References absent for " + provLang.name());
 		}
 
-		return !FACTORIES.containsKey(pl);
+		return !CONFIGURED_FACTORIES.containsKey(provLang);
 	}
 
 }

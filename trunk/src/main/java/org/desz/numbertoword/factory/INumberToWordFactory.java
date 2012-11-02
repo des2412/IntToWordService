@@ -6,7 +6,13 @@ import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 
 public interface INumberToWordFactory {
 
-	IFNumberToWordMapper getIntegerToWordMapper(PROVISIONED_LANGUAGE pl)
+	/**
+	 * 
+	 * @param provLang
+	 * @return
+	 * @throws NumberToWordFactoryException
+	 */
+	IFNumberToWordMapper getIntegerToWordMapper(PROVISIONED_LANGUAGE provLang)
 			throws NumberToWordFactoryException;
 
 }
