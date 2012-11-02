@@ -5,53 +5,50 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
-
 import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
-import org.desz.numbertoword.factory.NumberToWordFactory;
+import org.desz.numbertoword.factory.NumberToWordEnumFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class FrIntegerToWordMapperTest {
-	final private static String[] decimals = { "One", "Two", "Three", "Four",
-			"Five", "Six", "Seven", "Eight", "Nine" };
-	static List<String> l = Arrays.asList(decimals);
+	/*
+	 * final private static String[] decimals = { "One", "Two", "Three", "Four",
+	 * "Five", "Six", "Seven", "Eight", "Nine" }; static List<String> l =
+	 * Arrays.asList(decimals);
+	 */
 
-	IntegerToWordMapper intToWordMapper = null;
+	IFNumberToWordMapper intToWordMapper;
 
 	@Before
 	public void init() throws Exception {
-		intToWordMapper = (IntegerToWordMapper) NumberToWordFactory.FR_MAPPER
-				.getNumberToWordMapper();
-
-
+		this.intToWordMapper = (IntegerToWordMapper) NumberToWordEnumFactory.FR_MAPPER
+				.getIntegerToWordMapper(PROVISIONED_LANGUAGE.FR);
+		assertNotNull(this.intToWordMapper);
 	}
-	
+
 	@After
-	public void clean() throws Exception{
-		NumberToWordFactory.removeNumberToWordMapper(PROVISIONED_LANGUAGE.FR);
-	}
-
-	@Test
-	public void testNotNull() {
-		assertNotNull(intToWordMapper);
+	public void clean() throws Exception {
+		NumberToWordEnumFactory
+				.removeNumberToWordEnumFactory(PROVISIONED_LANGUAGE.FR);
 	}
 
 	@Test
 	public void testIsSingleton() throws Exception {
+
 		assertNotSame(intToWordMapper,
-				NumberToWordFactory.UK_MAPPER.getNumberToWordMapper());
+				NumberToWordEnumFactory.UK_MAPPER
+						.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK));
 
 		assertSame(intToWordMapper,
-				NumberToWordFactory.FR_MAPPER.getNumberToWordMapper());
+				NumberToWordEnumFactory.FR_MAPPER
+						.getIntegerToWordMapper(PROVISIONED_LANGUAGE.FR));
 	}
 
 	@Test(expected = Exception.class)
 	public void testNegativeInputMessage() throws Exception {
+
 		((IntegerToWordMapper) intToWordMapper).validateAndFormat(-100);
 		assertEquals(FR_ERRORS.NEGATIVE_INPUT,
 				((IntegerToWordMapper) intToWordMapper).getMessage());
@@ -59,21 +56,23 @@ public class FrIntegerToWordMapperTest {
 
 	@Test(expected = Exception.class)
 	public void testNumberFormatMessage() throws Exception {
-		((IntegerToWordMapper) intToWordMapper)
-				.validateAndFormat(1.234);
+
+		((IntegerToWordMapper) intToWordMapper).validateAndFormat(1.234);
 		assertEquals(FR_ERRORS.NUMBERFORMAT,
 				((IntegerToWordMapper) intToWordMapper).getMessage());
 	}
 
 	@Test(expected = Exception.class)
 	public void testNullInputMessage() throws Exception {
-		intToWordMapper.validateAndFormat(null);
+
+		((IntegerToWordMapper) intToWordMapper).validateAndFormat(null);
 		assertEquals(FR_ERRORS.NULL_INPUT,
-				intToWordMapper.getMessage());
+				((IntegerToWordMapper) intToWordMapper).getMessage());
 	}
 
 	@Test
 	public void testZero() throws Exception {
+
 		assertEquals("Zéro", intToWordMapper.getWord(0));
 	}
 
