@@ -5,8 +5,11 @@ package org.desz.numbertoword.factory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -38,15 +41,7 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory {
 
 	private IFNumberToWordMapper integerToWordMapper;
 
-	/**
-	 * 
-	 * @param provLang
-	 * @return
-	 */
-	private boolean lookUpPreInitialised(PROVISIONED_LANGUAGE provLang) {
-
-		return ENUMFACS.containsKey(provLang);
-	}
+	
 
 	/**
 	 * Invokes the private NumberToWordMapper constructor
@@ -81,34 +76,56 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory {
 		}
 		return integerToWordMapper;
 	}
+	
+	/**
+	 * 
+	 * @param pl
+	 * @return
+	 */
+	private boolean isCached(PROVISIONED_LANGUAGE pl){
+			if(ENUMFACS.containsKey(pl)){
+				LOGGER.info("Initialised instance of IntegerToWordMapper for language "
+						+ pl.name() + " available");
+				return true;
+			}
+		return false;
+	}
 
 	/**
 	 * @param PROVISIONED_LANGUAGE
 	 */
 	@Override
-	public IFNumberToWordMapper getIntegerToWordMapper(final
-			PROVISIONED_LANGUAGE provLang) throws NumberToWordFactoryException {
-
-		// check if 'this' has already been invoked
-		if (lookUpPreInitialised(provLang)) {
-			LOGGER.info("Initialised instance of IntegerToWordMapper for language "
-					+ provLang.name() + " available");
-			return ENUMFACS.get(provLang).integerToWordMapper;
-		}
-
+	public IFNumberToWordMapper getIntegerToWordMapper() throws NumberToWordFactoryException {
+			
+		
 		final Object[] args = new Object[1];
 
-		final LanguageSupport languageSupport = new LanguageSupport(provLang);
-		args[0] = languageSupport;
+		LanguageSupport languageSupport = null;
 		
 		switch (this) {
 		case UK_MAPPER:
+			// check cache
+			if(isCached(PROVISIONED_LANGUAGE.UK)){
+				return ENUMFACS.get(PROVISIONED_LANGUAGE.UK).integerToWordMapper;
+			}
+			
+			languageSupport = new LanguageSupport(PROVISIONED_LANGUAGE.UK);
+			args[0] = languageSupport;
 			// invoke private constructor
 			this.integerToWordMapper = instantiateInstance(args);
+			//cache 'this' in Map
+			ENUMFACS.put(PROVISIONED_LANGUAGE.UK, this);
 			break;
 
 		case FR_MAPPER:
+			if(isCached(PROVISIONED_LANGUAGE.FR)){
+				return ENUMFACS.get(PROVISIONED_LANGUAGE.FR).integerToWordMapper;
+			}
+			
+			languageSupport = new LanguageSupport(PROVISIONED_LANGUAGE.FR);
+			args[0] = languageSupport;
 			this.integerToWordMapper = instantiateInstance(args);
+			ENUMFACS.put(PROVISIONED_LANGUAGE.FR, this);
 			break;
 
 		default:
@@ -118,7 +135,7 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory {
 		}
 		((IntegerToWordMapper) this.integerToWordMapper)
 				.setMapping(initialiseMapping());
-		ENUMFACS.put(provLang, this);
+		
 		LOGGER.info("Added "
 				+ this.name()
 				+ " to CONFIGURED_FACTORIES Map. Number of configured NumberToWordEnumFactories :"

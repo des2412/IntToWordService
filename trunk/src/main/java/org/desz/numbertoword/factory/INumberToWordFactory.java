@@ -12,7 +12,7 @@ public interface INumberToWordFactory {
 	 * @return
 	 * @throws NumberToWordFactoryException
 	 */
-	IFNumberToWordMapper getIntegerToWordMapper(PROVISIONED_LANGUAGE provLang)
+	IFNumberToWordMapper getIntegerToWordMapper()
 			throws NumberToWordFactoryException;
 
 }
