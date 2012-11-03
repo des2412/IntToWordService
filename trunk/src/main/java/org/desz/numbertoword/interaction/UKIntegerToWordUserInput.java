@@ -31,7 +31,7 @@ public class UKIntegerToWordUserInput {
 					System.out.println("Word conversion of "
 							+ num
 							+ " = "
-							+ IntegerToWordEnumFactory.UK_MAPPER
+							+ IntegerToWordEnumFactory.UK_FAC
 									.getIntegerToWordMapper().getWord(num));
 				} catch (Exception e) {
 					System.out.println(e.getMessage());

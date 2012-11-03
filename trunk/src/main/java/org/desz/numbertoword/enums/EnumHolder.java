@@ -11,7 +11,7 @@ package org.desz.numbertoword.enums;
  */
 public class EnumHolder {
 
-	public enum PROVISIONED_LANGUAGE {
+	public enum PROVISIONED_LN {
 		UK, FR;
 
 	};

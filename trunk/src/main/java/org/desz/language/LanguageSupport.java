@@ -3,7 +3,7 @@ package org.desz.language;
 import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.FR_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.FR_UNITS;
-import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
+import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.UK_UNITS;
@@ -35,7 +35,7 @@ public final class LanguageSupport {
 	 * 
 	 * @param pl
 	 */
-	public LanguageSupport(PROVISIONED_LANGUAGE pl) {
+	public LanguageSupport(PROVISIONED_LN pl) {
 		
 		switch (pl) {
 		case UK:

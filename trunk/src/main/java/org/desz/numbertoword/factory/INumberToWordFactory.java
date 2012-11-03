@@ -11,7 +11,7 @@ public interface INumberToWordFactory<T extends Number> {
 	 * @return
 	 * @throws NumberToWordFactoryException
 	 */
-	IFNumberToWordMapper getIntegerToWordMapper()
+	IFNumberToWordMapper<T> getIntegerToWordMapper()
 			throws NumberToWordFactoryException;
 
 }

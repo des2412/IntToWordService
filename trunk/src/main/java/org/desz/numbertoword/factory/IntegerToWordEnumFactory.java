@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 import org.desz.language.LanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
-import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
+import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.enums.EnumHolder.UK_WORDS;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
@@ -29,15 +29,15 @@ import org.desz.numbertoword.mapper.IntegerToWordMapper;
  */
 public enum IntegerToWordEnumFactory implements INumberToWordFactory<Integer> {
 
-	UK_MAPPER(), FR_MAPPER();
+	UK_FAC(), FR_FAC();
 
-	private static Map<PROVISIONED_LANGUAGE, IntegerToWordEnumFactory> cache = Collections
-			.synchronizedMap(new HashMap<PROVISIONED_LANGUAGE, IntegerToWordEnumFactory>());
+	private static Map<PROVISIONED_LN, IntegerToWordEnumFactory> cache = Collections
+			.synchronizedMap(new HashMap<PROVISIONED_LN, IntegerToWordEnumFactory>());
 
 	private final static Logger LOGGER = Logger
 			.getLogger(IntegerToWordEnumFactory.class.getName());
 
-	private IFNumberToWordMapper integerToWordMapper;
+	private IFNumberToWordMapper<Integer> integerToWordMapper;
 
 	/**
 	 * Invokes the private NumberToWordMapper constructor
@@ -46,17 +46,20 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<Integer> {
 	 * @return
 	 * @throws NumberToWordFactoryException
 	 */
-	private IFNumberToWordMapper newIntegerToWord(final Object[] args)
+	private IFNumberToWordMapper<Integer> newIntegerToWord(final Object[] args)
 			throws NumberToWordFactoryException {
-		// access private Constructor of IntegerToWordMapper
-		final Constructor<?>[] constructorRef = IntegerToWordMapper.class
+		// access private Constructor of IntegerToWordMapper using reflection
+		final Constructor<?>[] constructors = IntegerToWordMapper.class
 				.getDeclaredConstructors();
-		constructorRef[0].setAccessible(true);
+		if(constructors.length == 1)
+		constructors[0].setAccessible(true);
+		else
+			throw new NumberToWordFactoryException("unexpected number of constructors");
 
-		IFNumberToWordMapper integerToWordMapper = null;
+		IFNumberToWordMapper<Integer> mapper = null;
 
 		try {
-			integerToWordMapper = (IntegerToWordMapper) constructorRef[0]
+			mapper = (IntegerToWordMapper) constructors[0]
 					.newInstance(args);
 		} catch (InstantiationException e1) {
 			LOGGER.severe(e1.getMessage());
@@ -67,11 +70,11 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<Integer> {
 		} catch (InvocationTargetException e1) {
 			LOGGER.severe(e1.getMessage());
 		}
-		if (integerToWordMapper == null) {
+		if (mapper == null) {
 			throw new NumberToWordFactoryException(
 					"Did not initialise NumberToWordMapper");
 		}
-		return integerToWordMapper;
+		return mapper;
 	}
 
 	/**
@@ -79,20 +82,20 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<Integer> {
 	 * @param pl
 	 * @return
 	 */
-	private boolean isCached(PROVISIONED_LANGUAGE pl) {
-		if (cache.containsKey(pl)) {
+	private boolean isCached(PROVISIONED_LN pl) {
+		final boolean inCache = cache.containsKey(pl);
+		if (inCache) {
 			LOGGER.info("Initialised instance of IntegerToWordMapper for language "
 					+ pl.name() + " available");
-			return true;
 		}
-		return false;
+		return inCache;
 	}
 
 	/**
-	 * @param PROVISIONED_LANGUAGE
+	 * @param PROVISIONED_LN
 	 */
 	@Override
-	public IFNumberToWordMapper getIntegerToWordMapper()
+	public IFNumberToWordMapper<Integer> getIntegerToWordMapper()
 			throws NumberToWordFactoryException {
 
 		final Object[] args = new Object[1];
@@ -100,29 +103,29 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<Integer> {
 		LanguageSupport languageSupport = null;
 
 		switch (this) {
-		case UK_MAPPER:
+		case UK_FAC:
 			// check cache
-			if (isCached(PROVISIONED_LANGUAGE.UK)) {
-				return cache.get(PROVISIONED_LANGUAGE.UK).integerToWordMapper;
+			if (isCached(PROVISIONED_LN.UK)) {
+				return cache.get(PROVISIONED_LN.UK).integerToWordMapper;
 			}
 
-			languageSupport = new LanguageSupport(PROVISIONED_LANGUAGE.UK);
+			languageSupport = new LanguageSupport(PROVISIONED_LN.UK);
 			args[0] = languageSupport;
 			// invoke private constructor
 			this.integerToWordMapper = newIntegerToWord(args);
 			// cache 'this' in Map
-			cache.put(PROVISIONED_LANGUAGE.UK, this);
+			cache.put(PROVISIONED_LN.UK, this);
 			break;
 
-		case FR_MAPPER:
-			if (isCached(PROVISIONED_LANGUAGE.FR)) {
-				return cache.get(PROVISIONED_LANGUAGE.FR).integerToWordMapper;
+		case FR_FAC:
+			if (isCached(PROVISIONED_LN.FR)) {
+				return cache.get(PROVISIONED_LN.FR).integerToWordMapper;
 			}
 
-			languageSupport = new LanguageSupport(PROVISIONED_LANGUAGE.FR);
+			languageSupport = new LanguageSupport(PROVISIONED_LN.FR);
 			args[0] = languageSupport;
 			this.integerToWordMapper = newIntegerToWord(args);
-			cache.put(PROVISIONED_LANGUAGE.FR, this);
+			cache.put(PROVISIONED_LN.FR, this);
 			break;
 
 		default:
@@ -135,7 +138,7 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<Integer> {
 
 		LOGGER.info("Added "
 				+ this.name()
-				+ " to CONFIGURED_FACTORIES Map. Number of configured NumberToWordEnumFactories :"
+				+ " to cache Map. Number of configured NumberToWordEnumFactories :"
 				+ cache.size());
 		return this.integerToWordMapper;
 	}
@@ -154,13 +157,13 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<Integer> {
 	private Map<String, String> initialiseMapping() {
 		Map<String, String> intToWordMap = new HashMap<String, String>();
 		switch (this) {
-		case UK_MAPPER:
+		case UK_FAC:
 			for (UK_WORDS intToWord : UK_WORDS.values()) {
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
 			}
 
 			break;
-		case FR_MAPPER:
+		case FR_FAC:
 			for (FR_WORDS intToWord : FR_WORDS.values()) {
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
 			}
@@ -179,7 +182,7 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<Integer> {
 	 * @throws FactoryMapperRemovalException
 	 */
 	public static boolean removeNumberToWordEnumFactory(
-			final PROVISIONED_LANGUAGE provLang)
+			final PROVISIONED_LN provLang)
 			throws FactoryMapperRemovalException {
 
 		if (cache.containsKey(provLang)) {
