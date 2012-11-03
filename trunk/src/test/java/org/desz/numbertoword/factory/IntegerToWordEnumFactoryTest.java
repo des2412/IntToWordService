@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import org.desz.language.LanguageSupport;
-import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
+import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.mapper.IFNumberToWordMapper;
@@ -32,13 +32,13 @@ public class IntegerToWordEnumFactoryTest {
 			.getLogger(IntegerToWordEnumFactoryTest.class.getName());
 
 	private static final Object ARGS[] = new Object[] { new LanguageSupport(
-			PROVISIONED_LANGUAGE.UK) };
+			PROVISIONED_LN.UK) };
 
 	@After
 	public void clean() {
 		try {
 			IntegerToWordEnumFactory
-					.removeNumberToWordEnumFactory(PROVISIONED_LANGUAGE.UK);
+					.removeNumberToWordEnumFactory(PROVISIONED_LN.UK);
 		} catch (FactoryMapperRemovalException e) {
 			LOGGER.severe("FactoryMapperRemovalException");
 		}
@@ -47,7 +47,7 @@ public class IntegerToWordEnumFactoryTest {
 	@Test
 	public void testFactoryCache() {
 
-		IntegerToWordEnumFactory fac = IntegerToWordEnumFactory.UK_MAPPER;
+		IntegerToWordEnumFactory fac = IntegerToWordEnumFactory.UK_FAC;
 
 		IFNumberToWordMapper mapper = null;
 		try {
@@ -58,7 +58,7 @@ public class IntegerToWordEnumFactoryTest {
 
 		// Reset the cache toempty state
 		Whitebox.setInternalState(IntegerToWordEnumFactory.class, "cache",
-				new HashMap<PROVISIONED_LANGUAGE, IntegerToWordEnumFactory>());
+				new HashMap<PROVISIONED_LN, IntegerToWordEnumFactory>());
 
 		// Call getIntegerToWord again -> mapper2
 
@@ -88,7 +88,7 @@ public class IntegerToWordEnumFactoryTest {
 	public void testInstantiateInstance() {
 
 		// We create a new instance of test class under test as usually.
-		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
+		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_FAC;
 		IFNumberToWordMapper mapper = null;
 		try {
 			mapper = tested.getIntegerToWordMapper();
@@ -117,7 +117,7 @@ public class IntegerToWordEnumFactoryTest {
 	public void testIsCachedTrue() {
 
 		// We create a new instance of test class under test as usually.
-		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
+		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_FAC;
 		IFNumberToWordMapper mapper = null;
 		try {
 			mapper = tested.getIntegerToWordMapper();
@@ -146,7 +146,7 @@ public class IntegerToWordEnumFactoryTest {
 	public void testIsCachedFalse() {
 
 		// We create a new instance of test class under test as usually.
-		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
+		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_FAC;
 		IntegerToWordMapper mapper = null;
 
 		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class, "isCached");
@@ -182,7 +182,7 @@ public class IntegerToWordEnumFactoryTest {
 	public void testGetIntegerToWord() {
 
 		// We create a new instance of test class under test as usually.
-		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
+		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_FAC;
 		IFNumberToWordMapper mapper = null;
 
 		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
@@ -211,7 +211,7 @@ public class IntegerToWordEnumFactoryTest {
 
 	@Test
 	public void testremoveNumberToWordEnumFactory() {
-		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
+		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_FAC;
 
 		// You need to mock each method called on tested or null pointer thrown
 		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
@@ -236,7 +236,7 @@ public class IntegerToWordEnumFactoryTest {
 				LOGGER.severe("testremoveNumberToWordEnumFactory getIntegerToWordMapper invocation failure");
 			}
 			cleared = IntegerToWordEnumFactory
-					.removeNumberToWordEnumFactory(PROVISIONED_LANGUAGE.UK);
+					.removeNumberToWordEnumFactory(PROVISIONED_LN.UK);
 		} catch (FactoryMapperRemovalException e) {
 			LOGGER.severe("testremoveNumberToWordEnumFactory invocation failure");
 		}
@@ -254,10 +254,10 @@ public class IntegerToWordEnumFactoryTest {
 	 */
 	@Test
 	public void testSameIntegerToWordEnumFactory() {
-		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
-		INumberToWordFactory tested2 = IntegerToWordEnumFactory.UK_MAPPER;
+		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_FAC;
+		INumberToWordFactory tested2 = IntegerToWordEnumFactory.UK_FAC;
 
-		INumberToWordFactory tested3 = IntegerToWordEnumFactory.FR_MAPPER;
+		INumberToWordFactory tested3 = IntegerToWordEnumFactory.FR_FAC;
 
 		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
 				"getIntegerToWordMapper");

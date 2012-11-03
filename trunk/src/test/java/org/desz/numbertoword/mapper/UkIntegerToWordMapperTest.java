@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
+import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
@@ -26,7 +26,7 @@ public class UkIntegerToWordMapperTest {
 	@Before
 	public void init() {
 		try {
-			numberToWordMapper = (IntegerToWordMapper) IntegerToWordEnumFactory.UK_MAPPER
+			numberToWordMapper = (IntegerToWordMapper) IntegerToWordEnumFactory.UK_FAC
 					.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
 			Logger.getAnonymousLogger().severe("init exc.");
@@ -38,7 +38,7 @@ public class UkIntegerToWordMapperTest {
 	public void clean() {
 		try {
 			IntegerToWordEnumFactory
-					.removeNumberToWordEnumFactory(PROVISIONED_LANGUAGE.UK);
+					.removeNumberToWordEnumFactory(PROVISIONED_LN.UK);
 		} catch (FactoryMapperRemovalException e) {
 			e.printStackTrace();
 		}

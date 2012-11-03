@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 
 import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
+import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
 import org.desz.numbertoword.mapper.IFNumberToWordMapper;
 import org.desz.numbertoword.mapper.IntegerToWordMapper;
@@ -25,7 +25,7 @@ public class FrIntegerToWordMapperTest {
 
 	@Before
 	public void init() throws Exception {
-		this.intToWordMapper = (IntegerToWordMapper) IntegerToWordEnumFactory.FR_MAPPER
+		this.intToWordMapper = (IntegerToWordMapper) IntegerToWordEnumFactory.FR_FAC
 				.getIntegerToWordMapper();
 		assertNotNull(this.intToWordMapper);
 	}
@@ -33,17 +33,17 @@ public class FrIntegerToWordMapperTest {
 	@After
 	public void clean() throws Exception {
 		IntegerToWordEnumFactory
-				.removeNumberToWordEnumFactory(PROVISIONED_LANGUAGE.FR);
+				.removeNumberToWordEnumFactory(PROVISIONED_LN.FR);
 	}
 
 	@Test
 	public void testIsSingleton() throws Exception {
 
 		assertNotSame(intToWordMapper,
-				IntegerToWordEnumFactory.UK_MAPPER.getIntegerToWordMapper());
+				IntegerToWordEnumFactory.UK_FAC.getIntegerToWordMapper());
 
 		assertSame(intToWordMapper,
-				IntegerToWordEnumFactory.FR_MAPPER.getIntegerToWordMapper());
+				IntegerToWordEnumFactory.FR_FAC.getIntegerToWordMapper());
 	}
 
 	@Test(expected = Exception.class)
