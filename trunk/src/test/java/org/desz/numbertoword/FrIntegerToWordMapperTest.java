@@ -24,7 +24,7 @@ public class FrIntegerToWordMapperTest {
 	@Before
 	public void init() throws Exception {
 		this.intToWordMapper = (IntegerToWordMapper) IntegerToWordEnumFactory.FR_MAPPER
-				.getIntegerToWordMapper(PROVISIONED_LANGUAGE.FR);
+				.getIntegerToWordMapper();
 		assertNotNull(this.intToWordMapper);
 	}
 
@@ -39,11 +39,11 @@ public class FrIntegerToWordMapperTest {
 
 		assertNotSame(intToWordMapper,
 				IntegerToWordEnumFactory.UK_MAPPER
-						.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK));
+						.getIntegerToWordMapper());
 
 		assertSame(intToWordMapper,
 				IntegerToWordEnumFactory.FR_MAPPER
-						.getIntegerToWordMapper(PROVISIONED_LANGUAGE.FR));
+						.getIntegerToWordMapper());
 	}
 
 	@Test(expected = Exception.class)

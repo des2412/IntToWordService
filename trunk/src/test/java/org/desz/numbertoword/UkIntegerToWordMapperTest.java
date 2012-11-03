@@ -26,7 +26,7 @@ public class UkIntegerToWordMapperTest {
 	public void init() {
 		try {
 			numberToWordMapper = (IntegerToWordMapper) IntegerToWordEnumFactory.UK_MAPPER
-					.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+					.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
 			Logger.getAnonymousLogger().severe("init exc.");
 		}
