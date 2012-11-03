@@ -1,13 +1,18 @@
 package org.desz.numbertoword.factory;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.powermock.api.easymock.PowerMock.replay;
 import static org.powermock.api.easymock.PowerMock.verify;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.desz.numbertoword.IFNumberToWordMapper;
@@ -22,6 +27,7 @@ import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 
 
 @RunWith(PowerMockRunner.class)
@@ -31,7 +37,7 @@ public class NumberToWordFactoryTest {
 	private final static Logger LOGGER = Logger
 			.getLogger(NumberToWordFactoryTest.class.getName());
 
-	static final Object args[] = new Object[] { new LanguageSupport(
+	private static final Object ARGS[] = new Object[] { new LanguageSupport(
 			PROVISIONED_LANGUAGE.UK) };
 
 	@After
@@ -43,26 +49,106 @@ public class NumberToWordFactoryTest {
 			LOGGER.severe("FactoryMapperRemovalException");
 		}
 	}
+	
+	@Test
+	public void testFactoryCache(){
+		
+		IntegerToWordEnumFactory fac = IntegerToWordEnumFactory.UK_MAPPER;
+		// add one to ENUMFAC
+		IFNumberToWordMapper mapper = null;
+		try {
+			mapper = fac.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+		} catch (NumberToWordFactoryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// Remove mapper from ENUMFAC
+		Whitebox.setInternalState(IntegerToWordEnumFactory.class, "ENUMFACS", new HashMap<PROVISIONED_LANGUAGE, IntegerToWordEnumFactory>());
+		
+		// Call getIntegerToWord again -> mapper2
+		
+		IFNumberToWordMapper mapper2 = null;
+		try {
+			mapper2 = fac.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+		} catch (NumberToWordFactoryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// assert different instances [mapper, mapper2]
+		assertNotSame(mapper, mapper2);
+		
+		IFNumberToWordMapper mapper3 = null;
+		try {
+			mapper3 = fac.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+		} catch (NumberToWordFactoryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// assert same [mapper2, mapper3]
+				assertSame(mapper2, mapper3);
+		
+	}
+	
+	@Test public void testInstantiateInstance(){
+		
+		// We create a new instance of test class under test as usually.
+		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
+		IFNumberToWordMapper mapper = null;
+		try {
+			mapper = tested.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+		} catch (NumberToWordFactoryException e) {
+			LOGGER.severe("getIntegerToWordMapper failure" + e.getMessage());
+		}
+		
+		try {
+			//PowerMock.expectStrictNew(IntegerToWordMapper.class, ARGS);
+			PowerMock.expectPrivate(IntegerToWordEnumFactory.class, "instantiateInstance", ARGS).andReturn(mapper);
+		} catch (Exception e1) {
+			LOGGER.severe("testInstantiateInstance expectPrivate exception");
+		}
+
+		replay(IntegerToWordEnumFactory.class);
+
+		// Note how we verify the class, not the instance!
+		verify(IntegerToWordEnumFactory.class);
+
+		
+		assertNotNull(mapper);
+		
+	}
 
 	@Test
 	public void testLookUpPreInitialisedAssertFalseResult() {
 
 		// We create a new instance of test class under test as usually.
-		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
+				INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
+				IFNumberToWordMapper mapper = null;
+				try {
+					mapper = tested.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+				} catch (NumberToWordFactoryException e) {
+					LOGGER.severe("getIntegerToWordMapper failure" + e.getMessage());
+				}
+				
+				try {
+					PowerMock.expectStrictNew(IntegerToWordMapper.class, ARGS);
+					PowerMock.expectPrivate(IntegerToWordEnumFactory.class, "instantiateInstance", ARGS).andReturn(mapper);
+				} catch (Exception e1) {
+					LOGGER.severe("testInstantiateInstance expectPrivate exception");
+				}
 
-		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
-				"lookUpPreInitialised");
+				replay(IntegerToWordEnumFactory.class);
 
-		replay(IntegerToWordEnumFactory.class);
+				// Note how we verify the class, not the instance!
+				verify(IntegerToWordEnumFactory.class);
 
-		boolean isListed = ((IntegerToWordEnumFactory) tested)
-				.lookUpPreInitialised(PROVISIONED_LANGUAGE.FR);
+				
+				assertNotNull(mapper);
 
-		// Note how we verify the class, not the instance!
-		verify(IntegerToWordEnumFactory.class);
-
-		// Assert
-		assertFalse(isListed);
+		
+		
 
 	}
 
@@ -71,28 +157,37 @@ public class NumberToWordFactoryTest {
 
 		// We create a new instance of test class under test as usually.
 		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
-		IFNumberToWordMapper mapper = null;
+		IntegerToWordMapper mapper = null;
 
 		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
 				"lookUpPreInitialised");
-
-		replay(IntegerToWordEnumFactory.class);
+		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
+				"getIntegerToWordMapper");
+		
 
 		try {
-			mapper = tested.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+			mapper = (IntegerToWordMapper) tested.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
 		} catch (NumberToWordFactoryException e) {
 			LOGGER.severe("testLookUpPreInitialisedAssertTrueResult invocation failure");
 		}
+		try {
+			PowerMock.expectStrictNew(IntegerToWordMapper.class, ARGS).andReturn(mapper);
+			PowerMock.expectPrivate(tested, "lookUpPreInitialised", ARGS).andReturn(false);
+		} catch (Exception e1) {
+			LOGGER.severe("testInstantiateInstance expectPrivate exception");
+		}
+		
+		replay(IntegerToWordEnumFactory.class);
 
-		boolean isListed = ((IntegerToWordEnumFactory) tested)
-				.lookUpPreInitialised(PROVISIONED_LANGUAGE.UK);
+		
+		
+		assertNotNull(mapper);
 
 		// Note how we verify the class, not the instance!
 		verify(IntegerToWordEnumFactory.class);
 
 		// Assert that lookUpPreInitialised returns expected value
-		assertTrue(isListed);
-		assertNotNull(mapper);
+		
 
 	}
 
@@ -107,7 +202,7 @@ public class NumberToWordFactoryTest {
 				"getIntegerToWordMapper");
 
 		try {
-			PowerMock.expectStrictNew(IntegerToWordMapper.class, args);
+			PowerMock.expectStrictNew(IntegerToWordMapper.class, ARGS);
 		} catch (Exception e1) {
 			LOGGER.severe("testGetIntegerToWord expectStrictNew exception");
 		}
@@ -139,7 +234,7 @@ public class NumberToWordFactoryTest {
 				"getIntegerToWordMapper");
 
 		try {
-			PowerMock.expectStrictNew(IntegerToWordMapper.class, args);
+			PowerMock.expectStrictNew(IntegerToWordMapper.class, ARGS);
 		} catch (Exception e1) {
 			LOGGER.severe("testremoveNumberToWordEnumFactory expectStrictNew exception");
 		}
