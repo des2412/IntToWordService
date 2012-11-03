@@ -9,9 +9,13 @@ package org.desz.numbertoword.exceptions;
  */
 public class FactoryMapperRemovalException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public FactoryMapperRemovalException() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public FactoryMapperRemovalException(String message, Throwable cause,
