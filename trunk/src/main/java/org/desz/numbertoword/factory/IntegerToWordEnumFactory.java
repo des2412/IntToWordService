@@ -10,20 +10,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.desz.numbertoword.IFNumberToWordMapper;
-import org.desz.numbertoword.IntegerToWordMapper;
-import org.desz.numbertoword.LanguageSupport;
+import org.desz.language.LanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
 import org.desz.numbertoword.enums.EnumHolder.UK_WORDS;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
+import org.desz.numbertoword.mapper.IFNumberToWordMapper;
+import org.desz.numbertoword.mapper.IntegerToWordMapper;
 
 /**
  * @author des
  * 
- *         Singleton enum NumberToWordMapper Factory for target languages
- *         Flyweight as initialised mappers are stored in a static List
+ *         Enums for target languages.
+ *         @see IntegerToWordMapper
+ *         
  * 
  */
 public enum IntegerToWordEnumFactory implements INumberToWordFactory<Integer> {

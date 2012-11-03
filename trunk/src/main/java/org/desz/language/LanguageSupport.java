@@ -1,4 +1,4 @@
-package org.desz.numbertoword;
+package org.desz.language;
 
 import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.FR_FORMAT;
@@ -25,7 +25,6 @@ public final class LanguageSupport {
 
 	private String invalidInput;
 
-	private PROVISIONED_LANGUAGE provisionedLanguage;
 	private String nullInput;
 	private String negativeInput;
 	private String numberFormatErr;
@@ -37,7 +36,7 @@ public final class LanguageSupport {
 	 * @param pl
 	 */
 	public LanguageSupport(PROVISIONED_LANGUAGE pl) {
-		this.provisionedLanguage = pl;
+		
 		switch (pl) {
 		case UK:
 			this.millUnit = UK_UNITS.MILLS.val();
@@ -70,10 +69,6 @@ public final class LanguageSupport {
 
 	public String getNegativeInput() {
 		return negativeInput;
-	}
-
-	public PROVISIONED_LANGUAGE getProvisionedLanguage() {
-		return provisionedLanguage;
 	}
 
 	public String getInvalidInput() {

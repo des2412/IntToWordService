@@ -1,4 +1,4 @@
-package org.desz.numbertoword;
+package org.desz.numbertoword.mapper;
 
 import java.text.NumberFormat;
 import java.util.EnumMap;
@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.desz.language.LanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.UK_UNITS;
 import org.desz.numbertoword.exceptions.IntegerToWordException;
@@ -17,7 +18,7 @@ import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
  * @author des: des_williams_2000@yahoo.com
  * 
  */
-public final class IntegerToWordMapper implements IFNumberToWordMapper {
+public final class IntegerToWordMapper implements IFNumberToWordMapper<Integer> {
 
 	private final LanguageSupport languageSupport;
 
@@ -53,10 +54,11 @@ public final class IntegerToWordMapper implements IFNumberToWordMapper {
 	 * @param languageSupport
 	 *            specific text for target PROVISIONED_LANGUAGE
 	 */
-	private IntegerToWordMapper(LanguageSupport languageSupport) {
+	private IntegerToWordMapper(final LanguageSupport languageSupport) {
 		this.languageSupport = languageSupport;
 	}
 
+		
 	/**
 	 * 
 	 * @param num
@@ -324,5 +326,6 @@ public final class IntegerToWordMapper implements IFNumberToWordMapper {
 		LOGGER.info("Formatted Number:" + s);
 		return s;
 	}
+
 
 }
