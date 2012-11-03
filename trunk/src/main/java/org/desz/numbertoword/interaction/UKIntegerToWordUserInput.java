@@ -33,8 +33,7 @@ public class UKIntegerToWordUserInput {
 							+ num
 							+ " = "
 							+ IntegerToWordEnumFactory.UK_MAPPER
-									.getIntegerToWordMapper(
-											PROVISIONED_LANGUAGE.UK).getWord(
+									.getIntegerToWordMapper().getWord(
 											num));
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
