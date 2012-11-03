@@ -32,10 +32,10 @@ import org.powermock.reflect.Whitebox;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(IntegerToWordEnumFactory.class)
-public class NumberToWordFactoryTest {
+public class IntegerToWordEnumFactoryTest {
 
 	private final static Logger LOGGER = Logger
-			.getLogger(NumberToWordFactoryTest.class.getName());
+			.getLogger(IntegerToWordEnumFactoryTest.class.getName());
 
 	private static final Object ARGS[] = new Object[] { new LanguageSupport(
 			PROVISIONED_LANGUAGE.UK) };
@@ -57,7 +57,7 @@ public class NumberToWordFactoryTest {
 		// add one to ENUMFAC
 		IFNumberToWordMapper mapper = null;
 		try {
-			mapper = fac.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+			mapper = fac.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,7 +70,7 @@ public class NumberToWordFactoryTest {
 		
 		IFNumberToWordMapper mapper2 = null;
 		try {
-			mapper2 = fac.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+			mapper2 = fac.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,7 +81,7 @@ public class NumberToWordFactoryTest {
 		
 		IFNumberToWordMapper mapper3 = null;
 		try {
-			mapper3 = fac.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+			mapper3 = fac.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -98,7 +98,7 @@ public class NumberToWordFactoryTest {
 		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
 		IFNumberToWordMapper mapper = null;
 		try {
-			mapper = tested.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+			mapper = tested.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
 			LOGGER.severe("getIntegerToWordMapper failure" + e.getMessage());
 		}
@@ -121,13 +121,13 @@ public class NumberToWordFactoryTest {
 	}
 
 	@Test
-	public void testLookUpPreInitialisedAssertFalseResult() {
+	public void testIsCachedTrue() {
 
 		// We create a new instance of test class under test as usually.
 				INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
 				IFNumberToWordMapper mapper = null;
 				try {
-					mapper = tested.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+					mapper = tested.getIntegerToWordMapper();
 				} catch (NumberToWordFactoryException e) {
 					LOGGER.severe("getIntegerToWordMapper failure" + e.getMessage());
 				}
@@ -153,20 +153,20 @@ public class NumberToWordFactoryTest {
 	}
 
 	@Test
-	public void testLookUpPreInitialisedAssertTrueResult() {
+	public void testIsCachedFalse() {
 
 		// We create a new instance of test class under test as usually.
 		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
 		IntegerToWordMapper mapper = null;
 
 		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
-				"lookUpPreInitialised");
+				"isCached");
 		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
 				"getIntegerToWordMapper");
 		
 
 		try {
-			mapper = (IntegerToWordMapper) tested.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+			mapper = (IntegerToWordMapper) tested.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
 			LOGGER.severe("testLookUpPreInitialisedAssertTrueResult invocation failure");
 		}
@@ -210,7 +210,7 @@ public class NumberToWordFactoryTest {
 		replay(IntegerToWordEnumFactory.class);
 
 		try {
-			mapper = tested.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+			mapper = tested.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
 			LOGGER.severe("testGetNumberToWord invocation failure");
 		}
@@ -244,7 +244,7 @@ public class NumberToWordFactoryTest {
 		boolean cleared = false;
 		try {
 			try {
-				tested.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+				tested.getIntegerToWordMapper();
 			} catch (NumberToWordFactoryException e) {
 				LOGGER.severe("testremoveNumberToWordEnumFactory getIntegerToWordMapper invocation failure");
 			}
@@ -266,20 +266,21 @@ public class NumberToWordFactoryTest {
 	 * test Singleton semantics
 	 */
 	@Test
-	public void testSameNumberToWordEnumFactory() {
+	public void testSameIntegerToWordEnumFactory() {
 		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_MAPPER;
 		INumberToWordFactory tested2 = IntegerToWordEnumFactory.UK_MAPPER;
 
 		INumberToWordFactory tested3 = IntegerToWordEnumFactory.FR_MAPPER;
+		
 		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
 				"getIntegerToWordMapper");
 
 		replay(IntegerToWordEnumFactory.class);
 
 		try {
-			tested.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
-			tested2.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
-			tested3.getIntegerToWordMapper(PROVISIONED_LANGUAGE.UK);
+			tested.getIntegerToWordMapper();
+			tested2.getIntegerToWordMapper();
+			tested3.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
 			LOGGER.severe("testSameNumberToWordEnumFactory getIntegerToWordMapper invocation failure");
 		}
