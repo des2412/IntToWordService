@@ -10,12 +10,12 @@ import static org.powermock.api.easymock.PowerMock.verify;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import org.desz.numbertoword.IFNumberToWordMapper;
-import org.desz.numbertoword.IntegerToWordMapper;
-import org.desz.numbertoword.LanguageSupport;
+import org.desz.language.LanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
+import org.desz.numbertoword.mapper.IFNumberToWordMapper;
+import org.desz.numbertoword.mapper.IntegerToWordMapper;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
