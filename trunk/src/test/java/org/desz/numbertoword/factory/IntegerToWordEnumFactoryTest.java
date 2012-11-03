@@ -64,7 +64,7 @@ public class IntegerToWordEnumFactoryTest {
 		}
 		
 		// Remove mapper from ENUMFAC
-		Whitebox.setInternalState(IntegerToWordEnumFactory.class, "ENUMFACS", new HashMap<PROVISIONED_LANGUAGE, IntegerToWordEnumFactory>());
+		Whitebox.setInternalState(IntegerToWordEnumFactory.class, "cache", new HashMap<PROVISIONED_LANGUAGE, IntegerToWordEnumFactory>());
 		
 		// Call getIntegerToWord again -> mapper2
 		
