@@ -13,8 +13,6 @@ public class EnumHolder {
 
 	public enum PROVISIONED_LANGUAGE {
 		UK, FR;
-		
-		
 
 	};
 
@@ -46,7 +44,6 @@ public class EnumHolder {
 		public String getNum() {
 			return num;
 		}
-		
 
 	};
 

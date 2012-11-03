@@ -5,7 +5,6 @@ package org.desz.numbertoword.interaction;
  */
 import java.util.Scanner;
 
-import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LANGUAGE;
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
 
 public class UKIntegerToWordUserInput {
@@ -33,8 +32,7 @@ public class UKIntegerToWordUserInput {
 							+ num
 							+ " = "
 							+ IntegerToWordEnumFactory.UK_MAPPER
-									.getIntegerToWordMapper().getWord(
-											num));
+									.getIntegerToWordMapper().getWord(num));
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}

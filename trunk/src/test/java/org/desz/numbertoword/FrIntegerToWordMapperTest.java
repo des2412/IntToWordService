@@ -38,12 +38,10 @@ public class FrIntegerToWordMapperTest {
 	public void testIsSingleton() throws Exception {
 
 		assertNotSame(intToWordMapper,
-				IntegerToWordEnumFactory.UK_MAPPER
-						.getIntegerToWordMapper());
+				IntegerToWordEnumFactory.UK_MAPPER.getIntegerToWordMapper());
 
 		assertSame(intToWordMapper,
-				IntegerToWordEnumFactory.FR_MAPPER
-						.getIntegerToWordMapper());
+				IntegerToWordEnumFactory.FR_MAPPER.getIntegerToWordMapper());
 	}
 
 	@Test(expected = Exception.class)
