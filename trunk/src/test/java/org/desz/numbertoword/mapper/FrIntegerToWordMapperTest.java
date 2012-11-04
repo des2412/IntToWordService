@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 
+import java.math.BigInteger;
+
 import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
@@ -14,14 +16,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class FrIntegerToWordMapperTest {
+public class FrIntegerToWordMapperTest extends IntegerToWordMapperTest{
 	/*
 	 * final private static String[] decimals = { "One", "Two", "Three", "Four",
 	 * "Five", "Six", "Seven", "Eight", "Nine" }; static List<String> l =
 	 * Arrays.asList(decimals);
 	 */
 
-	IFNumberToWordMapper intToWordMapper;
+	IFNumberToWordMapper<BigInteger> intToWordMapper;
 
 	@Before
 	public void init() throws Exception {
@@ -49,7 +51,7 @@ public class FrIntegerToWordMapperTest {
 	@Test(expected = Exception.class)
 	public void testNegativeInputMessage() throws Exception {
 
-		((IntegerToWordMapper) intToWordMapper).validateAndFormat(-100);
+		((IntegerToWordMapper) intToWordMapper).validateAndFormat(new BigInteger("-100"));
 		assertEquals(FR_ERRORS.NEGATIVE_INPUT,
 				((IntegerToWordMapper) intToWordMapper).getMessage());
 	}
@@ -57,7 +59,7 @@ public class FrIntegerToWordMapperTest {
 	@Test(expected = Exception.class)
 	public void testNumberFormatMessage() throws Exception {
 
-		((IntegerToWordMapper) intToWordMapper).validateAndFormat(1.234);
+		((IntegerToWordMapper) intToWordMapper).validateAndFormat(new BigInteger("1.234"));
 		assertEquals(FR_ERRORS.NUMBERFORMAT,
 				((IntegerToWordMapper) intToWordMapper).getMessage());
 	}
@@ -73,28 +75,28 @@ public class FrIntegerToWordMapperTest {
 	@Test
 	public void testZero() throws Exception {
 
-		assertEquals("Zéro", intToWordMapper.getWord(0));
+		assertEquals("Zéro", intToWordMapper.getWord(BigInteger.ZERO));
 	}
 
 	@Test
 	public void testDecimals() throws Exception {
 
-		assertEquals("Un", intToWordMapper.getWord(1));
-		assertEquals("Dix", intToWordMapper.getWord(10));
+		assertEquals("Un", intToWordMapper.getWord(BigInteger.ONE));
+		assertEquals("Dix", intToWordMapper.getWord(BigInteger.TEN));
 
 	}
 
 	@Test
 	public void testTeens() throws Exception {
-		assertEquals("Onze", intToWordMapper.getWord(11));
-		assertEquals("Quatorze", intToWordMapper.getWord(14));
+		assertEquals("Onze", intToWordMapper.getWord(new BigInteger("11")));
+		assertEquals("Quatorze", intToWordMapper.getWord(new BigInteger("14")));
 	}
 
 	@Test
 	public void testGetWords() throws Exception {
 
 		assertEquals("Onze million un cent et onze mille un cent et onze",
-				intToWordMapper.getWord(11111111));
+				intToWordMapper.getWord(new BigInteger("11111111")));
 
 		/*
 		 * assertEquals("One thousand and nine",

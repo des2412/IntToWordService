@@ -3,6 +3,8 @@
  */
 package org.desz.numbertoword.enums;
 
+import java.math.BigInteger;
+
 /**
  * @author des
  * 
@@ -11,9 +13,46 @@ package org.desz.numbertoword.enums;
  */
 public class EnumHolder {
 
+	/**
+	 * Enum for provisioned languages
+	 * @author des
+	 *
+	 */
 	public enum PROVISIONED_LN {
 		UK, FR;
 
+	};
+
+	/**
+	 * Enum for number constants
+	 * @author des
+	 *
+	 */
+	public enum NUMBER_CONSTANT {
+
+		MINUS_ONE, ZERO, TEN, ONE_HUNDRED, TWENTY;
+
+		private NUMBER_CONSTANT() {
+
+		}
+
+		public BigInteger getVal() {
+			switch (this) {
+			case MINUS_ONE:
+				return new BigInteger("-1");
+			case ZERO:
+				return BigInteger.ZERO;
+			case TEN:
+				return BigInteger.TEN;
+			case TWENTY:
+				return new BigInteger("20");
+			case ONE_HUNDRED:
+				return new BigInteger("100");
+			default:
+				break;
+			}
+			return null;
+		}
 	};
 
 	public enum FR_WORDS {
@@ -174,6 +213,7 @@ public class EnumHolder {
 
 	};
 
+	// TODO remove redundancies SPACE...
 	public enum FR_FORMAT {
 		AND(" et "), SPACE(" "), EMPTY(""), UKSEP(",");
 

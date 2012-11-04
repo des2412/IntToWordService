@@ -3,6 +3,7 @@ package org.desz.numbertoword.interaction;
 /**
  * User Input class for UKIntegerToWord
  */
+import java.math.BigInteger;
 import java.util.Scanner;
 
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
@@ -25,9 +26,9 @@ public class UKIntegerToWordUserInput {
 				System.out
 						.println("Enter Integer to convert to UK English Word and press Return key:");
 				String input = scn.next();
-				Integer num = null;
+				BigInteger num = null;
 				try {
-					num = Integer.valueOf(input);
+					num = BigInteger.valueOf(Long.valueOf(input));
 					System.out.println("Word conversion of "
 							+ num
 							+ " = "

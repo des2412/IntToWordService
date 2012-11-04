@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import static org.powermock.api.easymock.PowerMock.replay;
 import static org.powermock.api.easymock.PowerMock.verify;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
@@ -49,7 +50,7 @@ public class IntegerToWordEnumFactoryTest {
 
 		IntegerToWordEnumFactory fac = IntegerToWordEnumFactory.UK_FAC;
 
-		IFNumberToWordMapper mapper = null;
+		IFNumberToWordMapper<BigInteger> mapper = null;
 		try {
 			mapper = fac.getIntegerToWordMapper(); // add mapper to cache
 		} catch (NumberToWordFactoryException e) {
@@ -62,7 +63,7 @@ public class IntegerToWordEnumFactoryTest {
 
 		// Call getIntegerToWord again -> mapper2
 
-		IFNumberToWordMapper mapper2 = null;
+		IFNumberToWordMapper<BigInteger> mapper2 = null;
 		try {
 			mapper2 = fac.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
@@ -72,7 +73,7 @@ public class IntegerToWordEnumFactoryTest {
 		// assert different instances [mapper, mapper2]
 		assertNotSame(mapper, mapper2);
 
-		IFNumberToWordMapper mapper3 = null;
+		IFNumberToWordMapper<BigInteger> mapper3 = null;
 		try {
 			mapper3 = fac.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
@@ -88,8 +89,8 @@ public class IntegerToWordEnumFactoryTest {
 	public void testInstantiateInstance() {
 
 		// We create a new instance of test class under test as usually.
-		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_FAC;
-		IFNumberToWordMapper mapper = null;
+		INumberToWordFactory<BigInteger> tested = IntegerToWordEnumFactory.UK_FAC;
+		IFNumberToWordMapper<BigInteger> mapper = null;
 		try {
 			mapper = tested.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
@@ -117,8 +118,8 @@ public class IntegerToWordEnumFactoryTest {
 	public void testIsCachedTrue() {
 
 		// We create a new instance of test class under test as usually.
-		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_FAC;
-		IFNumberToWordMapper mapper = null;
+		INumberToWordFactory<BigInteger> tested = IntegerToWordEnumFactory.UK_FAC;
+		IFNumberToWordMapper<BigInteger> mapper = null;
 		try {
 			mapper = tested.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
@@ -146,7 +147,7 @@ public class IntegerToWordEnumFactoryTest {
 	public void testIsCachedFalse() {
 
 		// We create a new instance of test class under test as usually.
-		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_FAC;
+		INumberToWordFactory<BigInteger> tested = IntegerToWordEnumFactory.UK_FAC;
 		IntegerToWordMapper mapper = null;
 
 		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class, "isCached");
@@ -182,8 +183,8 @@ public class IntegerToWordEnumFactoryTest {
 	public void testGetIntegerToWord() {
 
 		// We create a new instance of test class under test as usually.
-		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_FAC;
-		IFNumberToWordMapper mapper = null;
+		INumberToWordFactory<BigInteger> tested = IntegerToWordEnumFactory.UK_FAC;
+		IFNumberToWordMapper<BigInteger> mapper = null;
 
 		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
 				"getIntegerToWordMapper");
@@ -211,7 +212,7 @@ public class IntegerToWordEnumFactoryTest {
 
 	@Test
 	public void testremoveNumberToWordEnumFactory() {
-		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_FAC;
+		INumberToWordFactory<BigInteger> tested = IntegerToWordEnumFactory.UK_FAC;
 
 		// You need to mock each method called on tested or null pointer thrown
 		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
@@ -254,10 +255,10 @@ public class IntegerToWordEnumFactoryTest {
 	 */
 	@Test
 	public void testSameIntegerToWordEnumFactory() {
-		INumberToWordFactory tested = IntegerToWordEnumFactory.UK_FAC;
-		INumberToWordFactory tested2 = IntegerToWordEnumFactory.UK_FAC;
+		INumberToWordFactory<BigInteger> tested = IntegerToWordEnumFactory.UK_FAC;
+		INumberToWordFactory<BigInteger> tested2 = IntegerToWordEnumFactory.UK_FAC;
 
-		INumberToWordFactory tested3 = IntegerToWordEnumFactory.FR_FAC;
+		INumberToWordFactory<BigInteger> tested3 = IntegerToWordEnumFactory.FR_FAC;
 
 		PowerMock.mockStaticPartial(IntegerToWordEnumFactory.class,
 				"getIntegerToWordMapper");

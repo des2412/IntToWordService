@@ -5,6 +5,7 @@ package org.desz.numbertoword.factory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +28,7 @@ import org.desz.numbertoword.mapper.IntegerToWordMapper;
  *         
  * 
  */
-public enum IntegerToWordEnumFactory implements INumberToWordFactory<Integer> {
+public enum IntegerToWordEnumFactory implements INumberToWordFactory<BigInteger> {
 
 	UK_FAC(), FR_FAC();
 
@@ -37,7 +38,7 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<Integer> {
 	private final static Logger LOGGER = Logger
 			.getLogger(IntegerToWordEnumFactory.class.getName());
 
-	private IFNumberToWordMapper<Integer> integerToWordMapper;
+	private IFNumberToWordMapper<BigInteger> integerToWordMapper;
 
 	/**
 	 * Invokes the private NumberToWordMapper constructor
@@ -46,7 +47,7 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<Integer> {
 	 * @return
 	 * @throws NumberToWordFactoryException
 	 */
-	private IFNumberToWordMapper<Integer> newIntegerToWord(final Object[] args)
+	private IFNumberToWordMapper<BigInteger> newIntegerToWord(final Object[] args)
 			throws NumberToWordFactoryException {
 		// access private Constructor of IntegerToWordMapper using reflection
 		final Constructor<?>[] constructors = IntegerToWordMapper.class
@@ -56,10 +57,10 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<Integer> {
 		else
 			throw new NumberToWordFactoryException("unexpected number of constructors");
 
-		IFNumberToWordMapper<Integer> mapper = null;
+		IFNumberToWordMapper<BigInteger> mapper = null;
 
 		try {
-			mapper = (IntegerToWordMapper) constructors[0]
+			mapper = (IFNumberToWordMapper<BigInteger>) constructors[0]
 					.newInstance(args);
 		} catch (InstantiationException e1) {
 			LOGGER.severe(e1.getMessage());
@@ -92,10 +93,11 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<Integer> {
 	}
 
 	/**
+	 * @param <T>
 	 * @param PROVISIONED_LN
 	 */
 	@Override
-	public IFNumberToWordMapper<Integer> getIntegerToWordMapper()
+	public IFNumberToWordMapper<BigInteger> getIntegerToWordMapper()
 			throws NumberToWordFactoryException {
 
 		final Object[] args = new Object[1];
