@@ -8,19 +8,37 @@ import java.math.BigInteger;
 /**
  * @author des
  * 
- *         enums for int to word mappings, Errors, Format and Units
+ *         enums for language, integer to word mappings, Errors, Format and Units
  * 
  */
 public class EnumHolder {
 
 	/**
 	 * Enum for provisioned languages
+	 * 
+	 * EMPTY is for display purposes
 	 * @author des
 	 *
 	 */
 	public enum PROVISIONED_LN {
-		UK, FR;
-
+		UK("UK", "UK ENGLISH"), FR("FR", "FRENCH");
+		
+		private String code;
+		private String description;
+		
+		
+		private PROVISIONED_LN(String code, String description) {
+			this.code = code;
+			this.description = description;
+		}
+		
+		public String getCode() {
+			return code;
+		}
+		public String getDescription() {
+			return description;
+		}
+		
 	};
 
 	/**
