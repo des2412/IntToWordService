@@ -56,7 +56,6 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<BigInteger>
 		constructors[0].setAccessible(true);
 		else
 			throw new NumberToWordFactoryException("unexpected number of constructors");
-
 		IFNumberToWordMapper<BigInteger> mapper = null;
 
 		try {
@@ -131,8 +130,7 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<BigInteger>
 			break;
 
 		default:
-			throw new NumberToWordFactoryException(
-					languageSupport.getUnkownErr());
+			LOGGER.info("Unknown problem creating Factory");
 
 		}
 		((IntegerToWordMapper) this.integerToWordMapper)
