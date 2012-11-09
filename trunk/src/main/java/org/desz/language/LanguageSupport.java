@@ -36,29 +36,29 @@ public final class LanguageSupport {
 	 * @param pl
 	 */
 	public LanguageSupport(PROVISIONED_LN pl) {
-		
+
 		switch (pl) {
 		case UK:
 			this.millUnit = UK_UNITS.MILLS.val();
 			this.thouUnit = UK_UNITS.THOUS.val();
 			this.hunUnit = UK_UNITS.HUNS.val();
 			this.and = UK_FORMAT.AND.val();
-			this.invalidInput = UK_ERRORS.INVALID_INPUT_NUMBER.val();
-			this.nullInput = UK_ERRORS.NULL_INPUT.val();
-			this.negativeInput = UK_ERRORS.NEGATIVE_INPUT.val();
-			this.negativeInput = UK_ERRORS.NUMBERFORMAT.val();
-			this.unknownErr = UK_ERRORS.UNKNOWN.val();
+			this.invalidInput = UK_ERRORS.INVALID_INPUT_NUMBER.getError();
+			this.nullInput = UK_ERRORS.NULL_INPUT.getError();
+			this.negativeInput = UK_ERRORS.NEGATIVE_INPUT.getError();
+			this.negativeInput = UK_ERRORS.NUMBERFORMAT.getError();
+			this.unknownErr = UK_ERRORS.UNKNOWN.getError();
 			break;
 		case FR:
 			this.millUnit = FR_UNITS.MILLS.val();
 			this.thouUnit = FR_UNITS.THOUS.val();
 			this.hunUnit = FR_UNITS.HUNS.val();
 			this.and = FR_FORMAT.AND.val();
-			this.invalidInput = FR_ERRORS.INVALID_INPUT_NUMBER.val();
-			this.nullInput = FR_ERRORS.NULL_INPUT.val();
-			this.negativeInput = FR_ERRORS.NEGATIVE_INPUT.val();
-			this.negativeInput = FR_ERRORS.NUMBERFORMAT.val();
-			this.unknownErr = FR_ERRORS.UNKNOWN.val();
+			this.invalidInput = FR_ERRORS.INVALID_INPUT_NUMBER.getError();
+			this.nullInput = FR_ERRORS.NULL_INPUT.getError();
+			this.negativeInput = FR_ERRORS.NEGATIVE_INPUT.getError();
+			this.negativeInput = FR_ERRORS.NUMBERFORMAT.getError();
+			this.unknownErr = FR_ERRORS.UNKNOWN.getError();
 			break;
 
 		default:

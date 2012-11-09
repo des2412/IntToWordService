@@ -23,13 +23,15 @@ import org.desz.numbertoword.mapper.IntegerToWordMapper;
 /**
  * @author des
  * 
- *         Enums for target languages.
- *         @see IntegerToWordMapper
- *         
+ *         Enum Factorys target languages.
+ * @see IntegerToWordMapper
+ * 
  * 
  */
-public enum IntegerToWordEnumFactory implements INumberToWordFactory<BigInteger> {
+public enum IntegerToWordEnumFactory implements
+		INumberToWordFactory<BigInteger> {
 
+	// Language specific factories
 	UK_FAC(), FR_FAC();
 
 	private static Map<PROVISIONED_LN, IntegerToWordEnumFactory> cache = Collections
@@ -47,15 +49,16 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<BigInteger>
 	 * @return
 	 * @throws NumberToWordFactoryException
 	 */
-	private IFNumberToWordMapper<BigInteger> newIntegerToWord(final Object[] args)
-			throws NumberToWordFactoryException {
+	private IFNumberToWordMapper<BigInteger> newIntegerToWordMapper(
+			final Object[] args) throws NumberToWordFactoryException {
 		// access private Constructor of IntegerToWordMapper using reflection
 		final Constructor<?>[] constructors = IntegerToWordMapper.class
 				.getDeclaredConstructors();
-		if(constructors.length == 1)
-		constructors[0].setAccessible(true);
+		if (constructors.length == 1)
+			constructors[0].setAccessible(true);
 		else
-			throw new NumberToWordFactoryException("unexpected number of constructors");
+			throw new NumberToWordFactoryException(
+					"unexpected number of constructors");
 		IFNumberToWordMapper<BigInteger> mapper = null;
 
 		try {
@@ -113,7 +116,7 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<BigInteger>
 			languageSupport = new LanguageSupport(PROVISIONED_LN.UK);
 			args[0] = languageSupport;
 			// invoke private constructor
-			this.integerToWordMapper = newIntegerToWord(args);
+			this.integerToWordMapper = newIntegerToWordMapper(args);
 			// cache 'this' in Map
 			cache.put(PROVISIONED_LN.UK, this);
 			break;
@@ -125,7 +128,7 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<BigInteger>
 
 			languageSupport = new LanguageSupport(PROVISIONED_LN.FR);
 			args[0] = languageSupport;
-			this.integerToWordMapper = newIntegerToWord(args);
+			this.integerToWordMapper = newIntegerToWordMapper(args);
 			cache.put(PROVISIONED_LN.FR, this);
 			break;
 
@@ -182,8 +185,7 @@ public enum IntegerToWordEnumFactory implements INumberToWordFactory<BigInteger>
 	 * @throws FactoryMapperRemovalException
 	 */
 	public static boolean removeNumberToWordEnumFactory(
-			final PROVISIONED_LN provLang)
-			throws FactoryMapperRemovalException {
+			final PROVISIONED_LN provLang) throws FactoryMapperRemovalException {
 
 		if (cache.containsKey(provLang)) {
 

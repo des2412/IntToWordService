@@ -8,43 +8,44 @@ import java.math.BigInteger;
 /**
  * @author des
  * 
- *         enums for language, integer to word mappings, Errors, Format and Units
+ *         EnumHolder: Aggregation of enums for language, integer to word
+ *         mappings, Errors, Format and Units
  * 
  */
-public class EnumHolder {
+public final class EnumHolder {
 
 	/**
-	 * Enum for provisioned languages
+	 * Enum encapsulating application level provisioned languages
 	 * 
-	 * EMPTY is for display purposes
 	 * @author des
-	 *
+	 * 
 	 */
 	public enum PROVISIONED_LN {
 		UK("UK", "UK ENGLISH"), FR("FR", "FRENCH");
-		
+
 		private String code;
 		private String description;
-		
-		
+
 		private PROVISIONED_LN(String code, String description) {
 			this.code = code;
 			this.description = description;
 		}
-		
+
 		public String getCode() {
 			return code;
 		}
+
 		public String getDescription() {
 			return description;
 		}
-		
+
 	};
 
 	/**
 	 * Enum for number constants
+	 * 
 	 * @author des
-	 *
+	 * 
 	 */
 	public enum NUMBER_CONSTANT {
 
@@ -54,7 +55,7 @@ public class EnumHolder {
 
 		}
 
-		public BigInteger getVal() {
+		public BigInteger getBigInt() {
 			switch (this) {
 			case MINUS_ONE:
 				return new BigInteger("-1");
@@ -146,14 +147,14 @@ public class EnumHolder {
 				"Negative integer input"), NUMBERFORMAT(
 				"Number Format Exception"), LANGUAGE_NOTSUPPORTED(
 				"Language not supported");
-		private String val;
+		private String error;
 
-		UK_ERRORS(String val) {
-			this.val = val;
+		UK_ERRORS(String error) {
+			this.error = error;
 		}
 
-		public String val() {
-			return val;
+		public String getError() {
+			return error;
 		}
 
 	};
@@ -164,14 +165,14 @@ public class EnumHolder {
 				"L'entrée négative entier"), NUMBERFORMAT(
 				"Exception Format de nombre"), LANGUAGE_NOTSUPPORTED(
 				"Langue non pris en charge");
-		private String val;
+		private String error;
 
-		FR_ERRORS(String val) {
-			this.val = val;
+		private FR_ERRORS(String error) {
+			this.error = error;
 		}
 
-		public String val() {
-			return val;
+		public String getError() {
+			return this.error;
 		}
 
 	};
