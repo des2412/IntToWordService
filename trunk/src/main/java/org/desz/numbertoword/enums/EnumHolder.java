@@ -21,7 +21,7 @@ public final class EnumHolder {
 	 * 
 	 */
 	public enum PROVISIONED_LN {
-		UK("UK", "UK ENGLISH"), FR("FR", "FRENCH");
+		UK("UK", "UK ENGLISH"), FR("FR", "FRENCH"), EMPTY("EMPTY", "Select...");
 
 		private String code;
 		private String description;
@@ -38,6 +38,8 @@ public final class EnumHolder {
 		public String getDescription() {
 			return description;
 		}
+		
+		
 
 	};
 
@@ -145,9 +147,9 @@ public final class EnumHolder {
 		INVALID_INPUT_NUMBER("Cannot convert this positive number:"), NULL_INPUT(
 				"No number to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT(
 				"Negative integer input"), NUMBERFORMAT(
-				"Number Format Exception"), LANGUAGE_NOTSUPPORTED(
-				"Language not supported");
-		private String error;
+				"Number Format Exception"), LANGUAGE_NOTSELECTED(
+				"Language not selected");
+		private final String error;
 
 		UK_ERRORS(String error) {
 			this.error = error;
@@ -163,7 +165,7 @@ public final class EnumHolder {
 		INVALID_INPUT_NUMBER("Impossible de convertir ce nombre positif:"), NULL_INPUT(
 				"Aucun numéro de convertir"), UNKNOWN("erreur inconnue"), NEGATIVE_INPUT(
 				"L'entrée négative entier"), NUMBERFORMAT(
-				"Exception Format de nombre"), LANGUAGE_NOTSUPPORTED(
+				"Exception Format de nombre"), LANGUAGE_NOTSELECTED(
 				"Langue non pris en charge");
 		private String error;
 
