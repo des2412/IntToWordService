@@ -16,7 +16,7 @@ public final class EnumHolder {
 
 	/**
 	 * Enum encapsulating application level provisioned languages
-	 * 
+	 * EMPTY is defined for UI HTML elements, e.g, SELECT
 	 * @author des
 	 * 
 	 */
@@ -144,7 +144,7 @@ public final class EnumHolder {
 	 * 
 	 */
 	public enum UK_ERRORS {
-		INVALID_INPUT_NUMBER("Cannot convert this positive number:"), NULL_INPUT(
+		INVALID_INPUT_NUMBER("Cannot convert this positive number:"), FRACTIONAL_DISALLOWED("Fractional numbers disallowed"),NULL_INPUT(
 				"No number to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT(
 				"Negative integer input"), NUMBERFORMAT(
 				"Number Format Exception"), LANGUAGE_NOTSELECTED(
