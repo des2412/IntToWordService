@@ -162,7 +162,7 @@ public final class EnumHolder {
 	};
 
 	public enum FR_ERRORS {
-		INVALID_INPUT_NUMBER("Impossible de convertir ce nombre positif:"), NULL_INPUT(
+		INVALID_INPUT_NUMBER("Impossible de convertir ce nombre positif:"), FRACTIONAL_DISALLOWED("nombres fractionnaires a refusé"), NULL_INPUT(
 				"Aucun numéro de convertir"), UNKNOWN("erreur inconnue"), NEGATIVE_INPUT(
 				"L'entrée négative entier"), NUMBERFORMAT(
 				"Exception Format de nombre"), LANGUAGE_NOTSELECTED(
