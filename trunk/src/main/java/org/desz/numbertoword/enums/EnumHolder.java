@@ -14,6 +14,9 @@ import java.math.BigInteger;
  */
 public final class EnumHolder {
 
+	public interface AnInterface {
+	};
+
 	/**
 	 * Enum encapsulating application level provisioned languages EMPTY is
 	 * defined for UI HTML elements, e.g, SELECT
@@ -159,14 +162,13 @@ public final class EnumHolder {
 	 * 
 	 */
 	public enum UK_ERRORS {
-		INVALID_INPUT_NUMBER("Cannot convert this positive number:"), FRACTIONAL_DISALLOWED(
-				"Fractional numbers disallowed"), NULL_INPUT(
+		INVALID_INPUT_NUMBER("Cannot convert this positive number:"), INVALID_NUMBER(
+				"Fractional numbers or non Integer disallowed"), NULL_INPUT(
 				"No number to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT(
 				"Negative integer input"), NUMBERFORMAT(
-				"Number Format Exception"), LANGUAGE_NOTSELECTED(
-				"Language not selected"), INVALID_LN_SEL(
+				"Number Format Exception"), INVALID_LN_SEL(
 				"Valid language not chosen");
-		
+
 		private final String error;
 
 		UK_ERRORS(String error) {
@@ -176,10 +178,10 @@ public final class EnumHolder {
 		public String getError() {
 			return this.error;
 		}
-		
-		public static String getValue(UK_ERRORS e){
-			return e.getError();
-		}
+
+		/*
+		 * public static String getValue(UK_ERRORS e){ return e.getError(); }
+		 */
 
 	};
 
@@ -188,8 +190,7 @@ public final class EnumHolder {
 				"nombres fractionnaires a refusé"), NULL_INPUT(
 				"Aucun numéro de convertir"), UNKNOWN("erreur inconnue"), NEGATIVE_INPUT(
 				"L'entrée négative entier"), NUMBERFORMAT(
-				"Exception Format de nombre"), LANGUAGE_NOTSELECTED(
-				"Langue non pris en charge"), INVALID_LN_SEL(
+				"Exception Format de nombre"), INVALID_LN_SEL(
 				"Langue valide pas choisi");
 		private String error;
 
