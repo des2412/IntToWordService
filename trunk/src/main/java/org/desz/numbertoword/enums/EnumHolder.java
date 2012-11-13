@@ -15,20 +15,37 @@ import java.math.BigInteger;
 public final class EnumHolder {
 
 	/**
-	 * Enum encapsulating application level provisioned languages
-	 * EMPTY is defined for UI HTML elements, e.g, SELECT
+	 * Enum encapsulating application level provisioned languages EMPTY is
+	 * defined for UI HTML elements, e.g, SELECT
+	 * 
 	 * @author des
 	 * 
 	 */
 	public enum PROVISIONED_LN {
-		UK("UK", "UK ENGLISH"), FR("FR", "FRENCH"), EMPTY("EMPTY", "Select...");
+		UK("UK", "UK ENGLISH", true), FR("FR", "FRENCH", true), EMPTY("EMPTY",
+				"Select...", false);
 
 		private String code;
 		private String description;
+		private boolean validOption;
 
-		private PROVISIONED_LN(String code, String description) {
+		public boolean isValidOption() {
+			return validOption;
+		}
+
+		public void setValidOption(boolean validOption) {
+			this.validOption = validOption;
+		}
+
+		public void setValidChoice(boolean validOption) {
+			this.validOption = validOption;
+		}
+
+		private PROVISIONED_LN(String code, String description,
+				boolean validOption) {
 			this.code = code;
 			this.description = description;
+			this.validOption = validOption;
 		}
 
 		public String getCode() {
@@ -38,8 +55,6 @@ public final class EnumHolder {
 		public String getDescription() {
 			return description;
 		}
-		
-		
 
 	};
 
@@ -144,11 +159,14 @@ public final class EnumHolder {
 	 * 
 	 */
 	public enum UK_ERRORS {
-		INVALID_INPUT_NUMBER("Cannot convert this positive number:"), FRACTIONAL_DISALLOWED("Fractional numbers disallowed"),NULL_INPUT(
+		INVALID_INPUT_NUMBER("Cannot convert this positive number:"), FRACTIONAL_DISALLOWED(
+				"Fractional numbers disallowed"), NULL_INPUT(
 				"No number to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT(
 				"Negative integer input"), NUMBERFORMAT(
 				"Number Format Exception"), LANGUAGE_NOTSELECTED(
-				"Language not selected");
+				"Language not selected"), INVALID_LN_SEL(
+				"Valid language not chosen");
+		
 		private final String error;
 
 		UK_ERRORS(String error) {
@@ -156,17 +174,23 @@ public final class EnumHolder {
 		}
 
 		public String getError() {
-			return error;
+			return this.error;
+		}
+		
+		public static String getValue(UK_ERRORS e){
+			return e.getError();
 		}
 
 	};
 
 	public enum FR_ERRORS {
-		INVALID_INPUT_NUMBER("Impossible de convertir ce nombre positif:"), FRACTIONAL_DISALLOWED("nombres fractionnaires a refusé"), NULL_INPUT(
+		INVALID_INPUT_NUMBER("Impossible de convertir ce nombre positif:"), FRACTIONAL_DISALLOWED(
+				"nombres fractionnaires a refusé"), NULL_INPUT(
 				"Aucun numéro de convertir"), UNKNOWN("erreur inconnue"), NEGATIVE_INPUT(
 				"L'entrée négative entier"), NUMBERFORMAT(
 				"Exception Format de nombre"), LANGUAGE_NOTSELECTED(
-				"Langue non pris en charge");
+				"Langue non pris en charge"), INVALID_LN_SEL(
+				"Langue valide pas choisi");
 		private String error;
 
 		private FR_ERRORS(String error) {
