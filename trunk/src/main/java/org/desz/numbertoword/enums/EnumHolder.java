@@ -8,14 +8,11 @@ import java.math.BigInteger;
 /**
  * @author des
  * 
- *         EnumHolder: Aggregation of enums for language, integer to word
+ *         EnumHolder: Enums for language, integer to word
  *         mappings, Errors, Format and Units
  * 
  */
 public final class EnumHolder {
-
-	public interface AnInterface {
-	};
 
 	/**
 	 * Enum encapsulating application level provisioned languages EMPTY is
@@ -30,17 +27,17 @@ public final class EnumHolder {
 
 		private String code;
 		private String description;
-		private boolean validOption;
+		private boolean valid;
 
-		public boolean isValidOption() {
-			return validOption;
+		public boolean isValid() {
+			return valid;
 		}
 
 		private PROVISIONED_LN(String code, String description,
-				boolean validOption) {
+				boolean valid) {
 			this.code = code;
 			this.description = description;
-			this.validOption = validOption;
+			this.valid = valid;
 		}
 
 		public String getCode() {
@@ -54,7 +51,7 @@ public final class EnumHolder {
 	};
 
 	/**
-	 * Enum for number constants
+	 * Enum for BigInteger constants
 	 * 
 	 * @author des
 	 * 
@@ -86,6 +83,11 @@ public final class EnumHolder {
 		}
 	};
 
+	/**
+	 * French integer to word
+	 * @author des
+	 *
+	 */
 	public enum FR_WORDS {
 		ZERO("0", "Zéro"), ONE("1", "Un"), TWO("2", "Deux"), THREE("3", "Trois"), FOUR(
 				"4", "Quatre"), FIVE("5", "Cinq"), SIX("6", "Six"), SEVEN("7",
@@ -171,10 +173,7 @@ public final class EnumHolder {
 			return this.error;
 		}
 
-		/*
-		 * public static String getValue(UK_ERRORS e){ return e.getError(); }
-		 */
-
+		
 	};
 
 	public enum FR_ERRORS {
