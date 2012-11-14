@@ -36,14 +36,6 @@ public final class EnumHolder {
 			return validOption;
 		}
 
-		public void setValidOption(boolean validOption) {
-			this.validOption = validOption;
-		}
-
-		public void setValidChoice(boolean validOption) {
-			this.validOption = validOption;
-		}
-
 		private PROVISIONED_LN(String code, String description,
 				boolean validOption) {
 			this.code = code;
@@ -162,8 +154,8 @@ public final class EnumHolder {
 	 * 
 	 */
 	public enum UK_ERRORS {
-		INVALID_INPUT_NUMBER("Cannot convert this positive number:"), INVALID_NUMBER(
-				"Fractional numbers or non Integer disallowed"), NULL_INPUT(
+		INVALID_INPUT("Invalid non-numeric input"), INVALID_NUMBER(
+				"Fractional or non integral numbers disallowed"), NULL_INPUT(
 				"No number to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT(
 				"Negative integer input"), NUMBERFORMAT(
 				"Number Format Exception"), INVALID_LN_SEL(
@@ -186,8 +178,8 @@ public final class EnumHolder {
 	};
 
 	public enum FR_ERRORS {
-		INVALID_INPUT_NUMBER("Impossible de convertir ce nombre positif:"), FRACTIONAL_DISALLOWED(
-				"nombres fractionnaires a refusé"), NULL_INPUT(
+		INVALID_INPUT("Invalid non-numérique d'entrée"), INVALID_NUMBER(
+				"Fractionnés ou non nombres entiers a refusé"), NULL_INPUT(
 				"Aucun numéro de convertir"), UNKNOWN("erreur inconnue"), NEGATIVE_INPUT(
 				"L'entrée négative entier"), NUMBERFORMAT(
 				"Exception Format de nombre"), INVALID_LN_SEL(

@@ -43,7 +43,7 @@ public final class LanguageSupport {
 			this.thouUnit = UK_UNITS.THOUS.val();
 			this.hunUnit = UK_UNITS.HUNS.val();
 			this.and = UK_FORMAT.AND.val();
-			this.invalidInput = UK_ERRORS.INVALID_INPUT_NUMBER.getError();
+			this.invalidInput = UK_ERRORS.INVALID_INPUT.getError();
 			this.nullInput = UK_ERRORS.NULL_INPUT.getError();
 			this.negativeInput = UK_ERRORS.NEGATIVE_INPUT.getError();
 			this.negativeInput = UK_ERRORS.NUMBERFORMAT.getError();
@@ -54,7 +54,7 @@ public final class LanguageSupport {
 			this.thouUnit = FR_UNITS.THOUS.val();
 			this.hunUnit = FR_UNITS.HUNS.val();
 			this.and = FR_FORMAT.AND.val();
-			this.invalidInput = FR_ERRORS.INVALID_INPUT_NUMBER.getError();
+			this.invalidInput = FR_ERRORS.INVALID_INPUT.getError();
 			this.nullInput = FR_ERRORS.NULL_INPUT.getError();
 			this.negativeInput = FR_ERRORS.NEGATIVE_INPUT.getError();
 			this.negativeInput = FR_ERRORS.NUMBERFORMAT.getError();
