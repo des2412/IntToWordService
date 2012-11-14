@@ -156,7 +156,7 @@ public final class EnumHolder {
 	 * 
 	 */
 	public enum UK_ERRORS {
-		INVALID_INPUT("Invalid non-numeric input"), INVALID_NUMBER(
+		INVALID_INPUT("Invalid input"), INVALID_NUMBER(
 				"Fractional or non integral numbers disallowed"), NULL_INPUT(
 				"No number to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT(
 				"Negative integer input"), NUMBERFORMAT(
@@ -177,7 +177,7 @@ public final class EnumHolder {
 	};
 
 	public enum FR_ERRORS {
-		INVALID_INPUT("Invalid non-numérique d'entrée"), INVALID_NUMBER(
+		INVALID_INPUT("Invalid d'entrée"), INVALID_NUMBER(
 				"Fractionnés ou non nombres entiers a refusé"), NULL_INPUT(
 				"Aucun numéro de convertir"), UNKNOWN("erreur inconnue"), NEGATIVE_INPUT(
 				"L'entrée négative entier"), NUMBERFORMAT(
