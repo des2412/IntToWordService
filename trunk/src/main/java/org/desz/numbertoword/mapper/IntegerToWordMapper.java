@@ -2,7 +2,9 @@ package org.desz.numbertoword.mapper;
 
 import java.math.BigInteger;
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -55,9 +57,11 @@ public final class IntegerToWordMapper implements
 	/**
 	 * Constructor is private to enforce Singleton semantics
 	 * 
-	 * @see IntegerToWordEnumFactory
+	 * @see IntegerToWordEnumFactory which has the logic to 'inject' the correct
+	 *      languageSupport
+	 * 
 	 * @param languageSupport
-	 *            specific text for target PROVISIONED_LANGUAGE
+	 *            specific text values for target PROVISIONED_LN
 	 */
 	private IntegerToWordMapper(final LanguageSupport languageSupport) {
 		this.languageSupport = languageSupport;
@@ -155,27 +159,25 @@ public final class IntegerToWordMapper implements
 					+ languageSupport.getMillUnit();
 			result.append(mn);
 		}
-		if (numAtIndex.get(UK_UNITS.THOUS).compareTo(
-				NUMBER_CONSTANT.ZERO.getBigInt()) > 0) {
+
+		final BigInteger thou = numAtIndex.get(UK_UNITS.THOUS);
+		if (thou.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) > 0) {
+
+			String appThous = thous + UK_FORMAT.SPACE.val()
+					+ languageSupport.getThouUnit();
+
 			if (mills == UK_FORMAT.EMPTY.val()) {
-				result.append(thous + UK_FORMAT.SPACE.val()
-						+ languageSupport.getThouUnit());
-			} else if (numAtIndex.get(UK_UNITS.THOUS).compareTo(
-					NUMBER_CONSTANT.ONE_HUNDRED.getBigInt()) < 0) {
-				result.append(languageSupport.getAnd() + thous.toLowerCase()
-						+ UK_FORMAT.SPACE.val() + languageSupport.getThouUnit());
+				result.append(appThous);
+			} else if (thou.compareTo(NUMBER_CONSTANT.ONE_HUNDRED.getBigInt()) < 0) {
+				result.append(languageSupport.getAnd() + appThous.toLowerCase());
 
 			} else {
-				result.append(UK_FORMAT.SPACE.val() + thous.toLowerCase()
-						+ UK_FORMAT.SPACE.val() + languageSupport.getThouUnit());
+				result.append(UK_FORMAT.SPACE.val() + appThous.toLowerCase());
 			}
 		}
 		if (numAtIndex.get(UK_UNITS.HUNS).compareTo(
 				NUMBER_CONSTANT.ZERO.getBigInt()) > 0) {
-			if (numAtIndex.get(UK_UNITS.THOUS).compareTo(
-					NUMBER_CONSTANT.ZERO.getBigInt()) < 0
-					& numAtIndex.get(UK_UNITS.MILLS).compareTo(
-							NUMBER_CONSTANT.ZERO.getBigInt()) < 0) {
+			if (!parentsHoldValue(numAtIndex, UK_UNITS.MILLS, UK_UNITS.THOUS)) {
 				result.append(huns);
 			} else {
 				if (numAtIndex.get(UK_UNITS.HUNS).compareTo(
@@ -190,12 +192,29 @@ public final class IntegerToWordMapper implements
 		return result.toString();
 	}
 
+	private boolean parentsHoldValue(Map<UK_UNITS, BigInteger> numAtIndex,
+			UK_UNITS... units) {
+
+		boolean result = true;
+		List<UK_UNITS> list = Arrays.asList(units);
+		for (UK_UNITS unit : list) {
+			if (numAtIndex.get(unit)
+					.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) < 0) {
+				result = false;
+			} else {
+				result = true;
+			}
+		}
+		return result;
+
+	}
+
 	/**
 	 * Injected by IntegerToWordFactory
 	 * 
 	 * @param numToWordMap
 	 */
-	public void setMapping(Map<String, String> numToWordMap) {
+	public final void setMapping(Map<String, String> numToWordMap) {
 		this.intToWordMap = numToWordMap;
 
 	}

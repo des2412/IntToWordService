@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import org.desz.language.LanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
+import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.UK_WORDS;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
@@ -83,20 +84,20 @@ public enum IntegerToWordEnumFactory implements
 	/**
 	 * 
 	 * @param pl
-	 * @return
+	 * @return 
 	 */
 	private boolean isCached(PROVISIONED_LN pl) {
-		final boolean inCache = cache.containsKey(pl);
-		if (inCache) {
+		final boolean isCached = cache.containsKey(pl);
+		if (isCached) {
 			LOGGER.info("Initialised instance of IntegerToWordMapper for language "
 					+ pl.name() + " available");
 		}
-		return inCache;
+		return isCached;
 	}
 
 	/**
-	 * @param <T>
-	 * @param PROVISIONED_LN
+	 * Get a language specific Enum Factory
+	 * and cache this in Map cache
 	 */
 	@Override
 	public IFNumberToWordMapper<BigInteger> getIntegerToWordMapper()
@@ -134,6 +135,7 @@ public enum IntegerToWordEnumFactory implements
 
 		default:
 			LOGGER.info("Unknown problem creating Factory");
+			throw new NumberToWordFactoryException(UK_ERRORS.UNKNOWN.getError());
 
 		}
 		((IntegerToWordMapper) this.integerToWordMapper)
