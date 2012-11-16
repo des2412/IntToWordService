@@ -77,9 +77,8 @@ public final class IntegerToWordMapper implements
 		String formattedNumber = null;
 		try {
 			formattedNumber = validateAndFormat(num);
-			// LOGGER.info("Formatted Number:" + formattedNumber);
 
-		} catch (Exception e) {
+		} catch (IntegerToWordException e) {
 			LOGGER.info(e.getMessage());
 			setMessage(languageSupport.getNumberFormatErr());
 			throw new IntegerToWordException(e);
@@ -88,12 +87,6 @@ public final class IntegerToWordMapper implements
 		// LOGGER.info("Format Separator:" + FORMATTED_NUMBER_SEPARATOR);
 		String[] components = formattedNumber.split(FORMATTED_NUMBER_SEPARATOR);
 		final int nComps = components.length;
-		if (nComps > 3) {
-			LOGGER.info(languageSupport.getInvalidInput() + num);
-			setMessage(languageSupport.getInvalidInput() + num);
-			throw new IntegerToWordException(languageSupport.getInvalidInput()
-					+ num);
-		}
 
 		if (formattedNumber.equals("0")) {
 			return intToWordMap.get("0");
@@ -106,11 +99,10 @@ public final class IntegerToWordMapper implements
 		Map<UK_UNITS, BigInteger> numAtIndex = new EnumMap<UK_UNITS, BigInteger>(
 				UK_UNITS.class);
 
-		StringBuffer result = new StringBuffer();
-
 		BigInteger val = null;
-		if (nComps == 3) {
+		switch (nComps) {
 
+		case 3:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			mills = getWordForInt(val);
 			numAtIndex.put(UK_UNITS.MILLS, val);
@@ -122,8 +114,9 @@ public final class IntegerToWordMapper implements
 			val = BigInteger.valueOf(Long.valueOf(components[2]));
 			huns = getWordForInt(val);
 			numAtIndex.put(UK_UNITS.HUNS, val);
+			break;
 
-		} else if (nComps == 2) {
+		case 2:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			thous = getWordForInt(val);
 			numAtIndex.put(UK_UNITS.MILLS,
@@ -133,7 +126,9 @@ public final class IntegerToWordMapper implements
 			val = BigInteger.valueOf(Long.valueOf(components[1]));
 			huns = getWordForInt(val);
 			numAtIndex.put(UK_UNITS.HUNS, val);
-		} else {
+			break;
+
+		case 1:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			huns = getWordForInt(val);
 			numAtIndex.put(UK_UNITS.MILLS,
@@ -141,9 +136,18 @@ public final class IntegerToWordMapper implements
 			numAtIndex.put(UK_UNITS.THOUS,
 					NUMBER_CONSTANT.MINUS_ONE.getBigInt());
 			numAtIndex.put(UK_UNITS.HUNS, val);
+			break;
+		default:
+			LOGGER.info(languageSupport.getInvalidInput() + num);
+			setMessage(languageSupport.getInvalidInput() + num);
+			throw new IntegerToWordException(languageSupport.getInvalidInput()
+					+ num);
+
 		}
 
-		// Concatenate the units of the number
+		// Concatenate the order units of the number
+
+		StringBuffer result = new StringBuffer();
 
 		if (numAtIndex.get(UK_UNITS.MILLS).compareTo(
 				NUMBER_CONSTANT.ZERO.getBigInt()) > 0) {
@@ -197,7 +201,6 @@ public final class IntegerToWordMapper implements
 	}
 
 	/**
-	 * TODO set max val for num
 	 * 
 	 * @param num
 	 * @return
@@ -211,11 +214,6 @@ public final class IntegerToWordMapper implements
 			setMessage(languageSupport.getNullInput());
 			throw new IntegerToWordException(languageSupport.getNullInput());
 		}
-
-		/*
-		 * if (!(num instanceof Integer)) { throw new IntegerToWordException(
-		 * languageSupport.getNumberFormatErr()); }
-		 */
 
 		if (num.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) < 0) {
 			LOGGER.info(languageSupport.getNegativeInput());
@@ -244,11 +242,10 @@ public final class IntegerToWordMapper implements
 	 */
 	private String getWordForInt(BigInteger num) throws IntegerToWordException {
 		String numStr = String.valueOf(num);
-		String indZero;
-		String indOne;
-		String indTwo;
+		String indZero = null;
+		String indOne = null;
+		String indTwo = null;
 		String result = null;
-		BigInteger rem = null;
 		switch (numStr.length()) {
 		// 1,2 or 3 digits
 		case 1:
@@ -257,13 +254,12 @@ public final class IntegerToWordMapper implements
 		case 2:
 			indZero = String.valueOf(numStr.charAt(0));
 			indOne = String.valueOf(numStr.charAt(1));
-			rem = num.mod(NUMBER_CONSTANT.TEN.getBigInt());
 
 			if (num.compareTo(new BigInteger("9")) > 0
 					& num.compareTo(NUMBER_CONSTANT.TWENTY.getBigInt()) < 0) {// teenager
 				result = intToWordMap.get(indZero + indOne);
 			} else { // >= 20 & <= 99
-				result = getDecimalPart(rem, indZero, indOne);
+				result = getDecimalPart(indZero, indOne);
 			}
 			break;
 		case 3:
@@ -271,13 +267,13 @@ public final class IntegerToWordMapper implements
 			indOne = String.valueOf(numStr.charAt(1));
 			indTwo = String.valueOf(numStr.charAt(2));
 
-			rem = num.mod(NUMBER_CONSTANT.ONE_HUNDRED.getBigInt());
+			BigInteger rem = num.mod(NUMBER_CONSTANT.ONE_HUNDRED.getBigInt());
 			result = intToWordMap.get(indZero) + UK_FORMAT.SPACE.val()
 					+ languageSupport.getHunUnit();
 			if (rem.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) > 0) { // not
 																		// whole
 																		// hundredth
-				String decs = getDecimalPart(rem, indOne, indTwo);
+				String decs = getDecimalPart(indOne, indTwo);
 				result += languageSupport.getAnd() + decs.toLowerCase();
 			}
 			break;
@@ -292,44 +288,38 @@ public final class IntegerToWordMapper implements
 	}
 
 	/**
-	 * TODO refactor this method
-	 * 
-	 * @param rem
 	 * @param indZero
 	 *            single char string at index 0
 	 * @param indOne
 	 *            single char string at index 1
-	 * @return
+	 * @return result
 	 */
-	private String getDecimalPart(BigInteger rem, String indZero, String indOne) {
+	private String getDecimalPart(String indZero, String indOne) {
 		// check that indZero and indOne have length 1
 		if (indZero.length() > 1 | indOne.length() > 1) {
-			throw new IllegalArgumentException("TODO");
+			throw new IllegalArgumentException(
+					"String arguments should have length of 1");
 		}
-		LOGGER.info("parameter rem: " + rem);
-		BigInteger decs = new BigInteger(indZero + indOne);
+		final BigInteger decs = new BigInteger(indZero + indOne);
 
-		String result;
+		final String result;
 		StringBuffer atZero = new StringBuffer(indZero.toString());
-		// int decs = Integer.valueOf(indZero + indOne);
 
-		if (rem.compareTo(BigInteger.ZERO) == 0) {// int range[1x-9x] (x IS 0)
-			result = intToWordMap.get(indZero + indOne);
-
-		} else if (decs.compareTo(NUMBER_CONSTANT.TEN.getBigInt()) > 0
-				& decs.compareTo(NUMBER_CONSTANT.TWENTY.getBigInt()) < 0) {
+		if (decs.compareTo(BigInteger.ZERO) == 0
+				| (decs.compareTo(NUMBER_CONSTANT.TEN.getBigInt()) > 0 & decs
+						.compareTo(NUMBER_CONSTANT.TWENTY.getBigInt()) < 0)) {
 			result = intToWordMap.get(indZero + indOne);
 
 		} else if (decs.compareTo(NUMBER_CONSTANT.TEN.getBigInt()) < 0) {// eg
 																			// 09
-			LOGGER.info("ZEEEEEEEEEERO");
+			LOGGER.info("[0-9]");
 			result = intToWordMap.get(indOne);
 
 		} else { // 2x-9x (x NOT 0)
 			atZero.append("0");
-			// indZero += "0"; // add "0" to indZero so as to match key of whole
+			// indZero += "0"; // add "0" to indZero so as to match
+			// key(intToWordMap) whole
 			// ten
-			LOGGER.info("indZero:" + indZero + "indOne:" + indOne);
 			if (!indOne.equals("0")) {
 				result = intToWordMap.get(atZero.toString())
 						+ UK_FORMAT.SPACE.val() + intToWordMap.get(indOne);
@@ -354,7 +344,6 @@ public final class IntegerToWordMapper implements
 		} catch (IllegalArgumentException e) {
 			throw (e);
 		}
-		// LOGGER.info("Formatted Number:" + s);
 		return s;
 	}
 
