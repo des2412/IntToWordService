@@ -22,8 +22,8 @@ public final class EnumHolder {
 	 * 
 	 */
 	public enum PROVISIONED_LN {
-		UK("UK", "UK ENGLISH", true), FR("FR", "FRENCH", true), DE("DE",
-				"GERMAN", true), EMPTY("EMPTY", "Select...", false);
+		UK("UK", "UK ENGLISH", true), FR("FR", "FRANÇAIS", true), DE("DE",
+				"DEUTSCH", true), EMPTY("EMPTY", "Select...", false);
 
 		private String code;
 		private String description;
@@ -33,6 +33,12 @@ public final class EnumHolder {
 			return valid;
 		}
 
+		/**
+		 * Constructor
+		 * @param code
+		 * @param description
+		 * @param valid
+		 */
 		private PROVISIONED_LN(String code, String description, boolean valid) {
 			this.code = code;
 			this.description = description;
