@@ -10,26 +10,18 @@ import java.math.BigInteger;
 import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
-import org.desz.numbertoword.mapper.IFNumberToWordMapper;
-import org.desz.numbertoword.mapper.IntegerToWordMapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class FrIntegerToWordMapperTest extends IntegerToWordMapperTest{
-	/*
-	 * final private static String[] decimals = { "One", "Two", "Three", "Four",
-	 * "Five", "Six", "Seven", "Eight", "Nine" }; static List<String> l =
-	 * Arrays.asList(decimals);
-	 */
 
-	IFNumberToWordMapper<BigInteger> intToWordMapper;
 
 	@Before
 	public void init() throws Exception {
-		this.intToWordMapper = (IntegerToWordMapper) IntegerToWordEnumFactory.FR_FAC
+		intToWordMapper = (IntegerToWordMapper) IntegerToWordEnumFactory.FR_FAC
 				.getIntegerToWordMapper();
-		assertNotNull(this.intToWordMapper);
+		assertNotNull(intToWordMapper);
 	}
 
 	@After

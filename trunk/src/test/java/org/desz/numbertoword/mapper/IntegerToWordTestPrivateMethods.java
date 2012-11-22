@@ -3,38 +3,21 @@
  */
 package org.desz.numbertoword.mapper;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.powermock.api.easymock.PowerMock.replay;
 import static org.powermock.api.easymock.PowerMock.verify;
 
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.desz.language.LanguageSupport;
-import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
-import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.IntegerToWordException;
-import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
-import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
-import org.desz.numbertoword.mapper.IFNumberToWordMapper;
-import org.desz.numbertoword.mapper.IntegerToWordMapper;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
-import org.powermock.api.easymock.*;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
-import static org.easymock.EasyMock.expect;
 
 /**
  * @author des

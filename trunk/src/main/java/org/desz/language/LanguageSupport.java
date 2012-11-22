@@ -1,5 +1,8 @@
 package org.desz.language;
 
+import org.desz.numbertoword.enums.EnumHolder.DE_ERRORS;
+import org.desz.numbertoword.enums.EnumHolder.DE_FORMAT;
+import org.desz.numbertoword.enums.EnumHolder.DE_UNITS;
 import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.FR_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.FR_UNITS;
@@ -9,7 +12,7 @@ import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.UK_UNITS;
 
 /**
- * Class that holds the enum values determined by PROVISIONED_LANGUAGE
+ * Class that holds the enum value constant
  * 
  * One-to-one relationship with NumberToWordMapper
  * 
@@ -59,6 +62,18 @@ public final class LanguageSupport {
 			this.negativeInput = FR_ERRORS.NEGATIVE_INPUT.getError();
 			this.negativeInput = FR_ERRORS.NUMBERFORMAT.getError();
 			this.unknownErr = FR_ERRORS.UNKNOWN.getError();
+			break;
+
+		case DE:
+			this.millUnit = DE_UNITS.MILLS.val();
+			this.thouUnit = DE_UNITS.THOUS.val();
+			this.hunUnit = DE_UNITS.HUNS.val();
+			this.and = DE_FORMAT.AND.val();
+			this.invalidInput = DE_ERRORS.INVALID_INPUT.getError();
+			this.nullInput = DE_ERRORS.NULL_INPUT.getError();
+			this.negativeInput = DE_ERRORS.NEGATIVE_INPUT.getError();
+			this.negativeInput = DE_ERRORS.NUMBERFORMAT.getError();
+			this.unknownErr = DE_ERRORS.UNKNOWN.getError();
 			break;
 
 		default:

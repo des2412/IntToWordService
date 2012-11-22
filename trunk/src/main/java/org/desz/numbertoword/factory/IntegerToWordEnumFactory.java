@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.desz.language.LanguageSupport;
+import org.desz.numbertoword.enums.EnumHolder.DE_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
@@ -33,7 +34,7 @@ public enum IntegerToWordEnumFactory implements
 		INumberToWordFactory<BigInteger> {
 
 	// Language specific factories
-	UK_FAC(), FR_FAC();
+	UK_FAC(), FR_FAC(), DE_FAC();
 
 	private static Map<PROVISIONED_LN, IntegerToWordEnumFactory> cache = Collections
 			.synchronizedMap(new HashMap<PROVISIONED_LN, IntegerToWordEnumFactory>());
@@ -132,7 +133,16 @@ public enum IntegerToWordEnumFactory implements
 			this.integerToWordMapper = newIntegerToWordMapper(args);
 			cache.put(PROVISIONED_LN.FR, this);
 			break;
+		case DE_FAC:
+			if (isCached(PROVISIONED_LN.DE)) {
+				return cache.get(PROVISIONED_LN.DE).integerToWordMapper;
+			}
 
+			languageSupport = new LanguageSupport(PROVISIONED_LN.DE);
+			args[0] = languageSupport;
+			this.integerToWordMapper = newIntegerToWordMapper(args);
+			cache.put(PROVISIONED_LN.DE, this);
+			break;
 		default:
 			LOGGER.info("Unknown problem creating Factory");
 			throw new NumberToWordFactoryException(UK_ERRORS.UNKNOWN.getError());
@@ -157,7 +167,7 @@ public enum IntegerToWordEnumFactory implements
 	/**
 	 * Provisions Map of Integer to language specific word
 	 * 
-	 * @return int to word Map
+	 * @return language specific Map of number to word
 	 */
 	private Map<String, String> initialiseMapping() {
 		Map<String, String> intToWordMap = new HashMap<String, String>();
@@ -173,6 +183,13 @@ public enum IntegerToWordEnumFactory implements
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
 			}
 			break;
+			
+		case DE_FAC:
+			for (DE_WORDS intToWord : DE_WORDS.values()) {
+				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
+			}
+			break;
+			
 		default:
 			break;
 
@@ -202,7 +219,7 @@ public enum IntegerToWordEnumFactory implements
 			}
 
 		} else {
-			LOGGER.info("References absent for " + provLang.name());
+			LOGGER.info("Reference removed from cache for " + provLang.name());
 		}
 
 		return !cache.containsKey(provLang);

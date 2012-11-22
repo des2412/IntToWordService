@@ -8,8 +8,8 @@ import java.math.BigInteger;
 /**
  * @author des
  * 
- *         EnumHolder: Enums for language, integer to word
- *         mappings, Errors, Format and Units
+ *         EnumHolder: Enums for language, integer to word mappings, Errors,
+ *         Format and Units
  * 
  */
 public final class EnumHolder {
@@ -22,8 +22,8 @@ public final class EnumHolder {
 	 * 
 	 */
 	public enum PROVISIONED_LN {
-		UK("UK", "UK ENGLISH", true), FR("FR", "FRENCH", true), EMPTY("EMPTY",
-				"Select...", false);
+		UK("UK", "UK ENGLISH", true), FR("FR", "FRENCH", true), DE("DE",
+				"GERMAN", true), EMPTY("EMPTY", "Select...", false);
 
 		private String code;
 		private String description;
@@ -33,8 +33,7 @@ public final class EnumHolder {
 			return valid;
 		}
 
-		private PROVISIONED_LN(String code, String description,
-				boolean valid) {
+		private PROVISIONED_LN(String code, String description, boolean valid) {
 			this.code = code;
 			this.description = description;
 			this.valid = valid;
@@ -83,10 +82,47 @@ public final class EnumHolder {
 		}
 	};
 
+	public enum DE_WORDS {
+		ZERO("0", "Zero"), ONE("1", "Eins"), TWO("2", "Zwei"), THREE("3",
+				"Drei"), FOUR("4", "Vier"), FIVE("5", "Fünf"), SIX("6", "Sechs"), SEVEN(
+				"7", "Sieben"), EIGHT("8", "Acht"), NINE("9", "Neun"), TEN(
+				"10", "Zehn"), ELEVEN("11", "elf"), TWELVE("12", "Zwölf"), THIRTEEN(
+				"13", "Dreizehn"), FOURTEEN("14", "Vierzehn"), FIFTEEN("15",
+				"Fünfzehn"), SIXTEEN("16", "Sechzehn"), SEVENTEEN("17",
+				"Siebzehn"), EIGHTEEN("18", "Achtzehn"), NINETEEN("19",
+				"Nehnzehn"), TWENTY("20", "Zwanzig"), TWENTYONE("21",
+				"einundzwanzig"), TWENTYTWO("22", "zweiundzwanzig"), TWENTYTHREE(
+				"23", "dreiundzwanzig"), TWENTYFOUR("24", "vierundzwanzig"), TWENTYFIVE(
+				"25", "fünfundzwanzig"), TWENTYSIX("26", "sechsundzwanzig"), TWENTYSEVEN(
+				"27", "siebenundzwanzig"), TWENTYEIGHT("28", "achtundzwanzig"), TWENTYNINE(
+				"29", "neunundzwanzig"), THIRTY("30", "Dreißig"), FORTY("40",
+				"Vierzig"), FIFTY("50", "Fünfzig"), SIXTY("60", "Sechzig"), SEVENTY(
+				"70", "Siebzig"), EIGHTY("80", "Achtzig"), NINETY("90",
+				"Neunzig");
+
+		private String word;
+		private String num;
+
+		private DE_WORDS(String num, String word) {
+			this.num = num;
+			this.word = word;
+		}
+
+		public String getWord() {
+			return word;
+		}
+
+		public String getNum() {
+			return num;
+		}
+
+	};
+
 	/**
 	 * French integer to word
+	 * 
 	 * @author des
-	 *
+	 * 
 	 */
 	public enum FR_WORDS {
 		ZERO("0", "Zéro"), ONE("1", "Un"), TWO("2", "Deux"), THREE("3", "Trois"), FOUR(
@@ -173,7 +209,6 @@ public final class EnumHolder {
 			return this.error;
 		}
 
-		
 	};
 
 	public enum FR_ERRORS {
@@ -186,6 +221,25 @@ public final class EnumHolder {
 		private String error;
 
 		private FR_ERRORS(String error) {
+			this.error = error;
+		}
+
+		public String getError() {
+			return this.error;
+		}
+
+	};
+	
+	public enum DE_ERRORS {
+		INVALID_INPUT("ungültige Eingabe"), INVALID_NUMBER(
+				"Gebrochene oder nicht ganze Zahlen aberkannt"), NULL_INPUT(
+				"null-Eingang"), UNKNOWN("unbekannter Fehler"), NEGATIVE_INPUT(
+				"Minuseingang"), NUMBERFORMAT(
+				"Zahlenformat Ausnahme"), INVALID_LN_SEL(
+				"ungültige Auswahl der Sprache");
+		private String error;
+
+		private DE_ERRORS(String error) {
 			this.error = error;
 		}
 
@@ -229,6 +283,21 @@ public final class EnumHolder {
 
 	};
 
+	public enum DE_UNITS {
+
+		MILLS("million"), THOUS("tausend"), HUNS("hundert");
+
+		private String val;
+
+		DE_UNITS(String val) {
+			this.val = val;
+		}
+
+		public String val() {
+			return val;
+		}
+	}
+
 	/**
 	 * Format help for String representation of converted number
 	 * 
@@ -250,9 +319,8 @@ public final class EnumHolder {
 
 	};
 
-	// TODO remove redundancies SPACE...
 	public enum FR_FORMAT {
-		AND(" et "), SPACE(" "), EMPTY(""), UKSEP(",");
+		AND(" et ");
 
 		private String val;
 
@@ -264,6 +332,21 @@ public final class EnumHolder {
 			return val;
 		}
 
+	};
+
+	public enum DE_FORMAT {
+
+		AND(" und ");
+
+		private String val;
+
+		DE_FORMAT(String val) {
+			this.val = val;
+		}
+
+		public String val() {
+			return val;
+		}
 	};
 
 }

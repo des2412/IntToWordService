@@ -149,7 +149,7 @@ public final class IntegerToWordMapper implements
 
 		}
 
-		// Concatenate the order units of the number
+		// Concatenate units of the number
 
 		StringBuffer result = new StringBuffer();
 
@@ -192,6 +192,12 @@ public final class IntegerToWordMapper implements
 		return result.toString();
 	}
 
+	/**
+	 * 
+	 * @param numAtIndex
+	 * @param units
+	 * @return
+	 */
 	private boolean parentsHoldValue(Map<UK_UNITS, BigInteger> numAtIndex,
 			UK_UNITS... units) {
 
@@ -212,7 +218,7 @@ public final class IntegerToWordMapper implements
 	/**
 	 * Injected by IntegerToWordFactory
 	 * 
-	 * @param numToWordMap
+	 * @param numToWordMap the language specific map of numbers to words
 	 */
 	public final void setMapping(Map<String, String> numToWordMap) {
 		this.intToWordMap = numToWordMap;
@@ -265,6 +271,11 @@ public final class IntegerToWordMapper implements
 		String indOne = null;
 		String indTwo = null;
 		String result = null;
+		
+		if(intToWordMap.containsKey(numStr)){
+			return intToWordMap.get(numStr);
+		}
+		
 		switch (numStr.length()) {
 		// 1,2 or 3 digits
 		case 1:
