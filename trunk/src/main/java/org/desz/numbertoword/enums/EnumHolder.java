@@ -392,12 +392,14 @@ public final class EnumHolder {
 	 * @author des
 	 * 
 	 */
-	public enum UK_FORMAT {
-		AND(" and "), SPACE(" "), EMPTY(""), UKSEP(",");
+	public enum DEFAULT_FORMAT {
+
+		SPACE(" "), AND(SPACE.val() + "and" + SPACE.val()), EMPTY(""), NUM_SEP(
+				",");
 
 		private String val;
 
-		UK_FORMAT(String val) {
+		DEFAULT_FORMAT(String val) {
 			this.val = val;
 		}
 
@@ -408,7 +410,7 @@ public final class EnumHolder {
 	};
 
 	public enum FR_FORMAT {
-		AND(" et ");
+		AND(DEFAULT_FORMAT.SPACE.val() + "et" + DEFAULT_FORMAT.SPACE.val());
 
 		private String val;
 
@@ -424,11 +426,26 @@ public final class EnumHolder {
 
 	public enum DE_FORMAT {
 
-		AND(" und ");
+		AND(DEFAULT_FORMAT.SPACE.val() + "und" + DEFAULT_FORMAT.SPACE.val());
 
 		private String val;
 
 		DE_FORMAT(String val) {
+			this.val = val;
+		}
+
+		public String val() {
+			return val;
+		}
+	};
+	
+	public enum NL_FORMAT {
+
+		AND(DEFAULT_FORMAT.SPACE.val() + "en" + DEFAULT_FORMAT.SPACE.val());
+
+		private String val;
+
+		NL_FORMAT(String val) {
 			this.val = val;
 		}
 

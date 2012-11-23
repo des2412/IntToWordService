@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 import org.desz.language.LanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.NUMBER_CONSTANT;
-import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
+import org.desz.numbertoword.enums.EnumHolder.DEFAULT_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.UK_UNITS;
 import org.desz.numbertoword.exceptions.IntegerToWordException;
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
@@ -34,7 +34,7 @@ public final class IntegerToWordMapper implements
 
 	public Map<String, String> intToWordMap = null;
 
-	private static final String FORMATTED_NUMBER_SEPARATOR = UK_FORMAT.UKSEP
+	private static final String FORMATTED_NUMBER_SEPARATOR = DEFAULT_FORMAT.NUM_SEP
 			.val();
 
 	private transient static NumberFormat integerFormatter = NumberFormat
@@ -96,9 +96,9 @@ public final class IntegerToWordMapper implements
 			return intToWordMap.get("0");
 		}
 
-		String mills = UK_FORMAT.EMPTY.val();
-		String thous = UK_FORMAT.EMPTY.val();
-		String huns = UK_FORMAT.EMPTY.val();
+		String mills = DEFAULT_FORMAT.EMPTY.val();
+		String thous = DEFAULT_FORMAT.EMPTY.val();
+		String huns = DEFAULT_FORMAT.EMPTY.val();
 
 		Map<UK_UNITS, BigInteger> numAtIndex = new EnumMap<UK_UNITS, BigInteger>(
 				UK_UNITS.class);
@@ -155,7 +155,7 @@ public final class IntegerToWordMapper implements
 
 		if (numAtIndex.get(UK_UNITS.MILLS).compareTo(
 				NUMBER_CONSTANT.ZERO.getBigInt()) > 0) {
-			String mn = mills + UK_FORMAT.SPACE.val()
+			String mn = mills + DEFAULT_FORMAT.SPACE.val()
 					+ languageSupport.getMillUnit();
 			result.append(mn);
 		}
@@ -163,16 +163,16 @@ public final class IntegerToWordMapper implements
 		final BigInteger thou = numAtIndex.get(UK_UNITS.THOUS);
 		if (thou.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) > 0) {
 
-			String appThous = thous + UK_FORMAT.SPACE.val()
+			String appThous = thous + DEFAULT_FORMAT.SPACE.val()
 					+ languageSupport.getThouUnit();
 
-			if (mills == UK_FORMAT.EMPTY.val()) {
+			if (mills == DEFAULT_FORMAT.EMPTY.val()) {
 				result.append(appThous);
 			} else if (thou.compareTo(NUMBER_CONSTANT.ONE_HUNDRED.getBigInt()) < 0) {
 				result.append(languageSupport.getAnd() + appThous.toLowerCase());
 
 			} else {
-				result.append(UK_FORMAT.SPACE.val() + appThous.toLowerCase());
+				result.append(DEFAULT_FORMAT.SPACE.val() + appThous.toLowerCase());
 			}
 		}
 		if (numAtIndex.get(UK_UNITS.HUNS).compareTo(
@@ -184,7 +184,7 @@ public final class IntegerToWordMapper implements
 						NUMBER_CONSTANT.ONE_HUNDRED.getBigInt()) < 0) {
 					result.append(languageSupport.getAnd() + huns.toLowerCase());
 				} else {
-					result.append(UK_FORMAT.SPACE.val() + huns.toLowerCase());
+					result.append(DEFAULT_FORMAT.SPACE.val() + huns.toLowerCase());
 				}
 			}
 		}
@@ -298,7 +298,7 @@ public final class IntegerToWordMapper implements
 			indTwo = String.valueOf(numStr.charAt(2));
 
 			BigInteger rem = num.mod(NUMBER_CONSTANT.ONE_HUNDRED.getBigInt());
-			result = intToWordMap.get(indZero) + UK_FORMAT.SPACE.val()
+			result = intToWordMap.get(indZero) + DEFAULT_FORMAT.SPACE.val()
 					+ languageSupport.getHunUnit();
 			if (rem.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) > 0) { // not
 																		// whole
@@ -352,7 +352,7 @@ public final class IntegerToWordMapper implements
 			// ten
 			if (!indOne.equals("0")) {
 				result = intToWordMap.get(atZero.toString())
-						+ UK_FORMAT.SPACE.val() + intToWordMap.get(indOne);
+						+ DEFAULT_FORMAT.SPACE.val() + intToWordMap.get(indOne);
 			} else {
 				result = intToWordMap.get(atZero.toString());
 			}
