@@ -11,7 +11,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import org.desz.language.LanguageSupport;
+import org.desz.language.EnumLanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
@@ -32,7 +32,7 @@ public class IntegerToWordEnumFactoryTest {
 	private final static Logger LOGGER = Logger
 			.getLogger(IntegerToWordEnumFactoryTest.class.getName());
 
-	private static final Object ARGS[] = new Object[] { new LanguageSupport(
+	private static final Object ARGS[] = new Object[] { new EnumLanguageSupport(
 			PROVISIONED_LN.UK) };
 
 	@After
@@ -52,13 +52,13 @@ public class IntegerToWordEnumFactoryTest {
 
 		IFNumberToWordMapper<BigInteger> mapper = null;
 		try {
-			mapper = fac.getIntegerToWordMapper(); // add mapper to cache
+			mapper = fac.getIntegerToWordMapper(); // add mapper to factoryCache
 		} catch (NumberToWordFactoryException e) {
 			LOGGER.severe("testFactoryCache exception." + e.getCause());
 		}
 
-		// Reset the cache toempty state
-		Whitebox.setInternalState(IntegerToWordEnumFactory.class, "cache",
+		// Reset the factoryCache toempty state
+		Whitebox.setInternalState(IntegerToWordEnumFactory.class, "factoryCache",
 				new HashMap<PROVISIONED_LN, IntegerToWordEnumFactory>());
 
 		// Call getIntegerToWord again -> mapper2

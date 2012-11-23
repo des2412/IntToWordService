@@ -9,7 +9,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.desz.language.LanguageSupport;
+import org.desz.language.EnumLanguageSupport;
+import org.desz.language.ILanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.NUMBER_CONSTANT;
 import org.desz.numbertoword.enums.EnumHolder.DEFAULT_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.UK_UNITS;
@@ -27,12 +28,10 @@ import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
 public final class IntegerToWordMapper implements
 		IFNumberToWordMapper<BigInteger> {
 
-	private final LanguageSupport languageSupport;
+	private final ILanguageSupport enumLanguageSupport;
 
 	protected final static Logger LOGGER = Logger
 			.getLogger(IntegerToWordMapper.class.getName());
-
-	public Map<String, String> intToWordMap = null;
 
 	private static final String FORMATTED_NUMBER_SEPARATOR = DEFAULT_FORMAT.NUM_SEP
 			.val();
@@ -58,23 +57,22 @@ public final class IntegerToWordMapper implements
 	 * Constructor is private to enforce Singleton semantics
 	 * 
 	 * @see IntegerToWordEnumFactory which has the logic to 'inject' the correct
-	 *      languageSupport
+	 *      enumLanguageSupport
 	 * 
-	 * @param languageSupport
+	 * @param enumLanguageSupport
 	 *            specific text values for target PROVISIONED_LN
 	 */
-	private IntegerToWordMapper(final LanguageSupport languageSupport) {
-		this.languageSupport = languageSupport;
+	private IntegerToWordMapper(final ILanguageSupport enumLanguageSupport) {
+		this.enumLanguageSupport = enumLanguageSupport;
 	}
 
 	/**
 	 * 
 	 * @param num
 	 * @return
-	 * @throws Exception
+	 * @throws IntegerToWordException
 	 *             if validate throws Exception type
 	 */
-
 	@Override
 	public String getWord(BigInteger num) throws IntegerToWordException {
 
@@ -84,7 +82,7 @@ public final class IntegerToWordMapper implements
 
 		} catch (IntegerToWordException e) {
 			LOGGER.info(e.getMessage());
-			setMessage(languageSupport.getNumberFormatErr());
+			setMessage(enumLanguageSupport.getNumberFormatErr());
 			throw new IntegerToWordException(e);
 		}
 
@@ -93,7 +91,7 @@ public final class IntegerToWordMapper implements
 		final int nComps = components.length;
 
 		if (formattedNumber.equals("0")) {
-			return intToWordMap.get("0");
+			return enumLanguageSupport.getIntToWordMap().get("0");
 		}
 
 		String mills = DEFAULT_FORMAT.EMPTY.val();
@@ -142,10 +140,10 @@ public final class IntegerToWordMapper implements
 			numAtIndex.put(UK_UNITS.HUNS, val);
 			break;
 		default:
-			LOGGER.info(languageSupport.getInvalidInput() + num);
-			setMessage(languageSupport.getInvalidInput() + num);
-			throw new IntegerToWordException(languageSupport.getInvalidInput()
-					+ num);
+			LOGGER.info(enumLanguageSupport.getInvalidInput() + num);
+			setMessage(enumLanguageSupport.getInvalidInput() + num);
+			throw new IntegerToWordException(
+					enumLanguageSupport.getInvalidInput() + num);
 
 		}
 
@@ -156,7 +154,7 @@ public final class IntegerToWordMapper implements
 		if (numAtIndex.get(UK_UNITS.MILLS).compareTo(
 				NUMBER_CONSTANT.ZERO.getBigInt()) > 0) {
 			String mn = mills + DEFAULT_FORMAT.SPACE.val()
-					+ languageSupport.getMillUnit();
+					+ enumLanguageSupport.getMillUnit();
 			result.append(mn);
 		}
 
@@ -164,15 +162,17 @@ public final class IntegerToWordMapper implements
 		if (thou.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) > 0) {
 
 			String appThous = thous + DEFAULT_FORMAT.SPACE.val()
-					+ languageSupport.getThouUnit();
+					+ enumLanguageSupport.getThouUnit();
 
 			if (mills == DEFAULT_FORMAT.EMPTY.val()) {
 				result.append(appThous);
 			} else if (thou.compareTo(NUMBER_CONSTANT.ONE_HUNDRED.getBigInt()) < 0) {
-				result.append(languageSupport.getAnd() + appThous.toLowerCase());
+				result.append(enumLanguageSupport.getAnd()
+						+ appThous.toLowerCase());
 
 			} else {
-				result.append(DEFAULT_FORMAT.SPACE.val() + appThous.toLowerCase());
+				result.append(DEFAULT_FORMAT.SPACE.val()
+						+ appThous.toLowerCase());
 			}
 		}
 		if (numAtIndex.get(UK_UNITS.HUNS).compareTo(
@@ -182,9 +182,11 @@ public final class IntegerToWordMapper implements
 			} else {
 				if (numAtIndex.get(UK_UNITS.HUNS).compareTo(
 						NUMBER_CONSTANT.ONE_HUNDRED.getBigInt()) < 0) {
-					result.append(languageSupport.getAnd() + huns.toLowerCase());
+					result.append(enumLanguageSupport.getAnd()
+							+ huns.toLowerCase());
 				} else {
-					result.append(DEFAULT_FORMAT.SPACE.val() + huns.toLowerCase());
+					result.append(DEFAULT_FORMAT.SPACE.val()
+							+ huns.toLowerCase());
 				}
 			}
 		}
@@ -218,12 +220,14 @@ public final class IntegerToWordMapper implements
 	/**
 	 * Injected by IntegerToWordFactory
 	 * 
-	 * @param numToWordMap the language specific map of numbers to words
+	 * @param numToWordMap
+	 *            the language specific map of numbers to words
+	 * 
+	 *            public final void setMapping(Map<String, String> numToWordMap)
+	 *            { this.intToWordMap = numToWordMap;
+	 * 
+	 *            }
 	 */
-	public final void setMapping(Map<String, String> numToWordMap) {
-		this.intToWordMap = numToWordMap;
-
-	}
 
 	/**
 	 * 
@@ -235,15 +239,16 @@ public final class IntegerToWordMapper implements
 			throws IntegerToWordException {
 
 		if (num == null) {
-			LOGGER.info(languageSupport.getNullInput());
-			setMessage(languageSupport.getNullInput());
-			throw new IntegerToWordException(languageSupport.getNullInput());
+			LOGGER.info(enumLanguageSupport.getNullInput());
+			setMessage(enumLanguageSupport.getNullInput());
+			throw new IntegerToWordException(enumLanguageSupport.getNullInput());
 		}
 
 		if (num.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) < 0) {
-			LOGGER.info(languageSupport.getNegativeInput());
-			setMessage(languageSupport.getNegativeInput());
-			throw new IntegerToWordException(languageSupport.getNegativeInput());
+			LOGGER.info(enumLanguageSupport.getNegativeInput());
+			setMessage(enumLanguageSupport.getNegativeInput());
+			throw new IntegerToWordException(
+					enumLanguageSupport.getNegativeInput());
 		}
 
 		String formattedNumber = null;
@@ -252,9 +257,9 @@ public final class IntegerToWordMapper implements
 			formattedNumber = convertToNumberFormat(Long.valueOf(String
 					.valueOf(num)));
 		} catch (NumberFormatException nfe) {
-			setMessage(languageSupport.getNumberFormatErr());
+			setMessage(enumLanguageSupport.getNumberFormatErr());
 			throw new IntegerToWordException(
-					languageSupport.getNumberFormatErr());
+					enumLanguageSupport.getNumberFormatErr());
 		}
 		return formattedNumber;
 	}
@@ -271,15 +276,15 @@ public final class IntegerToWordMapper implements
 		String indOne = null;
 		String indTwo = null;
 		String result = null;
-		
-		if(intToWordMap.containsKey(numStr)){
-			return intToWordMap.get(numStr);
+
+		if (enumLanguageSupport.getIntToWordMap().containsKey(numStr)) {
+			return enumLanguageSupport.getIntToWordMap().get(numStr);
 		}
-		
+
 		switch (numStr.length()) {
 		// 1,2 or 3 digits
 		case 1:
-			result = intToWordMap.get(numStr);
+			result = enumLanguageSupport.getIntToWordMap().get(numStr);
 			break;
 		case 2:
 			indZero = String.valueOf(numStr.charAt(0));
@@ -287,7 +292,8 @@ public final class IntegerToWordMapper implements
 
 			if (num.compareTo(new BigInteger("9")) > 0
 					& num.compareTo(NUMBER_CONSTANT.TWENTY.getBigInt()) < 0) {// teenager
-				result = intToWordMap.get(indZero + indOne);
+				result = enumLanguageSupport.getIntToWordMap().get(
+						indZero + indOne);
 			} else { // >= 20 & <= 99
 				result = getDecimalPart(indZero, indOne);
 			}
@@ -298,19 +304,20 @@ public final class IntegerToWordMapper implements
 			indTwo = String.valueOf(numStr.charAt(2));
 
 			BigInteger rem = num.mod(NUMBER_CONSTANT.ONE_HUNDRED.getBigInt());
-			result = intToWordMap.get(indZero) + DEFAULT_FORMAT.SPACE.val()
-					+ languageSupport.getHunUnit();
+			result = enumLanguageSupport.getIntToWordMap().get(indZero)
+					+ DEFAULT_FORMAT.SPACE.val()
+					+ enumLanguageSupport.getHunUnit();
 			if (rem.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) > 0) { // not
 																		// whole
 																		// hundredth
 				String decs = getDecimalPart(indOne, indTwo);
-				result += languageSupport.getAnd() + decs.toLowerCase();
+				result += enumLanguageSupport.getAnd() + decs.toLowerCase();
 			}
 			break;
 
 		default:
-			setMessage(languageSupport.getUnkownErr());
-			throw new IntegerToWordException(languageSupport.getUnkownErr());
+			setMessage(enumLanguageSupport.getUnkownErr());
+			throw new IntegerToWordException(enumLanguageSupport.getUnkownErr());
 
 		}
 		LOGGER.info("getWordForInt:" + result);
@@ -338,12 +345,13 @@ public final class IntegerToWordMapper implements
 		if (decs.compareTo(BigInteger.ZERO) == 0
 				| (decs.compareTo(NUMBER_CONSTANT.TEN.getBigInt()) > 0 & decs
 						.compareTo(NUMBER_CONSTANT.TWENTY.getBigInt()) < 0)) {
-			result = intToWordMap.get(indZero + indOne);
+			result = enumLanguageSupport.getIntToWordMap()
+					.get(indZero + indOne);
 
 		} else if (decs.compareTo(NUMBER_CONSTANT.TEN.getBigInt()) < 0) {// eg
 																			// 09
 			LOGGER.info("[0-9]");
-			result = intToWordMap.get(indOne);
+			result = enumLanguageSupport.getIntToWordMap().get(indOne);
 
 		} else { // 2x-9x (x NOT 0)
 			atZero.append("0");
@@ -351,10 +359,13 @@ public final class IntegerToWordMapper implements
 			// key(intToWordMap) whole
 			// ten
 			if (!indOne.equals("0")) {
-				result = intToWordMap.get(atZero.toString())
-						+ DEFAULT_FORMAT.SPACE.val() + intToWordMap.get(indOne);
+				result = enumLanguageSupport.getIntToWordMap().get(
+						atZero.toString())
+						+ DEFAULT_FORMAT.SPACE.val()
+						+ enumLanguageSupport.getIntToWordMap().get(indOne);
 			} else {
-				result = intToWordMap.get(atZero.toString());
+				result = enumLanguageSupport.getIntToWordMap().get(
+						atZero.toString());
 			}
 		}
 		return result;

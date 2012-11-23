@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.desz.language.LanguageSupport;
+import org.desz.language.EnumLanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.DE_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.NL_WORDS;
@@ -87,24 +87,24 @@ public enum IntegerToWordEnumFactory implements
 	/**
 	 * 
 	 * @param pl
-	 * @return 
+	 * @return
 	 */
 	private boolean isCached(PROVISIONED_LN pl) {
 		final boolean isCached = factoryCache.containsKey(pl);
 		if (isCached) {
-			LOGGER.info("IntegerToWordMapper for language "
-					+ pl.name() + " available");
+			LOGGER.info("IntegerToWordMapper for language " + pl.name()
+					+ " available");
 		}
 		return isCached;
 	}
 
 	/**
-	 * Get a language specific Enum Factory
-	 * Each instance is specific for a
+	 * Get a language specific Enum Factory Each instance is specific for a
 	 * PROVISIONED_LN.
-	 * @see LanguageSupport
 	 * 
-	 * Instances will be cached in the initialised state for reuse
+	 * @see EnumLanguageSupport
+	 * 
+	 *      Instances will be cached in the initialised state for reuse
 	 * 
 	 */
 	@Override
@@ -113,7 +113,7 @@ public enum IntegerToWordEnumFactory implements
 
 		final Object[] args = new Object[1];
 
-		LanguageSupport languageSupport = null;
+		EnumLanguageSupport enumLanguageSupport = null;
 
 		switch (this) {
 		case UK_FAC:
@@ -122,8 +122,8 @@ public enum IntegerToWordEnumFactory implements
 				return factoryCache.get(PROVISIONED_LN.UK).integerToWordMapper;
 			}
 
-			languageSupport = new LanguageSupport(PROVISIONED_LN.UK);
-			args[0] = languageSupport;
+			enumLanguageSupport = new EnumLanguageSupport(PROVISIONED_LN.UK);
+			args[0] = enumLanguageSupport;
 			// invoke private constructor
 			this.integerToWordMapper = newIntegerToWordMapper(args);
 			// factoryCache 'this' in Map
@@ -135,8 +135,8 @@ public enum IntegerToWordEnumFactory implements
 				return factoryCache.get(PROVISIONED_LN.FR).integerToWordMapper;
 			}
 
-			languageSupport = new LanguageSupport(PROVISIONED_LN.FR);
-			args[0] = languageSupport;
+			enumLanguageSupport = new EnumLanguageSupport(PROVISIONED_LN.FR);
+			args[0] = enumLanguageSupport;
 			this.integerToWordMapper = newIntegerToWordMapper(args);
 			factoryCache.put(PROVISIONED_LN.FR, this);
 			break;
@@ -145,19 +145,19 @@ public enum IntegerToWordEnumFactory implements
 				return factoryCache.get(PROVISIONED_LN.DE).integerToWordMapper;
 			}
 
-			languageSupport = new LanguageSupport(PROVISIONED_LN.DE);
-			args[0] = languageSupport;
+			enumLanguageSupport = new EnumLanguageSupport(PROVISIONED_LN.DE);
+			args[0] = enumLanguageSupport;
 			this.integerToWordMapper = newIntegerToWordMapper(args);
 			factoryCache.put(PROVISIONED_LN.DE, this);
 			break;
-			
+
 		case NL_FAC:
 			if (isCached(PROVISIONED_LN.NL)) {
 				return factoryCache.get(PROVISIONED_LN.NL).integerToWordMapper;
 			}
 
-			languageSupport = new LanguageSupport(PROVISIONED_LN.NL);
-			args[0] = languageSupport;
+			enumLanguageSupport = new EnumLanguageSupport(PROVISIONED_LN.NL);
+			args[0] = enumLanguageSupport;
 			this.integerToWordMapper = newIntegerToWordMapper(args);
 			factoryCache.put(PROVISIONED_LN.NL, this);
 			break;
@@ -166,8 +166,6 @@ public enum IntegerToWordEnumFactory implements
 			throw new NumberToWordFactoryException(UK_ERRORS.UNKNOWN.getError());
 
 		}
-		((IntegerToWordMapper) this.integerToWordMapper)
-				.setMapping(initialiseMapping());
 
 		LOGGER.info("Added "
 				+ this.name()
@@ -182,47 +180,10 @@ public enum IntegerToWordEnumFactory implements
 	private IntegerToWordEnumFactory() {
 	}
 
-	/**
-	 * Provisions Map of Integer to language specific word
-	 * 
-	 * @return language specific Map of number to word
-	 */
-	private Map<String, String> initialiseMapping() {
-		Map<String, String> intToWordMap = new HashMap<String, String>();
-		switch (this) {
-		case UK_FAC:
-			for (UK_WORDS intToWord : UK_WORDS.values()) {
-				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
-			}
-
-			break;
-		case FR_FAC:
-			for (FR_WORDS intToWord : FR_WORDS.values()) {
-				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
-			}
-			break;
-			
-		case DE_FAC:
-			for (DE_WORDS intToWord : DE_WORDS.values()) {
-				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
-			}
-			break;
-		case NL_FAC:
-			for (NL_WORDS intToWord : NL_WORDS.values()) {
-				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
-			}
-			break;
-			
-		default:
-			LOGGER.info("initialiseMapping:" + UK_ERRORS.UNKNOWN.getError());
-			break;
-
-		}
-		return intToWordMap;
-	}
 
 	/**
 	 * Purge cache of specific Factory
+	 * 
 	 * @param provLang
 	 * @return
 	 * @throws FactoryMapperRemovalException
@@ -243,7 +204,8 @@ public enum IntegerToWordEnumFactory implements
 			}
 
 		} else {
-			LOGGER.info("Reference removed from factoryCache for " + provLang.name());
+			LOGGER.info("Reference removed from factoryCache for "
+					+ provLang.name());
 		}
 
 		return !factoryCache.containsKey(provLang);
