@@ -60,7 +60,7 @@ public final class IntegerToWordMapper implements
 	 *      enumLanguageSupport
 	 * 
 	 * @param enumLanguageSupport
-	 *            specific text values for target PROVISIONED_LN
+	 *            specific for PROVISIONED_LN
 	 */
 	private IntegerToWordMapper(final ILanguageSupport enumLanguageSupport) {
 		this.enumLanguageSupport = enumLanguageSupport;
@@ -217,17 +217,6 @@ public final class IntegerToWordMapper implements
 
 	}
 
-	/**
-	 * Injected by IntegerToWordFactory
-	 * 
-	 * @param numToWordMap
-	 *            the language specific map of numbers to words
-	 * 
-	 *            public final void setMapping(Map<String, String> numToWordMap)
-	 *            { this.intToWordMap = numToWordMap;
-	 * 
-	 *            }
-	 */
 
 	/**
 	 * 
