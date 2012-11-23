@@ -37,7 +37,8 @@ public enum IntegerToWordEnumFactory implements
 	// Language specific factories
 	UK_FAC(), FR_FAC(), DE_FAC(), NL_FAC;
 
-	private static Map<PROVISIONED_LN, IntegerToWordEnumFactory> cache = Collections
+	// Each factory once instantiated will be cached.
+	private static Map<PROVISIONED_LN, IntegerToWordEnumFactory> factoryCache = Collections
 			.synchronizedMap(new HashMap<PROVISIONED_LN, IntegerToWordEnumFactory>());
 
 	private final static Logger LOGGER = Logger
@@ -89,7 +90,7 @@ public enum IntegerToWordEnumFactory implements
 	 * @return 
 	 */
 	private boolean isCached(PROVISIONED_LN pl) {
-		final boolean isCached = cache.containsKey(pl);
+		final boolean isCached = factoryCache.containsKey(pl);
 		if (isCached) {
 			LOGGER.info("IntegerToWordMapper for language "
 					+ pl.name() + " available");
@@ -99,7 +100,12 @@ public enum IntegerToWordEnumFactory implements
 
 	/**
 	 * Get a language specific Enum Factory
-	 * and cache this in Map cache
+	 * Each instance is specific for a
+	 * PROVISIONED_LN.
+	 * @see LanguageSupport
+	 * 
+	 * Instances will be cached in the initialised state for reuse
+	 * 
 	 */
 	@Override
 	public IFNumberToWordMapper<BigInteger> getIntegerToWordMapper()
@@ -111,49 +117,49 @@ public enum IntegerToWordEnumFactory implements
 
 		switch (this) {
 		case UK_FAC:
-			// check cache
+			// check factoryCache
 			if (isCached(PROVISIONED_LN.UK)) {
-				return cache.get(PROVISIONED_LN.UK).integerToWordMapper;
+				return factoryCache.get(PROVISIONED_LN.UK).integerToWordMapper;
 			}
 
 			languageSupport = new LanguageSupport(PROVISIONED_LN.UK);
 			args[0] = languageSupport;
 			// invoke private constructor
 			this.integerToWordMapper = newIntegerToWordMapper(args);
-			// cache 'this' in Map
-			cache.put(PROVISIONED_LN.UK, this);
+			// factoryCache 'this' in Map
+			factoryCache.put(PROVISIONED_LN.UK, this);
 			break;
 
 		case FR_FAC:
 			if (isCached(PROVISIONED_LN.FR)) {
-				return cache.get(PROVISIONED_LN.FR).integerToWordMapper;
+				return factoryCache.get(PROVISIONED_LN.FR).integerToWordMapper;
 			}
 
 			languageSupport = new LanguageSupport(PROVISIONED_LN.FR);
 			args[0] = languageSupport;
 			this.integerToWordMapper = newIntegerToWordMapper(args);
-			cache.put(PROVISIONED_LN.FR, this);
+			factoryCache.put(PROVISIONED_LN.FR, this);
 			break;
 		case DE_FAC:
 			if (isCached(PROVISIONED_LN.DE)) {
-				return cache.get(PROVISIONED_LN.DE).integerToWordMapper;
+				return factoryCache.get(PROVISIONED_LN.DE).integerToWordMapper;
 			}
 
 			languageSupport = new LanguageSupport(PROVISIONED_LN.DE);
 			args[0] = languageSupport;
 			this.integerToWordMapper = newIntegerToWordMapper(args);
-			cache.put(PROVISIONED_LN.DE, this);
+			factoryCache.put(PROVISIONED_LN.DE, this);
 			break;
 			
 		case NL_FAC:
 			if (isCached(PROVISIONED_LN.NL)) {
-				return cache.get(PROVISIONED_LN.NL).integerToWordMapper;
+				return factoryCache.get(PROVISIONED_LN.NL).integerToWordMapper;
 			}
 
 			languageSupport = new LanguageSupport(PROVISIONED_LN.NL);
 			args[0] = languageSupport;
 			this.integerToWordMapper = newIntegerToWordMapper(args);
-			cache.put(PROVISIONED_LN.NL, this);
+			factoryCache.put(PROVISIONED_LN.NL, this);
 			break;
 		default:
 			LOGGER.info("Unknown problem creating Factory");
@@ -165,8 +171,8 @@ public enum IntegerToWordEnumFactory implements
 
 		LOGGER.info("Added "
 				+ this.name()
-				+ " to cache Map. Number of configured NumberToWordEnumFactories :"
-				+ cache.size());
+				+ " to factoryCache Map. Number of configured NumberToWordEnumFactories :"
+				+ factoryCache.size());
 		return this.integerToWordMapper;
 	}
 
@@ -208,6 +214,7 @@ public enum IntegerToWordEnumFactory implements
 			break;
 			
 		default:
+			LOGGER.info("initialiseMapping:" + UK_ERRORS.UNKNOWN.getError());
 			break;
 
 		}
@@ -215,7 +222,7 @@ public enum IntegerToWordEnumFactory implements
 	}
 
 	/**
-	 * 
+	 * Purge cache of specific Factory
 	 * @param provLang
 	 * @return
 	 * @throws FactoryMapperRemovalException
@@ -223,23 +230,23 @@ public enum IntegerToWordEnumFactory implements
 	public static boolean removeNumberToWordEnumFactory(
 			final PROVISIONED_LN provLang) throws FactoryMapperRemovalException {
 
-		if (cache.containsKey(provLang)) {
+		if (factoryCache.containsKey(provLang)) {
 
 			try {
-				cache.remove(provLang);
+				factoryCache.remove(provLang);
 				LOGGER.info("Removal of " + provLang.name()
 						+ " NumberToWordEnumFactory result:"
-						+ !cache.containsKey(provLang));
+						+ !factoryCache.containsKey(provLang));
 
 			} catch (Exception e) {
 				throw new FactoryMapperRemovalException(e);
 			}
 
 		} else {
-			LOGGER.info("Reference removed from cache for " + provLang.name());
+			LOGGER.info("Reference removed from factoryCache for " + provLang.name());
 		}
 
-		return !cache.containsKey(provLang);
+		return !factoryCache.containsKey(provLang);
 	}
 
 }

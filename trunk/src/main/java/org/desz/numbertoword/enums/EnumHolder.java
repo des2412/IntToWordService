@@ -90,6 +90,16 @@ public final class EnumHolder {
 		}
 	};
 
+	/**
+	 * XX_WORDS specific mappings. 
+	 * 
+	 * The Factory will set the appropriate mapping.
+	 * 
+	 * @see IntegerToWordEnumFactory
+	 * 
+	 * @author des
+	 *
+	 */
 	public enum NL_WORDS {
 		ZERO("0", "Nul"), ONE("1", "Een"), TWO("2", "Twee"), THREE("3", "Drei"), FOUR(
 				"4", "Vier"), FIVE("5", "Vijf"), SIX("6", "Zes"), SEVEN("7",
@@ -230,7 +240,14 @@ public final class EnumHolder {
 	};
 
 	/**
-	 * Errors possible during conversion
+	 * Errors possible during conversion.
+	 * 
+	 * Languages: UK, FR, DE, NL
+	 * 
+	 * UK is default if invalid language is selected.
+	 * 
+	 * Each XX_ERRORS Enum is a discrete set with
+	 * language dependent values.
 	 * 
 	 * @author des
 	 * 
