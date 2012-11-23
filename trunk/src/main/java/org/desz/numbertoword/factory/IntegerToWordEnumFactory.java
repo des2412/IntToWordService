@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import org.desz.language.LanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.DE_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
+import org.desz.numbertoword.enums.EnumHolder.NL_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.UK_WORDS;
@@ -34,7 +35,7 @@ public enum IntegerToWordEnumFactory implements
 		INumberToWordFactory<BigInteger> {
 
 	// Language specific factories
-	UK_FAC(), FR_FAC(), DE_FAC();
+	UK_FAC(), FR_FAC(), DE_FAC(), NL_FAC;
 
 	private static Map<PROVISIONED_LN, IntegerToWordEnumFactory> cache = Collections
 			.synchronizedMap(new HashMap<PROVISIONED_LN, IntegerToWordEnumFactory>());
@@ -90,7 +91,7 @@ public enum IntegerToWordEnumFactory implements
 	private boolean isCached(PROVISIONED_LN pl) {
 		final boolean isCached = cache.containsKey(pl);
 		if (isCached) {
-			LOGGER.info("Initialised instance of IntegerToWordMapper for language "
+			LOGGER.info("IntegerToWordMapper for language "
 					+ pl.name() + " available");
 		}
 		return isCached;
@@ -143,6 +144,17 @@ public enum IntegerToWordEnumFactory implements
 			this.integerToWordMapper = newIntegerToWordMapper(args);
 			cache.put(PROVISIONED_LN.DE, this);
 			break;
+			
+		case NL_FAC:
+			if (isCached(PROVISIONED_LN.NL)) {
+				return cache.get(PROVISIONED_LN.NL).integerToWordMapper;
+			}
+
+			languageSupport = new LanguageSupport(PROVISIONED_LN.NL);
+			args[0] = languageSupport;
+			this.integerToWordMapper = newIntegerToWordMapper(args);
+			cache.put(PROVISIONED_LN.NL, this);
+			break;
 		default:
 			LOGGER.info("Unknown problem creating Factory");
 			throw new NumberToWordFactoryException(UK_ERRORS.UNKNOWN.getError());
@@ -186,6 +198,11 @@ public enum IntegerToWordEnumFactory implements
 			
 		case DE_FAC:
 			for (DE_WORDS intToWord : DE_WORDS.values()) {
+				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
+			}
+			break;
+		case NL_FAC:
+			for (NL_WORDS intToWord : NL_WORDS.values()) {
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
 			}
 			break;

@@ -23,7 +23,8 @@ public final class EnumHolder {
 	 */
 	public enum PROVISIONED_LN {
 		UK("UK", "UK ENGLISH", true), FR("FR", "FRANÇAIS", true), DE("DE",
-				"DEUTSCH", true), EMPTY("EMPTY", "Select...", false);
+				"DEUTSCH", true), NL("NL", "NEDERLANDSE", true), EMPTY("EMPTY",
+				"Select...", false);
 
 		private String code;
 		private String description;
@@ -35,6 +36,7 @@ public final class EnumHolder {
 
 		/**
 		 * Constructor
+		 * 
 		 * @param code
 		 * @param description
 		 * @param valid
@@ -88,20 +90,56 @@ public final class EnumHolder {
 		}
 	};
 
+	public enum NL_WORDS {
+		ZERO("0", "Nul"), ONE("1", "Een"), TWO("2", "Twee"), THREE("3", "Drei"), FOUR(
+				"4", "Vier"), FIVE("5", "Vijf"), SIX("6", "Zes"), SEVEN("7",
+				"Zeven"), EIGHT("8", "Acht"), NINE("9", "Negen"), TEN("10",
+				"Tien"), ELEVEN("11", "Elf"), TWELVE("12", "Twaalf"), THIRTEEN(
+				"13", "Dertein"), FOURTEEN("14", "Veertien"), FIFTEEN("15",
+				"Vijftien"), SIXTEEN("16", "Zestien"), SEVENTEEN("17",
+				"Zeventien"), EIGHTEEN("18", "Achttien"), NINETEEN("19",
+				"Negentien"), TWENTY("20", "Twintig"), TWENTYONE("21",
+				"Eenentwintig"), TWENTYTWO("22", "Tweeëntwintig"), TWENTYTHREE(
+				"23", "Dreiëntwintig"), TWENTYFOUR("24", "Vierentwintig"), TWENTYFIVE(
+				"25", "Vijfentwintig"), TWENTYSIX("26", "Zesentwintig"), TWENTYSEVEN(
+				"27", "Zevenentwintig"), TWENTYEIGHT("28", "Achtentwintig"), TWENTYNINE(
+				"29", "Negenentwintig"), THIRTY("30", "Dertig"), FORTY("40",
+				"Veertig"), FIFTY("50", "Vijftig"), SIXTY("60", "Zestig"), SEVENTY(
+				"70", "Zeventig"), EIGHTY("80", "Tachtig"), NINETY("90",
+				"Negentig");
+
+		private String word;
+		private String num;
+
+		private NL_WORDS(String num, String word) {
+			this.num = num;
+			this.word = word;
+		}
+
+		public String getWord() {
+			return word;
+		}
+
+		public String getNum() {
+			return num;
+		}
+
+	};
+
 	public enum DE_WORDS {
-		ZERO("0", "Zero"), ONE("1", "Eins"), TWO("2", "Zwei"), THREE("3",
+		ZERO("0", "Null"), ONE("1", "Eins"), TWO("2", "Zwei"), THREE("3",
 				"Drei"), FOUR("4", "Vier"), FIVE("5", "Fünf"), SIX("6", "Sechs"), SEVEN(
 				"7", "Sieben"), EIGHT("8", "Acht"), NINE("9", "Neun"), TEN(
-				"10", "Zehn"), ELEVEN("11", "elf"), TWELVE("12", "Zwölf"), THIRTEEN(
+				"10", "Zehn"), ELEVEN("11", "Elf"), TWELVE("12", "Zwölf"), THIRTEEN(
 				"13", "Dreizehn"), FOURTEEN("14", "Vierzehn"), FIFTEEN("15",
 				"Fünfzehn"), SIXTEEN("16", "Sechzehn"), SEVENTEEN("17",
 				"Siebzehn"), EIGHTEEN("18", "Achtzehn"), NINETEEN("19",
 				"Nehnzehn"), TWENTY("20", "Zwanzig"), TWENTYONE("21",
-				"einundzwanzig"), TWENTYTWO("22", "zweiundzwanzig"), TWENTYTHREE(
-				"23", "dreiundzwanzig"), TWENTYFOUR("24", "vierundzwanzig"), TWENTYFIVE(
-				"25", "fünfundzwanzig"), TWENTYSIX("26", "sechsundzwanzig"), TWENTYSEVEN(
-				"27", "siebenundzwanzig"), TWENTYEIGHT("28", "achtundzwanzig"), TWENTYNINE(
-				"29", "neunundzwanzig"), THIRTY("30", "Dreißig"), FORTY("40",
+				"Einundzwanzig"), TWENTYTWO("22", "Zweiundzwanzig"), TWENTYTHREE(
+				"23", "Dreiundzwanzig"), TWENTYFOUR("24", "Vierundzwanzig"), TWENTYFIVE(
+				"25", "Fünfundzwanzig"), TWENTYSIX("26", "Sechsundzwanzig"), TWENTYSEVEN(
+				"27", "Siebenundzwanzig"), TWENTYEIGHT("28", "Achtundzwanzig"), TWENTYNINE(
+				"29", "Neunundzwanzig"), THIRTY("30", "Dreißig"), FORTY("40",
 				"Vierzig"), FIFTY("50", "Fünfzig"), SIXTY("60", "Sechzig"), SEVENTY(
 				"70", "Siebzig"), EIGHTY("80", "Achtzig"), NINETY("90",
 				"Neunzig");
@@ -235,17 +273,46 @@ public final class EnumHolder {
 		}
 
 	};
-	
+
+	/**
+	 * German Error messages
+	 * 
+	 * @author des
+	 * 
+	 */
 	public enum DE_ERRORS {
 		INVALID_INPUT("ungültige Eingabe"), INVALID_NUMBER(
 				"Gebrochene oder nicht ganze Zahlen aberkannt"), NULL_INPUT(
 				"null-Eingang"), UNKNOWN("unbekannter Fehler"), NEGATIVE_INPUT(
-				"Minuseingang"), NUMBERFORMAT(
-				"Zahlenformat Ausnahme"), INVALID_LN_SEL(
+				"Minuseingang"), NUMBERFORMAT("Zahlenformat Ausnahme"), INVALID_LN_SEL(
 				"ungültige Auswahl der Sprache");
 		private String error;
 
 		private DE_ERRORS(String error) {
+			this.error = error;
+		}
+
+		public String getError() {
+			return this.error;
+		}
+
+	};
+
+	/**
+	 * NL error messages
+	 * 
+	 * @author des
+	 * 
+	 */
+	public enum NL_ERRORS {
+		INVALID_INPUT("Ongeldige Invoer"), INVALID_NUMBER(
+				"Fractionele of niet-gehele getallen niet toegestaan"), NULL_INPUT(
+				"null-Eingang"), UNKNOWN("Onbekende Fout"), NEGATIVE_INPUT(
+				"Negatieve Ingang"), NUMBERFORMAT("Getalnotatie Uitzondering"), INVALID_LN_SEL(
+				"Ongeldig Taalkeuze");
+		private String error;
+
+		private NL_ERRORS(String error) {
 			this.error = error;
 		}
 
@@ -296,6 +363,21 @@ public final class EnumHolder {
 		private String val;
 
 		DE_UNITS(String val) {
+			this.val = val;
+		}
+
+		public String val() {
+			return val;
+		}
+	}
+
+	public enum NL_UNITS {
+
+		MILLS("miljeon"), THOUS("duizend"), HUNS("honderd");
+
+		private String val;
+
+		NL_UNITS(String val) {
 			this.val = val;
 		}
 

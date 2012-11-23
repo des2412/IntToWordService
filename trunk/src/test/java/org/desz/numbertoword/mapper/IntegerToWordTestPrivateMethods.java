@@ -24,7 +24,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * 
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({IntegerToWordMapper.class, LanguageSupport.class})
+@PrepareForTest({ IntegerToWordMapper.class, LanguageSupport.class })
 public class IntegerToWordTestPrivateMethods extends IntegerToWordMapperTest {
 
 	@Test
@@ -32,26 +32,26 @@ public class IntegerToWordTestPrivateMethods extends IntegerToWordMapperTest {
 
 		IntegerToWordMapper tested = PowerMock.createPartialMock(
 				IntegerToWordMapper.class, "getWordForInt");
-		
-		//LanguageSupport languageSupport = PowerMock.createMock(LanguageSupport.class);
-		
+
+		// LanguageSupport languageSupport =
+		// PowerMock.createMock(LanguageSupport.class);
+
 		Map<String, String> numToWordMap = new HashMap<String, String>();
-		
-		
+
 		numToWordMap.put("0", "Zero");
 		numToWordMap.put("1", "One");
 		numToWordMap.put("20", "Twenty");
-		
+
 		tested.setMapping(numToWordMap);
-		
+
 		Object[] args = new Object[1];
 		args[0] = new BigInteger("121");
-		
 
 		try {
-			//expect(languageSupport.getHunUnit()).andReturn("hundred");
-			//PowerMock.expectLastCall().once();
-			PowerMock.expectPrivate(tested, "getWordForInt", args).andReturn("One hundred and twenty one");
+			// expect(languageSupport.getHunUnit()).andReturn("hundred");
+			// PowerMock.expectLastCall().once();
+			PowerMock.expectPrivate(tested, "getWordForInt", args).andReturn(
+					"One hundred and twenty one");
 		} catch (Exception e) {
 			LOGGER.severe("expectPrivate exception: " + e.getMessage());
 		}
@@ -59,14 +59,15 @@ public class IntegerToWordTestPrivateMethods extends IntegerToWordMapperTest {
 		replay(tested);
 
 		try {
-			assertEquals(tested.getWord(new BigInteger("121")), "One hundred and twenty one");
+			assertEquals(tested.getWord(new BigInteger("121")),
+					"One hundred and twenty one");
 		} catch (IntegerToWordException e) {
 			LOGGER.severe(e.getMessage());
 		}
 
 		verify(tested);
 
-		//fail("Not yet implemented");
+		// fail("Not yet implemented");
 	}
 
 }

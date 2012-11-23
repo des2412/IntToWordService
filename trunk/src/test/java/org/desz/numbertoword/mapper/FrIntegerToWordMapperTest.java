@@ -14,8 +14,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class FrIntegerToWordMapperTest extends IntegerToWordMapperTest{
-
+public class FrIntegerToWordMapperTest extends IntegerToWordMapperTest {
 
 	@Before
 	public void init() throws Exception {
@@ -43,7 +42,8 @@ public class FrIntegerToWordMapperTest extends IntegerToWordMapperTest{
 	@Test(expected = Exception.class)
 	public void testNegativeInputMessage() throws Exception {
 
-		((IntegerToWordMapper) intToWordMapper).validateAndFormat(new BigInteger("-100"));
+		((IntegerToWordMapper) intToWordMapper)
+				.validateAndFormat(new BigInteger("-100"));
 		assertEquals(FR_ERRORS.NEGATIVE_INPUT,
 				((IntegerToWordMapper) intToWordMapper).getMessage());
 	}
@@ -51,7 +51,8 @@ public class FrIntegerToWordMapperTest extends IntegerToWordMapperTest{
 	@Test(expected = Exception.class)
 	public void testNumberFormatMessage() throws Exception {
 
-		((IntegerToWordMapper) intToWordMapper).validateAndFormat(new BigInteger("1.234"));
+		((IntegerToWordMapper) intToWordMapper)
+				.validateAndFormat(new BigInteger("1.234"));
 		assertEquals(FR_ERRORS.NUMBERFORMAT,
 				((IntegerToWordMapper) intToWordMapper).getMessage());
 	}

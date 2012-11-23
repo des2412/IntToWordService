@@ -6,6 +6,8 @@ import org.desz.numbertoword.enums.EnumHolder.DE_UNITS;
 import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.FR_FORMAT;
 import org.desz.numbertoword.enums.EnumHolder.FR_UNITS;
+import org.desz.numbertoword.enums.EnumHolder.NL_ERRORS;
+import org.desz.numbertoword.enums.EnumHolder.NL_UNITS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.UK_FORMAT;
@@ -74,6 +76,18 @@ public final class LanguageSupport {
 			this.negativeInput = DE_ERRORS.NEGATIVE_INPUT.getError();
 			this.negativeInput = DE_ERRORS.NUMBERFORMAT.getError();
 			this.unknownErr = DE_ERRORS.UNKNOWN.getError();
+			break;
+			
+		case NL:
+			this.millUnit = NL_UNITS.MILLS.val();
+			this.thouUnit = NL_UNITS.THOUS.val();
+			this.hunUnit = NL_UNITS.HUNS.val();
+			this.and = DE_FORMAT.AND.val();
+			this.invalidInput = NL_ERRORS.INVALID_INPUT.getError();
+			this.nullInput = NL_ERRORS.NULL_INPUT.getError();
+			this.negativeInput = NL_ERRORS.NEGATIVE_INPUT.getError();
+			this.negativeInput = NL_ERRORS.NUMBERFORMAT.getError();
+			this.unknownErr = NL_ERRORS.UNKNOWN.getError();
 			break;
 
 		default:

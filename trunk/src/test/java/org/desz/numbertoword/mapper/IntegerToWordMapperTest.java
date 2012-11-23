@@ -10,16 +10,16 @@ import java.util.logging.Logger;
 
 /**
  * @author des
- *
+ * 
  */
 public class IntegerToWordMapperTest {
-	
-	final static String[] decimals = { "One", "Two", "Three", "Four",
-		"Five", "Six", "Seven", "Eight", "Nine" };
-static final protected List<String> l = Arrays.asList(decimals);
 
-protected IFNumberToWordMapper<BigInteger> intToWordMapper;
-	
+	final static String[] decimals = { "One", "Two", "Three", "Four", "Five",
+			"Six", "Seven", "Eight", "Nine" };
+	static final protected List<String> l = Arrays.asList(decimals);
+
+	protected IFNumberToWordMapper<BigInteger> intToWordMapper;
+
 	protected final static Logger LOGGER = Logger
 			.getLogger(IntegerToWordMapperTest.class.getName());
 
