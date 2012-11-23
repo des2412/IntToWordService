@@ -39,6 +39,10 @@ public final class LanguageSupport {
 	/**
 	 * Construct state according to pl
 	 * 
+	 * This enables Factory instance configuration
+	 * for specific languages.
+	 * 
+	 * 
 	 * @param pl
 	 */
 	public LanguageSupport(PROVISIONED_LN pl) {
