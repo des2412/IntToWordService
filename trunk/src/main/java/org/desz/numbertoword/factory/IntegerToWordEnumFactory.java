@@ -12,16 +12,13 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.desz.language.EnumLanguageSupport;
-import org.desz.numbertoword.enums.EnumHolder.DE_WORDS;
-import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
-import org.desz.numbertoword.enums.EnumHolder.NL_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.UK_WORDS;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.mapper.IFNumberToWordMapper;
 import org.desz.numbertoword.mapper.IntegerToWordMapper;
+
 
 /**
  * @author des

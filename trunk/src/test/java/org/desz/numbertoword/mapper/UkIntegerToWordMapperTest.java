@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.IntegerToWordException;
+import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
 import org.junit.After;
@@ -17,7 +18,7 @@ import org.junit.Test;
 
 public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 
-	IntegerToWordMapper numberToWordMapper = null;
+	IFNumberToWordMapper<BigInteger> numberToWordMapper = null;
 
 	@Before
 	public void init() {
@@ -45,6 +46,31 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 		assertNotNull(numberToWordMapper);
 	}
 
+	@Test(expected = IntegerToWordException.class)
+	public void testExpectNullPointer() throws IntegerToWordException, IntegerToWordNegativeException {
+		numberToWordMapper.getWord(null);
+	}
+
+	@Test
+	public void testNoMinBoundRangeViolation() throws IntegerToWordException, IntegerToWordNegativeException {
+		numberToWordMapper.getWord(new BigInteger("0"));
+	}
+	
+	@Test(expected = IntegerToWordNegativeException.class)
+	public void testMinBoundRangeViolation() throws IntegerToWordNegativeException, IntegerToWordException {
+		numberToWordMapper.getWord(new BigInteger("-1"));
+	}
+
+	@Test
+	public void testNoMaxBoundRangeViolation() throws IntegerToWordException, IntegerToWordNegativeException {
+		numberToWordMapper.getWord(new BigInteger("999999999"));
+	}
+
+	@Test(expected = IntegerToWordException.class)
+	public void testRangeViolation() throws IntegerToWordException, IntegerToWordNegativeException {
+		numberToWordMapper.getWord(new BigInteger("1000000000"));
+	}
+
 	@Test
 	public void testZero() throws Exception {
 		assertEquals("Zero", numberToWordMapper.getWord(BigInteger.ZERO));
@@ -66,6 +92,8 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 			assertEquals("Fourteen",
 					numberToWordMapper.getWord(new BigInteger("14")));
 		} catch (IntegerToWordException e) {
+			LOGGER.severe(e.getMessage());
+		} catch (IntegerToWordNegativeException e) {
 			LOGGER.severe(e.getMessage());
 		}
 

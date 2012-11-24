@@ -16,13 +16,11 @@ public class IntegerToWordException extends Exception {
 
 	public IntegerToWordException() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public IntegerToWordException(String message, Throwable cause,
 			boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
-		// TODO Auto-generated constructor stub
 	}
 
 	public IntegerToWordException(String message, Throwable cause) {

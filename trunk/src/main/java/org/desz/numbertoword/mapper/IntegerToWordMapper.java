@@ -13,7 +13,11 @@ import org.desz.language.ILanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.DEF_FMT;
 import org.desz.numbertoword.enums.EnumHolder.NUMBER_CONSTANT;
 import org.desz.numbertoword.exceptions.IntegerToWordException;
+import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Range;
+import com.google.common.collect.Ranges;
 
 /**
  * Class is configured by NumberToWordFactory
@@ -27,6 +31,9 @@ public final class IntegerToWordMapper implements
 		IFNumberToWordMapper<BigInteger> {
 
 	private final ILanguageSupport enumLanguageSupport;
+
+	private static final Range<Integer> range = Ranges.closed(0,
+			Integer.MAX_VALUE);
 
 	protected final static Logger LOGGER = Logger
 			.getLogger(IntegerToWordMapper.class.getName());
@@ -67,9 +74,10 @@ public final class IntegerToWordMapper implements
 	 * @return
 	 * @throws IntegerToWordException
 	 *             if validate throws Exception type
+	 * @throws IntegerToWordNegativeException 
 	 */
 	@Override
-	public String getWord(BigInteger num) throws IntegerToWordException {
+	public String getWord(BigInteger num) throws IntegerToWordException, IntegerToWordNegativeException {
 
 		String formattedNumber = null;
 		try {
@@ -79,6 +87,8 @@ public final class IntegerToWordMapper implements
 			LOGGER.info(e.getMessage());
 			setMessage(enumLanguageSupport.getNumberFormatErr());
 			throw new IntegerToWordException(e);
+		} catch (IntegerToWordNegativeException e) {
+			throw new IntegerToWordNegativeException(e.getMessage());
 		}
 
 		// LOGGER.info("Format Separator:" + FORMATTED_NUMBER_SEPARATOR);
@@ -215,21 +225,27 @@ public final class IntegerToWordMapper implements
 	 * @param num
 	 * @return
 	 * @throws IntegerToWordException
+	 * @throws IntegerToWordNegativeException 
 	 */
 	public String validateAndFormat(BigInteger num)
-			throws IntegerToWordException {
-
-		if (num == null) {
+			throws IntegerToWordException, IntegerToWordNegativeException {
+		try {
+			Preconditions.checkNotNull(num);
+		} catch (NullPointerException e) {
 			LOGGER.info(enumLanguageSupport.getNullInput());
-			setMessage(enumLanguageSupport.getNullInput());
 			throw new IntegerToWordException(enumLanguageSupport.getNullInput());
 		}
-
-		if (num.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) < 0) {
-			LOGGER.info(enumLanguageSupport.getNegativeInput());
-			setMessage(enumLanguageSupport.getNegativeInput());
-			throw new IntegerToWordException(
-					enumLanguageSupport.getNegativeInput());
+	
+		if (!range.contains(num.intValue())) {
+			if(range.lowerEndpoint().compareTo(num.intValue()) > 0){
+				throw new IntegerToWordNegativeException(
+						enumLanguageSupport.getNegativeInput());
+			}
+			if(range.upperEndpoint().compareTo(num.intValue()) < 0){
+				throw new IntegerToWordException(
+						enumLanguageSupport.getInvalidInput());
+			}
+			
 		}
 
 		String formattedNumber = null;
