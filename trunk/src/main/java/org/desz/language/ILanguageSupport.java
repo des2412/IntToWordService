@@ -3,7 +3,7 @@
  */
 package org.desz.language;
 
-import java.util.Map;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * @author des
@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public interface ILanguageSupport {
 	
-	public Map<String, String> getIntToWordMap();
+	public ImmutableMap<String, String> getIntToWordMap();
 	
 	public String getNegativeInput();
 	

@@ -17,6 +17,8 @@ import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.UK_WORDS;
 
+import com.google.common.collect.ImmutableMap;
+
 /**
  * Class that holds the enum value constants
  * 
@@ -46,6 +48,8 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 	private String unknownErr;
 
 	private Map<String, String> intToWordMap = new HashMap<String, String>();
+
+	// private ImmutableMap<String, String> intToWordMap = ImmutableMap.of();
 
 	/**
 	 * Construct state according to pl
@@ -126,11 +130,12 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 		}
 	}
 
-	
-	public Map<String, String> getIntToWordMap() {
-		return intToWordMap;
-	}
+	public ImmutableMap<String, String> getIntToWordMap() {
 
+		ImmutableMap<String, String> immutable = new ImmutableMap.Builder<String, String>()
+				.putAll(intToWordMap).build();
+		return immutable;
+	}
 
 	public String getNegativeInput() {
 		return negativeInput;

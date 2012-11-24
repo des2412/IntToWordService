@@ -31,9 +31,6 @@ public final class IntegerToWordMapper implements
 	protected final static Logger LOGGER = Logger
 			.getLogger(IntegerToWordMapper.class.getName());
 
-	private static final String FORMATTED_NUMBER_SEPARATOR = DEF_FMT.NUM_SEP
-			.val();
-
 	private transient static NumberFormat integerFormatter = NumberFormat
 			.getIntegerInstance(Locale.UK);
 
@@ -85,7 +82,7 @@ public final class IntegerToWordMapper implements
 		}
 
 		// LOGGER.info("Format Separator:" + FORMATTED_NUMBER_SEPARATOR);
-		String[] components = formattedNumber.split(FORMATTED_NUMBER_SEPARATOR);
+		String[] components = formattedNumber.split(DEF_FMT.NUM_SEP.val());
 		final int nComps = components.length;
 
 		if (formattedNumber.equals("0")) {
@@ -119,8 +116,8 @@ public final class IntegerToWordMapper implements
 		case 2:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			thous = getWordForInt(val);
-			numAtIndex.put(DEF_FMT.MILLS,
-					NUMBER_CONSTANT.MINUS_ONE.getBigInt());
+			numAtIndex
+					.put(DEF_FMT.MILLS, NUMBER_CONSTANT.MINUS_ONE.getBigInt());
 			numAtIndex.put(DEF_FMT.THOUS, val);
 
 			val = BigInteger.valueOf(Long.valueOf(components[1]));
@@ -131,10 +128,10 @@ public final class IntegerToWordMapper implements
 		case 1:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			huns = getWordForInt(val);
-			numAtIndex.put(DEF_FMT.MILLS,
-					NUMBER_CONSTANT.MINUS_ONE.getBigInt());
-			numAtIndex.put(DEF_FMT.THOUS,
-					NUMBER_CONSTANT.MINUS_ONE.getBigInt());
+			numAtIndex
+					.put(DEF_FMT.MILLS, NUMBER_CONSTANT.MINUS_ONE.getBigInt());
+			numAtIndex
+					.put(DEF_FMT.THOUS, NUMBER_CONSTANT.MINUS_ONE.getBigInt());
 			numAtIndex.put(DEF_FMT.HUNS, val);
 			break;
 		default:
@@ -169,8 +166,7 @@ public final class IntegerToWordMapper implements
 						+ appThous.toLowerCase());
 
 			} else {
-				result.append(DEF_FMT.SPACE.val()
-						+ appThous.toLowerCase());
+				result.append(DEF_FMT.SPACE.val() + appThous.toLowerCase());
 			}
 		}
 		if (numAtIndex.get(DEF_FMT.HUNS).compareTo(
@@ -183,8 +179,7 @@ public final class IntegerToWordMapper implements
 					result.append(enumLanguageSupport.getAnd()
 							+ huns.toLowerCase());
 				} else {
-					result.append(DEF_FMT.SPACE.val()
-							+ huns.toLowerCase());
+					result.append(DEF_FMT.SPACE.val() + huns.toLowerCase());
 				}
 			}
 		}
@@ -214,7 +209,6 @@ public final class IntegerToWordMapper implements
 		return result;
 
 	}
-
 
 	/**
 	 * 
@@ -292,8 +286,7 @@ public final class IntegerToWordMapper implements
 
 			BigInteger rem = num.mod(NUMBER_CONSTANT.ONE_HUNDRED.getBigInt());
 			result = enumLanguageSupport.getIntToWordMap().get(indZero)
-					+ DEF_FMT.SPACE.val()
-					+ enumLanguageSupport.getHunUnit();
+					+ DEF_FMT.SPACE.val() + enumLanguageSupport.getHunUnit();
 			if (rem.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) > 0) { // not
 																		// whole
 																		// hundredth
