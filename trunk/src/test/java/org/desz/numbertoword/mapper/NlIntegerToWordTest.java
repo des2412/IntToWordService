@@ -30,20 +30,22 @@ public class NlIntegerToWordTest extends IntegerToWordMapperTest {
 	}
 
 	@Test
-	public void testTwentyOne() throws IntegerToWordException, IntegerToWordNegativeException {
+	public void testTwentyOne() throws IntegerToWordException,
+			IntegerToWordNegativeException {
 		assertEquals("Eenentwintig",
 				intToWordMapper.getWord(new BigInteger("21")));
 	}
-	
+
 	@Test
-	public void testOneHundredNinety() throws IntegerToWordException, IntegerToWordNegativeException {
+	public void testOneHundredNinety() throws IntegerToWordException,
+			IntegerToWordNegativeException {
 		assertEquals("Een honderd en negentig",
 				intToWordMapper.getWord(new BigInteger("190")));
 	}
 
 	// FIXME @Test(expected = IntegerToWordException.class)
-	public void checkErrorMessage() throws IntegerToWordNegativeException{
-		
+	public void checkErrorMessage() throws IntegerToWordNegativeException {
+
 		String s = null;
 		try {
 			assertEquals(NL_ERRORS.NEGATIVE_INPUT,
@@ -51,7 +53,7 @@ public class NlIntegerToWordTest extends IntegerToWordMapperTest {
 		} catch (IntegerToWordException e) {
 			s = e.getMessage();
 		}
-		
+
 		assertEquals(NL_ERRORS.NUMBERFORMAT.getError(), s);
 	}
 

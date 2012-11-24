@@ -19,7 +19,6 @@ import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.mapper.IFNumberToWordMapper;
 import org.desz.numbertoword.mapper.IntegerToWordMapper;
 
-
 /**
  * @author des
  * 
@@ -176,7 +175,6 @@ public enum IntegerToWordEnumFactory implements
 	 */
 	private IntegerToWordEnumFactory() {
 	}
-
 
 	/**
 	 * Purge cache of specific Factory

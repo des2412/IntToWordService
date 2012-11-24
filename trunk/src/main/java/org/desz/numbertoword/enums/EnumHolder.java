@@ -5,6 +5,8 @@ package org.desz.numbertoword.enums;
 
 import java.math.BigInteger;
 
+import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
+
 /**
  * @author des
  * 
@@ -344,33 +346,25 @@ public final class EnumHolder {
 	 * @author des
 	 * 
 	 */
-	/*public enum UK_UNITS {
-		MILLS("million"), THOUS("thousand"), HUNS("hundred");
-		private String val;
-
-		UK_UNITS(String val) {
-			this.val = val;
-		}
-
-		public String val() {
-			return val;
-		}
-
-	};
-
-	public enum FR_UNITS {
-		MILLS("million"), THOUS("mille"), HUNS("cent");
-		private String val;
-
-		FR_UNITS(String val) {
-			this.val = val;
-		}
-
-		public String val() {
-			return val;
-		}
-
-	};*/
+	/*
+	 * public enum UK_UNITS { MILLS("million"), THOUS("thousand"),
+	 * HUNS("hundred"); private String val;
+	 * 
+	 * UK_UNITS(String val) { this.val = val; }
+	 * 
+	 * public String val() { return val; }
+	 * 
+	 * };
+	 * 
+	 * public enum FR_UNITS { MILLS("million"), THOUS("mille"), HUNS("cent");
+	 * private String val;
+	 * 
+	 * FR_UNITS(String val) { this.val = val; }
+	 * 
+	 * public String val() { return val; }
+	 * 
+	 * };
+	 */
 
 	/*
 	 * public enum DE_UNITS {

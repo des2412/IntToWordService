@@ -36,7 +36,8 @@ public class DeIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	}
 
 	@Test
-	public void test() throws IntegerToWordException, IntegerToWordNegativeException {
+	public void test() throws IntegerToWordException,
+			IntegerToWordNegativeException {
 		assertEquals("Einundzwanzig",
 				intToWordMapper.getWord(new BigInteger("21")));
 	}

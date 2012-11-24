@@ -5,11 +5,10 @@ package org.desz.numbertoword.exceptions;
 
 /**
  * @author des
- *
+ * 
  */
 public class IntegerToWordNegativeException extends Exception {
-	
-	
+
 	/**
 	 * serialVersionUID
 	 */
@@ -24,7 +23,7 @@ public class IntegerToWordNegativeException extends Exception {
 	}
 
 	@Override
-	public String getMessage(){
+	public String getMessage() {
 		return super.getMessage();
 	}
 

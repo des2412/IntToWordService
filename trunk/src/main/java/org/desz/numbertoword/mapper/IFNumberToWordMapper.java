@@ -5,6 +5,7 @@ import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
 
 public interface IFNumberToWordMapper<T extends Number> {
 
-	String getWord(T num) throws IntegerToWordException, IntegerToWordNegativeException;
+	String getWord(T num) throws IntegerToWordException,
+			IntegerToWordNegativeException;
 
 }

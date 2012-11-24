@@ -47,27 +47,32 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	}
 
 	@Test(expected = IntegerToWordException.class)
-	public void testExpectNullPointer() throws IntegerToWordException, IntegerToWordNegativeException {
+	public void testExpectNullPointer() throws IntegerToWordException,
+			IntegerToWordNegativeException {
 		numberToWordMapper.getWord(null);
 	}
 
 	@Test
-	public void testNoMinBoundRangeViolation() throws IntegerToWordException, IntegerToWordNegativeException {
+	public void testNoMinBoundRangeViolation() throws IntegerToWordException,
+			IntegerToWordNegativeException {
 		numberToWordMapper.getWord(new BigInteger("0"));
 	}
-	
+
 	@Test(expected = IntegerToWordNegativeException.class)
-	public void testMinBoundRangeViolation() throws IntegerToWordNegativeException, IntegerToWordException {
+	public void testMinBoundRangeViolation()
+			throws IntegerToWordNegativeException, IntegerToWordException {
 		numberToWordMapper.getWord(new BigInteger("-1"));
 	}
 
 	@Test
-	public void testNoMaxBoundRangeViolation() throws IntegerToWordException, IntegerToWordNegativeException {
+	public void testNoMaxBoundRangeViolation() throws IntegerToWordException,
+			IntegerToWordNegativeException {
 		numberToWordMapper.getWord(new BigInteger("999999999"));
 	}
 
 	@Test(expected = IntegerToWordException.class)
-	public void testRangeViolation() throws IntegerToWordException, IntegerToWordNegativeException {
+	public void testRangeViolation() throws IntegerToWordException,
+			IntegerToWordNegativeException {
 		numberToWordMapper.getWord(new BigInteger("1000000000"));
 	}
 
