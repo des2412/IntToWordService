@@ -91,14 +91,14 @@ public final class EnumHolder {
 	};
 
 	/**
-	 * XX_WORDS specific mappings. 
+	 * XX_WORDS specific mappings.
 	 * 
 	 * The Factory will set the appropriate mapping.
 	 * 
 	 * @see IntegerToWordEnumFactory
 	 * 
 	 * @author des
-	 *
+	 * 
 	 */
 	public enum NL_WORDS {
 		ZERO("0", "Nul"), ONE("1", "Een"), TWO("2", "Twee"), THREE("3", "Drei"), FOUR(
@@ -246,8 +246,7 @@ public final class EnumHolder {
 	 * 
 	 * UK is default if invalid language is selected.
 	 * 
-	 * Each XX_ERRORS Enum is a discrete set with
-	 * language dependent values.
+	 * Each XX_ERRORS Enum is a discrete set with language dependent values.
 	 * 
 	 * @author des
 	 * 
@@ -345,7 +344,7 @@ public final class EnumHolder {
 	 * @author des
 	 * 
 	 */
-	public enum UK_UNITS {
+	/*public enum UK_UNITS {
 		MILLS("million"), THOUS("thousand"), HUNS("hundred");
 		private String val;
 
@@ -371,37 +370,31 @@ public final class EnumHolder {
 			return val;
 		}
 
-	};
+	};*/
 
-	public enum DE_UNITS {
+	/*
+	 * public enum DE_UNITS {
+	 * 
+	 * MILLS("million"), THOUS("tausend"), HUNS("hundert");
+	 * 
+	 * private String val;
+	 * 
+	 * DE_UNITS(String val) { this.val = val; }
+	 * 
+	 * public String val() { return val; } }
+	 */
 
-		MILLS("million"), THOUS("tausend"), HUNS("hundert");
-
-		private String val;
-
-		DE_UNITS(String val) {
-			this.val = val;
-		}
-
-		public String val() {
-			return val;
-		}
-	}
-
-	public enum NL_UNITS {
-
-		MILLS("miljeon"), THOUS("duizend"), HUNS("honderd");
-
-		private String val;
-
-		NL_UNITS(String val) {
-			this.val = val;
-		}
-
-		public String val() {
-			return val;
-		}
-	}
+	/*
+	 * public enum NL_UNITS {
+	 * 
+	 * MILLS("miljeon"), THOUS("duizend"), HUNS("honderd");
+	 * 
+	 * private String val;
+	 * 
+	 * NL_UNITS(String val) { this.val = val; }
+	 * 
+	 * public String val() { return val; } }
+	 */
 
 	/**
 	 * Format help for String representation of converted number
@@ -409,14 +402,14 @@ public final class EnumHolder {
 	 * @author des
 	 * 
 	 */
-	public enum DEFAULT_FORMAT {
+	public enum DEF_FMT {
 
 		SPACE(" "), AND(SPACE.val() + "and" + SPACE.val()), EMPTY(""), NUM_SEP(
-				",");
+				","), MILLS("million"), THOUS("thousand"), HUNS("hundred");
 
 		private String val;
 
-		DEFAULT_FORMAT(String val) {
+		DEF_FMT(String val) {
 			this.val = val;
 		}
 
@@ -426,12 +419,13 @@ public final class EnumHolder {
 
 	};
 
-	public enum FR_FORMAT {
-		AND(DEFAULT_FORMAT.SPACE.val() + "et" + DEFAULT_FORMAT.SPACE.val());
+	public enum FR_FMT {
+		AND(DEF_FMT.SPACE.val() + "et" + DEF_FMT.SPACE.val()), MILLS("million"), THOUS(
+				"mille"), HUNS("cent");
 
 		private String val;
 
-		FR_FORMAT(String val) {
+		FR_FMT(String val) {
 			this.val = val;
 		}
 
@@ -441,13 +435,14 @@ public final class EnumHolder {
 
 	};
 
-	public enum DE_FORMAT {
+	public enum DE_FMT {
 
-		AND(DEFAULT_FORMAT.SPACE.val() + "und" + DEFAULT_FORMAT.SPACE.val());
+		AND(DEF_FMT.SPACE.val() + "und" + DEF_FMT.SPACE.val()), MILLS("million"), THOUS(
+				"tausend"), HUNS("hundert");
 
 		private String val;
 
-		DE_FORMAT(String val) {
+		DE_FMT(String val) {
 			this.val = val;
 		}
 
@@ -455,14 +450,15 @@ public final class EnumHolder {
 			return val;
 		}
 	};
-	
-	public enum NL_FORMAT {
 
-		AND(DEFAULT_FORMAT.SPACE.val() + "en" + DEFAULT_FORMAT.SPACE.val());
+	public enum NL_FMT {
+
+		AND(DEF_FMT.SPACE.val() + "en" + DEF_FMT.SPACE.val()), MILLS("miljeon"), THOUS(
+				"duizend"), HUNS("honderd");
 
 		private String val;
 
-		NL_FORMAT(String val) {
+		NL_FMT(String val) {
 			this.val = val;
 		}
 

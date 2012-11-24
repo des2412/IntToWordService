@@ -9,11 +9,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.desz.language.EnumLanguageSupport;
 import org.desz.language.ILanguageSupport;
+import org.desz.numbertoword.enums.EnumHolder.DEF_FMT;
 import org.desz.numbertoword.enums.EnumHolder.NUMBER_CONSTANT;
-import org.desz.numbertoword.enums.EnumHolder.DEFAULT_FORMAT;
-import org.desz.numbertoword.enums.EnumHolder.UK_UNITS;
 import org.desz.numbertoword.exceptions.IntegerToWordException;
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
 
@@ -33,7 +31,7 @@ public final class IntegerToWordMapper implements
 	protected final static Logger LOGGER = Logger
 			.getLogger(IntegerToWordMapper.class.getName());
 
-	private static final String FORMATTED_NUMBER_SEPARATOR = DEFAULT_FORMAT.NUM_SEP
+	private static final String FORMATTED_NUMBER_SEPARATOR = DEF_FMT.NUM_SEP
 			.val();
 
 	private transient static NumberFormat integerFormatter = NumberFormat
@@ -94,12 +92,12 @@ public final class IntegerToWordMapper implements
 			return enumLanguageSupport.getIntToWordMap().get("0");
 		}
 
-		String mills = DEFAULT_FORMAT.EMPTY.val();
-		String thous = DEFAULT_FORMAT.EMPTY.val();
-		String huns = DEFAULT_FORMAT.EMPTY.val();
+		String mills = DEF_FMT.EMPTY.val();
+		String thous = DEF_FMT.EMPTY.val();
+		String huns = DEF_FMT.EMPTY.val();
 
-		Map<UK_UNITS, BigInteger> numAtIndex = new EnumMap<UK_UNITS, BigInteger>(
-				UK_UNITS.class);
+		Map<DEF_FMT, BigInteger> numAtIndex = new EnumMap<DEF_FMT, BigInteger>(
+				DEF_FMT.class);
 
 		BigInteger val = null;
 		switch (nComps) {
@@ -107,37 +105,37 @@ public final class IntegerToWordMapper implements
 		case 3:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			mills = getWordForInt(val);
-			numAtIndex.put(UK_UNITS.MILLS, val);
+			numAtIndex.put(DEF_FMT.MILLS, val);
 
 			val = BigInteger.valueOf(Long.valueOf(components[1]));
 			thous = getWordForInt(val);
-			numAtIndex.put(UK_UNITS.THOUS, val);
+			numAtIndex.put(DEF_FMT.THOUS, val);
 
 			val = BigInteger.valueOf(Long.valueOf(components[2]));
 			huns = getWordForInt(val);
-			numAtIndex.put(UK_UNITS.HUNS, val);
+			numAtIndex.put(DEF_FMT.HUNS, val);
 			break;
 
 		case 2:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			thous = getWordForInt(val);
-			numAtIndex.put(UK_UNITS.MILLS,
+			numAtIndex.put(DEF_FMT.MILLS,
 					NUMBER_CONSTANT.MINUS_ONE.getBigInt());
-			numAtIndex.put(UK_UNITS.THOUS, val);
+			numAtIndex.put(DEF_FMT.THOUS, val);
 
 			val = BigInteger.valueOf(Long.valueOf(components[1]));
 			huns = getWordForInt(val);
-			numAtIndex.put(UK_UNITS.HUNS, val);
+			numAtIndex.put(DEF_FMT.HUNS, val);
 			break;
 
 		case 1:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			huns = getWordForInt(val);
-			numAtIndex.put(UK_UNITS.MILLS,
+			numAtIndex.put(DEF_FMT.MILLS,
 					NUMBER_CONSTANT.MINUS_ONE.getBigInt());
-			numAtIndex.put(UK_UNITS.THOUS,
+			numAtIndex.put(DEF_FMT.THOUS,
 					NUMBER_CONSTANT.MINUS_ONE.getBigInt());
-			numAtIndex.put(UK_UNITS.HUNS, val);
+			numAtIndex.put(DEF_FMT.HUNS, val);
 			break;
 		default:
 			LOGGER.info(enumLanguageSupport.getInvalidInput() + num);
@@ -151,41 +149,41 @@ public final class IntegerToWordMapper implements
 
 		StringBuffer result = new StringBuffer();
 
-		if (numAtIndex.get(UK_UNITS.MILLS).compareTo(
+		if (numAtIndex.get(DEF_FMT.MILLS).compareTo(
 				NUMBER_CONSTANT.ZERO.getBigInt()) > 0) {
-			String mn = mills + DEFAULT_FORMAT.SPACE.val()
+			String mn = mills + DEF_FMT.SPACE.val()
 					+ enumLanguageSupport.getMillUnit();
 			result.append(mn);
 		}
 
-		final BigInteger thou = numAtIndex.get(UK_UNITS.THOUS);
+		final BigInteger thou = numAtIndex.get(DEF_FMT.THOUS);
 		if (thou.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) > 0) {
 
-			String appThous = thous + DEFAULT_FORMAT.SPACE.val()
+			String appThous = thous + DEF_FMT.SPACE.val()
 					+ enumLanguageSupport.getThouUnit();
 
-			if (mills == DEFAULT_FORMAT.EMPTY.val()) {
+			if (mills == DEF_FMT.EMPTY.val()) {
 				result.append(appThous);
 			} else if (thou.compareTo(NUMBER_CONSTANT.ONE_HUNDRED.getBigInt()) < 0) {
 				result.append(enumLanguageSupport.getAnd()
 						+ appThous.toLowerCase());
 
 			} else {
-				result.append(DEFAULT_FORMAT.SPACE.val()
+				result.append(DEF_FMT.SPACE.val()
 						+ appThous.toLowerCase());
 			}
 		}
-		if (numAtIndex.get(UK_UNITS.HUNS).compareTo(
+		if (numAtIndex.get(DEF_FMT.HUNS).compareTo(
 				NUMBER_CONSTANT.ZERO.getBigInt()) > 0) {
-			if (!parentsHoldValue(numAtIndex, UK_UNITS.MILLS, UK_UNITS.THOUS)) {
+			if (!parentsHoldValue(numAtIndex, DEF_FMT.MILLS, DEF_FMT.THOUS)) {
 				result.append(huns);
 			} else {
-				if (numAtIndex.get(UK_UNITS.HUNS).compareTo(
+				if (numAtIndex.get(DEF_FMT.HUNS).compareTo(
 						NUMBER_CONSTANT.ONE_HUNDRED.getBigInt()) < 0) {
 					result.append(enumLanguageSupport.getAnd()
 							+ huns.toLowerCase());
 				} else {
-					result.append(DEFAULT_FORMAT.SPACE.val()
+					result.append(DEF_FMT.SPACE.val()
 							+ huns.toLowerCase());
 				}
 			}
@@ -200,12 +198,12 @@ public final class IntegerToWordMapper implements
 	 * @param units
 	 * @return
 	 */
-	private boolean parentsHoldValue(Map<UK_UNITS, BigInteger> numAtIndex,
-			UK_UNITS... units) {
+	private boolean parentsHoldValue(Map<DEF_FMT, BigInteger> numAtIndex,
+			DEF_FMT... units) {
 
 		boolean result = true;
-		List<UK_UNITS> list = Arrays.asList(units);
-		for (UK_UNITS unit : list) {
+		List<DEF_FMT> list = Arrays.asList(units);
+		for (DEF_FMT unit : list) {
 			if (numAtIndex.get(unit)
 					.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) < 0) {
 				result = false;
@@ -294,7 +292,7 @@ public final class IntegerToWordMapper implements
 
 			BigInteger rem = num.mod(NUMBER_CONSTANT.ONE_HUNDRED.getBigInt());
 			result = enumLanguageSupport.getIntToWordMap().get(indZero)
-					+ DEFAULT_FORMAT.SPACE.val()
+					+ DEF_FMT.SPACE.val()
 					+ enumLanguageSupport.getHunUnit();
 			if (rem.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) > 0) { // not
 																		// whole
@@ -350,7 +348,7 @@ public final class IntegerToWordMapper implements
 			if (!indOne.equals("0")) {
 				result = enumLanguageSupport.getIntToWordMap().get(
 						atZero.toString())
-						+ DEFAULT_FORMAT.SPACE.val()
+						+ DEF_FMT.SPACE.val()
 						+ enumLanguageSupport.getIntToWordMap().get(indOne);
 			} else {
 				result = enumLanguageSupport.getIntToWordMap().get(

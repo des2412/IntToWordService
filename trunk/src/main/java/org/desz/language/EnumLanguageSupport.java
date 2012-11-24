@@ -3,22 +3,18 @@ package org.desz.language;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.desz.numbertoword.enums.EnumHolder.DEF_FMT;
 import org.desz.numbertoword.enums.EnumHolder.DE_ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.DE_FORMAT;
-import org.desz.numbertoword.enums.EnumHolder.DE_UNITS;
+import org.desz.numbertoword.enums.EnumHolder.DE_FMT;
 import org.desz.numbertoword.enums.EnumHolder.DE_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.FR_FORMAT;
-import org.desz.numbertoword.enums.EnumHolder.FR_UNITS;
+import org.desz.numbertoword.enums.EnumHolder.FR_FMT;
 import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.NL_ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.NL_FORMAT;
-import org.desz.numbertoword.enums.EnumHolder.NL_UNITS;
+import org.desz.numbertoword.enums.EnumHolder.NL_FMT;
 import org.desz.numbertoword.enums.EnumHolder.NL_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.DEFAULT_FORMAT;
-import org.desz.numbertoword.enums.EnumHolder.UK_UNITS;
 import org.desz.numbertoword.enums.EnumHolder.UK_WORDS;
 
 /**
@@ -63,10 +59,10 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 
 		switch (pl) {
 		case UK:
-			this.millUnit = UK_UNITS.MILLS.val();
-			this.thouUnit = UK_UNITS.THOUS.val();
-			this.hunUnit = UK_UNITS.HUNS.val();
-			this.and = DEFAULT_FORMAT.AND.val();
+			this.millUnit = DEF_FMT.MILLS.val();
+			this.thouUnit = DEF_FMT.THOUS.val();
+			this.hunUnit = DEF_FMT.HUNS.val();
+			this.and = DEF_FMT.AND.val();
 			this.invalidInput = UK_ERRORS.INVALID_INPUT.getError();
 			this.nullInput = UK_ERRORS.NULL_INPUT.getError();
 			this.negativeInput = UK_ERRORS.NEGATIVE_INPUT.getError();
@@ -79,10 +75,10 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 
 			break;
 		case FR:
-			this.millUnit = FR_UNITS.MILLS.val();
-			this.thouUnit = FR_UNITS.THOUS.val();
-			this.hunUnit = FR_UNITS.HUNS.val();
-			this.and = FR_FORMAT.AND.val();
+			this.millUnit = FR_FMT.MILLS.val();
+			this.thouUnit = FR_FMT.THOUS.val();
+			this.hunUnit = FR_FMT.HUNS.val();
+			this.and = FR_FMT.AND.val();
 			this.invalidInput = FR_ERRORS.INVALID_INPUT.getError();
 			this.nullInput = FR_ERRORS.NULL_INPUT.getError();
 			this.negativeInput = FR_ERRORS.NEGATIVE_INPUT.getError();
@@ -95,10 +91,10 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 			break;
 
 		case DE:
-			this.millUnit = DE_UNITS.MILLS.val();
-			this.thouUnit = DE_UNITS.THOUS.val();
-			this.hunUnit = DE_UNITS.HUNS.val();
-			this.and = DE_FORMAT.AND.val();
+			this.millUnit = DE_FMT.MILLS.val();
+			this.thouUnit = DE_FMT.THOUS.val();
+			this.hunUnit = DE_FMT.HUNS.val();
+			this.and = DE_FMT.AND.val();
 			this.invalidInput = DE_ERRORS.INVALID_INPUT.getError();
 			this.nullInput = DE_ERRORS.NULL_INPUT.getError();
 			this.negativeInput = DE_ERRORS.NEGATIVE_INPUT.getError();
@@ -110,10 +106,10 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 			break;
 
 		case NL:
-			this.millUnit = NL_UNITS.MILLS.val();
-			this.thouUnit = NL_UNITS.THOUS.val();
-			this.hunUnit = NL_UNITS.HUNS.val();
-			this.and = NL_FORMAT.AND.val();
+			this.millUnit = NL_FMT.MILLS.val();
+			this.thouUnit = NL_FMT.THOUS.val();
+			this.hunUnit = NL_FMT.HUNS.val();
+			this.and = NL_FMT.AND.val();
 			this.invalidInput = NL_ERRORS.INVALID_INPUT.getError();
 			this.nullInput = NL_ERRORS.NULL_INPUT.getError();
 			this.negativeInput = NL_ERRORS.NEGATIVE_INPUT.getError();
