@@ -88,6 +88,7 @@ public final class IntegerToWordMapper implements
 			setMessage(enumLanguageSupport.getNumberFormatErr());
 			throw new IntegerToWordException(e);
 		} catch (IntegerToWordNegativeException e) {
+			setMessage(enumLanguageSupport.getInvalidInput());
 			throw new IntegerToWordNegativeException(e.getMessage());
 		}
 
