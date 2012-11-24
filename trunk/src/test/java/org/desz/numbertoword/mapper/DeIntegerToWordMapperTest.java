@@ -10,6 +10,7 @@ import java.math.BigInteger;
 
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.exceptions.IntegerToWordException;
+import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -35,7 +36,7 @@ public class DeIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	}
 
 	@Test
-	public void test() throws IntegerToWordException {
+	public void test() throws IntegerToWordException, IntegerToWordNegativeException {
 		assertEquals("Einundzwanzig",
 				intToWordMapper.getWord(new BigInteger("21")));
 	}

@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import org.desz.numbertoword.enums.EnumHolder.NL_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
 import org.desz.numbertoword.exceptions.IntegerToWordException;
+import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -29,19 +30,19 @@ public class NlIntegerToWordTest extends IntegerToWordMapperTest {
 	}
 
 	@Test
-	public void testTwentyOne() throws IntegerToWordException {
+	public void testTwentyOne() throws IntegerToWordException, IntegerToWordNegativeException {
 		assertEquals("Eenentwintig",
 				intToWordMapper.getWord(new BigInteger("21")));
 	}
 	
 	@Test
-	public void testOneHundredNinety() throws IntegerToWordException {
+	public void testOneHundredNinety() throws IntegerToWordException, IntegerToWordNegativeException {
 		assertEquals("Een honderd en negentig",
 				intToWordMapper.getWord(new BigInteger("190")));
 	}
 
 	// FIXME @Test(expected = IntegerToWordException.class)
-	public void checkErrorMessage(){
+	public void checkErrorMessage() throws IntegerToWordNegativeException{
 		
 		String s = null;
 		try {
