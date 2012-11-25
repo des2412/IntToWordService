@@ -24,7 +24,7 @@ public final class EnumHolder {
 	 * 
 	 */
 	public enum PROVISIONED_LN {
-		UK("UK", "UK ENGLISH", true), FR("FR", "FRANÇAIS", true), DE("DE",
+		UK("UK", "UK-ENGLISH", true), FR("FR", "FRANÇAIS", true), DE("DE",
 				"DEUTSCH", true), NL("NL", "NEDERLANDSE", true), EMPTY("EMPTY",
 				"Select...", false);
 
