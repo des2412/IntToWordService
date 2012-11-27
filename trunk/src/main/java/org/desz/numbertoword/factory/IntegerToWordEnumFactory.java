@@ -34,13 +34,13 @@ public enum IntegerToWordEnumFactory implements
 	UK_FAC(), FR_FAC(), DE_FAC(), NL_FAC;
 
 	// Each factory once instantiated will be cached.
-	private static Map<PROVISIONED_LN, IntegerToWordEnumFactory> factoryCache = Collections
-			.synchronizedMap(new HashMap<PROVISIONED_LN, IntegerToWordEnumFactory>());
+	private static Map<PROVISIONED_LN, IntegerToWordMapper> factoryCache = Collections
+			.synchronizedMap(new HashMap<PROVISIONED_LN, IntegerToWordMapper>());
 
 	private final static Logger LOGGER = Logger
 			.getLogger(IntegerToWordEnumFactory.class.getName());
 
-	private IFNumberToWordMapper<BigInteger> integerToWordMapper;
+	//private IFNumberToWordMapper<BigInteger> integerToWordMapper;
 
 	/**
 	 * Invokes the private NumberToWordMapper constructor
@@ -110,52 +110,52 @@ public enum IntegerToWordEnumFactory implements
 		final Object[] args = new Object[1];
 
 		EnumLanguageSupport enumLanguageSupport = null;
-
+		IFNumberToWordMapper<BigInteger> integerToWordMapper;
 		switch (this) {
 		case UK_FAC:
 			// check factoryCache
 			if (isCached(PROVISIONED_LN.UK)) {
-				return factoryCache.get(PROVISIONED_LN.UK).integerToWordMapper;
+				return factoryCache.get(PROVISIONED_LN.UK);
 			}
 
 			enumLanguageSupport = new EnumLanguageSupport(PROVISIONED_LN.UK);
 			args[0] = enumLanguageSupport;
 			// invoke private constructor
-			this.integerToWordMapper = newIntegerToWordMapper(args);
+			integerToWordMapper = newIntegerToWordMapper(args);
 			// factoryCache 'this' in Map
-			factoryCache.put(PROVISIONED_LN.UK, this);
+			factoryCache.put(PROVISIONED_LN.UK, (IntegerToWordMapper) integerToWordMapper);
 			break;
 
 		case FR_FAC:
 			if (isCached(PROVISIONED_LN.FR)) {
-				return factoryCache.get(PROVISIONED_LN.FR).integerToWordMapper;
+				return factoryCache.get(PROVISIONED_LN.FR);
 			}
 
 			enumLanguageSupport = new EnumLanguageSupport(PROVISIONED_LN.FR);
 			args[0] = enumLanguageSupport;
-			this.integerToWordMapper = newIntegerToWordMapper(args);
-			factoryCache.put(PROVISIONED_LN.FR, this);
+			integerToWordMapper = newIntegerToWordMapper(args);
+			factoryCache.put(PROVISIONED_LN.FR, (IntegerToWordMapper) integerToWordMapper);
 			break;
 		case DE_FAC:
 			if (isCached(PROVISIONED_LN.DE)) {
-				return factoryCache.get(PROVISIONED_LN.DE).integerToWordMapper;
+				return factoryCache.get(PROVISIONED_LN.DE);
 			}
 
 			enumLanguageSupport = new EnumLanguageSupport(PROVISIONED_LN.DE);
 			args[0] = enumLanguageSupport;
-			this.integerToWordMapper = newIntegerToWordMapper(args);
-			factoryCache.put(PROVISIONED_LN.DE, this);
+			integerToWordMapper = newIntegerToWordMapper(args);
+			factoryCache.put(PROVISIONED_LN.DE, (IntegerToWordMapper) integerToWordMapper);
 			break;
 
 		case NL_FAC:
 			if (isCached(PROVISIONED_LN.NL)) {
-				return factoryCache.get(PROVISIONED_LN.NL).integerToWordMapper;
+				return factoryCache.get(PROVISIONED_LN.NL);
 			}
 
 			enumLanguageSupport = new EnumLanguageSupport(PROVISIONED_LN.NL);
 			args[0] = enumLanguageSupport;
-			this.integerToWordMapper = newIntegerToWordMapper(args);
-			factoryCache.put(PROVISIONED_LN.NL, this);
+			integerToWordMapper = newIntegerToWordMapper(args);
+			factoryCache.put(PROVISIONED_LN.NL, (IntegerToWordMapper) integerToWordMapper);
 			break;
 		default:
 			LOGGER.info("Unknown problem creating Factory");
@@ -167,7 +167,7 @@ public enum IntegerToWordEnumFactory implements
 				+ this.name()
 				+ " to factoryCache Map. Number of configured NumberToWordEnumFactories :"
 				+ factoryCache.size());
-		return this.integerToWordMapper;
+		return integerToWordMapper;
 	}
 
 	/**
