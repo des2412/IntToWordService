@@ -22,7 +22,7 @@ import org.desz.numbertoword.mapper.IntegerToWordMapper;
 /**
  * @author des
  * 
- *         Enum Factorys target languages.
+ *         Enum Factorys specific for provisioned languages.
  * @see IntegerToWordMapper
  * 
  * 
@@ -34,23 +34,20 @@ public enum IntegerToWordEnumFactory implements
 	UK_FAC(), FR_FAC(), DE_FAC(), NL_FAC;
 
 	// Each factory once instantiated will be cached.
-	private static Map<PROVISIONED_LN, IntegerToWordMapper> factoryCache = Collections
+	private static Map<PROVISIONED_LN, IntegerToWordMapper> mappingsCache = Collections
 			.synchronizedMap(new HashMap<PROVISIONED_LN, IntegerToWordMapper>());
 
 	private final static Logger LOGGER = Logger
 			.getLogger(IntegerToWordEnumFactory.class.getName());
 
-	//private IFNumberToWordMapper<BigInteger> integerToWordMapper;
-
 	/**
-	 * Invokes the private NumberToWordMapper constructor
 	 * 
-	 * @param args
-	 * @return
+	 * @param pl
+	 * @return new IntegerToWordMapper
 	 * @throws NumberToWordFactoryException
 	 */
 	private IFNumberToWordMapper<BigInteger> newIntegerToWordMapper(
-			final Object[] args) throws NumberToWordFactoryException {
+			PROVISIONED_LN pl) throws NumberToWordFactoryException {
 		// access private Constructor of IntegerToWordMapper using reflection
 		final Constructor<?>[] constructors = IntegerToWordMapper.class
 				.getDeclaredConstructors();
@@ -60,6 +57,9 @@ public enum IntegerToWordEnumFactory implements
 			throw new NumberToWordFactoryException(
 					"unexpected number of constructors");
 		IFNumberToWordMapper<BigInteger> mapper = null;
+		final Object[] args = new Object[1];
+		EnumLanguageSupport enumLanguageSupport = new EnumLanguageSupport(pl);
+		args[0] = enumLanguageSupport;
 
 		try {
 			mapper = (IFNumberToWordMapper<BigInteger>) constructors[0]
@@ -86,7 +86,7 @@ public enum IntegerToWordEnumFactory implements
 	 * @return
 	 */
 	private boolean isCached(PROVISIONED_LN pl) {
-		final boolean isCached = factoryCache.containsKey(pl);
+		final boolean isCached = mappingsCache.containsKey(pl);
 		if (isCached) {
 			LOGGER.info("IntegerToWordMapper for language " + pl.name()
 					+ " available");
@@ -107,55 +107,46 @@ public enum IntegerToWordEnumFactory implements
 	public IFNumberToWordMapper<BigInteger> getIntegerToWordMapper()
 			throws NumberToWordFactoryException {
 
-		final Object[] args = new Object[1];
-
 		EnumLanguageSupport enumLanguageSupport = null;
 		IFNumberToWordMapper<BigInteger> integerToWordMapper;
 		switch (this) {
 		case UK_FAC:
-			// check factoryCache
+			// check mappingsCache
 			if (isCached(PROVISIONED_LN.UK)) {
-				return factoryCache.get(PROVISIONED_LN.UK);
+				return mappingsCache.get(PROVISIONED_LN.UK);
 			}
-
-			enumLanguageSupport = new EnumLanguageSupport(PROVISIONED_LN.UK);
-			args[0] = enumLanguageSupport;
-			// invoke private constructor
-			integerToWordMapper = newIntegerToWordMapper(args);
-			// factoryCache 'this' in Map
-			factoryCache.put(PROVISIONED_LN.UK, (IntegerToWordMapper) integerToWordMapper);
+			integerToWordMapper = newIntegerToWordMapper(PROVISIONED_LN.UK);
+			mappingsCache.put(PROVISIONED_LN.UK,
+					(IntegerToWordMapper) integerToWordMapper);
 			break;
 
 		case FR_FAC:
 			if (isCached(PROVISIONED_LN.FR)) {
-				return factoryCache.get(PROVISIONED_LN.FR);
+				return mappingsCache.get(PROVISIONED_LN.FR);
 			}
 
-			enumLanguageSupport = new EnumLanguageSupport(PROVISIONED_LN.FR);
-			args[0] = enumLanguageSupport;
-			integerToWordMapper = newIntegerToWordMapper(args);
-			factoryCache.put(PROVISIONED_LN.FR, (IntegerToWordMapper) integerToWordMapper);
+			integerToWordMapper = newIntegerToWordMapper(PROVISIONED_LN.FR);
+			mappingsCache.put(PROVISIONED_LN.FR,
+					(IntegerToWordMapper) integerToWordMapper);
 			break;
 		case DE_FAC:
 			if (isCached(PROVISIONED_LN.DE)) {
-				return factoryCache.get(PROVISIONED_LN.DE);
+				return mappingsCache.get(PROVISIONED_LN.DE);
 			}
 
-			enumLanguageSupport = new EnumLanguageSupport(PROVISIONED_LN.DE);
-			args[0] = enumLanguageSupport;
-			integerToWordMapper = newIntegerToWordMapper(args);
-			factoryCache.put(PROVISIONED_LN.DE, (IntegerToWordMapper) integerToWordMapper);
+			integerToWordMapper = newIntegerToWordMapper(PROVISIONED_LN.DE);
+			mappingsCache.put(PROVISIONED_LN.DE,
+					(IntegerToWordMapper) integerToWordMapper);
 			break;
 
 		case NL_FAC:
 			if (isCached(PROVISIONED_LN.NL)) {
-				return factoryCache.get(PROVISIONED_LN.NL);
+				return mappingsCache.get(PROVISIONED_LN.NL);
 			}
 
-			enumLanguageSupport = new EnumLanguageSupport(PROVISIONED_LN.NL);
-			args[0] = enumLanguageSupport;
-			integerToWordMapper = newIntegerToWordMapper(args);
-			factoryCache.put(PROVISIONED_LN.NL, (IntegerToWordMapper) integerToWordMapper);
+			integerToWordMapper = newIntegerToWordMapper(PROVISIONED_LN.NL);
+			mappingsCache.put(PROVISIONED_LN.NL,
+					(IntegerToWordMapper) integerToWordMapper);
 			break;
 		default:
 			LOGGER.info("Unknown problem creating Factory");
@@ -163,10 +154,10 @@ public enum IntegerToWordEnumFactory implements
 
 		}
 
-		LOGGER.info("Added "
+		LOGGER.info("Cached "
 				+ this.name()
-				+ " to factoryCache Map. Number of configured NumberToWordEnumFactories :"
-				+ factoryCache.size());
+				+ " IntegerToWordMapper. Number of configured IntegerToWordMappers :"
+				+ mappingsCache.size());
 		return integerToWordMapper;
 	}
 
@@ -186,24 +177,24 @@ public enum IntegerToWordEnumFactory implements
 	public static boolean removeNumberToWordEnumFactory(
 			final PROVISIONED_LN provLang) throws FactoryMapperRemovalException {
 
-		if (factoryCache.containsKey(provLang)) {
+		if (mappingsCache.containsKey(provLang)) {
 
 			try {
-				factoryCache.remove(provLang);
+				mappingsCache.remove(provLang);
 				LOGGER.info("Removal of " + provLang.name()
 						+ " NumberToWordEnumFactory result:"
-						+ !factoryCache.containsKey(provLang));
+						+ !mappingsCache.containsKey(provLang));
 
 			} catch (Exception e) {
 				throw new FactoryMapperRemovalException(e);
 			}
 
 		} else {
-			LOGGER.info("Reference removed from factoryCache for "
+			LOGGER.info("Reference removed from mappingsCache for "
 					+ provLang.name());
 		}
 
-		return !factoryCache.containsKey(provLang);
+		return !mappingsCache.containsKey(provLang);
 	}
 
 }

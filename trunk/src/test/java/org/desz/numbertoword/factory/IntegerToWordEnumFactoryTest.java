@@ -59,7 +59,7 @@ public class IntegerToWordEnumFactoryTest {
 
 		// Reset the factoryCache toempty state
 		Whitebox.setInternalState(IntegerToWordEnumFactory.class,
-				"factoryCache",
+				"mappingsCache",
 				new HashMap<PROVISIONED_LN, IntegerToWordEnumFactory>());
 
 		// Call getIntegerToWord again -> mapper2
