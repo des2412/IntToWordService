@@ -56,14 +56,13 @@ public enum IntegerToWordEnumFactory implements
 		else
 			throw new NumberToWordFactoryException(
 					"unexpected number of constructors");
-		IFNumberToWordMapper<BigInteger> mapper = null;
-		final Object[] args = new Object[1];
+
 		EnumLanguageSupport enumLanguageSupport = new EnumLanguageSupport(pl);
-		args[0] = enumLanguageSupport;
+		IFNumberToWordMapper<BigInteger> mapper = null;
 
 		try {
 			mapper = (IFNumberToWordMapper<BigInteger>) constructors[0]
-					.newInstance(args);
+					.newInstance(new Object[] { enumLanguageSupport });
 		} catch (InstantiationException e1) {
 			LOGGER.severe(e1.getMessage());
 		} catch (IllegalAccessException e1) {
