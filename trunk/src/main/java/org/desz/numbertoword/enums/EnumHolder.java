@@ -17,13 +17,13 @@ import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
 public final class EnumHolder {
 
 	/**
-	 * Enum encapsulating application level provisioned languages EMPTY is
-	 * defined for UI HTML elements, e.g, SELECT
+	 * Enum encapsulating application level provisioned languages INVALID is
+	 * chiefly defined for UI HTML elements, e.g, SELECT
 	 * 
 	 * @author des
 	 * 
 	 */
-	public enum PROVISIONED_LN {
+	public enum PROV_LANG {
 		UK("UK", "UK-ENGLISH", true), FR("FR", "FRANÇAIS", true), DE("DE",
 				"DEUTSCH", true), NL("NL", "NEDERLANDSE", true), EMPTY("EMPTY",
 				"Select...", false);
@@ -43,7 +43,7 @@ public final class EnumHolder {
 		 * @param description
 		 * @param valid
 		 */
-		private PROVISIONED_LN(String code, String description, boolean valid) {
+		private PROV_LANG(String code, String description, boolean valid) {
 			this.code = code;
 			this.description = description;
 			this.valid = valid;
@@ -339,56 +339,6 @@ public final class EnumHolder {
 		}
 
 	};
-
-	/**
-	 * Units of formatted number
-	 * 
-	 * @author des
-	 * 
-	 */
-	/*
-	 * public enum UK_UNITS { MILLS("million"), THOUS("thousand"),
-	 * HUNS("hundred"); private String val;
-	 * 
-	 * UK_UNITS(String val) { this.val = val; }
-	 * 
-	 * public String val() { return val; }
-	 * 
-	 * };
-	 * 
-	 * public enum FR_UNITS { MILLS("million"), THOUS("mille"), HUNS("cent");
-	 * private String val;
-	 * 
-	 * FR_UNITS(String val) { this.val = val; }
-	 * 
-	 * public String val() { return val; }
-	 * 
-	 * };
-	 */
-
-	/*
-	 * public enum DE_UNITS {
-	 * 
-	 * MILLS("million"), THOUS("tausend"), HUNS("hundert");
-	 * 
-	 * private String val;
-	 * 
-	 * DE_UNITS(String val) { this.val = val; }
-	 * 
-	 * public String val() { return val; } }
-	 */
-
-	/*
-	 * public enum NL_UNITS {
-	 * 
-	 * MILLS("miljeon"), THOUS("duizend"), HUNS("honderd");
-	 * 
-	 * private String val;
-	 * 
-	 * NL_UNITS(String val) { this.val = val; }
-	 * 
-	 * public String val() { return val; } }
-	 */
 
 	/**
 	 * Format help for String representation of converted number

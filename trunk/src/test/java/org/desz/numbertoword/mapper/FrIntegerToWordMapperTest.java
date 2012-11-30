@@ -8,7 +8,7 @@ import static org.junit.Assert.assertSame;
 import java.math.BigInteger;
 
 import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
+import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -26,7 +26,7 @@ public class FrIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	@After
 	public void clean() throws Exception {
 		IntegerToWordEnumFactory
-				.removeNumberToWordEnumFactory(PROVISIONED_LN.FR);
+				.removeNumberToWordEnumFactory(PROV_LANG.FR);
 	}
 
 	@Test

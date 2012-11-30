@@ -62,7 +62,7 @@ public final class IntegerToWordMapper implements
 	 *      enumLanguageSupport
 	 * 
 	 * @param enumLanguageSupport
-	 *            specific for PROVISIONED_LN
+	 *            specific for PROV_LANG
 	 */
 	private IntegerToWordMapper(final ILanguageSupport enumLanguageSupport) {
 		this.enumLanguageSupport = enumLanguageSupport;
@@ -275,7 +275,7 @@ public final class IntegerToWordMapper implements
 		String indOne = null;
 		String indTwo = null;
 		String result = null;
-
+		// return if numStr is key in the map
 		if (enumLanguageSupport.getIntToWordMap().containsKey(numStr)) {
 			return enumLanguageSupport.getIntToWordMap().get(numStr);
 		}

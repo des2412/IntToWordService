@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import java.math.BigInteger;
 
 import org.desz.numbertoword.enums.EnumHolder.NL_ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
+import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.exceptions.IntegerToWordException;
 import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
@@ -26,7 +26,7 @@ public class NlIntegerToWordTest extends IntegerToWordMapperTest {
 	@After
 	public void clean() throws Exception {
 		IntegerToWordEnumFactory
-				.removeNumberToWordEnumFactory(PROVISIONED_LN.NL);
+				.removeNumberToWordEnumFactory(PROV_LANG.NL);
 	}
 
 	@Test

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import org.desz.language.EnumLanguageSupport;
-import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
+import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.mapper.IFNumberToWordMapper;
@@ -33,13 +33,13 @@ public class IntegerToWordEnumFactoryTest {
 			.getLogger(IntegerToWordEnumFactoryTest.class.getName());
 
 	private static final Object ARGS[] = new Object[] { new EnumLanguageSupport(
-			PROVISIONED_LN.UK) };
+			PROV_LANG.UK) };
 
 	@After
 	public void clean() {
 		try {
 			IntegerToWordEnumFactory
-					.removeNumberToWordEnumFactory(PROVISIONED_LN.UK);
+					.removeNumberToWordEnumFactory(PROV_LANG.UK);
 		} catch (FactoryMapperRemovalException e) {
 			LOGGER.severe("FactoryMapperRemovalException");
 		}
@@ -60,7 +60,7 @@ public class IntegerToWordEnumFactoryTest {
 		// Reset the factoryCache toempty state
 		Whitebox.setInternalState(IntegerToWordEnumFactory.class,
 				"mappingsCache",
-				new HashMap<PROVISIONED_LN, IntegerToWordEnumFactory>());
+				new HashMap<PROV_LANG, IntegerToWordEnumFactory>());
 
 		// Call getIntegerToWord again -> mapper2
 
@@ -238,7 +238,7 @@ public class IntegerToWordEnumFactoryTest {
 				LOGGER.severe("testremoveNumberToWordEnumFactory getIntegerToWordMapper invocation failure");
 			}
 			cleared = IntegerToWordEnumFactory
-					.removeNumberToWordEnumFactory(PROVISIONED_LN.UK);
+					.removeNumberToWordEnumFactory(PROV_LANG.UK);
 		} catch (FactoryMapperRemovalException e) {
 			LOGGER.severe("testremoveNumberToWordEnumFactory invocation failure");
 		}

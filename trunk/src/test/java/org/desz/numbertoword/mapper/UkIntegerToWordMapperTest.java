@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import java.math.BigInteger;
 import java.util.logging.Logger;
 
-import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
+import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.IntegerToWordException;
 import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
@@ -35,7 +35,7 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	public void clean() {
 		try {
 			IntegerToWordEnumFactory
-					.removeNumberToWordEnumFactory(PROVISIONED_LN.UK);
+					.removeNumberToWordEnumFactory(PROV_LANG.UK);
 		} catch (FactoryMapperRemovalException e) {
 			LOGGER.severe(e.getMessage());
 		}

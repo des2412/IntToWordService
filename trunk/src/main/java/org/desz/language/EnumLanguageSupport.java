@@ -13,7 +13,7 @@ import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
 import org.desz.numbertoword.enums.EnumHolder.NL_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.NL_FMT;
 import org.desz.numbertoword.enums.EnumHolder.NL_WORDS;
-import org.desz.numbertoword.enums.EnumHolder.PROVISIONED_LN;
+import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.UK_WORDS;
 
@@ -24,7 +24,7 @@ import com.google.common.collect.ImmutableMap;
  * 
  * Immutable
  * 
- * switches on PROVISIONED_LN
+ * switches on PROV_LANG
  * 
  * Used by IntegerToWordEnumFactory.
  * 
@@ -59,7 +59,7 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 	 * 
 	 * @param pl
 	 */
-	public EnumLanguageSupport(PROVISIONED_LN pl) {
+	public EnumLanguageSupport(PROV_LANG pl) {
 
 		switch (pl) {
 		case UK:
