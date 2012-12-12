@@ -14,10 +14,6 @@ public class IntegerToWordNegativeException extends Exception {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private IntegerToWordNegativeException() {
-		super();
-	}
-
 	public IntegerToWordNegativeException(String message) {
 		super(message);
 	}

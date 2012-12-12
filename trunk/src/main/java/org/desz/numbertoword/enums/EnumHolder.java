@@ -17,8 +17,8 @@ import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
 public final class EnumHolder {
 
 	/**
-	 * Enum encapsulating application level provisioned languages INVALID is
-	 * chiefly defined for UI HTML elements, e.g, SELECT
+	 * Enum encapsulating application level provisioned languages EMTY is
+	 * defined for UI HTML elements, e.g, SELECT
 	 * 
 	 * @author des
 	 * 
@@ -248,7 +248,8 @@ public final class EnumHolder {
 	 * 
 	 * UK is default if invalid language is selected.
 	 * 
-	 * Each XX_ERRORS Enum is a discrete set with language dependent values.
+	 * Each XX_ERRORS Enum is a discrete set with common name but language
+	 * dependent values.
 	 * 
 	 * @author des
 	 * 
@@ -256,10 +257,10 @@ public final class EnumHolder {
 	public enum UK_ERRORS {
 		INVALID_INPUT("Invalid input"), INVALID_NUMBER(
 				"Fractional or non integral numbers disallowed"), NULL_INPUT(
-				"No number to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT(
+				"Enter an Integer to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT(
 				"Negative integer input"), NUMBERFORMAT(
 				"Number Format Exception"), INVALID_LN_SEL(
-				"Valid language not chosen");
+				"Select a valid language");
 
 		private final String error;
 
@@ -348,8 +349,9 @@ public final class EnumHolder {
 	 */
 	public enum DEF_FMT {
 
-		SPACE(" "), AND(SPACE.val() + "and" + SPACE.val()), EMPTY(""), NUM_SEP(
-				","), MILLS("million"), THOUS("thousand"), HUNS("hundred");
+		SPACE(" "), AND(SPACE.val() + "and" + SPACE.val()), EMPTY(""), ERR_SEP(
+				SPACE.val() + "/" + SPACE.val()), NUM_SEP(","), MILLS("million"), THOUS(
+				"thousand"), HUNS("hundred");
 
 		private String val;
 

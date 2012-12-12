@@ -20,7 +20,7 @@ import org.desz.numbertoword.enums.EnumHolder.UK_WORDS;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * Class that holds the enum value constants
+ * Class that holds the enum value constants for a prov_lang
  * 
  * Immutable
  * 
@@ -49,17 +49,15 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 
 	private Map<String, String> intToWordMap = new HashMap<String, String>();
 
-	// private ImmutableMap<String, String> intToWordMap = ImmutableMap.of();
 
 	/**
-	 * Construct state according to pl
 	 * 
 	 * This enables Factory instance configuration for specific languages.
 	 * 
 	 * 
-	 * @param pl
+	 * @param pl PROV_LANG
 	 */
-	public EnumLanguageSupport(PROV_LANG pl) {
+	public EnumLanguageSupport(final PROV_LANG pl) {
 
 		switch (pl) {
 		case UK:
@@ -130,6 +128,9 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 		}
 	}
 
+	/**
+	 * return an immutable Google Map
+	 */
 	public ImmutableMap<String, String> getIntToWordMap() {
 
 		ImmutableMap<String, String> immutable = new ImmutableMap.Builder<String, String>()
@@ -162,15 +163,15 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 	}
 
 	public String getNullInput() {
-		return this.nullInput;
+		return nullInput;
 	}
 
 	public String getNumberFormatErr() {
-		return this.numberFormatErr;
+		return numberFormatErr;
 	}
 
 	public String getUnkownErr() {
-		return this.unknownErr;
+		return unknownErr;
 	}
 
 }
