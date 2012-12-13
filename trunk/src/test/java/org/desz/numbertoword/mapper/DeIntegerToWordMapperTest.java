@@ -24,15 +24,14 @@ public class DeIntegerToWordMapperTest extends IntegerToWordMapperTest {
 
 	@Before
 	public void init() throws Exception {
-		intToWordMapper = (IntegerToWordMapper) IntegerToWordEnumFactory.DE_FAC
+		intToWordMapper = IntegerToWordEnumFactory.DE_FAC
 				.getIntegerToWordMapper();
 		assertNotNull(intToWordMapper);
 	}
 
 	@After
 	public void clean() throws Exception {
-		IntegerToWordEnumFactory
-				.removeNumberToWordEnumFactory(PROV_LANG.DE);
+		IntegerToWordEnumFactory.removeNumberToWordEnumFactory(PROV_LANG.DE);
 	}
 
 	@Test

@@ -23,7 +23,7 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	@Before
 	public void init() {
 		try {
-			numberToWordMapper = (IntegerToWordMapper) IntegerToWordEnumFactory.UK_FAC
+			numberToWordMapper = IntegerToWordEnumFactory.UK_FAC
 					.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
 			Logger.getAnonymousLogger().severe("init exc.");

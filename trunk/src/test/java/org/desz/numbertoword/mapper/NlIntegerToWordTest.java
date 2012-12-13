@@ -18,15 +18,14 @@ public class NlIntegerToWordTest extends IntegerToWordMapperTest {
 
 	@Before
 	public void init() throws Exception {
-		intToWordMapper = (IntegerToWordMapper) IntegerToWordEnumFactory.NL_FAC
+		intToWordMapper = IntegerToWordEnumFactory.NL_FAC
 				.getIntegerToWordMapper();
 		assertNotNull(intToWordMapper);
 	}
 
 	@After
 	public void clean() throws Exception {
-		IntegerToWordEnumFactory
-				.removeNumberToWordEnumFactory(PROV_LANG.NL);
+		IntegerToWordEnumFactory.removeNumberToWordEnumFactory(PROV_LANG.NL);
 	}
 
 	@Test

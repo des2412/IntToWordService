@@ -46,8 +46,8 @@ public enum IntegerToWordEnumFactory implements
 	 * @return new IntegerToWordMapper
 	 * @throws NumberToWordFactoryException
 	 */
-	private IFNumberToWordMapper<BigInteger> newIntegerToWordMapper(
-			PROV_LANG pl) throws NumberToWordFactoryException {
+	private IFNumberToWordMapper<BigInteger> newIntegerToWordMapper(PROV_LANG pl)
+			throws NumberToWordFactoryException {
 		// access private Constructor of IntegerToWordMapper using reflection
 		final Constructor<?>[] constructors = IntegerToWordMapper.class
 				.getDeclaredConstructors();
@@ -106,7 +106,6 @@ public enum IntegerToWordEnumFactory implements
 	public IFNumberToWordMapper<BigInteger> getIntegerToWordMapper()
 			throws NumberToWordFactoryException {
 
-		EnumLanguageSupport enumLanguageSupport = null;
 		IFNumberToWordMapper<BigInteger> integerToWordMapper;
 		switch (this) {
 		case UK_FAC:
@@ -173,8 +172,8 @@ public enum IntegerToWordEnumFactory implements
 	 * @return
 	 * @throws FactoryMapperRemovalException
 	 */
-	public static boolean removeNumberToWordEnumFactory(
-			final PROV_LANG provLang) throws FactoryMapperRemovalException {
+	public static boolean removeNumberToWordEnumFactory(final PROV_LANG provLang)
+			throws FactoryMapperRemovalException {
 
 		if (mappingsCache.containsKey(provLang)) {
 

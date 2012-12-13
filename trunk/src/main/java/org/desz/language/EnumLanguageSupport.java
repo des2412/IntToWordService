@@ -49,13 +49,13 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 
 	private Map<String, String> intToWordMap = new HashMap<String, String>();
 
-
 	/**
 	 * 
 	 * This enables Factory instance configuration for specific languages.
 	 * 
 	 * 
-	 * @param pl PROV_LANG
+	 * @param pl
+	 *            PROV_LANG
 	 */
 	public EnumLanguageSupport(final PROV_LANG pl) {
 
