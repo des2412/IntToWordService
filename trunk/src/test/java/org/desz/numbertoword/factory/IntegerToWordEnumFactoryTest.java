@@ -17,7 +17,9 @@ import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.mapper.IFNumberToWordMapper;
 import org.desz.numbertoword.mapper.IntegerToWordMapper;
+import org.desz.numbertoword.mapper.ParallelWorkerMapper;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -43,6 +45,19 @@ public class IntegerToWordEnumFactoryTest {
 		} catch (FactoryMapperRemovalException e) {
 			LOGGER.severe("FactoryMapperRemovalException");
 		}
+	}
+
+	@Test
+	public void testTypeOfMapper() {
+		INumberToWordFactory<BigInteger> fac = MultiThreadIntegerToWordEnumFactory.UK_FAC;
+		
+		IFNumberToWordMapper<BigInteger> mapper = null;
+		try {
+			mapper = fac.getIntegerToWordMapper(); // add mapper to factoryCache
+		} catch (NumberToWordFactoryException e) {
+			LOGGER.severe("testFactoryCache exception." + e.getCause());
+		}
+		Assert.assertTrue(mapper instanceof IFNumberToWordMapper);
 	}
 
 	@Test
@@ -144,7 +159,7 @@ public class IntegerToWordEnumFactoryTest {
 
 	}
 
-	@Test
+	//@Test TODO delete
 	public void testIsCachedFalse() {
 
 		// We create a new instance of test class under test as usually.

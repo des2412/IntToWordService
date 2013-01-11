@@ -51,7 +51,7 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 
 	/**
 	 * 
-	 * This enables Factory instance configuration for specific languages.
+	 * Enum Factory instance configuration for specific languages.
 	 * 
 	 * 
 	 * @param pl
@@ -129,7 +129,8 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 	}
 
 	/**
-	 * return an immutable Google Map
+	 * return an immutable Google Map of integer to word for 
+	 * the language
 	 */
 	public ImmutableMap<String, String> getIntToWordMap() {
 
@@ -158,6 +159,7 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 		return thouUnit;
 	}
 
+	
 	public String getAnd() {
 		return and;
 	}

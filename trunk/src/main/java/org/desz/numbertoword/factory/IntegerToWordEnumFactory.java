@@ -18,6 +18,8 @@ import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.mapper.IFNumberToWordMapper;
 import org.desz.numbertoword.mapper.IntegerToWordMapper;
+import org.desz.numbertoword.service.validator.GoogleValidatorAndFormatImpl;
+import org.desz.numbertoword.service.validator.IValAndFormatInt;
 
 /**
  * @author des
@@ -31,11 +33,11 @@ public enum IntegerToWordEnumFactory implements
 		INumberToWordFactory<BigInteger> {
 
 	// Language specific factories
-	UK_FAC(), FR_FAC(), DE_FAC(), NL_FAC;
+	UK_FAC(), FR_FAC(), DE_FAC(), NL_FAC();
 
 	// Each factory once instantiated will be cached.
-	private static Map<PROV_LANG, IntegerToWordMapper> mappingsCache = Collections
-			.synchronizedMap(new HashMap<PROV_LANG, IntegerToWordMapper>());
+	private static Map<PROV_LANG, IFNumberToWordMapper<BigInteger>> mappingsCache = Collections
+			.synchronizedMap(new HashMap<PROV_LANG, IFNumberToWordMapper<BigInteger>>());
 
 	private final static Logger LOGGER = Logger
 			.getLogger(IntegerToWordEnumFactory.class.getName());
@@ -48,9 +50,10 @@ public enum IntegerToWordEnumFactory implements
 	 */
 	private IFNumberToWordMapper<BigInteger> newIntegerToWordMapper(PROV_LANG pl)
 			throws NumberToWordFactoryException {
-		// access private Constructor of IntegerToWordMapper using reflection
-		final Constructor<?>[] constructors = IntegerToWordMapper.class
+		// access private Constructor using reflection
+		Constructor<?>[] constructors = IntegerToWordMapper.class
 				.getDeclaredConstructors();
+
 		if (constructors.length == 1)
 			constructors[0].setAccessible(true);
 		else
@@ -59,10 +62,12 @@ public enum IntegerToWordEnumFactory implements
 
 		EnumLanguageSupport enumLanguageSupport = new EnumLanguageSupport(pl);
 		IFNumberToWordMapper<BigInteger> mapper = null;
+		
+		IValAndFormatInt validator = new GoogleValidatorAndFormatImpl(enumLanguageSupport);
 
 		try {
 			mapper = (IFNumberToWordMapper<BigInteger>) constructors[0]
-					.newInstance(new Object[] { enumLanguageSupport });
+					.newInstance(new Object[] { enumLanguageSupport, validator });
 		} catch (InstantiationException e1) {
 			LOGGER.severe(e1.getMessage());
 		} catch (IllegalAccessException e1) {
@@ -93,13 +98,15 @@ public enum IntegerToWordEnumFactory implements
 		return isCached;
 	}
 
+	private static final int nThreads = Runtime.getRuntime()
+			.availableProcessors();
+
 	/**
-	 * Get a language specific Enum Factory Each instance is specific for a
-	 * PROV_LANG.
+	 * Each instance is specific for a PROV_LANG.
 	 * 
 	 * @see EnumLanguageSupport
 	 * 
-	 *      Instances will be cached in the initialised state for reuse
+	 *      Instances will be cached for reuse
 	 * 
 	 */
 	@Override
@@ -113,9 +120,11 @@ public enum IntegerToWordEnumFactory implements
 			if (isCached(PROV_LANG.UK)) {
 				return mappingsCache.get(PROV_LANG.UK);
 			}
+
 			integerToWordMapper = newIntegerToWordMapper(PROV_LANG.UK);
+
 			mappingsCache.put(PROV_LANG.UK,
-					(IntegerToWordMapper) integerToWordMapper);
+					(IFNumberToWordMapper) integerToWordMapper);
 			break;
 
 		case FR_FAC:
@@ -125,7 +134,7 @@ public enum IntegerToWordEnumFactory implements
 
 			integerToWordMapper = newIntegerToWordMapper(PROV_LANG.FR);
 			mappingsCache.put(PROV_LANG.FR,
-					(IntegerToWordMapper) integerToWordMapper);
+					(IFNumberToWordMapper) integerToWordMapper);
 			break;
 		case DE_FAC:
 			if (isCached(PROV_LANG.DE)) {
@@ -134,7 +143,7 @@ public enum IntegerToWordEnumFactory implements
 
 			integerToWordMapper = newIntegerToWordMapper(PROV_LANG.DE);
 			mappingsCache.put(PROV_LANG.DE,
-					(IntegerToWordMapper) integerToWordMapper);
+					(IFNumberToWordMapper) integerToWordMapper);
 			break;
 
 		case NL_FAC:
@@ -144,7 +153,7 @@ public enum IntegerToWordEnumFactory implements
 
 			integerToWordMapper = newIntegerToWordMapper(PROV_LANG.NL);
 			mappingsCache.put(PROV_LANG.NL,
-					(IntegerToWordMapper) integerToWordMapper);
+					(IFNumberToWordMapper) integerToWordMapper);
 			break;
 		default:
 			LOGGER.info("Unknown problem creating Factory");

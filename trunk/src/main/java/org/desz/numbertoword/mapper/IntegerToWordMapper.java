@@ -15,10 +15,7 @@ import org.desz.numbertoword.enums.EnumHolder.NUMBER_CONSTANT;
 import org.desz.numbertoword.exceptions.IntegerToWordException;
 import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
-
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Range;
-import com.google.common.collect.Ranges;
+import org.desz.numbertoword.service.validator.IValAndFormatInt;
 
 /**
  * Class is configured by NumberToWordFactory
@@ -33,13 +30,13 @@ public final class IntegerToWordMapper implements
 
 	private final ILanguageSupport enumLanguageSupport;
 
-	private static final Range<Integer> range = Ranges.closed(0, 999999999);
-
-	protected final static Logger LOGGER = Logger
+	protected transient final static Logger LOGGER = Logger
 			.getLogger(IntegerToWordMapper.class.getName());
 
 	private transient static NumberFormat integerFormatter = NumberFormat
 			.getIntegerInstance(Locale.UK);
+
+	private IValAndFormatInt validator;
 
 	/**
 	 * message: Typically reports an error condition. Used by Unit tests for
@@ -60,12 +57,23 @@ public final class IntegerToWordMapper implements
 	 * 
 	 * @see IntegerToWordEnumFactory which has the logic to 'inject' the correct
 	 *      enumLanguageSupport
-	 * 
+	 *      
 	 * @param enumLanguageSupport
-	 *            specific for PROV_LANG
+	 * @param validator
 	 */
-	private IntegerToWordMapper(final ILanguageSupport enumLanguageSupport) {
+	private IntegerToWordMapper(final ILanguageSupport enumLanguageSupport,
+			IValAndFormatInt validator) {
 		this.enumLanguageSupport = enumLanguageSupport;
+		this.validator = validator;
+	}
+
+	public ILanguageSupport getEnumLanguageSupport() {
+		return enumLanguageSupport;
+	}
+
+	public String formatBigInteger(BigInteger num)
+			throws IntegerToWordException, IntegerToWordNegativeException {
+		return validator.validateAndFormat(num);
 	}
 
 	/**
@@ -82,7 +90,7 @@ public final class IntegerToWordMapper implements
 
 		String formattedNumber = null;
 		try {
-			formattedNumber = validateAndFormat(num);
+			formattedNumber = this.validator.validateAndFormat(num);
 
 		} catch (IntegerToWordException e) {
 			LOGGER.info(e.getMessage());
@@ -93,13 +101,12 @@ public final class IntegerToWordMapper implements
 			throw new IntegerToWordNegativeException(e.getMessage());
 		}
 
-		// LOGGER.info("Format Separator:" + FORMATTED_NUMBER_SEPARATOR);
-		String[] components = formattedNumber.split(DEF_FMT.NUM_SEP.val());
-		final int nComps = components.length;
-
 		if (formattedNumber.equals("0")) {
 			return enumLanguageSupport.getIntToWordMap().get("0");
 		}
+
+		String[] components = formattedNumber.split(DEF_FMT.NUM_SEP.val());
+		final int nComps = components.length;
 
 		String mills = DEF_FMT.EMPTY.val();
 		String thous = DEF_FMT.EMPTY.val();
@@ -223,45 +230,36 @@ public final class IntegerToWordMapper implements
 	}
 
 	/**
+	 * TODO refactor to use IntToWordValidator class
 	 * 
 	 * @param num
 	 * @return
 	 * @throws IntegerToWordException
 	 * @throws IntegerToWordNegativeException
 	 */
-	public String validateAndFormat(BigInteger num)
-			throws IntegerToWordException, IntegerToWordNegativeException {
-		try {
-			Preconditions.checkNotNull(num);
-		} catch (NullPointerException e) {
-			LOGGER.info(enumLanguageSupport.getNullInput());
-			throw new IntegerToWordException(enumLanguageSupport.getNullInput());
-		}
-
-		if (!range.contains(num.intValue())) {
-			if (range.lowerEndpoint().compareTo(num.intValue()) > 0) {
-				throw new IntegerToWordNegativeException(
-						enumLanguageSupport.getNegativeInput());
-			}
-			if (range.upperEndpoint().compareTo(num.intValue()) < 0) {
-				throw new IntegerToWordException(
-						enumLanguageSupport.getInvalidInput());
-			}
-
-		}
-
-		String formattedNumber = null;
-
-		try {
-			formattedNumber = convertToNumberFormat(Long.valueOf(String
-					.valueOf(num)));
-		} catch (NumberFormatException nfe) {
-			setMessage(enumLanguageSupport.getNumberFormatErr());
-			throw new IntegerToWordException(
-					enumLanguageSupport.getNumberFormatErr());
-		}
-		return formattedNumber;
-	}
+	/*
+	 * public String validateAndFormat(BigInteger num) throws
+	 * IntegerToWordException, IntegerToWordNegativeException { try {
+	 * Preconditions.checkNotNull(num); } catch (NullPointerException e) {
+	 * LOGGER.info(enumLanguageSupport.getNullInput()); throw new
+	 * IntegerToWordException(enumLanguageSupport.getNullInput()); }
+	 * 
+	 * if (!range.contains(num.intValue())) { if
+	 * (range.lowerEndpoint().compareTo(num.intValue()) > 0) { throw new
+	 * IntegerToWordNegativeException( enumLanguageSupport.getNegativeInput());
+	 * } if (range.upperEndpoint().compareTo(num.intValue()) < 0) { throw new
+	 * IntegerToWordException( enumLanguageSupport.getInvalidInput()); }
+	 * 
+	 * }
+	 * 
+	 * String formattedNumber = null;
+	 * 
+	 * try { formattedNumber = convertToNumberFormat(Long.valueOf(String
+	 * .valueOf(num))); } catch (NumberFormatException nfe) {
+	 * setMessage(enumLanguageSupport.getNumberFormatErr()); throw new
+	 * IntegerToWordException( enumLanguageSupport.getNumberFormatErr()); }
+	 * return formattedNumber; }
+	 */
 
 	/**
 	 * 

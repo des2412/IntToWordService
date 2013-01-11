@@ -1,5 +1,7 @@
 package org.desz.numbertoword.mapper;
 
+import java.math.BigInteger;
+
 import org.desz.numbertoword.exceptions.IntegerToWordException;
 import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
 

@@ -7,7 +7,6 @@ public interface INumberToWordFactory<T extends Number> {
 
 	/**
 	 * 
-	 * @param provLang
 	 * @return
 	 * @throws NumberToWordFactoryException
 	 */
