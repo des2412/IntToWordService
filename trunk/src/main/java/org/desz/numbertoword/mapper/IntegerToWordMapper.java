@@ -39,8 +39,7 @@ public final class IntegerToWordMapper implements
 	private IValAndFormatInt validator;
 
 	/**
-	 * message: Typically reports an error condition. Used by Unit tests for
-	 * assertions only.
+	 * error messages that may be encountered
 	 */
 	private String message;
 
@@ -49,7 +48,11 @@ public final class IntegerToWordMapper implements
 		return message;
 	}
 
-	public void setMessage(String message) {
+	/**
+	 * used to set message
+	 * @param message
+	 */
+	private void setMessage(String message) {
 		this.message = message;
 	}
 
