@@ -1,11 +1,9 @@
 package org.desz.numbertoword.mapper;
 
 import java.math.BigInteger;
-import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -18,7 +16,7 @@ import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
 import org.desz.numbertoword.service.validator.IValAndFormatInt;
 
 /**
- * Class is configured by NumberToWordFactory
+ * Class is strict Singleton and configured by INumberToWordFactory
  * 
  * Converts an Integer to the word representation in the target language.
  * 
@@ -32,9 +30,6 @@ public final class IntegerToWordMapper implements
 
 	protected transient final static Logger LOGGER = Logger
 			.getLogger(IntegerToWordMapper.class.getName());
-
-	private transient static NumberFormat integerFormatter = NumberFormat
-			.getIntegerInstance(Locale.UK);
 
 	private IValAndFormatInt validator;
 
@@ -166,7 +161,7 @@ public final class IntegerToWordMapper implements
 			numAtIndex.put(DEF_FMT.HUNS, val);
 			break;
 		default:
-			LOGGER.info(enumLanguageSupport.getInvalidInput() + num);
+			//LOGGER.info(enumLanguageSupport.getInvalidInput() + num);
 			setMessage(enumLanguageSupport.getInvalidInput() + num);
 			throw new IntegerToWordException(
 					enumLanguageSupport.getInvalidInput() + num);
