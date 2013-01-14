@@ -107,6 +107,7 @@ public final class ParallelWorkerMapper implements
 		try {
 			futures = exec.invokeAll(tasks);
 		} catch (InterruptedException e1) {
+			exec.shutdownNow();
 			LOGGER.severe(e1.getMessage());
 		}
 
@@ -132,6 +133,11 @@ public final class ParallelWorkerMapper implements
 		String str = res.toString().trim();
 
 		return str;
+	}
+
+	@Override
+	public String getErrorMessage() {
+		return mapper.getErrorMessage();
 	}
 
 }

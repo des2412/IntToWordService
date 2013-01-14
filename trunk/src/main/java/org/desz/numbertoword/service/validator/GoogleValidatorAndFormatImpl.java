@@ -26,7 +26,7 @@ public class GoogleValidatorAndFormatImpl implements IValAndFormatInt {
 			.getLogger(GoogleValidatorAndFormatImpl.class.getName());
 
 	// UK format suffices for all languages
-	
+
 	private transient static NumberFormat integerFormatter = NumberFormat
 			.getIntegerInstance(Locale.UK);
 
@@ -39,19 +39,18 @@ public class GoogleValidatorAndFormatImpl implements IValAndFormatInt {
 		this.enumLanguageSupport = enumLanguageSupport;
 	}
 
-	
 	public ILanguageSupport getEnumLanguageSupport() {
 		return enumLanguageSupport;
 	}
 
-
 	/**
 	 * 
 	 * @param num
-	 * @return UK formatted String 
+	 * @return UK formatted String
 	 * @throws IntegerToWordException
 	 * @throws IntegerToWordNegativeException
 	 */
+	@Override
 	public String validateAndFormat(BigInteger num)
 			throws IntegerToWordException, IntegerToWordNegativeException {
 		try {

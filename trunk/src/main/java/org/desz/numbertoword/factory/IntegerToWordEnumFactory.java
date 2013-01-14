@@ -35,7 +35,7 @@ public enum IntegerToWordEnumFactory implements
 	// Language specific factories
 	UK_FAC(), FR_FAC(), DE_FAC(), NL_FAC();
 
-	// Each factory once instantiated will be cached.
+	// Each IFNumberToWord instance once instantiated will be cached.
 	private static Map<PROV_LANG, IFNumberToWordMapper<BigInteger>> mappingsCache = Collections
 			.synchronizedMap(new HashMap<PROV_LANG, IFNumberToWordMapper<BigInteger>>());
 
@@ -62,8 +62,9 @@ public enum IntegerToWordEnumFactory implements
 
 		EnumLanguageSupport enumLanguageSupport = new EnumLanguageSupport(pl);
 		IFNumberToWordMapper<BigInteger> mapper = null;
-		
-		IValAndFormatInt validator = new GoogleValidatorAndFormatImpl(enumLanguageSupport);
+
+		IValAndFormatInt validator = new GoogleValidatorAndFormatImpl(
+				enumLanguageSupport);
 
 		try {
 			mapper = (IFNumberToWordMapper<BigInteger>) constructors[0]
@@ -124,7 +125,7 @@ public enum IntegerToWordEnumFactory implements
 			integerToWordMapper = newIntegerToWordMapper(PROV_LANG.UK);
 
 			mappingsCache.put(PROV_LANG.UK,
-					(IFNumberToWordMapper) integerToWordMapper);
+					integerToWordMapper);
 			break;
 
 		case FR_FAC:
@@ -134,7 +135,7 @@ public enum IntegerToWordEnumFactory implements
 
 			integerToWordMapper = newIntegerToWordMapper(PROV_LANG.FR);
 			mappingsCache.put(PROV_LANG.FR,
-					(IFNumberToWordMapper) integerToWordMapper);
+					integerToWordMapper);
 			break;
 		case DE_FAC:
 			if (isCached(PROV_LANG.DE)) {
@@ -143,7 +144,7 @@ public enum IntegerToWordEnumFactory implements
 
 			integerToWordMapper = newIntegerToWordMapper(PROV_LANG.DE);
 			mappingsCache.put(PROV_LANG.DE,
-					(IFNumberToWordMapper) integerToWordMapper);
+					integerToWordMapper);
 			break;
 
 		case NL_FAC:
@@ -153,7 +154,7 @@ public enum IntegerToWordEnumFactory implements
 
 			integerToWordMapper = newIntegerToWordMapper(PROV_LANG.NL);
 			mappingsCache.put(PROV_LANG.NL,
-					(IFNumberToWordMapper) integerToWordMapper);
+					integerToWordMapper);
 			break;
 		default:
 			LOGGER.info("Unknown problem creating Factory");

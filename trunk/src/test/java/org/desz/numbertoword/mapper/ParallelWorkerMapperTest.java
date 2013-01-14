@@ -12,15 +12,15 @@ import org.desz.numbertoword.exceptions.IntegerToWordException;
 import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
-import org.desz.numbertoword.factory.MultiThreadIntegerToWordEnumFactory;
+import org.desz.numbertoword.factory.ParallelIntToWordFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MultipleWorkerMapperTest {
+public class ParallelWorkerMapperTest {
 
 	protected final static Logger LOGGER = Logger
-			.getLogger(ParallelWorkerMapper.class.getName());
+			.getLogger(ParallelWorkerMapperTest.class.getName());
 
 	private IFNumberToWordMapper<BigInteger> mapper;
 
@@ -29,8 +29,7 @@ public class MultipleWorkerMapperTest {
 			IntegerToWordNegativeException {
 
 		try {
-			mapper = MultiThreadIntegerToWordEnumFactory.UK_FAC
-					.getIntegerToWordMapper();
+			mapper = ParallelIntToWordFactory.UK_FAC.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
 			LOGGER.severe("mapper creation issue");
 		}
@@ -46,6 +45,14 @@ public class MultipleWorkerMapperTest {
 		} catch (FactoryMapperRemovalException e) {
 			LOGGER.severe(e.getMessage());
 		}
+	}
+
+	@Test
+	public void testZero() throws NumberToWordFactoryException,
+			IntegerToWordException, IntegerToWordNegativeException {
+		BigInteger bi = new BigInteger("0");
+		mapper = ParallelIntToWordFactory.UK_FAC.getIntegerToWordMapper();
+		assertEquals("Zero", mapper.getWord(bi));
 	}
 
 	@Test

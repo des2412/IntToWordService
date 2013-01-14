@@ -44,7 +44,8 @@ public final class IntegerToWordMapper implements
 	 */
 	private String message;
 
-	public String getMessage() {
+	@Override
+	public String getErrorMessage() {
 		return message;
 	}
 
@@ -55,9 +56,9 @@ public final class IntegerToWordMapper implements
 	/**
 	 * Constructor is private to enforce Singleton semantics
 	 * 
-	 * @see IntegerToWordEnumFactory which has the logic to 'inject' the correct
-	 *      enumLanguageSupport
-	 *      
+	 * @see IntegerToWordEnumFactory which 'injects' the correct
+	 *      enumLanguageSupport and chosen IValAndFormatValidator
+	 * 
 	 * @param enumLanguageSupport
 	 * @param validator
 	 */
@@ -71,6 +72,14 @@ public final class IntegerToWordMapper implements
 		return enumLanguageSupport;
 	}
 
+	/**
+	 * 
+	 * @param num
+	 *            BigInteger to format
+	 * @return num in UK Format
+	 * @throws IntegerToWordException
+	 * @throws IntegerToWordNegativeException
+	 */
 	public String formatBigInteger(BigInteger num)
 			throws IntegerToWordException, IntegerToWordNegativeException {
 		return validator.validateAndFormat(num);
@@ -230,38 +239,6 @@ public final class IntegerToWordMapper implements
 	}
 
 	/**
-	 * TODO refactor to use IntToWordValidator class
-	 * 
-	 * @param num
-	 * @return
-	 * @throws IntegerToWordException
-	 * @throws IntegerToWordNegativeException
-	 */
-	/*
-	 * public String validateAndFormat(BigInteger num) throws
-	 * IntegerToWordException, IntegerToWordNegativeException { try {
-	 * Preconditions.checkNotNull(num); } catch (NullPointerException e) {
-	 * LOGGER.info(enumLanguageSupport.getNullInput()); throw new
-	 * IntegerToWordException(enumLanguageSupport.getNullInput()); }
-	 * 
-	 * if (!range.contains(num.intValue())) { if
-	 * (range.lowerEndpoint().compareTo(num.intValue()) > 0) { throw new
-	 * IntegerToWordNegativeException( enumLanguageSupport.getNegativeInput());
-	 * } if (range.upperEndpoint().compareTo(num.intValue()) < 0) { throw new
-	 * IntegerToWordException( enumLanguageSupport.getInvalidInput()); }
-	 * 
-	 * }
-	 * 
-	 * String formattedNumber = null;
-	 * 
-	 * try { formattedNumber = convertToNumberFormat(Long.valueOf(String
-	 * .valueOf(num))); } catch (NumberFormatException nfe) {
-	 * setMessage(enumLanguageSupport.getNumberFormatErr()); throw new
-	 * IntegerToWordException( enumLanguageSupport.getNumberFormatErr()); }
-	 * return formattedNumber; }
-	 */
-
-	/**
 	 * 
 	 * @param num
 	 * @return
@@ -316,11 +293,13 @@ public final class IntegerToWordMapper implements
 			throw new IntegerToWordException(enumLanguageSupport.getUnkownErr());
 
 		}
-		LOGGER.info("getWordForInt:" + result);
+		// LOGGER.info("getWordForInt:" + result);
 		return result;
 	}
 
 	/**
+	 * Used to calculate the word for the decimal part of number >= 100
+	 * 
 	 * @param indZero
 	 *            single char string at index 0
 	 * @param indOne
@@ -331,7 +310,7 @@ public final class IntegerToWordMapper implements
 		// check that indZero and indOne have length 1
 		if (indZero.length() > 1 | indOne.length() > 1) {
 			throw new IllegalArgumentException(
-					"String arguments should have length of 1");
+					"Method requires that String arguments must have length of 1");
 		}
 		final BigInteger decs = new BigInteger(indZero + indOne);
 
@@ -346,7 +325,7 @@ public final class IntegerToWordMapper implements
 
 		} else if (decs.compareTo(NUMBER_CONSTANT.TEN.getBigInt()) < 0) {// eg
 																			// 09
-			LOGGER.info("[0-9]");
+			// LOGGER.info("[0-9]");
 			result = enumLanguageSupport.getIntToWordMap().get(indOne);
 
 		} else { // 2x-9x (x NOT 0)
@@ -365,23 +344,6 @@ public final class IntegerToWordMapper implements
 			}
 		}
 		return result;
-	}
-
-	/**
-	 * The formatted String that results has 1 to 3 parts.
-	 * 
-	 * @param num
-	 * @return formatted String representation of num
-	 */
-	private String convertToNumberFormat(Long num)
-			throws IllegalArgumentException {
-		String s = null;
-		try {
-			s = integerFormatter.format(num);
-		} catch (IllegalArgumentException e) {
-			throw (e);
-		}
-		return s;
 	}
 
 }

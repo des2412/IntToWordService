@@ -10,13 +10,13 @@ import org.desz.numbertoword.mapper.IFNumberToWordMapper;
 import org.desz.numbertoword.mapper.IntegerToWordMapper;
 import org.desz.numbertoword.mapper.ParallelWorkerMapper;
 
-public enum MultiThreadIntegerToWordEnumFactory implements
+public enum ParallelIntToWordFactory implements
 		INumberToWordFactory<BigInteger> {
 
 	UK_FAC();
 
 	private final static Logger LOGGER = Logger
-			.getLogger(MultiThreadIntegerToWordEnumFactory.class.getName());
+			.getLogger(ParallelIntToWordFactory.class.getName());
 
 	@Override
 	public IFNumberToWordMapper<BigInteger> getIntegerToWordMapper()

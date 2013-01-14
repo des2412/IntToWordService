@@ -20,15 +20,10 @@ import org.desz.numbertoword.enums.EnumHolder.UK_WORDS;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * Class that holds the enum value constants for a prov_lang
+ * Class that holds the enum sourced constants particular to PROV_LANG.
  * 
- * Immutable
- * 
- * switches on PROV_LANG
- * 
- * Used by IntegerToWordEnumFactory.
- * 
- * One-to-one relationship with NumberToWordMapper
+ * This class is used by INumberToWordFactory which is responsible for the
+ * centralised creation of the IFIntegerToWordMapper.
  * 
  * @author des
  * 
@@ -70,7 +65,7 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 			this.negativeInput = UK_ERRORS.NEGATIVE_INPUT.getError();
 			this.negativeInput = UK_ERRORS.NUMBERFORMAT.getError();
 			this.unknownErr = UK_ERRORS.UNKNOWN.getError();
-
+			// generate Map of int to word for UK English
 			for (UK_WORDS intToWord : UK_WORDS.values()) {
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
 			}
@@ -129,9 +124,9 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 	}
 
 	/**
-	 * return an immutable Google Map of integer to word for 
-	 * the language
+	 * return an immutable Google Map of integer to word for the language
 	 */
+	@Override
 	public ImmutableMap<String, String> getIntToWordMap() {
 
 		ImmutableMap<String, String> immutable = new ImmutableMap.Builder<String, String>()
@@ -139,39 +134,47 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 		return immutable;
 	}
 
+	@Override
 	public String getNegativeInput() {
 		return negativeInput;
 	}
 
+	@Override
 	public String getInvalidInput() {
 		return invalidInput;
 	}
 
+	@Override
 	public String getHunUnit() {
 		return hunUnit;
 	}
 
+	@Override
 	public String getMillUnit() {
 		return millUnit;
 	}
 
+	@Override
 	public String getThouUnit() {
 		return thouUnit;
 	}
 
-	
+	@Override
 	public String getAnd() {
 		return and;
 	}
 
+	@Override
 	public String getNullInput() {
 		return nullInput;
 	}
 
+	@Override
 	public String getNumberFormatErr() {
 		return numberFormatErr;
 	}
 
+	@Override
 	public String getUnkownErr() {
 		return unknownErr;
 	}

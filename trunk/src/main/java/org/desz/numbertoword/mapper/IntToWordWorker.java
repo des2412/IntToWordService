@@ -10,6 +10,9 @@ import org.desz.numbertoword.enums.EnumHolder.DEF_FMT;
 
 /**
  * @author desz
+ * @see ParallelWorkerMapper
+ * 
+ *      Usage each instance is responsible for converting a number [1-999]
  * 
  */
 public class IntToWordWorker implements Callable<String> {
@@ -19,6 +22,13 @@ public class IntToWordWorker implements Callable<String> {
 
 	private IFNumberToWordMapper<BigInteger> mapper;
 
+	/**
+	 * 
+	 * @param num
+	 *            BigInteger to convert
+	 * @param order
+	 * @param mapper
+	 */
 	public IntToWordWorker(BigInteger num, String order,
 			IFNumberToWordMapper<BigInteger> mapper) {
 		super();
@@ -30,7 +40,7 @@ public class IntToWordWorker implements Callable<String> {
 	@Override
 	public String call() throws Exception {
 		if (num.intValue() > 0) {
-			
+
 			return mapper.getWord(num) + DEF_FMT.SPACE.val() + this.order;
 		}
 		return DEF_FMT.EMPTY.val();
