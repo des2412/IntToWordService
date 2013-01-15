@@ -213,6 +213,10 @@ public final class IntToWord implements
 				}
 			}
 		}
+		
+		//String res = result.toString().toLowerCase();
+		
+		result.replace(0, 1, String.valueOf(result.charAt(0)).toUpperCase());
 
 		return result.toString();
 	}
@@ -295,7 +299,7 @@ public final class IntToWord implements
 			throw new IntRangeUpperExc(enumLanguageSupport.getUnkownErr());
 
 		}
-		// LOGGER.info("getWordForInt:" + result);
+		LOGGER.info("getWordForInt:" + result);
 		return result;
 	}
 
@@ -345,7 +349,7 @@ public final class IntToWord implements
 						atZero.toString());
 			}
 		}
-		return result;
+		return result.toLowerCase();
 	}
 
 }

@@ -57,6 +57,12 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 			IntRangeLowerExc {
 		numberToWordMapper.getWord(new BigInteger("0"));
 	}
+	
+	@Test
+	public void testNotLowerCase() throws IntRangeUpperExc, IntRangeLowerExc{
+		String s = numberToWordMapper.getWord(new BigInteger("98989866"));
+		assertEquals("Ninety eight million nine hundred and eighty nine thousand eight hundred and sixty six", s);
+	}
 
 	@Test(expected = IntRangeLowerExc.class)
 	public void testMinBoundRangeViolation()
@@ -113,7 +119,7 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 		int num = 41;
 		for (String s : l) {
 
-			assertEquals("Forty" + " " + s,
+			assertEquals("Forty" + " " + s.toLowerCase(),
 					numberToWordMapper.getWord(new BigInteger(String
 							.valueOf(num))));
 			num++;
