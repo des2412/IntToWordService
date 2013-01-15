@@ -13,9 +13,10 @@ import java.util.logging.Logger;
 import org.desz.numbertoword.enums.EnumHolder.DEF_FMT;
 import org.desz.numbertoword.exceptions.IntRangeUpperExc;
 import org.desz.numbertoword.exceptions.IntRangeLowerExc;
+import org.desz.numbertoword.exceptions.IntToWordExc;
 
 public final class ParallelIntToWord implements
-		IFNumberToWordMapper<BigInteger> {
+		INumberToWordMapper<BigInteger> {
 
 	protected final static Logger LOGGER = Logger
 			.getLogger(ParallelIntToWord.class.getName());
@@ -25,9 +26,9 @@ public final class ParallelIntToWord implements
 	private ExecutorService exec;
 
 	@SuppressWarnings("unused")
-	private IFNumberToWordMapper<BigInteger> intToWord;
+	private INumberToWordMapper<BigInteger> intToWord;
 
-	private ParallelIntToWord(final IFNumberToWordMapper<BigInteger> intToWord) {
+	private ParallelIntToWord(final INumberToWordMapper<BigInteger> intToWord) {
 
 		this.intToWord = intToWord;
 		exec = Executors.newFixedThreadPool(nThreads);
@@ -36,10 +37,10 @@ public final class ParallelIntToWord implements
 
 	/**
 	 * parallel processing implementation
+	 * @throws IntToWordExc 
 	 */
 	@Override
-	public String getWord(BigInteger num) throws IntRangeUpperExc,
-			IntRangeLowerExc {
+	public String getWord(BigInteger num) throws IntToWordExc{
 
 		String formattedNumber = null;
 		try {
@@ -47,9 +48,9 @@ public final class ParallelIntToWord implements
 					.formatBigInteger(num);
 		} catch (IntRangeUpperExc e) {
 			//LOGGER.info(e.getMessage());
-			throw new IntRangeUpperExc(e.getMessage());
+			throw new IntToWordExc(e.getMessage());
 		} catch (IntRangeLowerExc e) {
-			throw new IntRangeLowerExc(e.getMessage());
+			throw new IntToWordExc(e.getMessage());
 		}
 
 		String[] components = formattedNumber.split(DEF_FMT.NUM_SEP.val());

@@ -9,8 +9,7 @@ import static org.junit.Assert.assertNotNull;
 import java.math.BigInteger;
 
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
-import org.desz.numbertoword.exceptions.IntRangeUpperExc;
-import org.desz.numbertoword.exceptions.IntRangeLowerExc;
+import org.desz.numbertoword.exceptions.IntToWordExc;
 import org.desz.numbertoword.factory.IntToWordEnumFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -35,8 +34,7 @@ public class DeIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	}
 
 	@Test
-	public void test() throws IntRangeUpperExc,
-			IntRangeLowerExc {
+	public void test() throws IntToWordExc{
 		assertEquals("Einundzwanzig",
 				intToWordMapper.getWord(new BigInteger("21")));
 	}

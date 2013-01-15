@@ -8,13 +8,11 @@ import java.util.logging.Logger;
 
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
-import org.desz.numbertoword.exceptions.IntRangeUpperExc;
-import org.desz.numbertoword.exceptions.IntRangeLowerExc;
+import org.desz.numbertoword.exceptions.IntToWordExc;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
-import org.desz.numbertoword.exceptions.WordForNumberServiceException;
+import org.desz.numbertoword.exceptions.IntToWordServiceException;
 import org.desz.numbertoword.factory.IntToWordEnumFactory;
-import org.desz.numbertoword.mapper.IFNumberToWordMapper;
-import org.desz.numbertoword.mapper.IntToWord;
+import org.desz.numbertoword.mapper.INumberToWordMapper;
 import org.springframework.stereotype.Component;
 
 /**
@@ -23,19 +21,19 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component
-public final class WordForIntServiceImpl implements
-		IWordForNumberService<BigInteger> {
+public final class IntToWordServiceImpl implements
+		INumberToWordService<BigInteger> {
 
 	protected final static Logger LOGGER = Logger
-			.getLogger(WordForIntServiceImpl.class.getName());
+			.getLogger(IntToWordServiceImpl.class.getName());
 
 	private String errMsg;
 
 	@Override
 	public String intToWordService(PROV_LANG provLang, String num)
-			throws WordForNumberServiceException {
+			throws IntToWordServiceException {
 
-		IFNumberToWordMapper<BigInteger> intToWordMapper = null;
+		INumberToWordMapper<BigInteger> intToWordMapper = null;
 
 		switch (provLang) {
 
@@ -80,10 +78,7 @@ public final class WordForIntServiceImpl implements
 
 		try {
 			return intToWordMapper.getWord(new BigInteger(num));
-		} catch (IntRangeUpperExc e) {
-			LOGGER.severe(e.getMessage());
-			this.errMsg = intToWordMapper.getErrorMessage();
-		} catch (IntRangeLowerExc e) {
+		} catch (IntToWordExc e) {
 			LOGGER.severe(e.getMessage());
 			this.errMsg = intToWordMapper.getErrorMessage();
 		}

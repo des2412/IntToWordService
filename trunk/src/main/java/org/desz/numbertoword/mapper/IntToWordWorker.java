@@ -20,7 +20,7 @@ public class IntToWordWorker implements Callable<String> {
 	private BigInteger num;
 	private String order;
 
-	private IFNumberToWordMapper<BigInteger> mapper;
+	private INumberToWordMapper<BigInteger> mapper;
 
 	/**
 	 * 
@@ -30,7 +30,7 @@ public class IntToWordWorker implements Callable<String> {
 	 * @param mapper
 	 */
 	public IntToWordWorker(BigInteger num, String order,
-			IFNumberToWordMapper<BigInteger> mapper) {
+			INumberToWordMapper<BigInteger> mapper) {
 		super();
 		this.num = num;
 		this.order = order;

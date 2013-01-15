@@ -10,6 +10,7 @@ import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.IntRangeUpperExc;
 import org.desz.numbertoword.exceptions.IntRangeLowerExc;
+import org.desz.numbertoword.exceptions.IntToWordExc;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.factory.IntToWordEnumFactory;
 import org.desz.numbertoword.factory.ParallelIntToWordFactory;
@@ -22,7 +23,7 @@ public class ParallelWorkerMapperTest {
 	protected final static Logger LOGGER = Logger
 			.getLogger(ParallelWorkerMapperTest.class.getName());
 
-	private IFNumberToWordMapper<BigInteger> mapper;
+	private INumberToWordMapper<BigInteger> mapper;
 
 	@Before
 	public void init() throws IntRangeUpperExc,
@@ -48,16 +49,15 @@ public class ParallelWorkerMapperTest {
 	}
 
 	@Test
-	public void testZero() throws NumberToWordFactoryException,
-			IntRangeUpperExc, IntRangeLowerExc {
+	public void testZero() throws NumberToWordFactoryException,IntToWordExc {
 		BigInteger bi = new BigInteger("0");
 		mapper = ParallelIntToWordFactory.UK_FAC.getIntegerToWordMapper();
 		assertEquals("Zero", mapper.getWord(bi));
 	}
 
 	@Test
-	public void comparePerformance() throws IntRangeUpperExc,
-			IntRangeLowerExc, NumberToWordFactoryException {
+	public void comparePerformance() throws IntToWordExc
+			, NumberToWordFactoryException {
 
 		BigInteger bi = new BigInteger("199999999");
 
@@ -91,8 +91,7 @@ public class ParallelWorkerMapperTest {
 	}
 
 	@Test
-	public void testMultiThread() throws IntRangeUpperExc,
-			IntRangeLowerExc {
+	public void testMultiThread() throws IntToWordExc {
 
 		String s = mapper.getWord(new BigInteger("1000000"));
 		LOGGER.info(s);

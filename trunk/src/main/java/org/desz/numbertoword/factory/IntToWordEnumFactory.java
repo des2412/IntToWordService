@@ -16,7 +16,7 @@ import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
-import org.desz.numbertoword.mapper.IFNumberToWordMapper;
+import org.desz.numbertoword.mapper.INumberToWordMapper;
 import org.desz.numbertoword.mapper.IntToWord;
 import org.desz.numbertoword.service.validator.UkIntValidator;
 import org.desz.numbertoword.service.validator.IFormatter;
@@ -36,8 +36,8 @@ public enum IntToWordEnumFactory implements
 	UK_FAC(), FR_FAC(), DE_FAC(), NL_FAC();
 
 	// Each IFNumberToWord instance once instantiated will be cached.
-	private static Map<PROV_LANG, IFNumberToWordMapper<BigInteger>> mappingsCache = Collections
-			.synchronizedMap(new HashMap<PROV_LANG, IFNumberToWordMapper<BigInteger>>());
+	private static Map<PROV_LANG, INumberToWordMapper<BigInteger>> mappingsCache = Collections
+			.synchronizedMap(new HashMap<PROV_LANG, INumberToWordMapper<BigInteger>>());
 
 	private final static Logger LOGGER = Logger
 			.getLogger(IntToWordEnumFactory.class.getName());
@@ -49,7 +49,7 @@ public enum IntToWordEnumFactory implements
 	 * @throws NumberToWordFactoryException
 	 */
 	@SuppressWarnings("unchecked")
-	private IFNumberToWordMapper<BigInteger> newIntToWord(PROV_LANG pl)
+	private INumberToWordMapper<BigInteger> newIntToWord(PROV_LANG pl)
 			throws NumberToWordFactoryException {
 		// access private Constructor using reflection
 		Constructor<?>[] constructors = IntToWord.class
@@ -62,13 +62,13 @@ public enum IntToWordEnumFactory implements
 					"unexpected number of constructors");
 
 		EnumLanguageSupport enumLanguageSupport = new EnumLanguageSupport(pl);
-		IFNumberToWordMapper<BigInteger> mapper = null;
+		INumberToWordMapper<BigInteger> mapper = null;
 
 		IFormatter validator = new UkIntValidator(
 				enumLanguageSupport);
 
 		try {
-			mapper = (IFNumberToWordMapper<BigInteger>) constructors[0]
+			mapper = (INumberToWordMapper<BigInteger>) constructors[0]
 					.newInstance(new Object[] { enumLanguageSupport, validator });
 		} catch (InstantiationException e1) {
 			LOGGER.severe(e1.getMessage());
@@ -112,10 +112,10 @@ public enum IntToWordEnumFactory implements
 	 * 
 	 */
 	@Override
-	public IFNumberToWordMapper<BigInteger> getIntegerToWordMapper()
+	public INumberToWordMapper<BigInteger> getIntegerToWordMapper()
 			throws NumberToWordFactoryException {
 
-		IFNumberToWordMapper<BigInteger> integerToWordMapper;
+		INumberToWordMapper<BigInteger> integerToWordMapper;
 		switch (this) {
 		case UK_FAC:
 			// check mappingsCache

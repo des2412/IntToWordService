@@ -12,8 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.desz.language.EnumLanguageSupport;
-import org.desz.numbertoword.exceptions.IntRangeUpperExc;
-import org.desz.numbertoword.exceptions.IntRangeLowerExc;
+import org.desz.numbertoword.exceptions.IntToWordExc;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -61,12 +60,9 @@ public class IntegerToWordTestPrivateMethods extends IntegerToWordMapperTest {
 		try {
 			assertEquals(tested.getWord(new BigInteger("121")),
 					"One hundred and twenty one");
-		} catch (IntRangeUpperExc e) {
+		} catch (IntToWordExc e) {
 			LOGGER.severe(e.getMessage());
-		} catch (IntRangeLowerExc e) {
-			LOGGER.severe(e.getMessage());
-		}
-
+		} 
 		verify(tested);
 
 		// fail("Not yet implemented");

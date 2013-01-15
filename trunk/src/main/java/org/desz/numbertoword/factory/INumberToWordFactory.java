@@ -1,7 +1,7 @@
 package org.desz.numbertoword.factory;
 
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
-import org.desz.numbertoword.mapper.IFNumberToWordMapper;
+import org.desz.numbertoword.mapper.INumberToWordMapper;
 
 public interface INumberToWordFactory<T extends Number> {
 
@@ -10,7 +10,7 @@ public interface INumberToWordFactory<T extends Number> {
 	 * @return
 	 * @throws NumberToWordFactoryException
 	 */
-	IFNumberToWordMapper<T> getIntegerToWordMapper()
+	INumberToWordMapper<T> getIntegerToWordMapper()
 			throws NumberToWordFactoryException;
 
 }

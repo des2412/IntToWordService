@@ -6,7 +6,7 @@ import java.math.BigInteger;
 import java.util.logging.Logger;
 
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
-import org.desz.numbertoword.mapper.IFNumberToWordMapper;
+import org.desz.numbertoword.mapper.INumberToWordMapper;
 import org.desz.numbertoword.mapper.IntToWord;
 import org.desz.numbertoword.mapper.ParallelIntToWord;
 
@@ -19,10 +19,10 @@ public enum ParallelIntToWordFactory implements
 			.getLogger(ParallelIntToWordFactory.class.getName());
 
 	@Override
-	public IFNumberToWordMapper<BigInteger> getIntegerToWordMapper()
+	public INumberToWordMapper<BigInteger> getIntegerToWordMapper()
 			throws NumberToWordFactoryException {
 
-		IFNumberToWordMapper<BigInteger> integerToWordMapper = null;
+		INumberToWordMapper<BigInteger> integerToWordMapper = null;
 
 		switch (this) {
 		case UK_FAC:
@@ -46,8 +46,8 @@ public enum ParallelIntToWordFactory implements
 	 * @return
 	 * @throws NumberToWordFactoryException
 	 */
-	private IFNumberToWordMapper<BigInteger> newMtIntegerToWordMapper(
-			IFNumberToWordMapper<BigInteger> mapper)
+	private INumberToWordMapper<BigInteger> newMtIntegerToWordMapper(
+			INumberToWordMapper<BigInteger> mapper)
 			throws NumberToWordFactoryException {
 		// access private Constructor using reflection
 		Constructor<?>[] constructors = ParallelIntToWord.class
@@ -60,7 +60,7 @@ public enum ParallelIntToWordFactory implements
 					"unexpected number of constructors");
 
 		try {
-			mapper = (IFNumberToWordMapper<BigInteger>) constructors[0]
+			mapper = (INumberToWordMapper<BigInteger>) constructors[0]
 					.newInstance(new Object[] { mapper });
 		} catch (InstantiationException e1) {
 			LOGGER.severe(e1.getMessage());

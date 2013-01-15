@@ -4,13 +4,13 @@
 package org.desz.numbertoword.service;
 
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
-import org.desz.numbertoword.exceptions.WordForNumberServiceException;
+import org.desz.numbertoword.exceptions.IntToWordServiceException;
 
 /**
  * @author des
  * 
  */
-public interface IWordForNumberService<T extends Number> {
+public interface INumberToWordService<T extends Number> {
 	/**
 	 * 
 	 * @param provLn
@@ -18,7 +18,7 @@ public interface IWordForNumberService<T extends Number> {
 	 * @return
 	 */
 	String intToWordService(PROV_LANG provLn, String num)
-			throws WordForNumberServiceException;
+			throws IntToWordServiceException;
 
 	String getErrorMessage();
 

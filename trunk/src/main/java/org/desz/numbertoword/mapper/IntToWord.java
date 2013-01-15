@@ -12,8 +12,13 @@ import org.desz.numbertoword.enums.EnumHolder.DEF_FMT;
 import org.desz.numbertoword.enums.EnumHolder.NUMBER_CONSTANT;
 import org.desz.numbertoword.exceptions.IntRangeUpperExc;
 import org.desz.numbertoword.exceptions.IntRangeLowerExc;
+import org.desz.numbertoword.exceptions.IntToWordExc;
 import org.desz.numbertoword.factory.IntToWordEnumFactory;
+import org.desz.numbertoword.helper.MappingHelper;
 import org.desz.numbertoword.service.validator.IFormatter;
+
+import com.google.common.collect.Range;
+import com.google.common.collect.Ranges;
 
 /**
  * Class is strict Singleton and configured by INumberToWordFactory
@@ -23,8 +28,7 @@ import org.desz.numbertoword.service.validator.IFormatter;
  * @author des: des_williams_2000@yahoo.com
  * 
  */
-public final class IntToWord implements
-		IFNumberToWordMapper<BigInteger> {
+public final class IntToWord implements INumberToWordMapper<BigInteger> {
 
 	private final ILanguageSupport enumLanguageSupport;
 
@@ -45,6 +49,7 @@ public final class IntToWord implements
 
 	/**
 	 * used to set message
+	 * 
 	 * @param message
 	 */
 	private void setMessage(String message) {
@@ -54,8 +59,8 @@ public final class IntToWord implements
 	/**
 	 * Constructor is private to enforce Singleton semantics
 	 * 
-	 * @see IntToWordEnumFactory which 'injects' the correct
-	 *      enumLanguageSupport and chosen IValAndFormatValidator
+	 * @see IntToWordEnumFactory which 'injects' the correct enumLanguageSupport
+	 *      and chosen IValAndFormatValidator
 	 * 
 	 * @param enumLanguageSupport
 	 * @param validator
@@ -82,8 +87,8 @@ public final class IntToWord implements
 	 * @throws IntRangeUpperExc
 	 * @throws IntRangeLowerExc
 	 */
-	public String formatBigInteger(BigInteger num)
-			throws IntRangeUpperExc, IntRangeLowerExc {
+	public String formatBigInteger(BigInteger num) throws IntRangeUpperExc,
+			IntRangeLowerExc {
 		return validator.validateAndFormat(num);
 	}
 
@@ -94,10 +99,10 @@ public final class IntToWord implements
 	 * @throws IntRangeUpperExc
 	 *             if validate throws Exception type
 	 * @throws IntRangeLowerExc
+	 * @throws IntToWordExc 
 	 */
 	@Override
-	public String getWord(BigInteger num) throws IntRangeUpperExc,
-			IntRangeLowerExc {
+	public String getWord(BigInteger num) throws IntToWordExc {
 
 		String formattedNumber = null;
 		try {
@@ -106,10 +111,10 @@ public final class IntToWord implements
 		} catch (IntRangeUpperExc e) {
 			LOGGER.info(e.getMessage());
 			setMessage(enumLanguageSupport.getNumberFormatErr());
-			throw new IntRangeUpperExc(e);
+			throw new IntToWordExc(e);
 		} catch (IntRangeLowerExc e) {
 			setMessage(enumLanguageSupport.getInvalidInput());
-			throw new IntRangeLowerExc(e.getMessage());
+			throw new IntToWordExc(e.getMessage());
 		}
 
 		if (formattedNumber.equals("0")) {
@@ -131,44 +136,41 @@ public final class IntToWord implements
 
 		case 3:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
-			mills = getWordForInt(val);
+			mills = getWordForPart(val);
 			numAtIndex.put(DEF_FMT.MILLS, val);
 
 			val = BigInteger.valueOf(Long.valueOf(components[1]));
-			thous = getWordForInt(val);
+			thous = getWordForPart(val);
 			numAtIndex.put(DEF_FMT.THOUS, val);
 
 			val = BigInteger.valueOf(Long.valueOf(components[2]));
-			huns = getWordForInt(val);
+			huns = getWordForPart(val);
 			numAtIndex.put(DEF_FMT.HUNS, val);
 			break;
 
 		case 2:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
-			thous = getWordForInt(val);
-			numAtIndex
-					.put(DEF_FMT.MILLS, NUMBER_CONSTANT.MINUS_ONE.getVal());
+			thous = getWordForPart(val);
+			numAtIndex.put(DEF_FMT.MILLS, NUMBER_CONSTANT.MINUS_ONE.getVal());
 			numAtIndex.put(DEF_FMT.THOUS, val);
 
 			val = BigInteger.valueOf(Long.valueOf(components[1]));
-			huns = getWordForInt(val);
+			huns = getWordForPart(val);
 			numAtIndex.put(DEF_FMT.HUNS, val);
 			break;
 
 		case 1:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
-			huns = getWordForInt(val);
-			numAtIndex
-					.put(DEF_FMT.MILLS, NUMBER_CONSTANT.MINUS_ONE.getVal());
-			numAtIndex
-					.put(DEF_FMT.THOUS, NUMBER_CONSTANT.MINUS_ONE.getVal());
+			huns = getWordForPart(val);
+			numAtIndex.put(DEF_FMT.MILLS, NUMBER_CONSTANT.MINUS_ONE.getVal());
+			numAtIndex.put(DEF_FMT.THOUS, NUMBER_CONSTANT.MINUS_ONE.getVal());
 			numAtIndex.put(DEF_FMT.HUNS, val);
 			break;
 		default:
-			//LOGGER.info(enumLanguageSupport.getInvalidInput() + num);
+			// LOGGER.info(enumLanguageSupport.getInvalidInput() + num);
 			setMessage(enumLanguageSupport.getInvalidInput() + num);
-			throw new IntRangeUpperExc(
-					enumLanguageSupport.getInvalidInput() + num);
+			throw new IntToWordExc(enumLanguageSupport.getInvalidInput()
+					+ num);
 
 		}
 
@@ -213,9 +215,7 @@ public final class IntToWord implements
 				}
 			}
 		}
-		
-		//String res = result.toString().toLowerCase();
-		
+		// capitalise the first character
 		result.replace(0, 1, String.valueOf(result.charAt(0)).toUpperCase());
 
 		return result.toString();
@@ -233,8 +233,7 @@ public final class IntToWord implements
 		boolean result = true;
 		List<DEF_FMT> list = Arrays.asList(units);
 		for (DEF_FMT unit : list) {
-			if (numAtIndex.get(unit)
-					.compareTo(NUMBER_CONSTANT.ZERO.getVal()) < 0) {
+			if (numAtIndex.get(unit).compareTo(NUMBER_CONSTANT.ZERO.getVal()) < 0) {
 				result = false;
 			} else {
 				result = true;
@@ -250,104 +249,51 @@ public final class IntToWord implements
 	 * @return
 	 * @throws IntRangeUpperExc
 	 */
-	private String getWordForInt(BigInteger num) throws IntRangeUpperExc {
+	private String getWordForPart(BigInteger num)  {
 		String numStr = String.valueOf(num);
-		String indZero = null;
-		String indOne = null;
-		String indTwo = null;
 		String result = null;
 		// check if numStr is directly mapped
 		if (enumLanguageSupport.getIntToWordMap().containsKey(numStr)) {
 			return enumLanguageSupport.getIntToWordMap().get(numStr);
 		}
 
-		switch (numStr.length()) {
-		// 1,2 or 3 digits
-		case 1:
-			result = enumLanguageSupport.getIntToWordMap().get(numStr);
-			break;
-		case 2:
-			indZero = String.valueOf(numStr.charAt(0));
-			indOne = String.valueOf(numStr.charAt(1));
+		final Range<Integer> TWO_RANGE = Ranges.closed(0, 99);
+		if (TWO_RANGE.contains(num.intValue())) {
+			return this.getDecimalPart(num);
+		}
 
-			if (num.compareTo(NUMBER_CONSTANT.NINE.getVal()) > 0
-					& num.compareTo(NUMBER_CONSTANT.TWENTY.getVal()) < 0) {// teenager
-				result = enumLanguageSupport.getIntToWordMap().get(
-						indZero + indOne);
-			} else { // >= 20 & <= 99
-				result = getDecimalPart(indZero, indOne);
-			}
-			break;
-		case 3:
-			indZero = String.valueOf(numStr.charAt(0));
-			indOne = String.valueOf(numStr.charAt(1));
-			indTwo = String.valueOf(numStr.charAt(2));
-
-			BigInteger rem = num.mod(NUMBER_CONSTANT.ONE_HUNDRED.getVal());
-			result = enumLanguageSupport.getIntToWordMap().get(indZero)
+		else {
+			final BigInteger rem = num
+					.mod(NUMBER_CONSTANT.ONE_HUNDRED.getVal());
+			result = enumLanguageSupport.getIntToWordMap().get(
+					String.valueOf(numStr.charAt(0)))
 					+ DEF_FMT.SPACE.val() + enumLanguageSupport.getHunUnit();
 			if (rem.compareTo(NUMBER_CONSTANT.ZERO.getVal()) > 0) { // not
-																		// whole
-																		// hundredth
-				String decs = getDecimalPart(indOne, indTwo);
-				result += enumLanguageSupport.getAnd() + decs.toLowerCase();
+																	// whole
+																	// hundredth
+				String decs = getDecimalPart(new BigInteger(
+						String.valueOf(numStr.charAt(1))
+								+ String.valueOf(numStr.charAt(2))));
+				return result + enumLanguageSupport.getAnd() + decs.toLowerCase();
 			}
-			break;
-
-		default:
-			setMessage(enumLanguageSupport.getUnkownErr());
-			throw new IntRangeUpperExc(enumLanguageSupport.getUnkownErr());
-
 		}
-		//LOGGER.info("getWordForInt:" + result);
+
 		return result;
 	}
 
 	/**
-	 * Used to calculate the word for the decimal part of number >= 100
 	 * 
-	 * @param indZero
-	 *            single char string at index 0
-	 * @param indOne
-	 *            single char string at index 1
-	 * @return result
+	 * @param val
+	 * @return
 	 */
-	private String getDecimalPart(String indZero, String indOne) {
-		// check that indZero and indOne have length 1
-		if (indZero.length() > 1 | indOne.length() > 1) {
-			throw new IllegalArgumentException(
-					"Method requires that String arguments must have length of 1");
-		}
-		final BigInteger decs = new BigInteger(indZero + indOne);
+	private String getDecimalPart(final BigInteger val) {
 
-		final String result;
-		StringBuffer atZero = new StringBuffer(indZero.toString());
-
-		if (decs.compareTo(BigInteger.ZERO) == 0
-				| (decs.compareTo(NUMBER_CONSTANT.TEN.getVal()) > 0 & decs
-						.compareTo(NUMBER_CONSTANT.TWENTY.getVal()) < 0)) {
-			result = enumLanguageSupport.getIntToWordMap()
-					.get(indZero + indOne);
-
-		} else if (decs.compareTo(NUMBER_CONSTANT.TEN.getVal()) < 0) {// eg
-																			// 09
-			// LOGGER.info("[0-9]");
-			result = enumLanguageSupport.getIntToWordMap().get(indOne);
-
-		} else { // 2x-9x (x NOT 0)
-			atZero.append("0");
-			// indZero += "0"; // add "0" to indZero so as to match
-			// key(intToWordMap) whole
-			// ten
-			if (!indOne.equals("0")) {
-				result = enumLanguageSupport.getIntToWordMap().get(
-						atZero.toString())
-						+ DEF_FMT.SPACE.val()
-						+ enumLanguageSupport.getIntToWordMap().get(indOne);
-			} else {
-				result = enumLanguageSupport.getIntToWordMap().get(
-						atZero.toString());
-			}
+		String result = null;
+		try {
+			result = MappingHelper.getDecimalString(enumLanguageSupport,
+					val.intValue());
+		} catch (IntToWordExc e) {
+			LOGGER.severe(e.getMessage());
 		}
 		return result.toLowerCase();
 	}

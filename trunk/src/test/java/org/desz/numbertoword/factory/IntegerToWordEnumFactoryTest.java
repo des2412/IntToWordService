@@ -15,7 +15,7 @@ import org.desz.language.EnumLanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
-import org.desz.numbertoword.mapper.IFNumberToWordMapper;
+import org.desz.numbertoword.mapper.INumberToWordMapper;
 import org.desz.numbertoword.mapper.IntToWord;
 import org.junit.After;
 import org.junit.Assert;
@@ -50,13 +50,13 @@ public class IntegerToWordEnumFactoryTest {
 	public void testTypeOfMapper() {
 		INumberToWordFactory<BigInteger> fac = ParallelIntToWordFactory.UK_FAC;
 
-		IFNumberToWordMapper<BigInteger> mapper = null;
+		INumberToWordMapper<BigInteger> mapper = null;
 		try {
 			mapper = fac.getIntegerToWordMapper(); // add mapper to factoryCache
 		} catch (NumberToWordFactoryException e) {
 			LOGGER.severe("testFactoryCache exception." + e.getCause());
 		}
-		Assert.assertTrue(mapper instanceof IFNumberToWordMapper);
+		Assert.assertTrue(mapper instanceof INumberToWordMapper);
 	}
 
 	@Test
@@ -64,7 +64,7 @@ public class IntegerToWordEnumFactoryTest {
 
 		IntToWordEnumFactory fac = IntToWordEnumFactory.UK_FAC;
 
-		IFNumberToWordMapper<BigInteger> mapper = null;
+		INumberToWordMapper<BigInteger> mapper = null;
 		try {
 			mapper = fac.getIntegerToWordMapper(); // add mapper to factoryCache
 		} catch (NumberToWordFactoryException e) {
@@ -78,7 +78,7 @@ public class IntegerToWordEnumFactoryTest {
 
 		// Call getIntegerToWord again -> mapper2
 
-		IFNumberToWordMapper<BigInteger> mapper2 = null;
+		INumberToWordMapper<BigInteger> mapper2 = null;
 		try {
 			mapper2 = fac.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
@@ -88,7 +88,7 @@ public class IntegerToWordEnumFactoryTest {
 		// assert different instances [mapper, mapper2]
 		assertNotSame(mapper, mapper2);
 
-		IFNumberToWordMapper<BigInteger> mapper3 = null;
+		INumberToWordMapper<BigInteger> mapper3 = null;
 		try {
 			mapper3 = fac.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
@@ -105,7 +105,7 @@ public class IntegerToWordEnumFactoryTest {
 
 		// We create a new instance of test class under test as usually.
 		INumberToWordFactory<BigInteger> tested = IntToWordEnumFactory.UK_FAC;
-		IFNumberToWordMapper<BigInteger> mapper = null;
+		INumberToWordMapper<BigInteger> mapper = null;
 		try {
 			mapper = tested.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
@@ -134,7 +134,7 @@ public class IntegerToWordEnumFactoryTest {
 
 		// We create a new instance of test class under test as usually.
 		INumberToWordFactory<BigInteger> tested = IntToWordEnumFactory.UK_FAC;
-		IFNumberToWordMapper<BigInteger> mapper = null;
+		INumberToWordMapper<BigInteger> mapper = null;
 		try {
 			mapper = tested.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
@@ -199,7 +199,7 @@ public class IntegerToWordEnumFactoryTest {
 
 		// We create a new instance of test class under test as usually.
 		INumberToWordFactory<BigInteger> tested = IntToWordEnumFactory.UK_FAC;
-		IFNumberToWordMapper<BigInteger> mapper = null;
+		INumberToWordMapper<BigInteger> mapper = null;
 
 		PowerMock.mockStaticPartial(IntToWordEnumFactory.class,
 				"getIntegerToWordMapper");

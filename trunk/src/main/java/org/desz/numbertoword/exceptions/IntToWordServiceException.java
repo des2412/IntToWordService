@@ -7,19 +7,19 @@ package org.desz.numbertoword.exceptions;
  * @author des
  * 
  */
-public class WordForNumberServiceException extends Exception {
+public class IntToWordServiceException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public WordForNumberServiceException() {
+	public IntToWordServiceException() {
 		super();
 
 	}
 
-	public WordForNumberServiceException(String message) {
+	public IntToWordServiceException(String message) {
 		super(message);
 
 	}

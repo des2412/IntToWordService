@@ -18,7 +18,7 @@ public class IntegerToWordMapperTest {
 			"Six", "Seven", "Eight", "Nine" };
 	static final protected List<String> l = Arrays.asList(decimals);
 
-	protected IFNumberToWordMapper<BigInteger> intToWordMapper;
+	protected INumberToWordMapper<BigInteger> intToWordMapper;
 
 	protected final static Logger LOGGER = Logger
 			.getLogger(IntegerToWordMapperTest.class.getName());
