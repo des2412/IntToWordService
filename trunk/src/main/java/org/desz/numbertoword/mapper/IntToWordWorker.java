@@ -10,7 +10,7 @@ import org.desz.numbertoword.enums.EnumHolder.DEF_FMT;
 
 /**
  * @author desz
- * @see ParallelWorkerMapper
+ * @see ParallelIntToWord
  * 
  *      Usage each instance is responsible for converting a number [1-999]
  * 

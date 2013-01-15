@@ -8,7 +8,7 @@ import static org.junit.Assert.assertSame;
 import java.math.BigInteger;
 
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
-import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
+import org.desz.numbertoword.factory.IntToWordEnumFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,47 +17,47 @@ public class FrIntegerToWordMapperTest extends IntegerToWordMapperTest {
 
 	@Before
 	public void init() throws Exception {
-		intToWordMapper = IntegerToWordEnumFactory.FR_FAC
+		intToWordMapper = IntToWordEnumFactory.FR_FAC
 				.getIntegerToWordMapper();
 		assertNotNull(intToWordMapper);
 	}
 
 	@After
 	public void clean() throws Exception {
-		IntegerToWordEnumFactory.removeNumberToWordEnumFactory(PROV_LANG.FR);
+		IntToWordEnumFactory.removeNumberToWordEnumFactory(PROV_LANG.FR);
 	}
 
 	@Test
 	public void testIsSingleton() throws Exception {
 
 		assertNotSame(intToWordMapper,
-				IntegerToWordEnumFactory.UK_FAC.getIntegerToWordMapper());
+				IntToWordEnumFactory.UK_FAC.getIntegerToWordMapper());
 
 		assertSame(intToWordMapper,
-				IntegerToWordEnumFactory.FR_FAC.getIntegerToWordMapper());
+				IntToWordEnumFactory.FR_FAC.getIntegerToWordMapper());
 	}
 
 	/*
 	 * @Test(expected = Exception.class) public void testNegativeInputMessage()
 	 * throws Exception {
 	 * 
-	 * ((IntegerToWordMapper) intToWordMapper) .validateAndFormat(new
+	 * ((IntToWord) intToWordMapper) .validateAndFormat(new
 	 * BigInteger("-100")); assertEquals(FR_ERRORS.NEGATIVE_INPUT,
-	 * ((IntegerToWordMapper) intToWordMapper).getMessage()); }
+	 * ((IntToWord) intToWordMapper).getMessage()); }
 	 * 
 	 * @Test(expected = Exception.class) public void testNumberFormatMessage()
 	 * throws Exception {
 	 * 
-	 * ((IntegerToWordMapper) intToWordMapper) .validateAndFormat(new
+	 * ((IntToWord) intToWordMapper) .validateAndFormat(new
 	 * BigInteger("1.234")); assertEquals(FR_ERRORS.NUMBERFORMAT,
-	 * ((IntegerToWordMapper) intToWordMapper).getMessage()); }
+	 * ((IntToWord) intToWordMapper).getMessage()); }
 	 */
 	/*
 	 * @Test(expected = Exception.class) public void testNullInputMessage()
 	 * throws Exception {
 	 * 
-	 * ((IntegerToWordMapper) intToWordMapper).validateAndFormat(null);
-	 * assertEquals(FR_ERRORS.NULL_INPUT, ((IntegerToWordMapper)
+	 * ((IntToWord) intToWordMapper).validateAndFormat(null);
+	 * assertEquals(FR_ERRORS.NULL_INPUT, ((IntToWord)
 	 * intToWordMapper).getMessage()); }
 	 */
 

@@ -7,9 +7,9 @@ import java.math.BigInteger;
 
 import org.desz.numbertoword.enums.EnumHolder.NL_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
-import org.desz.numbertoword.exceptions.IntegerToWordException;
-import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
-import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
+import org.desz.numbertoword.exceptions.IntRangeUpperExc;
+import org.desz.numbertoword.exceptions.IntRangeLowerExc;
+import org.desz.numbertoword.factory.IntToWordEnumFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,38 +18,38 @@ public class NlIntegerToWordTest extends IntegerToWordMapperTest {
 
 	@Before
 	public void init() throws Exception {
-		intToWordMapper = IntegerToWordEnumFactory.NL_FAC
+		intToWordMapper = IntToWordEnumFactory.NL_FAC
 				.getIntegerToWordMapper();
 		assertNotNull(intToWordMapper);
 	}
 
 	@After
 	public void clean() throws Exception {
-		IntegerToWordEnumFactory.removeNumberToWordEnumFactory(PROV_LANG.NL);
+		IntToWordEnumFactory.removeNumberToWordEnumFactory(PROV_LANG.NL);
 	}
 
 	@Test
-	public void testTwentyOne() throws IntegerToWordException,
-			IntegerToWordNegativeException {
+	public void testTwentyOne() throws IntRangeUpperExc,
+			IntRangeLowerExc {
 		assertEquals("Eenentwintig",
 				intToWordMapper.getWord(new BigInteger("21")));
 	}
 
 	@Test
-	public void testOneHundredNinety() throws IntegerToWordException,
-			IntegerToWordNegativeException {
+	public void testOneHundredNinety() throws IntRangeUpperExc,
+			IntRangeLowerExc {
 		assertEquals("Een honderd en negentig",
 				intToWordMapper.getWord(new BigInteger("190")));
 	}
 
-	// FIXME @Test(expected = IntegerToWordException.class)
-	public void checkErrorMessage() throws IntegerToWordNegativeException {
+	// FIXME @Test(expected = IntRangeUpperExc.class)
+	public void checkErrorMessage() throws IntRangeLowerExc {
 
 		String s = null;
 		try {
 			assertEquals(NL_ERRORS.NEGATIVE_INPUT,
 					intToWordMapper.getWord(new BigInteger("-21")));
-		} catch (IntegerToWordException e) {
+		} catch (IntRangeUpperExc e) {
 			s = e.getMessage();
 		}
 

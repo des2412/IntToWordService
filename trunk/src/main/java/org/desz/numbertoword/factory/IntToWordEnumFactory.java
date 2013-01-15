@@ -17,19 +17,19 @@ import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.mapper.IFNumberToWordMapper;
-import org.desz.numbertoword.mapper.IntegerToWordMapper;
-import org.desz.numbertoword.service.validator.GoogleValidatorAndFormatImpl;
-import org.desz.numbertoword.service.validator.IValAndFormatInt;
+import org.desz.numbertoword.mapper.IntToWord;
+import org.desz.numbertoword.service.validator.UkIntValidator;
+import org.desz.numbertoword.service.validator.IFormatter;
 
 /**
  * @author des
  * 
  *         Enum Factorys specific for provisioned languages.
- * @see IntegerToWordMapper
+ * @see IntToWord
  * 
  * 
  */
-public enum IntegerToWordEnumFactory implements
+public enum IntToWordEnumFactory implements
 		INumberToWordFactory<BigInteger> {
 
 	// Language specific factories
@@ -40,18 +40,19 @@ public enum IntegerToWordEnumFactory implements
 			.synchronizedMap(new HashMap<PROV_LANG, IFNumberToWordMapper<BigInteger>>());
 
 	private final static Logger LOGGER = Logger
-			.getLogger(IntegerToWordEnumFactory.class.getName());
+			.getLogger(IntToWordEnumFactory.class.getName());
 
 	/**
 	 * 
 	 * @param pl
-	 * @return new IntegerToWordMapper
+	 * @return new IntToWord
 	 * @throws NumberToWordFactoryException
 	 */
-	private IFNumberToWordMapper<BigInteger> newIntegerToWordMapper(PROV_LANG pl)
+	@SuppressWarnings("unchecked")
+	private IFNumberToWordMapper<BigInteger> newIntToWord(PROV_LANG pl)
 			throws NumberToWordFactoryException {
 		// access private Constructor using reflection
-		Constructor<?>[] constructors = IntegerToWordMapper.class
+		Constructor<?>[] constructors = IntToWord.class
 				.getDeclaredConstructors();
 
 		if (constructors.length == 1)
@@ -63,7 +64,7 @@ public enum IntegerToWordEnumFactory implements
 		EnumLanguageSupport enumLanguageSupport = new EnumLanguageSupport(pl);
 		IFNumberToWordMapper<BigInteger> mapper = null;
 
-		IValAndFormatInt validator = new GoogleValidatorAndFormatImpl(
+		IFormatter validator = new UkIntValidator(
 				enumLanguageSupport);
 
 		try {
@@ -93,7 +94,7 @@ public enum IntegerToWordEnumFactory implements
 	private boolean isCached(PROV_LANG pl) {
 		final boolean isCached = mappingsCache.containsKey(pl);
 		if (isCached) {
-			LOGGER.info("IntegerToWordMapper for language " + pl.name()
+			LOGGER.info("IntToWord for language " + pl.name()
 					+ " available");
 		}
 		return isCached;
@@ -122,7 +123,7 @@ public enum IntegerToWordEnumFactory implements
 				return mappingsCache.get(PROV_LANG.UK);
 			}
 
-			integerToWordMapper = newIntegerToWordMapper(PROV_LANG.UK);
+			integerToWordMapper = newIntToWord(PROV_LANG.UK);
 
 			mappingsCache.put(PROV_LANG.UK,
 					integerToWordMapper);
@@ -133,7 +134,7 @@ public enum IntegerToWordEnumFactory implements
 				return mappingsCache.get(PROV_LANG.FR);
 			}
 
-			integerToWordMapper = newIntegerToWordMapper(PROV_LANG.FR);
+			integerToWordMapper = newIntToWord(PROV_LANG.FR);
 			mappingsCache.put(PROV_LANG.FR,
 					integerToWordMapper);
 			break;
@@ -142,7 +143,7 @@ public enum IntegerToWordEnumFactory implements
 				return mappingsCache.get(PROV_LANG.DE);
 			}
 
-			integerToWordMapper = newIntegerToWordMapper(PROV_LANG.DE);
+			integerToWordMapper = newIntToWord(PROV_LANG.DE);
 			mappingsCache.put(PROV_LANG.DE,
 					integerToWordMapper);
 			break;
@@ -152,7 +153,7 @@ public enum IntegerToWordEnumFactory implements
 				return mappingsCache.get(PROV_LANG.NL);
 			}
 
-			integerToWordMapper = newIntegerToWordMapper(PROV_LANG.NL);
+			integerToWordMapper = newIntToWord(PROV_LANG.NL);
 			mappingsCache.put(PROV_LANG.NL,
 					integerToWordMapper);
 			break;
@@ -164,7 +165,7 @@ public enum IntegerToWordEnumFactory implements
 
 		LOGGER.info("Cached "
 				+ this.name()
-				+ " IntegerToWordMapper. Number of configured IntegerToWordMappers :"
+				+ " IntToWord. Number of configured IntegerToWordMappers :"
 				+ mappingsCache.size());
 		return integerToWordMapper;
 	}
@@ -172,7 +173,7 @@ public enum IntegerToWordEnumFactory implements
 	/**
 	 * Constructor
 	 */
-	private IntegerToWordEnumFactory() {
+	private IntToWordEnumFactory() {
 	}
 
 	/**

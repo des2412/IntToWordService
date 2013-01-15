@@ -8,10 +8,10 @@ import java.util.logging.Logger;
 
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
-import org.desz.numbertoword.exceptions.IntegerToWordException;
-import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
+import org.desz.numbertoword.exceptions.IntRangeUpperExc;
+import org.desz.numbertoword.exceptions.IntRangeLowerExc;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
-import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
+import org.desz.numbertoword.factory.IntToWordEnumFactory;
 import org.desz.numbertoword.factory.ParallelIntToWordFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -25,8 +25,8 @@ public class ParallelWorkerMapperTest {
 	private IFNumberToWordMapper<BigInteger> mapper;
 
 	@Before
-	public void init() throws IntegerToWordException,
-			IntegerToWordNegativeException {
+	public void init() throws IntRangeUpperExc,
+			IntRangeLowerExc {
 
 		try {
 			mapper = ParallelIntToWordFactory.UK_FAC.getIntegerToWordMapper();
@@ -40,7 +40,7 @@ public class ParallelWorkerMapperTest {
 	@After
 	public void clean() {
 		try {
-			IntegerToWordEnumFactory
+			IntToWordEnumFactory
 					.removeNumberToWordEnumFactory(PROV_LANG.UK);
 		} catch (FactoryMapperRemovalException e) {
 			LOGGER.severe(e.getMessage());
@@ -49,15 +49,15 @@ public class ParallelWorkerMapperTest {
 
 	@Test
 	public void testZero() throws NumberToWordFactoryException,
-			IntegerToWordException, IntegerToWordNegativeException {
+			IntRangeUpperExc, IntRangeLowerExc {
 		BigInteger bi = new BigInteger("0");
 		mapper = ParallelIntToWordFactory.UK_FAC.getIntegerToWordMapper();
 		assertEquals("Zero", mapper.getWord(bi));
 	}
 
 	@Test
-	public void comparePerformance() throws IntegerToWordException,
-			IntegerToWordNegativeException, NumberToWordFactoryException {
+	public void comparePerformance() throws IntRangeUpperExc,
+			IntRangeLowerExc, NumberToWordFactoryException {
 
 		BigInteger bi = new BigInteger("199999999");
 
@@ -74,7 +74,7 @@ public class ParallelWorkerMapperTest {
 		long endTest = System.nanoTime();
 		double res = (endTest - begTest) * 0.001;
 
-		mapper = IntegerToWordEnumFactory.UK_FAC.getIntegerToWordMapper();
+		mapper = IntToWordEnumFactory.UK_FAC.getIntegerToWordMapper();
 
 		long begTestN = System.nanoTime();
 
@@ -91,8 +91,8 @@ public class ParallelWorkerMapperTest {
 	}
 
 	@Test
-	public void testMultiThread() throws IntegerToWordException,
-			IntegerToWordNegativeException {
+	public void testMultiThread() throws IntRangeUpperExc,
+			IntRangeLowerExc {
 
 		String s = mapper.getWord(new BigInteger("1000000"));
 		LOGGER.info(s);

@@ -8,10 +8,10 @@ import java.util.logging.Logger;
 
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
-import org.desz.numbertoword.exceptions.IntegerToWordException;
-import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
+import org.desz.numbertoword.exceptions.IntRangeUpperExc;
+import org.desz.numbertoword.exceptions.IntRangeLowerExc;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
-import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
+import org.desz.numbertoword.factory.IntToWordEnumFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +23,7 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	@Before
 	public void init() {
 		try {
-			numberToWordMapper = IntegerToWordEnumFactory.UK_FAC
+			numberToWordMapper = IntToWordEnumFactory.UK_FAC
 					.getIntegerToWordMapper();
 		} catch (NumberToWordFactoryException e) {
 			Logger.getAnonymousLogger().severe("init exc.");
@@ -34,7 +34,7 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	@After
 	public void clean() {
 		try {
-			IntegerToWordEnumFactory
+			IntToWordEnumFactory
 					.removeNumberToWordEnumFactory(PROV_LANG.UK);
 		} catch (FactoryMapperRemovalException e) {
 			LOGGER.severe(e.getMessage());
@@ -46,33 +46,33 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 		assertNotNull(numberToWordMapper);
 	}
 
-	@Test(expected = IntegerToWordException.class)
-	public void testExpectNullPointer() throws IntegerToWordException,
-			IntegerToWordNegativeException {
+	@Test(expected = IntRangeUpperExc.class)
+	public void testExpectNullPointer() throws IntRangeUpperExc,
+			IntRangeLowerExc {
 		numberToWordMapper.getWord(null);
 	}
 
 	@Test
-	public void testNoMinBoundRangeViolation() throws IntegerToWordException,
-			IntegerToWordNegativeException {
+	public void testNoMinBoundRangeViolation() throws IntRangeUpperExc,
+			IntRangeLowerExc {
 		numberToWordMapper.getWord(new BigInteger("0"));
 	}
 
-	@Test(expected = IntegerToWordNegativeException.class)
+	@Test(expected = IntRangeLowerExc.class)
 	public void testMinBoundRangeViolation()
-			throws IntegerToWordNegativeException, IntegerToWordException {
+			throws IntRangeLowerExc, IntRangeUpperExc {
 		numberToWordMapper.getWord(new BigInteger("-1"));
 	}
 
 	@Test
-	public void testNoMaxBoundRangeViolation() throws IntegerToWordException,
-			IntegerToWordNegativeException {
+	public void testNoMaxBoundRangeViolation() throws IntRangeUpperExc,
+			IntRangeLowerExc {
 		numberToWordMapper.getWord(new BigInteger("999999999"));
 	}
 
-	@Test(expected = IntegerToWordException.class)
-	public void testRangeViolation() throws IntegerToWordException,
-			IntegerToWordNegativeException {
+	@Test(expected = IntRangeUpperExc.class)
+	public void testRangeViolation() throws IntRangeUpperExc,
+			IntRangeLowerExc {
 		numberToWordMapper.getWord(new BigInteger("1000000000"));
 	}
 
@@ -96,9 +96,9 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 					numberToWordMapper.getWord(new BigInteger("11")));
 			assertEquals("Fourteen",
 					numberToWordMapper.getWord(new BigInteger("14")));
-		} catch (IntegerToWordException e) {
+		} catch (IntRangeUpperExc e) {
 			LOGGER.severe(e.getMessage());
-		} catch (IntegerToWordNegativeException e) {
+		} catch (IntRangeLowerExc e) {
 			LOGGER.severe(e.getMessage());
 		}
 

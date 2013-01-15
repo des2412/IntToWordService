@@ -10,10 +10,10 @@ import java.util.logging.Logger;
 import org.desz.language.ILanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.DEF_FMT;
 import org.desz.numbertoword.enums.EnumHolder.NUMBER_CONSTANT;
-import org.desz.numbertoword.exceptions.IntegerToWordException;
-import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
-import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
-import org.desz.numbertoword.service.validator.IValAndFormatInt;
+import org.desz.numbertoword.exceptions.IntRangeUpperExc;
+import org.desz.numbertoword.exceptions.IntRangeLowerExc;
+import org.desz.numbertoword.factory.IntToWordEnumFactory;
+import org.desz.numbertoword.service.validator.IFormatter;
 
 /**
  * Class is strict Singleton and configured by INumberToWordFactory
@@ -23,15 +23,15 @@ import org.desz.numbertoword.service.validator.IValAndFormatInt;
  * @author des: des_williams_2000@yahoo.com
  * 
  */
-public final class IntegerToWordMapper implements
+public final class IntToWord implements
 		IFNumberToWordMapper<BigInteger> {
 
 	private final ILanguageSupport enumLanguageSupport;
 
 	protected transient final static Logger LOGGER = Logger
-			.getLogger(IntegerToWordMapper.class.getName());
+			.getLogger(IntToWord.class.getName());
 
-	private IValAndFormatInt validator;
+	private IFormatter validator;
 
 	/**
 	 * error messages that may be encountered
@@ -54,18 +54,22 @@ public final class IntegerToWordMapper implements
 	/**
 	 * Constructor is private to enforce Singleton semantics
 	 * 
-	 * @see IntegerToWordEnumFactory which 'injects' the correct
+	 * @see IntToWordEnumFactory which 'injects' the correct
 	 *      enumLanguageSupport and chosen IValAndFormatValidator
 	 * 
 	 * @param enumLanguageSupport
 	 * @param validator
 	 */
-	private IntegerToWordMapper(final ILanguageSupport enumLanguageSupport,
-			IValAndFormatInt validator) {
+	private IntToWord(final ILanguageSupport enumLanguageSupport,
+			IFormatter validator) {
 		this.enumLanguageSupport = enumLanguageSupport;
 		this.validator = validator;
 	}
 
+	/**
+	 * 
+	 * @return enumLanguageSupport
+	 */
 	public ILanguageSupport getEnumLanguageSupport() {
 		return enumLanguageSupport;
 	}
@@ -75,11 +79,11 @@ public final class IntegerToWordMapper implements
 	 * @param num
 	 *            BigInteger to format
 	 * @return num in UK Format
-	 * @throws IntegerToWordException
-	 * @throws IntegerToWordNegativeException
+	 * @throws IntRangeUpperExc
+	 * @throws IntRangeLowerExc
 	 */
 	public String formatBigInteger(BigInteger num)
-			throws IntegerToWordException, IntegerToWordNegativeException {
+			throws IntRangeUpperExc, IntRangeLowerExc {
 		return validator.validateAndFormat(num);
 	}
 
@@ -87,25 +91,25 @@ public final class IntegerToWordMapper implements
 	 * 
 	 * @param num
 	 * @return
-	 * @throws IntegerToWordException
+	 * @throws IntRangeUpperExc
 	 *             if validate throws Exception type
-	 * @throws IntegerToWordNegativeException
+	 * @throws IntRangeLowerExc
 	 */
 	@Override
-	public String getWord(BigInteger num) throws IntegerToWordException,
-			IntegerToWordNegativeException {
+	public String getWord(BigInteger num) throws IntRangeUpperExc,
+			IntRangeLowerExc {
 
 		String formattedNumber = null;
 		try {
 			formattedNumber = this.validator.validateAndFormat(num);
 
-		} catch (IntegerToWordException e) {
+		} catch (IntRangeUpperExc e) {
 			LOGGER.info(e.getMessage());
 			setMessage(enumLanguageSupport.getNumberFormatErr());
-			throw new IntegerToWordException(e);
-		} catch (IntegerToWordNegativeException e) {
+			throw new IntRangeUpperExc(e);
+		} catch (IntRangeLowerExc e) {
 			setMessage(enumLanguageSupport.getInvalidInput());
-			throw new IntegerToWordNegativeException(e.getMessage());
+			throw new IntRangeLowerExc(e.getMessage());
 		}
 
 		if (formattedNumber.equals("0")) {
@@ -163,7 +167,7 @@ public final class IntegerToWordMapper implements
 		default:
 			//LOGGER.info(enumLanguageSupport.getInvalidInput() + num);
 			setMessage(enumLanguageSupport.getInvalidInput() + num);
-			throw new IntegerToWordException(
+			throw new IntRangeUpperExc(
 					enumLanguageSupport.getInvalidInput() + num);
 
 		}
@@ -242,7 +246,7 @@ public final class IntegerToWordMapper implements
 	 * @return
 	 * @throws Exception
 	 */
-	private String getWordForInt(BigInteger num) throws IntegerToWordException {
+	private String getWordForInt(BigInteger num) throws IntRangeUpperExc {
 		String numStr = String.valueOf(num);
 		String indZero = null;
 		String indOne = null;
@@ -288,7 +292,7 @@ public final class IntegerToWordMapper implements
 
 		default:
 			setMessage(enumLanguageSupport.getUnkownErr());
-			throw new IntegerToWordException(enumLanguageSupport.getUnkownErr());
+			throw new IntRangeUpperExc(enumLanguageSupport.getUnkownErr());
 
 		}
 		// LOGGER.info("getWordForInt:" + result);

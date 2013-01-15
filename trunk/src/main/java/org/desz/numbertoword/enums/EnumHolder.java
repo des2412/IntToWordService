@@ -5,7 +5,7 @@ package org.desz.numbertoword.enums;
 
 import java.math.BigInteger;
 
-import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
+import org.desz.numbertoword.factory.IntToWordEnumFactory;
 
 /**
  * @author des
@@ -97,7 +97,7 @@ public final class EnumHolder {
 	 * 
 	 * The Factory will set the appropriate mapping.
 	 * 
-	 * @see IntegerToWordEnumFactory
+	 * @see IntToWordEnumFactory
 	 * 
 	 * @author des
 	 * 

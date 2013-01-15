@@ -7,8 +7,8 @@ import java.util.logging.Logger;
 
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.mapper.IFNumberToWordMapper;
-import org.desz.numbertoword.mapper.IntegerToWordMapper;
-import org.desz.numbertoword.mapper.ParallelWorkerMapper;
+import org.desz.numbertoword.mapper.IntToWord;
+import org.desz.numbertoword.mapper.ParallelIntToWord;
 
 public enum ParallelIntToWordFactory implements
 		INumberToWordFactory<BigInteger> {
@@ -27,7 +27,7 @@ public enum ParallelIntToWordFactory implements
 		switch (this) {
 		case UK_FAC:
 
-			IntegerToWordMapper mapper = (IntegerToWordMapper) IntegerToWordEnumFactory.UK_FAC
+			IntToWord mapper = (IntToWord) IntToWordEnumFactory.UK_FAC
 					.getIntegerToWordMapper();
 			integerToWordMapper = newMtIntegerToWordMapper(mapper);
 
@@ -50,7 +50,7 @@ public enum ParallelIntToWordFactory implements
 			IFNumberToWordMapper<BigInteger> mapper)
 			throws NumberToWordFactoryException {
 		// access private Constructor using reflection
-		Constructor<?>[] constructors = ParallelWorkerMapper.class
+		Constructor<?>[] constructors = ParallelIntToWord.class
 				.getDeclaredConstructors();
 
 		if (constructors.length == 1)

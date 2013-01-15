@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.desz.language.EnumLanguageSupport;
-import org.desz.numbertoword.exceptions.IntegerToWordException;
-import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
+import org.desz.numbertoword.exceptions.IntRangeUpperExc;
+import org.desz.numbertoword.exceptions.IntRangeLowerExc;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -24,14 +24,14 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * 
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ IntegerToWordMapper.class, EnumLanguageSupport.class })
+@PrepareForTest({ IntToWord.class, EnumLanguageSupport.class })
 public class IntegerToWordTestPrivateMethods extends IntegerToWordMapperTest {
 
 	// FIXME* @Test
 	public void test() {
 
-		IntegerToWordMapper tested = PowerMock.createPartialMock(
-				IntegerToWordMapper.class, "getWordForInt");
+		IntToWord tested = PowerMock.createPartialMock(
+				IntToWord.class, "getWordForInt");
 
 		// EnumLanguageSupport languageSupport =
 		// PowerMock.createMock(EnumLanguageSupport.class);
@@ -61,9 +61,9 @@ public class IntegerToWordTestPrivateMethods extends IntegerToWordMapperTest {
 		try {
 			assertEquals(tested.getWord(new BigInteger("121")),
 					"One hundred and twenty one");
-		} catch (IntegerToWordException e) {
+		} catch (IntRangeUpperExc e) {
 			LOGGER.severe(e.getMessage());
-		} catch (IntegerToWordNegativeException e) {
+		} catch (IntRangeLowerExc e) {
 			LOGGER.severe(e.getMessage());
 		}
 

@@ -11,25 +11,25 @@ import java.util.concurrent.Future;
 import java.util.logging.Logger;
 
 import org.desz.numbertoword.enums.EnumHolder.DEF_FMT;
-import org.desz.numbertoword.exceptions.IntegerToWordException;
-import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
+import org.desz.numbertoword.exceptions.IntRangeUpperExc;
+import org.desz.numbertoword.exceptions.IntRangeLowerExc;
 
-public final class ParallelWorkerMapper implements
+public final class ParallelIntToWord implements
 		IFNumberToWordMapper<BigInteger> {
 
 	protected final static Logger LOGGER = Logger
-			.getLogger(ParallelWorkerMapper.class.getName());
+			.getLogger(ParallelIntToWord.class.getName());
 
 	private static final int nThreads = 8;
 
 	private ExecutorService exec;
 
 	@SuppressWarnings("unused")
-	private IFNumberToWordMapper<BigInteger> mapper;
+	private IFNumberToWordMapper<BigInteger> intToWord;
 
-	private ParallelWorkerMapper(final IFNumberToWordMapper<BigInteger> mapper) {
+	private ParallelIntToWord(final IFNumberToWordMapper<BigInteger> intToWord) {
 
-		this.mapper = mapper;
+		this.intToWord = intToWord;
 		exec = Executors.newFixedThreadPool(nThreads);
 
 	}
@@ -38,18 +38,18 @@ public final class ParallelWorkerMapper implements
 	 * parallel processing implementation
 	 */
 	@Override
-	public String getWord(BigInteger num) throws IntegerToWordException,
-			IntegerToWordNegativeException {
+	public String getWord(BigInteger num) throws IntRangeUpperExc,
+			IntRangeLowerExc {
 
 		String formattedNumber = null;
 		try {
-			formattedNumber = ((IntegerToWordMapper) mapper)
+			formattedNumber = ((IntToWord) intToWord)
 					.formatBigInteger(num);
-		} catch (IntegerToWordException e) {
-			LOGGER.info(e.getMessage());
-			throw new IntegerToWordException(e);
-		} catch (IntegerToWordNegativeException e) {
-			throw new IntegerToWordNegativeException(e.getMessage());
+		} catch (IntRangeUpperExc e) {
+			//LOGGER.info(e.getMessage());
+			throw new IntRangeUpperExc(e.getMessage());
+		} catch (IntRangeLowerExc e) {
+			throw new IntRangeLowerExc(e.getMessage());
 		}
 
 		String[] components = formattedNumber.split(DEF_FMT.NUM_SEP.val());
@@ -62,21 +62,21 @@ public final class ParallelWorkerMapper implements
 		switch (nComps) {
 		case 3:
 			BigInteger unit = BigInteger.valueOf(Long.valueOf(components[0]));
-			worker = new IntToWordWorker(unit, ((IntegerToWordMapper) mapper)
-					.getEnumLanguageSupport().getMillUnit(), this.mapper);
+			worker = new IntToWordWorker(unit, ((IntToWord) intToWord)
+					.getEnumLanguageSupport().getMillUnit(), this.intToWord);
 
 			tasks.add(worker);
 
 			unit = BigInteger.valueOf(Long.valueOf(components[1]));
 
-			worker = new IntToWordWorker(unit, ((IntegerToWordMapper) mapper)
-					.getEnumLanguageSupport().getThouUnit(), this.mapper);
+			worker = new IntToWordWorker(unit, ((IntToWord) intToWord)
+					.getEnumLanguageSupport().getThouUnit(), this.intToWord);
 
 			tasks.add(worker);
 
 			unit = BigInteger.valueOf(Long.valueOf(components[2]));
 
-			worker = new IntToWordWorker(unit, DEF_FMT.EMPTY.val(), this.mapper);
+			worker = new IntToWordWorker(unit, DEF_FMT.EMPTY.val(), this.intToWord);
 
 			tasks.add(worker);
 
@@ -84,19 +84,19 @@ public final class ParallelWorkerMapper implements
 		case 2:
 
 			unit = BigInteger.valueOf(Long.valueOf(components[0]));
-			worker = new IntToWordWorker(unit, ((IntegerToWordMapper) mapper)
-					.getEnumLanguageSupport().getThouUnit(), this.mapper);
+			worker = new IntToWordWorker(unit, ((IntToWord) intToWord)
+					.getEnumLanguageSupport().getThouUnit(), this.intToWord);
 			tasks.add(worker);
 
 			unit = BigInteger.valueOf(Long.valueOf(components[1]));
 
-			worker = new IntToWordWorker(unit, DEF_FMT.EMPTY.val(), this.mapper);
+			worker = new IntToWordWorker(unit, DEF_FMT.EMPTY.val(), this.intToWord);
 			tasks.add(worker);
 
 			break;
 		case 1:
 			unit = BigInteger.valueOf(Long.valueOf(components[0]));
-			return mapper.getWord(unit);
+			return intToWord.getWord(unit);
 		default:
 			break;
 
@@ -137,7 +137,7 @@ public final class ParallelWorkerMapper implements
 
 	@Override
 	public String getErrorMessage() {
-		return mapper.getErrorMessage();
+		return intToWord.getErrorMessage();
 	}
 
 }

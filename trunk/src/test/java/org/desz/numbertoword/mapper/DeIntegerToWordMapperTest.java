@@ -9,9 +9,9 @@ import static org.junit.Assert.assertNotNull;
 import java.math.BigInteger;
 
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
-import org.desz.numbertoword.exceptions.IntegerToWordException;
-import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
-import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
+import org.desz.numbertoword.exceptions.IntRangeUpperExc;
+import org.desz.numbertoword.exceptions.IntRangeLowerExc;
+import org.desz.numbertoword.factory.IntToWordEnumFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,19 +24,19 @@ public class DeIntegerToWordMapperTest extends IntegerToWordMapperTest {
 
 	@Before
 	public void init() throws Exception {
-		intToWordMapper = IntegerToWordEnumFactory.DE_FAC
+		intToWordMapper = IntToWordEnumFactory.DE_FAC
 				.getIntegerToWordMapper();
 		assertNotNull(intToWordMapper);
 	}
 
 	@After
 	public void clean() throws Exception {
-		IntegerToWordEnumFactory.removeNumberToWordEnumFactory(PROV_LANG.DE);
+		IntToWordEnumFactory.removeNumberToWordEnumFactory(PROV_LANG.DE);
 	}
 
 	@Test
-	public void test() throws IntegerToWordException,
-			IntegerToWordNegativeException {
+	public void test() throws IntRangeUpperExc,
+			IntRangeLowerExc {
 		assertEquals("Einundzwanzig",
 				intToWordMapper.getWord(new BigInteger("21")));
 	}

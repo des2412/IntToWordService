@@ -8,13 +8,13 @@ import java.util.logging.Logger;
 
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
-import org.desz.numbertoword.exceptions.IntegerToWordException;
-import org.desz.numbertoword.exceptions.IntegerToWordNegativeException;
+import org.desz.numbertoword.exceptions.IntRangeUpperExc;
+import org.desz.numbertoword.exceptions.IntRangeLowerExc;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.exceptions.WordForNumberServiceException;
-import org.desz.numbertoword.factory.IntegerToWordEnumFactory;
+import org.desz.numbertoword.factory.IntToWordEnumFactory;
 import org.desz.numbertoword.mapper.IFNumberToWordMapper;
-import org.desz.numbertoword.mapper.IntegerToWordMapper;
+import org.desz.numbertoword.mapper.IntToWord;
 import org.springframework.stereotype.Component;
 
 /**
@@ -41,7 +41,7 @@ public final class WordForIntServiceImpl implements
 
 		case UK:
 			try {
-				intToWordMapper = IntegerToWordEnumFactory.UK_FAC
+				intToWordMapper = IntToWordEnumFactory.UK_FAC
 						.getIntegerToWordMapper();
 			} catch (NumberToWordFactoryException e) {
 				LOGGER.severe(e.getMessage());
@@ -50,7 +50,7 @@ public final class WordForIntServiceImpl implements
 
 		case FR:
 			try {
-				intToWordMapper = IntegerToWordEnumFactory.FR_FAC
+				intToWordMapper = IntToWordEnumFactory.FR_FAC
 						.getIntegerToWordMapper();
 			} catch (NumberToWordFactoryException e) {
 				LOGGER.severe(e.getMessage());
@@ -58,7 +58,7 @@ public final class WordForIntServiceImpl implements
 			break;
 		case DE:
 			try {
-				intToWordMapper = IntegerToWordEnumFactory.DE_FAC
+				intToWordMapper = IntToWordEnumFactory.DE_FAC
 						.getIntegerToWordMapper();
 			} catch (NumberToWordFactoryException e) {
 				LOGGER.severe(e.getMessage());
@@ -67,7 +67,7 @@ public final class WordForIntServiceImpl implements
 
 		case NL:
 			try {
-				intToWordMapper = IntegerToWordEnumFactory.NL_FAC
+				intToWordMapper = IntToWordEnumFactory.NL_FAC
 						.getIntegerToWordMapper();
 			} catch (NumberToWordFactoryException e) {
 				LOGGER.severe(e.getMessage());
@@ -80,10 +80,10 @@ public final class WordForIntServiceImpl implements
 
 		try {
 			return intToWordMapper.getWord(new BigInteger(num));
-		} catch (IntegerToWordException e) {
+		} catch (IntRangeUpperExc e) {
 			LOGGER.severe(e.getMessage());
 			this.errMsg = intToWordMapper.getErrorMessage();
-		} catch (IntegerToWordNegativeException e) {
+		} catch (IntRangeLowerExc e) {
 			LOGGER.severe(e.getMessage());
 			this.errMsg = intToWordMapper.getErrorMessage();
 		}
