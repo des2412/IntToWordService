@@ -59,7 +59,7 @@ public final class UkIntValidator implements IFormatter {
 			Preconditions.checkNotNull(num);
 		} catch (NullPointerException e) {
 			// LOGGER.info(enumLanguageSupport.getNullInput());
-			throw new IntRangeUpperExc(enumLanguageSupport.getNullInput());
+			throw new IllegalArgumentException(enumLanguageSupport.getNullInput());
 		}
 
 		if (!range.contains(num.intValue())) {

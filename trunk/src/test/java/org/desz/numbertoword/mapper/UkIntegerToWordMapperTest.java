@@ -44,8 +44,8 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 		assertNotNull(numberToWordMapper);
 	}
 
-	@Test(expected = IntToWordExc.class)
-	public void testExpectNullPointer() throws  IntToWordExc {
+	@Test(expected = IllegalArgumentException.class)
+	public void expectIllegalArgumentException() throws  IntToWordExc {
 		numberToWordMapper.getWord(null);
 	}
 

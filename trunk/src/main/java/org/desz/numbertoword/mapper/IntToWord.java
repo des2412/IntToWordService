@@ -8,13 +8,13 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.desz.language.ILanguageSupport;
+import org.desz.mapper.helper.MappingHelper;
 import org.desz.numbertoword.enums.EnumHolder.DEF_FMT;
 import org.desz.numbertoword.enums.EnumHolder.NUMBER_CONSTANT;
 import org.desz.numbertoword.exceptions.IntRangeUpperExc;
 import org.desz.numbertoword.exceptions.IntRangeLowerExc;
 import org.desz.numbertoword.exceptions.IntToWordExc;
 import org.desz.numbertoword.factory.IntToWordEnumFactory;
-import org.desz.numbertoword.helper.MappingHelper;
 import org.desz.numbertoword.service.validator.IFormatter;
 
 import com.google.common.collect.Range;
