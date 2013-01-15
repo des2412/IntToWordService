@@ -67,18 +67,20 @@ public final class EnumHolder {
 	 */
 	public enum NUMBER_CONSTANT {
 
-		MINUS_ONE, ZERO, TEN, ONE_HUNDRED, TWENTY;
+		MINUS_ONE, ZERO, TEN, ONE_HUNDRED, TWENTY, NINE;
 
 		private NUMBER_CONSTANT() {
 
 		}
 
-		public BigInteger getBigInt() {
+		public BigInteger getVal() {
 			switch (this) {
 			case MINUS_ONE:
 				return new BigInteger("-1");
 			case ZERO:
 				return BigInteger.ZERO;
+			case NINE:
+				return new BigInteger("9");
 			case TEN:
 				return BigInteger.TEN;
 			case TWENTY:

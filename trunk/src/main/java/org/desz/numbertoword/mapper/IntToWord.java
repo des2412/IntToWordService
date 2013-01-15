@@ -147,7 +147,7 @@ public final class IntToWord implements
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			thous = getWordForInt(val);
 			numAtIndex
-					.put(DEF_FMT.MILLS, NUMBER_CONSTANT.MINUS_ONE.getBigInt());
+					.put(DEF_FMT.MILLS, NUMBER_CONSTANT.MINUS_ONE.getVal());
 			numAtIndex.put(DEF_FMT.THOUS, val);
 
 			val = BigInteger.valueOf(Long.valueOf(components[1]));
@@ -159,9 +159,9 @@ public final class IntToWord implements
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			huns = getWordForInt(val);
 			numAtIndex
-					.put(DEF_FMT.MILLS, NUMBER_CONSTANT.MINUS_ONE.getBigInt());
+					.put(DEF_FMT.MILLS, NUMBER_CONSTANT.MINUS_ONE.getVal());
 			numAtIndex
-					.put(DEF_FMT.THOUS, NUMBER_CONSTANT.MINUS_ONE.getBigInt());
+					.put(DEF_FMT.THOUS, NUMBER_CONSTANT.MINUS_ONE.getVal());
 			numAtIndex.put(DEF_FMT.HUNS, val);
 			break;
 		default:
@@ -177,21 +177,21 @@ public final class IntToWord implements
 		StringBuffer result = new StringBuffer();
 
 		if (numAtIndex.get(DEF_FMT.MILLS).compareTo(
-				NUMBER_CONSTANT.ZERO.getBigInt()) > 0) {
+				NUMBER_CONSTANT.ZERO.getVal()) > 0) {
 			String mn = mills + DEF_FMT.SPACE.val()
 					+ enumLanguageSupport.getMillUnit();
 			result.append(mn);
 		}
 
 		final BigInteger thou = numAtIndex.get(DEF_FMT.THOUS);
-		if (thou.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) > 0) {
+		if (thou.compareTo(NUMBER_CONSTANT.ZERO.getVal()) > 0) {
 
 			String appThous = thous + DEF_FMT.SPACE.val()
 					+ enumLanguageSupport.getThouUnit();
 
 			if (mills == DEF_FMT.EMPTY.val()) {
 				result.append(appThous);
-			} else if (thou.compareTo(NUMBER_CONSTANT.ONE_HUNDRED.getBigInt()) < 0) {
+			} else if (thou.compareTo(NUMBER_CONSTANT.ONE_HUNDRED.getVal()) < 0) {
 				result.append(enumLanguageSupport.getAnd()
 						+ appThous.toLowerCase());
 
@@ -200,12 +200,12 @@ public final class IntToWord implements
 			}
 		}
 		if (numAtIndex.get(DEF_FMT.HUNS).compareTo(
-				NUMBER_CONSTANT.ZERO.getBigInt()) > 0) {
+				NUMBER_CONSTANT.ZERO.getVal()) > 0) {
 			if (!parentsHoldValue(numAtIndex, DEF_FMT.MILLS, DEF_FMT.THOUS)) {
 				result.append(huns);
 			} else {
 				if (numAtIndex.get(DEF_FMT.HUNS).compareTo(
-						NUMBER_CONSTANT.ONE_HUNDRED.getBigInt()) < 0) {
+						NUMBER_CONSTANT.ONE_HUNDRED.getVal()) < 0) {
 					result.append(enumLanguageSupport.getAnd()
 							+ huns.toLowerCase());
 				} else {
@@ -234,7 +234,7 @@ public final class IntToWord implements
 		List<DEF_FMT> list = Arrays.asList(units);
 		for (DEF_FMT unit : list) {
 			if (numAtIndex.get(unit)
-					.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) < 0) {
+					.compareTo(NUMBER_CONSTANT.ZERO.getVal()) < 0) {
 				result = false;
 			} else {
 				result = true;
@@ -248,7 +248,7 @@ public final class IntToWord implements
 	 * 
 	 * @param num
 	 * @return
-	 * @throws Exception
+	 * @throws IntRangeUpperExc
 	 */
 	private String getWordForInt(BigInteger num) throws IntRangeUpperExc {
 		String numStr = String.valueOf(num);
@@ -256,7 +256,7 @@ public final class IntToWord implements
 		String indOne = null;
 		String indTwo = null;
 		String result = null;
-		// return if numStr is key in the map
+		// check if numStr is directly mapped
 		if (enumLanguageSupport.getIntToWordMap().containsKey(numStr)) {
 			return enumLanguageSupport.getIntToWordMap().get(numStr);
 		}
@@ -270,8 +270,8 @@ public final class IntToWord implements
 			indZero = String.valueOf(numStr.charAt(0));
 			indOne = String.valueOf(numStr.charAt(1));
 
-			if (num.compareTo(new BigInteger("9")) > 0
-					& num.compareTo(NUMBER_CONSTANT.TWENTY.getBigInt()) < 0) {// teenager
+			if (num.compareTo(NUMBER_CONSTANT.NINE.getVal()) > 0
+					& num.compareTo(NUMBER_CONSTANT.TWENTY.getVal()) < 0) {// teenager
 				result = enumLanguageSupport.getIntToWordMap().get(
 						indZero + indOne);
 			} else { // >= 20 & <= 99
@@ -283,10 +283,10 @@ public final class IntToWord implements
 			indOne = String.valueOf(numStr.charAt(1));
 			indTwo = String.valueOf(numStr.charAt(2));
 
-			BigInteger rem = num.mod(NUMBER_CONSTANT.ONE_HUNDRED.getBigInt());
+			BigInteger rem = num.mod(NUMBER_CONSTANT.ONE_HUNDRED.getVal());
 			result = enumLanguageSupport.getIntToWordMap().get(indZero)
 					+ DEF_FMT.SPACE.val() + enumLanguageSupport.getHunUnit();
-			if (rem.compareTo(NUMBER_CONSTANT.ZERO.getBigInt()) > 0) { // not
+			if (rem.compareTo(NUMBER_CONSTANT.ZERO.getVal()) > 0) { // not
 																		// whole
 																		// hundredth
 				String decs = getDecimalPart(indOne, indTwo);
@@ -299,7 +299,7 @@ public final class IntToWord implements
 			throw new IntRangeUpperExc(enumLanguageSupport.getUnkownErr());
 
 		}
-		LOGGER.info("getWordForInt:" + result);
+		//LOGGER.info("getWordForInt:" + result);
 		return result;
 	}
 
@@ -324,12 +324,12 @@ public final class IntToWord implements
 		StringBuffer atZero = new StringBuffer(indZero.toString());
 
 		if (decs.compareTo(BigInteger.ZERO) == 0
-				| (decs.compareTo(NUMBER_CONSTANT.TEN.getBigInt()) > 0 & decs
-						.compareTo(NUMBER_CONSTANT.TWENTY.getBigInt()) < 0)) {
+				| (decs.compareTo(NUMBER_CONSTANT.TEN.getVal()) > 0 & decs
+						.compareTo(NUMBER_CONSTANT.TWENTY.getVal()) < 0)) {
 			result = enumLanguageSupport.getIntToWordMap()
 					.get(indZero + indOne);
 
-		} else if (decs.compareTo(NUMBER_CONSTANT.TEN.getBigInt()) < 0) {// eg
+		} else if (decs.compareTo(NUMBER_CONSTANT.TEN.getVal()) < 0) {// eg
 																			// 09
 			// LOGGER.info("[0-9]");
 			result = enumLanguageSupport.getIntToWordMap().get(indOne);
