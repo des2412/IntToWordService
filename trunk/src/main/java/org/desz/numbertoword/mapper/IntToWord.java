@@ -2,7 +2,9 @@ package org.desz.numbertoword.mapper;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumMap;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -30,6 +32,8 @@ import com.google.common.collect.Ranges;
  */
 public final class IntToWord implements INumberToWordMapper<BigInteger> {
 
+	private static final Range<Integer> DEC_RANGE = Ranges.closed(1, 99);
+	private static final Range<Integer> HUN_RANGE = Ranges.closed(100, 999);
 	private final ILanguageSupport enumLanguageSupport;
 
 	protected transient final static Logger LOGGER = Logger
@@ -99,7 +103,7 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 	 * @throws IntRangeUpperExc
 	 *             if validate throws Exception type
 	 * @throws IntRangeLowerExc
-	 * @throws IntToWordExc 
+	 * @throws IntToWordExc
 	 */
 	@Override
 	public String getWord(BigInteger num) throws IntToWordExc {
@@ -151,9 +155,7 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 		case 2:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			thous = getWordForPart(val);
-			numAtIndex.put(DEF_FMT.MILLS, NUMBER_CONSTANT.MINUS_ONE.getVal());
 			numAtIndex.put(DEF_FMT.THOUS, val);
-
 			val = BigInteger.valueOf(Long.valueOf(components[1]));
 			huns = getWordForPart(val);
 			numAtIndex.put(DEF_FMT.HUNS, val);
@@ -162,15 +164,12 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 		case 1:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			huns = getWordForPart(val);
-			numAtIndex.put(DEF_FMT.MILLS, NUMBER_CONSTANT.MINUS_ONE.getVal());
-			numAtIndex.put(DEF_FMT.THOUS, NUMBER_CONSTANT.MINUS_ONE.getVal());
 			numAtIndex.put(DEF_FMT.HUNS, val);
 			break;
 		default:
 			// LOGGER.info(enumLanguageSupport.getInvalidInput() + num);
 			setMessage(enumLanguageSupport.getInvalidInput() + num);
-			throw new IntToWordExc(enumLanguageSupport.getInvalidInput()
-					+ num);
+			throw new IntToWordExc(enumLanguageSupport.getInvalidInput() + num);
 
 		}
 
@@ -178,43 +177,56 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 
 		StringBuffer result = new StringBuffer();
 
-		if (numAtIndex.get(DEF_FMT.MILLS).compareTo(
-				NUMBER_CONSTANT.ZERO.getVal()) > 0) {
-			String mn = mills + DEF_FMT.SPACE.val()
-					+ enumLanguageSupport.getMillUnit();
-			result.append(mn);
-		}
-
-		final BigInteger thou = numAtIndex.get(DEF_FMT.THOUS);
-		if (thou.compareTo(NUMBER_CONSTANT.ZERO.getVal()) > 0) {
-
-			String appThous = thous + DEF_FMT.SPACE.val()
-					+ enumLanguageSupport.getThouUnit();
-
-			if (mills == DEF_FMT.EMPTY.val()) {
-				result.append(appThous);
-			} else if (thou.compareTo(NUMBER_CONSTANT.ONE_HUNDRED.getVal()) < 0) {
-				result.append(enumLanguageSupport.getAnd()
-						+ appThous.toLowerCase());
-
-			} else {
-				result.append(DEF_FMT.SPACE.val() + appThous.toLowerCase());
+		if (numAtIndex.containsKey(DEF_FMT.MILLS)) {
+			if (numAtIndex.get(DEF_FMT.MILLS).compareTo(
+					NUMBER_CONSTANT.ZERO.getVal()) > 0) {
+				result.append(mills + DEF_FMT.SPACE.val()
+						+ enumLanguageSupport.getMillUnit());
 			}
 		}
-		if (numAtIndex.get(DEF_FMT.HUNS).compareTo(
-				NUMBER_CONSTANT.ZERO.getVal()) > 0) {
-			if (!parentsHoldValue(numAtIndex, DEF_FMT.MILLS, DEF_FMT.THOUS)) {
-				result.append(huns);
-			} else {
-				if (numAtIndex.get(DEF_FMT.HUNS).compareTo(
-						NUMBER_CONSTANT.ONE_HUNDRED.getVal()) < 0) {
+
+		if (numAtIndex.containsKey(DEF_FMT.THOUS)) {
+			if (DEC_RANGE.contains(numAtIndex.get(DEF_FMT.THOUS).intValue())
+					|| HUN_RANGE.contains(numAtIndex.get(DEF_FMT.THOUS)
+							.intValue())) {
+
+				String appThous = thous + DEF_FMT.SPACE.val()
+						+ enumLanguageSupport.getThouUnit();
+
+				if (!numAtIndex.containsKey(DEF_FMT.MILLS)) {
+					result.append(appThous);
+				}
+
+				else if (DEC_RANGE.contains(numAtIndex.get(DEF_FMT.THOUS)
+						.intValue())) {
 					result.append(enumLanguageSupport.getAnd()
-							+ huns.toLowerCase());
+							+ appThous.toLowerCase());
+
 				} else {
-					result.append(DEF_FMT.SPACE.val() + huns.toLowerCase());
+					result.append(DEF_FMT.SPACE.val() + appThous.toLowerCase());
 				}
 			}
 		}
+
+		if (numAtIndex.containsKey(DEF_FMT.HUNS)) {
+
+			if (numAtIndex.containsKey(DEF_FMT.MILLS)
+					|| numAtIndex.containsKey(DEF_FMT.THOUS)) {
+				if (DEC_RANGE.contains(numAtIndex.get(DEF_FMT.HUNS).intValue())) {
+					result.append(enumLanguageSupport.getAnd()
+							+ huns.toLowerCase());
+				} else {
+					if (numAtIndex.get(DEF_FMT.HUNS).intValue() > 0)
+						result.append(DEF_FMT.SPACE.val() + huns.toLowerCase());
+				}
+			}
+
+			else {
+				result.append(huns.toLowerCase());
+			}
+
+		}
+
 		// capitalise the first character
 		result.replace(0, 1, String.valueOf(result.charAt(0)).toUpperCase());
 
@@ -223,33 +235,11 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 
 	/**
 	 * 
-	 * @param numAtIndex
-	 * @param units
-	 * @return
-	 */
-	private boolean parentsHoldValue(Map<DEF_FMT, BigInteger> numAtIndex,
-			DEF_FMT... units) {
-
-		boolean result = true;
-		List<DEF_FMT> list = Arrays.asList(units);
-		for (DEF_FMT unit : list) {
-			if (numAtIndex.get(unit).compareTo(NUMBER_CONSTANT.ZERO.getVal()) < 0) {
-				result = false;
-			} else {
-				result = true;
-			}
-		}
-		return result;
-
-	}
-
-	/**
-	 * 
 	 * @param num
 	 * @return
 	 * @throws IntRangeUpperExc
 	 */
-	private String getWordForPart(BigInteger num)  {
+	private String getWordForPart(BigInteger num) {
 		String numStr = String.valueOf(num);
 		String result = null;
 		// check if numStr is directly mapped
@@ -274,7 +264,8 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 				String decs = getDecimalPart(new BigInteger(
 						String.valueOf(numStr.charAt(1))
 								+ String.valueOf(numStr.charAt(2))));
-				return result + enumLanguageSupport.getAnd() + decs.toLowerCase();
+				return result + enumLanguageSupport.getAnd()
+						+ decs.toLowerCase();
 			}
 		}
 

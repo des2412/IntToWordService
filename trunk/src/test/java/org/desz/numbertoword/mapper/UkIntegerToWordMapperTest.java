@@ -44,8 +44,8 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 		assertNotNull(numberToWordMapper);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void expectIllegalArgumentException() throws  IntToWordExc {
+	@Test(expected = NullPointerException.class)
+	public void expectNullPointerException() throws  IntToWordExc {
 		numberToWordMapper.getWord(null);
 	}
 
@@ -118,6 +118,17 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 
 		}
 
+	}
+	
+	@Test
+	public void testFails() throws IntToWordExc{
+		assertEquals("Ten thousand",
+				numberToWordMapper.getWord(new BigInteger("10000")));
+		assertEquals("One million",
+				numberToWordMapper.getWord(new BigInteger("1000000")));
+		assertEquals(
+				"Eleven million one hundred and eleven thousand one hundred and eleven",
+				numberToWordMapper.getWord(new BigInteger("11111111")));
 	}
 
 	@Test
