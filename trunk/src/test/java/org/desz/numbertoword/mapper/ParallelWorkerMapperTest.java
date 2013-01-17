@@ -74,6 +74,7 @@ public class ParallelWorkerMapperTest {
 		long endTest = System.nanoTime();
 		double res = (endTest - begTest) * 0.001;
 
+		//compare without parallelisation
 		mapper = IntToWordEnumFactory.UK_FAC.getIntegerToWordMapper();
 
 		long begTestN = System.nanoTime();

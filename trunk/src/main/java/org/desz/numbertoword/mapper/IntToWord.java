@@ -33,7 +33,6 @@ import com.google.common.collect.Ranges;
 public final class IntToWord implements INumberToWordMapper<BigInteger> {
 
 	private static final Range<Integer> DEC_RANGE = Ranges.closed(1, 99);
-	private static final Range<Integer> HUN_RANGE = Ranges.closed(100, 999);
 	private final ILanguageSupport enumLanguageSupport;
 
 	protected transient final static Logger LOGGER = Logger
@@ -56,7 +55,7 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 	 * 
 	 * @param message
 	 */
-	private void setMessage(String message) {
+	private void setErrorMessage(String message) {
 		this.message = message;
 	}
 
@@ -108,16 +107,89 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 	@Override
 	public String getWord(BigInteger num) throws IntToWordExc {
 
+		final Map<DEF_FMT, BigInteger> numAtIndex = new EnumMap<DEF_FMT, BigInteger>(
+				DEF_FMT.class);
+
+		numAtIndex.put(DEF_FMT.HUNS, NUMBER_CONSTANT.ZERO.getVal());
+		numAtIndex.put(DEF_FMT.THOUS, NUMBER_CONSTANT.ZERO.getVal());
+		numAtIndex.put(DEF_FMT.MILLS, NUMBER_CONSTANT.ZERO.getVal());
+
+		final class WordForInt {
+			private String mill;
+			private String thou;
+			private String hun;
+
+			public void setMill(String mill) {
+				this.mill = mill;
+			}
+
+			public void setThou(String thou) {
+				this.thou = thou;
+			}
+
+			public void setHun(String hun) {
+				this.hun = hun;
+			}
+
+			/**
+			 * 
+			 * @return
+			 */
+			public String getWord() {
+
+				StringBuilder sb = new StringBuilder();
+
+				if (numAtIndex.get(DEF_FMT.MILLS).intValue() > 0) {
+					sb.append(mill.toLowerCase() + DEF_FMT.SPACE.val()
+							+ enumLanguageSupport.getMillUnit());
+				}
+				if (numAtIndex.get(DEF_FMT.THOUS).intValue() > 0) {
+					if (DEC_RANGE.contains(Integer.valueOf(numAtIndex.get(
+							DEF_FMT.THOUS).intValue()))
+							&& mill != null) {
+						sb.append(enumLanguageSupport.getAnd()
+								+ thou.toLowerCase() + DEF_FMT.SPACE.val()
+								+ enumLanguageSupport.getThouUnit());
+					} else {
+						if (mill != null) {
+							sb.append(DEF_FMT.SPACE.val() + thou.toLowerCase()
+									+ DEF_FMT.SPACE.val()
+									+ enumLanguageSupport.getThouUnit());
+						} else
+							sb.append(thou.toLowerCase() + DEF_FMT.SPACE.val()
+									+ enumLanguageSupport.getThouUnit());
+					}
+				}
+
+				if (numAtIndex.get(DEF_FMT.HUNS).intValue() > 0) {
+					if (DEC_RANGE.contains(Integer.valueOf(numAtIndex.get(
+							DEF_FMT.HUNS).intValue()))
+							&& (mill != null || thou != null)) {
+						sb.append(enumLanguageSupport.getAnd()
+								+ hun.toLowerCase());
+					} else {
+						if (this.mill != null || this.thou != null) {
+							sb.append(DEF_FMT.SPACE.val() + hun.toLowerCase());
+						} else
+							sb.append(hun.toLowerCase());
+					}
+				}
+
+				// capitalise the first character
+				sb.replace(0, 1, String.valueOf(sb.charAt(0)).toUpperCase());
+				return sb.toString();
+			}
+		}
 		String formattedNumber = null;
 		try {
 			formattedNumber = this.validator.validateAndFormat(num);
 
 		} catch (IntRangeUpperExc e) {
 			LOGGER.info(e.getMessage());
-			setMessage(enumLanguageSupport.getNumberFormatErr());
+			setErrorMessage(enumLanguageSupport.getNumberFormatErr());
 			throw new IntToWordExc(e);
 		} catch (IntRangeLowerExc e) {
-			setMessage(enumLanguageSupport.getInvalidInput());
+			setErrorMessage(enumLanguageSupport.getInvalidInput());
 			throw new IntToWordExc(e.getMessage());
 		}
 
@@ -128,12 +200,11 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 		String[] components = formattedNumber.split(DEF_FMT.NUM_SEP.val());
 		final int nComps = components.length;
 
+		WordForInt holder = new WordForInt();
+
 		String mills = DEF_FMT.EMPTY.val();
 		String thous = DEF_FMT.EMPTY.val();
 		String huns = DEF_FMT.EMPTY.val();
-
-		Map<DEF_FMT, BigInteger> numAtIndex = new EnumMap<DEF_FMT, BigInteger>(
-				DEF_FMT.class);
 
 		BigInteger val = null;
 		switch (nComps) {
@@ -142,95 +213,47 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			mills = getWordForPart(val);
 			numAtIndex.put(DEF_FMT.MILLS, val);
+			holder.setMill(mills);
 
 			val = BigInteger.valueOf(Long.valueOf(components[1]));
 			thous = getWordForPart(val);
 			numAtIndex.put(DEF_FMT.THOUS, val);
+			holder.setThou(thous);
 
 			val = BigInteger.valueOf(Long.valueOf(components[2]));
 			huns = getWordForPart(val);
 			numAtIndex.put(DEF_FMT.HUNS, val);
+			holder.setHun(huns);
 			break;
 
 		case 2:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			thous = getWordForPart(val);
 			numAtIndex.put(DEF_FMT.THOUS, val);
+			holder.setThou(thous);
+			
 			val = BigInteger.valueOf(Long.valueOf(components[1]));
 			huns = getWordForPart(val);
 			numAtIndex.put(DEF_FMT.HUNS, val);
+			holder.setHun(huns);
 			break;
 
 		case 1:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			huns = getWordForPart(val);
 			numAtIndex.put(DEF_FMT.HUNS, val);
+			holder.setHun(huns);
 			break;
 		default:
 			// LOGGER.info(enumLanguageSupport.getInvalidInput() + num);
-			setMessage(enumLanguageSupport.getInvalidInput() + num);
+			setErrorMessage(enumLanguageSupport.getInvalidInput() + num);
 			throw new IntToWordExc(enumLanguageSupport.getInvalidInput() + num);
 
 		}
 
 		// Concatenate units of the number
 
-		StringBuffer result = new StringBuffer();
-
-		if (numAtIndex.containsKey(DEF_FMT.MILLS)) {
-			if (numAtIndex.get(DEF_FMT.MILLS).compareTo(
-					NUMBER_CONSTANT.ZERO.getVal()) > 0) {
-				result.append(mills + DEF_FMT.SPACE.val()
-						+ enumLanguageSupport.getMillUnit());
-			}
-		}
-
-		if (numAtIndex.containsKey(DEF_FMT.THOUS)) {
-			if (DEC_RANGE.contains(numAtIndex.get(DEF_FMT.THOUS).intValue())
-					|| HUN_RANGE.contains(numAtIndex.get(DEF_FMT.THOUS)
-							.intValue())) {
-
-				String appThous = thous + DEF_FMT.SPACE.val()
-						+ enumLanguageSupport.getThouUnit();
-
-				if (!numAtIndex.containsKey(DEF_FMT.MILLS)) {
-					result.append(appThous);
-				}
-
-				else if (DEC_RANGE.contains(numAtIndex.get(DEF_FMT.THOUS)
-						.intValue())) {
-					result.append(enumLanguageSupport.getAnd()
-							+ appThous.toLowerCase());
-
-				} else {
-					result.append(DEF_FMT.SPACE.val() + appThous.toLowerCase());
-				}
-			}
-		}
-
-		if (numAtIndex.containsKey(DEF_FMT.HUNS)) {
-
-			if (numAtIndex.containsKey(DEF_FMT.MILLS)
-					|| numAtIndex.containsKey(DEF_FMT.THOUS)) {
-				if (DEC_RANGE.contains(numAtIndex.get(DEF_FMT.HUNS).intValue())) {
-					result.append(enumLanguageSupport.getAnd()
-							+ huns.toLowerCase());
-				} else {
-					if (numAtIndex.get(DEF_FMT.HUNS).intValue() > 0)
-						result.append(DEF_FMT.SPACE.val() + huns.toLowerCase());
-				}
-			}
-
-			else {
-				result.append(huns.toLowerCase());
-			}
-
-		}
-
-		// capitalise the first character
-		result.replace(0, 1, String.valueOf(result.charAt(0)).toUpperCase());
-
-		return result.toString();
+		return holder.getWord();
 	}
 
 	/**

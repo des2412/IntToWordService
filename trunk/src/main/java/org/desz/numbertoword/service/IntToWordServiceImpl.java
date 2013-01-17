@@ -81,8 +81,9 @@ public final class IntToWordServiceImpl implements
 		} catch (IntToWordExc e) {
 			LOGGER.severe(e.getMessage());
 			this.errMsg = intToWordMapper.getErrorMessage();
+			throw new IntToWordServiceException(e.getMessage());
 		}
-		return null;
+		
 	}
 
 	@Override

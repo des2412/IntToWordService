@@ -56,13 +56,6 @@ public final class UkIntValidator implements IFormatter {
 	public String validateAndFormat(BigInteger num) throws IntRangeUpperExc,
 			IntRangeLowerExc {
 		Preconditions.checkNotNull(num);
-		/*try {
-			Preconditions.checkNotNull(num);
-		} catch (NullPointerException e) {
-			// LOGGER.info(enumLanguageSupport.getNullInput());
-			throw new IllegalArgumentException(enumLanguageSupport.getNullInput());
-		}*/
-
 		if (!range.contains(num.intValue())) {
 			if (range.lowerEndpoint().compareTo(num.intValue()) > 0) {
 				throw new IntRangeLowerExc(
@@ -76,12 +69,6 @@ public final class UkIntValidator implements IFormatter {
 		}
 
 		return ukFmtr.format(num.longValue());
-		/*try {
-
-			return ukFmtr.format(num.longValue());
-		} catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException(enumLanguageSupport.getNumberFormatErr());
-		}*/
 
 	}
 
