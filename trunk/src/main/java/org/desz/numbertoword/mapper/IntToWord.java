@@ -1,11 +1,7 @@
 package org.desz.numbertoword.mapper;
 
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.EnumMap;
-import java.util.Enumeration;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -13,8 +9,8 @@ import org.desz.language.ILanguageSupport;
 import org.desz.mapper.helper.MappingHelper;
 import org.desz.numbertoword.enums.EnumHolder.DEF_FMT;
 import org.desz.numbertoword.enums.EnumHolder.NUMBER_CONSTANT;
-import org.desz.numbertoword.exceptions.IntRangeUpperExc;
 import org.desz.numbertoword.exceptions.IntRangeLowerExc;
+import org.desz.numbertoword.exceptions.IntRangeUpperExc;
 import org.desz.numbertoword.exceptions.IntToWordExc;
 import org.desz.numbertoword.factory.IntToWordEnumFactory;
 import org.desz.numbertoword.service.validator.IFormatter;
@@ -99,9 +95,6 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 	 * 
 	 * @param num
 	 * @return
-	 * @throws IntRangeUpperExc
-	 *             if validate throws Exception type
-	 * @throws IntRangeLowerExc
 	 * @throws IntToWordExc
 	 */
 	@Override
@@ -135,7 +128,7 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 			 * 
 			 * @return
 			 */
-			public String getWord() {
+			public String getWordResult() {
 
 				StringBuilder sb = new StringBuilder();
 
@@ -174,7 +167,6 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 							sb.append(hun.toLowerCase());
 					}
 				}
-
 				// capitalise the first character
 				sb.replace(0, 1, String.valueOf(sb.charAt(0)).toUpperCase());
 				return sb.toString();
@@ -182,7 +174,7 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 		}
 		String formattedNumber = null;
 		try {
-			formattedNumber = this.validator.validateAndFormat(num);
+			formattedNumber = validator.validateAndFormat(num);
 
 		} catch (IntRangeUpperExc e) {
 			LOGGER.info(e.getMessage());
@@ -231,7 +223,7 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 			thous = getWordForPart(val);
 			numAtIndex.put(DEF_FMT.THOUS, val);
 			holder.setThou(thous);
-			
+
 			val = BigInteger.valueOf(Long.valueOf(components[1]));
 			huns = getWordForPart(val);
 			numAtIndex.put(DEF_FMT.HUNS, val);
@@ -253,25 +245,22 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 
 		// Concatenate units of the number
 
-		return holder.getWord();
+		return holder.getWordResult();
 	}
 
 	/**
 	 * 
 	 * @param num
-	 * @return
-	 * @throws IntRangeUpperExc
+	 * @return language specific word for num
 	 */
-	private String getWordForPart(BigInteger num) {
+	private String getWordForPart(final BigInteger num) {
 		String numStr = String.valueOf(num);
 		String result = null;
 		// check if numStr is directly mapped
 		if (enumLanguageSupport.getIntToWordMap().containsKey(numStr)) {
 			return enumLanguageSupport.getIntToWordMap().get(numStr);
 		}
-
-		final Range<Integer> TWO_RANGE = Ranges.closed(0, 99);
-		if (TWO_RANGE.contains(num.intValue())) {
+		if (MappingHelper.DEC_RANGE.contains(num.intValue())) {
 			return this.getDecimalPart(num);
 		}
 

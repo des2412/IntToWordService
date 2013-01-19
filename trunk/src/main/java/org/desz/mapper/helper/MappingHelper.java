@@ -10,11 +10,12 @@ import com.google.common.collect.Ranges;
 
 public class MappingHelper {
 
-	private static final Range<Integer> TEEN_RANGE = Ranges.closed(0, 19);
+	public static final Range<Integer> TEEN_RANGE = Ranges.closed(0, 19);
+	public static final Range<Integer> DEC_RANGE = Ranges.closed(0, 99);
 
 	public static String getDecimalString(ILanguageSupport sup, Integer num)
 			throws IntToWordExc {
-		
+
 		Preconditions.checkNotNull(sup);
 
 		try {

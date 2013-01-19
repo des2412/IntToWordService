@@ -34,46 +34,11 @@ public final class IntToWordServiceImpl implements
 			throws IntToWordServiceException {
 
 		INumberToWordMapper<BigInteger> intToWordMapper = null;
-
-		switch (provLang) {
-
-		case UK:
-			try {
-				intToWordMapper = IntToWordEnumFactory.UK_FAC
-						.getIntegerToWordMapper();
-			} catch (NumberToWordFactoryException e) {
-				LOGGER.severe(e.getMessage());
-			}
-			break;
-
-		case FR:
-			try {
-				intToWordMapper = IntToWordEnumFactory.FR_FAC
-						.getIntegerToWordMapper();
-			} catch (NumberToWordFactoryException e) {
-				LOGGER.severe(e.getMessage());
-			}
-			break;
-		case DE:
-			try {
-				intToWordMapper = IntToWordEnumFactory.DE_FAC
-						.getIntegerToWordMapper();
-			} catch (NumberToWordFactoryException e) {
-				LOGGER.severe(e.getMessage());
-			}
-			break;
-
-		case NL:
-			try {
-				intToWordMapper = IntToWordEnumFactory.NL_FAC
-						.getIntegerToWordMapper();
-			} catch (NumberToWordFactoryException e) {
-				LOGGER.severe(e.getMessage());
-			}
-			break;
-		default:
-			LOGGER.info(UK_ERRORS.UNKNOWN.getError());
-
+		try {
+			intToWordMapper = IntToWordEnumFactory.getMapper(provLang);
+		} catch (NumberToWordFactoryException e) {
+			LOGGER.severe(e.getMessage());
+			throw new IntToWordServiceException(e.getMessage());
 		}
 
 		try {
@@ -83,7 +48,7 @@ public final class IntToWordServiceImpl implements
 			this.errMsg = intToWordMapper.getErrorMessage();
 			throw new IntToWordServiceException(e.getMessage());
 		}
-		
+
 	}
 
 	@Override
