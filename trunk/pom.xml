@@ -38,6 +38,17 @@ http://maven.apache.org
 
 	<dependencies>
 
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>jbehave-junit-runner</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jbehave</groupId>
+			<artifactId>jbehave-core</artifactId>
+			<version>4.0-beta-3</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>

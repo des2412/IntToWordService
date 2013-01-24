@@ -344,7 +344,10 @@ public final class EnumHolder {
 	};
 
 	/**
-	 * Format help for String representation of converted number
+	 * Enum format help for String representation of converted number
+	 * and errors
+	 * 
+	 * DEF_FMT is UK and includes the language-independent space, separators etc.
 	 * 
 	 * @author des
 	 * 
@@ -367,6 +370,11 @@ public final class EnumHolder {
 
 	};
 
+	/**
+	 * For the French..
+	 * @author des
+	 *
+	 */
 	public enum FR_FMT {
 		AND(DEF_FMT.SPACE.val() + "et" + DEF_FMT.SPACE.val()), MILLS("million"), THOUS(
 				"mille"), HUNS("cent");
@@ -383,6 +391,12 @@ public final class EnumHolder {
 
 	};
 
+	/**
+	 * Germans
+	 * 
+	 * @author des
+	 *
+	 */
 	public enum DE_FMT {
 
 		AND(DEF_FMT.SPACE.val() + "und" + DEF_FMT.SPACE.val()), MILLS("million"), THOUS(

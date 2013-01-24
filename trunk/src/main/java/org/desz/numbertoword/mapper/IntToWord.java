@@ -107,6 +107,12 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 		numAtIndex.put(DEF_FMT.THOUS, NUMBER_CONSTANT.ZERO.getVal());
 		numAtIndex.put(DEF_FMT.MILLS, NUMBER_CONSTANT.ZERO.getVal());
 
+		/**
+		 * local inner class that encapsulates
+		 * the formatted number structure
+		 * @author des
+		 *
+		 */
 		final class WordForInt {
 			private String mill;
 			private String thou;
