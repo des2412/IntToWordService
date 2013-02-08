@@ -399,8 +399,8 @@ public final class EnumHolder {
 	 */
 	public enum DE_FMT {
 
-		AND(DEF_FMT.SPACE.val() + "und" + DEF_FMT.SPACE.val()), MILLS("million"), THOUS(
-				"tausend"), HUNS("hundert");
+		AND(DEF_FMT.SPACE.val() + "und" + DEF_FMT.SPACE.val()), MILLS(DEF_FMT.SPACE.val() + "million" + DEF_FMT.SPACE.val()), THOUS(
+				DEF_FMT.SPACE.val() + "tausend" + DEF_FMT.SPACE.val()), HUNS(DEF_FMT.SPACE.val() + "hundert" + DEF_FMT.SPACE.val());
 
 		private String val;
 

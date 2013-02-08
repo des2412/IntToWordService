@@ -18,8 +18,8 @@ import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.mapper.INumberToWordMapper;
 import org.desz.numbertoword.mapper.IntToWord;
-import org.desz.numbertoword.service.validator.UkIntValidator;
 import org.desz.numbertoword.service.validator.IFormatter;
+import org.desz.numbertoword.service.validator.UkIntValidator;
 
 /**
  * @author des

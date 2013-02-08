@@ -122,6 +122,16 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 
 		}
 	}
+	
+	/**
+	 * LoD aware
+	 */
+	public String getWord(String num){
+		if(this.intToWordMap.containsKey(num)){
+			return this.intToWordMap.get(num);
+		}
+		return null;
+	}
 
 	/**
 	 * return an immutable Google Map of integer to word for the language

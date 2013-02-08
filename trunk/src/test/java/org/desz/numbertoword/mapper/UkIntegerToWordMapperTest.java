@@ -39,6 +39,24 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 		}
 	}
 
+	
+	/*@Test
+	public void testSmartCalc(){
+		String s = numberToWordMapper.smartCalc(new BigInteger("100"));
+		assertNotNull(s);
+		assertEquals("One hundred", s);
+		
+		
+		 s = numberToWordMapper.smartCalc(new BigInteger("101"));
+			assertNotNull(s);
+			assertEquals("One hundred and one", s);
+			
+			s = numberToWordMapper.smartCalc(new BigInteger("99"));
+			assertNotNull(s);
+			assertEquals("Ninety nine", s);
+			
+			
+	}*/
 	@Test
 	public void testNotNull() {
 		assertNotNull(numberToWordMapper);
@@ -125,6 +143,10 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 
 	@Test
 	public void testFails() throws IntToWordExc {
+		
+		assertEquals("One million",
+				numberToWordMapper.getWord(new BigInteger("1000000")));
+
 		assertEquals("Ten thousand",
 				numberToWordMapper.getWord(new BigInteger("10000")));
 		assertEquals("One million",

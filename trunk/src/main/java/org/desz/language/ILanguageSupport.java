@@ -32,5 +32,7 @@ public interface ILanguageSupport {
 	public String getNumberFormatErr();
 
 	public String getUnkownErr();
+	
+	String getWord(String num);
 
 }

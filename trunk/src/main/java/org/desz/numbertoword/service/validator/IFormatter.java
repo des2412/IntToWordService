@@ -5,8 +5,8 @@ package org.desz.numbertoword.service.validator;
 
 import java.math.BigInteger;
 
-import org.desz.numbertoword.exceptions.IntRangeUpperExc;
 import org.desz.numbertoword.exceptions.IntRangeLowerExc;
+import org.desz.numbertoword.exceptions.IntRangeUpperExc;
 
 /**
  * @author des

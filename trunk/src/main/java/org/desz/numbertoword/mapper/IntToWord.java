@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.desz.language.ILanguageSupport;
-import org.desz.mapper.helper.MappingHelper;
+import org.desz.mapper.helper.IntToWordDelegate;
 import org.desz.numbertoword.enums.EnumHolder.DEF_FMT;
 import org.desz.numbertoword.enums.EnumHolder.NUMBER_CONSTANT;
 import org.desz.numbertoword.exceptions.IntRangeLowerExc;
@@ -108,10 +108,10 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 		numAtIndex.put(DEF_FMT.MILLS, NUMBER_CONSTANT.ZERO.getVal());
 
 		/**
-		 * local inner class that encapsulates
-		 * the formatted number structure
+		 * local inner class that encapsulates the formatted number structure
+		 * 
 		 * @author des
-		 *
+		 * 
 		 */
 		final class WordForInt {
 			private String mill;
@@ -209,36 +209,38 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 
 		case 3:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
-			mills = getWordForPart(val);
+			// mills = getWordForPart(val);
+			mills = IntToWordDelegate.calcWord(enumLanguageSupport, val);
+			LOGGER.info("Millions" + mills);
 			numAtIndex.put(DEF_FMT.MILLS, val);
 			holder.setMill(mills);
 
 			val = BigInteger.valueOf(Long.valueOf(components[1]));
-			thous = getWordForPart(val);
+			thous = IntToWordDelegate.calcWord(enumLanguageSupport, val);
 			numAtIndex.put(DEF_FMT.THOUS, val);
 			holder.setThou(thous);
 
 			val = BigInteger.valueOf(Long.valueOf(components[2]));
-			huns = getWordForPart(val);
+			huns = IntToWordDelegate.calcWord(enumLanguageSupport, val);
 			numAtIndex.put(DEF_FMT.HUNS, val);
 			holder.setHun(huns);
 			break;
 
 		case 2:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
-			thous = getWordForPart(val);
+			thous = IntToWordDelegate.calcWord(enumLanguageSupport, val);
 			numAtIndex.put(DEF_FMT.THOUS, val);
 			holder.setThou(thous);
 
 			val = BigInteger.valueOf(Long.valueOf(components[1]));
-			huns = getWordForPart(val);
+			huns = IntToWordDelegate.calcWord(enumLanguageSupport, val);
 			numAtIndex.put(DEF_FMT.HUNS, val);
 			holder.setHun(huns);
 			break;
 
 		case 1:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
-			huns = getWordForPart(val);
+			huns = IntToWordDelegate.calcWord(enumLanguageSupport, val);
 			numAtIndex.put(DEF_FMT.HUNS, val);
 			holder.setHun(huns);
 			break;
@@ -252,59 +254,6 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 		// Concatenate units of the number
 
 		return holder.getWordResult();
-	}
-
-	/**
-	 * 
-	 * @param num
-	 * @return language specific word for num
-	 */
-	private String getWordForPart(final BigInteger num) {
-		String numStr = String.valueOf(num);
-		String result = null;
-		// check if numStr is directly mapped
-		if (enumLanguageSupport.getIntToWordMap().containsKey(numStr)) {
-			return enumLanguageSupport.getIntToWordMap().get(numStr);
-		}
-		if (MappingHelper.DEC_RANGE.contains(num.intValue())) {
-			return this.getDecimalPart(num);
-		}
-
-		else {
-			final BigInteger rem = num
-					.mod(NUMBER_CONSTANT.ONE_HUNDRED.getVal());
-			result = enumLanguageSupport.getIntToWordMap().get(
-					String.valueOf(numStr.charAt(0)))
-					+ DEF_FMT.SPACE.val() + enumLanguageSupport.getHunUnit();
-			if (rem.compareTo(NUMBER_CONSTANT.ZERO.getVal()) > 0) { // not
-																	// whole
-																	// hundredth
-				String decs = getDecimalPart(new BigInteger(
-						String.valueOf(numStr.charAt(1))
-								+ String.valueOf(numStr.charAt(2))));
-				return result + enumLanguageSupport.getAnd()
-						+ decs.toLowerCase();
-			}
-		}
-
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param val
-	 * @return
-	 */
-	private String getDecimalPart(final BigInteger val) {
-
-		String result = null;
-		try {
-			result = MappingHelper.getDecimalString(enumLanguageSupport,
-					val.intValue());
-		} catch (IntToWordExc e) {
-			LOGGER.severe(e.getMessage());
-		}
-		return result.toLowerCase();
 	}
 
 }

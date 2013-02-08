@@ -18,7 +18,6 @@ import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.mapper.INumberToWordMapper;
 import org.desz.numbertoword.mapper.IntToWord;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -46,19 +45,7 @@ public class IntegerToWordEnumFactoryTest {
 		}
 	}
 
-	@Test
-	public void testTypeOfMapper() {
-		INumberToWordFactory<BigInteger> fac = ParallelIntToWordFactory.UK_FAC;
-
-		INumberToWordMapper<BigInteger> mapper = null;
-		try {
-			mapper = fac.getIntegerToWordMapper(); // add mapper to factoryCache
-		} catch (NumberToWordFactoryException e) {
-			LOGGER.severe("testFactoryCache exception." + e.getCause());
-		}
-		Assert.assertTrue(mapper instanceof INumberToWordMapper);
-	}
-
+	
 	@Test
 	public void testFactoryCache() {
 

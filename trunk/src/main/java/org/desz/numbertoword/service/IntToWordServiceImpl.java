@@ -8,25 +8,34 @@ import java.util.logging.Logger;
 
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.exceptions.IntToWordExc;
-import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.exceptions.IntToWordServiceException;
+import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.factory.IntToWordEnumFactory;
 import org.desz.numbertoword.mapper.INumberToWordMapper;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author des
  * 
  */
-@Component
+@Service
 public final class IntToWordServiceImpl implements
 		INumberToWordService<BigInteger> {
+
+	//private MongoOperations mongoOperation;
 
 	protected final static Logger LOGGER = Logger
 			.getLogger(IntToWordServiceImpl.class.getName());
 
 	private String errMsg;
+
+	//@Autowired
+	public IntToWordServiceImpl() {
+		super();
+		//this.mongoOperation = mongoOperation;
+	}
+	
 
 	@Override
 	public String intToWordService(PROV_LANG provLang, String num)
@@ -41,6 +50,7 @@ public final class IntToWordServiceImpl implements
 		}
 
 		try {
+			
 			return intToWordMapper.getWord(new BigInteger(num));
 		} catch (IntToWordExc e) {
 			LOGGER.severe(e.getMessage());

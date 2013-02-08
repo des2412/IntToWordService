@@ -9,8 +9,8 @@ import java.util.Locale;
 import java.util.logging.Logger;
 
 import org.desz.language.ILanguageSupport;
-import org.desz.numbertoword.exceptions.IntRangeUpperExc;
 import org.desz.numbertoword.exceptions.IntRangeLowerExc;
+import org.desz.numbertoword.exceptions.IntRangeUpperExc;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;

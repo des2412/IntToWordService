@@ -7,5 +7,7 @@ public interface INumberToWordMapper<T extends Number> {
 	String getWord(T num) throws IntToWordExc;
 
 	String getErrorMessage();
+	
+	//String smartCalc(BigInteger i);
 
 }
