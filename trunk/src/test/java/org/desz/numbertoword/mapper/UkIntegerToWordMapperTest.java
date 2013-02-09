@@ -144,6 +144,14 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	@Test
 	public void testFails() throws IntToWordExc {
 		
+		assertEquals(
+				"Nine hundred and ninety nine million nine hundred and nine thousand",
+				numberToWordMapper.getWord(new BigInteger("999909000")));
+		
+		assertEquals("One thousand and nine",
+				numberToWordMapper.getWord(new BigInteger("1009")));
+		
+		
 		assertEquals("One million",
 				numberToWordMapper.getWord(new BigInteger("1000000")));
 
@@ -163,8 +171,7 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 				"Eleven million one hundred and eleven thousand one hundred and eleven",
 				numberToWordMapper.getWord(new BigInteger("11111111")));
 
-		assertEquals("One thousand and nine",
-				numberToWordMapper.getWord(new BigInteger("1009")));
+		
 		assertEquals("One thousand and ninety nine",
 				numberToWordMapper.getWord(new BigInteger("1099")));
 
@@ -187,9 +194,7 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 
 		assertEquals("One million one hundred thousand",
 				numberToWordMapper.getWord(new BigInteger("1100000")));
-		assertEquals(
-				"Nine hundred and ninety nine million nine hundred and nine thousand",
-				numberToWordMapper.getWord(new BigInteger("999909000")));
+		
 
 		assertEquals("One hundred million one hundred thousand",
 				numberToWordMapper.getWord(new BigInteger("100100000")));

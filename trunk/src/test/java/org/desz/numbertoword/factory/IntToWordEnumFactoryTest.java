@@ -27,10 +27,10 @@ import org.powermock.reflect.Whitebox;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(IntToWordEnumFactory.class)
-public class IntegerToWordEnumFactoryTest {
+public class IntToWordEnumFactoryTest {
 
 	private final static Logger LOGGER = Logger
-			.getLogger(IntegerToWordEnumFactoryTest.class.getName());
+			.getLogger(IntToWordEnumFactoryTest.class.getName());
 
 	private static final Object ARGS[] = new Object[] { new EnumLanguageSupport(
 			PROV_LANG.UK) };

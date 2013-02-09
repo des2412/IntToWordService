@@ -29,8 +29,7 @@ import org.desz.numbertoword.service.validator.UkIntValidator;
  * 
  * 
  */
-public enum IntToWordEnumFactory implements
-		INumberToWordFactory<BigInteger> {
+public enum IntToWordEnumFactory implements INumberToWordFactory<BigInteger> {
 
 	// Language specific factories
 	UK_FAC(), FR_FAC(), DE_FAC(), NL_FAC();
@@ -49,23 +48,23 @@ public enum IntToWordEnumFactory implements
 	 * @throws NumberToWordFactoryException
 	 */
 	@SuppressWarnings("unchecked")
-	private static final INumberToWordMapper<BigInteger> newIntToWord(PROV_LANG pl)
-			throws NumberToWordFactoryException {
+	private static final INumberToWordMapper<BigInteger> newIntToWord(
+			PROV_LANG pl) throws NumberToWordFactoryException {
 		// access private Constructor using reflection
 		Constructor<?>[] constructors = IntToWord.class
 				.getDeclaredConstructors();
 
-		if (constructors.length == 1)
+		if (constructors.length == 1) {
 			constructors[0].setAccessible(true);
-		else
+		} else {
 			throw new NumberToWordFactoryException(
-					"unexpected number of constructors");
+					"IntToWord.class: Detected an unexpected number of Constructors");
+		}
 
 		EnumLanguageSupport enumLanguageSupport = new EnumLanguageSupport(pl);
 		INumberToWordMapper<BigInteger> mapper = null;
 
-		IFormatter validator = new UkIntValidator(
-				enumLanguageSupport);
+		IFormatter validator = new UkIntValidator(enumLanguageSupport);
 
 		try {
 			mapper = (INumberToWordMapper<BigInteger>) constructors[0]
@@ -94,12 +93,11 @@ public enum IntToWordEnumFactory implements
 	private static boolean isCached(PROV_LANG pl) {
 		final boolean isCached = mappingsCache.containsKey(pl);
 		if (isCached) {
-			LOGGER.info("IntToWord for language " + pl.name()
-					+ " available");
+			LOGGER.info("IntToWord for language " + pl.name() + " available");
 		}
 		return isCached;
 	}
-	
+
 	/**
 	 * 
 	 * @param pl
@@ -118,8 +116,7 @@ public enum IntToWordEnumFactory implements
 
 			integerToWordMapper = newIntToWord(PROV_LANG.UK);
 
-			mappingsCache.put(PROV_LANG.UK,
-					integerToWordMapper);
+			mappingsCache.put(PROV_LANG.UK, integerToWordMapper);
 			break;
 
 		case FR:
@@ -128,8 +125,7 @@ public enum IntToWordEnumFactory implements
 			}
 
 			integerToWordMapper = newIntToWord(PROV_LANG.FR);
-			mappingsCache.put(PROV_LANG.FR,
-					integerToWordMapper);
+			mappingsCache.put(PROV_LANG.FR, integerToWordMapper);
 			break;
 		case DE:
 			if (isCached(PROV_LANG.DE)) {
@@ -137,8 +133,7 @@ public enum IntToWordEnumFactory implements
 			}
 
 			integerToWordMapper = newIntToWord(PROV_LANG.DE);
-			mappingsCache.put(PROV_LANG.DE,
-					integerToWordMapper);
+			mappingsCache.put(PROV_LANG.DE, integerToWordMapper);
 			break;
 
 		case NL:
@@ -147,8 +142,7 @@ public enum IntToWordEnumFactory implements
 			}
 
 			integerToWordMapper = newIntToWord(PROV_LANG.NL);
-			mappingsCache.put(PROV_LANG.NL,
-					integerToWordMapper);
+			mappingsCache.put(PROV_LANG.NL, integerToWordMapper);
 			break;
 		default:
 			LOGGER.info("Unknown problem creating Factory");
@@ -156,8 +150,7 @@ public enum IntToWordEnumFactory implements
 
 		}
 
-		LOGGER.info("Cached "
-				+ pl.name()
+		LOGGER.info("Cached " + pl.name()
 				+ " IntToWord. Number of configured IntegerToWordMappers :"
 				+ mappingsCache.size());
 		return integerToWordMapper;
@@ -174,7 +167,7 @@ public enum IntToWordEnumFactory implements
 	@Override
 	public INumberToWordMapper<BigInteger> getIntegerToWordMapper()
 			throws NumberToWordFactoryException {
-		
+
 		INumberToWordMapper<BigInteger> integerToWordMapper;
 		switch (this) {
 		case UK_FAC:
@@ -185,8 +178,7 @@ public enum IntToWordEnumFactory implements
 
 			integerToWordMapper = newIntToWord(PROV_LANG.UK);
 
-			mappingsCache.put(PROV_LANG.UK,
-					integerToWordMapper);
+			mappingsCache.put(PROV_LANG.UK, integerToWordMapper);
 			break;
 
 		case FR_FAC:
@@ -195,8 +187,7 @@ public enum IntToWordEnumFactory implements
 			}
 
 			integerToWordMapper = newIntToWord(PROV_LANG.FR);
-			mappingsCache.put(PROV_LANG.FR,
-					integerToWordMapper);
+			mappingsCache.put(PROV_LANG.FR, integerToWordMapper);
 			break;
 		case DE_FAC:
 			if (isCached(PROV_LANG.DE)) {
@@ -204,8 +195,7 @@ public enum IntToWordEnumFactory implements
 			}
 
 			integerToWordMapper = newIntToWord(PROV_LANG.DE);
-			mappingsCache.put(PROV_LANG.DE,
-					integerToWordMapper);
+			mappingsCache.put(PROV_LANG.DE, integerToWordMapper);
 			break;
 
 		case NL_FAC:
@@ -214,8 +204,7 @@ public enum IntToWordEnumFactory implements
 			}
 
 			integerToWordMapper = newIntToWord(PROV_LANG.NL);
-			mappingsCache.put(PROV_LANG.NL,
-					integerToWordMapper);
+			mappingsCache.put(PROV_LANG.NL, integerToWordMapper);
 			break;
 		default:
 			LOGGER.info("Unknown problem creating Factory");
@@ -223,8 +212,7 @@ public enum IntToWordEnumFactory implements
 
 		}
 
-		LOGGER.info("Cached "
-				+ this.name()
+		LOGGER.info("Cached " + this.name()
 				+ " IntToWord. Number of configured IntegerToWordMappers :"
 				+ mappingsCache.size());
 		return integerToWordMapper;

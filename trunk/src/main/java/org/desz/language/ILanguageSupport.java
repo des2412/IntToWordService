@@ -4,7 +4,6 @@
  */
 package org.desz.language;
 
-import com.google.common.collect.ImmutableMap;
 
 /**
  * @author des
@@ -13,7 +12,7 @@ import com.google.common.collect.ImmutableMap;
 public interface ILanguageSupport {
 
 	/* ImmutableMap returned so not violating Demeter */
-	public ImmutableMap<String, String> getIntToWordMap();
+	//public ImmutableMap<String, String> getIntToWordMap();
 
 	public String getNegativeInput();
 

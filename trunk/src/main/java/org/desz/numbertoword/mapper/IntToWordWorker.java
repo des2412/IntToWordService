@@ -6,7 +6,7 @@ package org.desz.numbertoword.mapper;
 import java.math.BigInteger;
 import java.util.concurrent.Callable;
 
-import org.desz.numbertoword.enums.EnumHolder.DEF_FMT;
+import org.desz.numbertoword.enums.EnumHolder.DEF;
 
 /**
  * @author desz
@@ -41,9 +41,9 @@ public class IntToWordWorker implements Callable<String> {
 	public String call() throws Exception {
 		if (num.intValue() > 0) {
 
-			return mapper.getWord(num) + DEF_FMT.SPACE.val() + this.order;
+			return mapper.getWord(num) + DEF.SPACE.val() + this.order;
 		}
-		return DEF_FMT.EMPTY.val();
+		return DEF.EMPTY.val();
 
 	}
 

@@ -3,7 +3,7 @@ package org.desz.language;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.desz.numbertoword.enums.EnumHolder.DEF_FMT;
+import org.desz.numbertoword.enums.EnumHolder.DEF;
 import org.desz.numbertoword.enums.EnumHolder.DE_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.DE_FMT;
 import org.desz.numbertoword.enums.EnumHolder.DE_WORDS;
@@ -42,24 +42,23 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 	private String numberFormatErr;
 	private String unknownErr;
 
-	private Map<String, String> intToWordMap = new HashMap<String, String>();
+	private ImmutableMap<String, String> immutable;
 
 	/**
-	 * 
-	 * Enum Factory instance configuration for specific languages.
-	 * 
+	 * Class is a container for the language specific words and errors.
 	 * 
 	 * @param pl
 	 *            PROV_LANG
 	 */
 	public EnumLanguageSupport(final PROV_LANG pl) {
 
+		Map<String, String> intToWordMap = new HashMap<String, String>();
 		switch (pl) {
 		case UK:
-			this.millUnit = DEF_FMT.MILLS.val();
-			this.thouUnit = DEF_FMT.THOUS.val();
-			this.hunUnit = DEF_FMT.HUNS.val();
-			this.and = DEF_FMT.AND.val();
+			this.millUnit = DEF.MILLS.val();
+			this.thouUnit = DEF.THOUS.val();
+			this.hunUnit = DEF.HUNS.val();
+			this.and = DEF.AND.val();
 			this.invalidInput = UK_ERRORS.INVALID_INPUT.getError();
 			this.nullInput = UK_ERRORS.NULL_INPUT.getError();
 			this.negativeInput = UK_ERRORS.NEGATIVE_INPUT.getError();
@@ -121,14 +120,17 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 			break;
 
 		}
+
+		immutable = new ImmutableMap.Builder<String, String>().putAll(
+				intToWordMap).build();
 	}
-	
+
 	/**
 	 * LoD aware
 	 */
-	public String getWord(String num){
-		if(this.intToWordMap.containsKey(num)){
-			return this.intToWordMap.get(num);
+	public String getWord(String num) {
+		if (immutable.containsKey(num)) {
+			return immutable.get(num);
 		}
 		return null;
 	}
@@ -136,13 +138,7 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 	/**
 	 * return an immutable Google Map of integer to word for the language
 	 */
-	@Override
-	public ImmutableMap<String, String> getIntToWordMap() {
-
-		ImmutableMap<String, String> immutable = new ImmutableMap.Builder<String, String>()
-				.putAll(intToWordMap).build();
-		return immutable;
-	}
+	// @Override
 
 	@Override
 	public String getNegativeInput() {

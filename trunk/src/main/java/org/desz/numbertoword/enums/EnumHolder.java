@@ -344,23 +344,23 @@ public final class EnumHolder {
 	};
 
 	/**
-	 * Enum format help for String representation of converted number
-	 * and errors
+	 * Enum format help for String representation of converted number and errors
 	 * 
-	 * DEF_FMT is UK and includes the language-independent space, separators etc.
+	 * DEF is UK and includes the language-independent space, separators etc.
 	 * 
 	 * @author des
 	 * 
 	 */
-	public enum DEF_FMT {
+	public enum DEF {
 
 		SPACE(" "), AND(SPACE.val() + "and" + SPACE.val()), EMPTY(""), ERR_SEP(
-				SPACE.val() + "/" + SPACE.val()), NUM_SEP(","), MILLS("million"), THOUS(
-				"thousand"), HUNS("hundred");
+				SPACE.val() + "/" + SPACE.val()), NUM_SEP(","), MILLS(SPACE
+				.val() + "million"), THOUS(SPACE.val() + "thousand"), HUNS(
+				SPACE.val() + "hundred");
 
 		private String val;
 
-		DEF_FMT(String val) {
+		DEF(String val) {
 			this.val = val;
 		}
 
@@ -372,12 +372,14 @@ public final class EnumHolder {
 
 	/**
 	 * For the French..
+	 * 
 	 * @author des
-	 *
+	 * 
 	 */
 	public enum FR_FMT {
-		AND(DEF_FMT.SPACE.val() + "et" + DEF_FMT.SPACE.val()), MILLS("million"), THOUS(
-				"mille"), HUNS("cent");
+		AND(DEF.SPACE.val() + "et" + DEF.SPACE.val()), MILLS(DEF.SPACE.val()
+				+ "million"), THOUS(DEF.SPACE.val() + "mille"), HUNS(DEF.SPACE
+				.val() + "cent");
 
 		private String val;
 
@@ -395,12 +397,13 @@ public final class EnumHolder {
 	 * Germans
 	 * 
 	 * @author des
-	 *
+	 * 
 	 */
 	public enum DE_FMT {
 
-		AND(DEF_FMT.SPACE.val() + "und" + DEF_FMT.SPACE.val()), MILLS(DEF_FMT.SPACE.val() + "million" + DEF_FMT.SPACE.val()), THOUS(
-				DEF_FMT.SPACE.val() + "tausend" + DEF_FMT.SPACE.val()), HUNS(DEF_FMT.SPACE.val() + "hundert" + DEF_FMT.SPACE.val());
+		AND(DEF.SPACE.val() + "und" + DEF.SPACE.val()), MILLS(DEF.SPACE.val()
+				+ "million"), THOUS(DEF.SPACE.val() + "tausend"), HUNS(
+				DEF.SPACE.val() + "hundert");
 
 		private String val;
 
@@ -415,8 +418,9 @@ public final class EnumHolder {
 
 	public enum NL_FMT {
 
-		AND(DEF_FMT.SPACE.val() + "en" + DEF_FMT.SPACE.val()), MILLS("miljeon"), THOUS(
-				"duizend"), HUNS("honderd");
+		AND(DEF.SPACE.val() + "en" + DEF.SPACE.val()), MILLS(DEF.SPACE.val()
+				+ "miljeon"), THOUS(DEF.SPACE.val() + "duizend"), HUNS(
+				DEF.SPACE.val() + "honderd");
 
 		private String val;
 

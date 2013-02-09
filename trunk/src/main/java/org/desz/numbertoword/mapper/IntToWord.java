@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 import org.desz.language.ILanguageSupport;
 import org.desz.mapper.helper.IntToWordDelegate;
-import org.desz.numbertoword.enums.EnumHolder.DEF_FMT;
+import org.desz.numbertoword.enums.EnumHolder.DEF;
 import org.desz.numbertoword.enums.EnumHolder.NUMBER_CONSTANT;
 import org.desz.numbertoword.exceptions.IntRangeLowerExc;
 import org.desz.numbertoword.exceptions.IntRangeUpperExc;
@@ -78,18 +78,6 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 		return enumLanguageSupport;
 	}
 
-	/**
-	 * 
-	 * @param num
-	 *            BigInteger to format
-	 * @return num in UK Format
-	 * @throws IntRangeUpperExc
-	 * @throws IntRangeLowerExc
-	 */
-	public String formatBigInteger(BigInteger num) throws IntRangeUpperExc,
-			IntRangeLowerExc {
-		return validator.validateAndFormat(num);
-	}
 
 	/**
 	 * 
@@ -100,12 +88,17 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 	@Override
 	public String getWord(BigInteger num) throws IntToWordExc {
 
-		final Map<DEF_FMT, BigInteger> numAtIndex = new EnumMap<DEF_FMT, BigInteger>(
-				DEF_FMT.class);
+		
+		if(enumLanguageSupport.getWord(String.valueOf(num)) != null){
+			return enumLanguageSupport.getWord(String.valueOf(num));
+		}
+		
+		final Map<DEF, BigInteger> numAtIndex = new EnumMap<DEF, BigInteger>(
+				DEF.class);
 
-		numAtIndex.put(DEF_FMT.HUNS, NUMBER_CONSTANT.ZERO.getVal());
-		numAtIndex.put(DEF_FMT.THOUS, NUMBER_CONSTANT.ZERO.getVal());
-		numAtIndex.put(DEF_FMT.MILLS, NUMBER_CONSTANT.ZERO.getVal());
+		numAtIndex.put(DEF.HUNS, NUMBER_CONSTANT.ZERO.getVal());
+		numAtIndex.put(DEF.THOUS, NUMBER_CONSTANT.ZERO.getVal());
+		numAtIndex.put(DEF.MILLS, NUMBER_CONSTANT.ZERO.getVal());
 
 		/**
 		 * local inner class that encapsulates the formatted number structure
@@ -138,39 +131,31 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 
 				StringBuilder sb = new StringBuilder();
 
-				if (numAtIndex.get(DEF_FMT.MILLS).intValue() > 0) {
-					sb.append(mill.toLowerCase() + DEF_FMT.SPACE.val()
+				if (numAtIndex.get(DEF.MILLS).intValue() > 0) {
+					sb.append(mill.toLowerCase()
 							+ enumLanguageSupport.getMillUnit());
 				}
-				if (numAtIndex.get(DEF_FMT.THOUS).intValue() > 0) {
+				if (numAtIndex.get(DEF.THOUS).intValue() > 0) {
 					if (DEC_RANGE.contains(Integer.valueOf(numAtIndex.get(
-							DEF_FMT.THOUS).intValue()))
+							DEF.THOUS).intValue()))
 							&& mill != null) {
 						sb.append(enumLanguageSupport.getAnd()
-								+ thou.toLowerCase() + DEF_FMT.SPACE.val()
+								+ thou.toLowerCase()
 								+ enumLanguageSupport.getThouUnit());
 					} else {
-						if (mill != null) {
-							sb.append(DEF_FMT.SPACE.val() + thou.toLowerCase()
-									+ DEF_FMT.SPACE.val()
-									+ enumLanguageSupport.getThouUnit());
-						} else
-							sb.append(thou.toLowerCase() + DEF_FMT.SPACE.val()
-									+ enumLanguageSupport.getThouUnit());
+						sb.append(thou.toLowerCase()
+								+ enumLanguageSupport.getThouUnit());
 					}
 				}
 
-				if (numAtIndex.get(DEF_FMT.HUNS).intValue() > 0) {
+				if (numAtIndex.get(DEF.HUNS).intValue() > 0) {
 					if (DEC_RANGE.contains(Integer.valueOf(numAtIndex.get(
-							DEF_FMT.HUNS).intValue()))
+							DEF.HUNS).intValue()))
 							&& (mill != null || thou != null)) {
 						sb.append(enumLanguageSupport.getAnd()
 								+ hun.toLowerCase());
 					} else {
-						if (this.mill != null || this.thou != null) {
-							sb.append(DEF_FMT.SPACE.val() + hun.toLowerCase());
-						} else
-							sb.append(hun.toLowerCase());
+						sb.append(hun.toLowerCase());
 					}
 				}
 				// capitalise the first character
@@ -191,57 +176,65 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 			throw new IntToWordExc(e.getMessage());
 		}
 
-		if (formattedNumber.equals("0")) {
-			return enumLanguageSupport.getIntToWordMap().get("0");
-		}
-
-		String[] components = formattedNumber.split(DEF_FMT.NUM_SEP.val());
+	
+		String[] components = formattedNumber.split(DEF.NUM_SEP.val());
 		final int nComps = components.length;
 
 		WordForInt holder = new WordForInt();
 
-		String mills = DEF_FMT.EMPTY.val();
-		String thous = DEF_FMT.EMPTY.val();
-		String huns = DEF_FMT.EMPTY.val();
+		String mills = DEF.EMPTY.val();
+		String thous = DEF.EMPTY.val();
+		String huns = DEF.EMPTY.val();
 
 		BigInteger val = null;
 		switch (nComps) {
 
 		case 3:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
-			// mills = getWordForPart(val);
 			mills = IntToWordDelegate.calcWord(enumLanguageSupport, val);
-			LOGGER.info("Millions" + mills);
-			numAtIndex.put(DEF_FMT.MILLS, val);
+			// LOGGER.info("Millions" + mills);
+			numAtIndex.put(DEF.MILLS, val);
 			holder.setMill(mills);
 
 			val = BigInteger.valueOf(Long.valueOf(components[1]));
 			thous = IntToWordDelegate.calcWord(enumLanguageSupport, val);
-			numAtIndex.put(DEF_FMT.THOUS, val);
-			holder.setThou(thous);
+			numAtIndex.put(DEF.THOUS, val);
+			if (val.intValue() >= 100) {
+				holder.setThou(DEF.SPACE.val() + thous);
+			} else {
+				holder.setThou(thous);
+			}
 
 			val = BigInteger.valueOf(Long.valueOf(components[2]));
 			huns = IntToWordDelegate.calcWord(enumLanguageSupport, val);
-			numAtIndex.put(DEF_FMT.HUNS, val);
-			holder.setHun(huns);
+			numAtIndex.put(DEF.HUNS, val);
+			if (val.intValue() >= 100) {
+				holder.setHun(DEF.SPACE.val() + huns);
+			} else {
+				holder.setHun(huns);
+			}
 			break;
 
 		case 2:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			thous = IntToWordDelegate.calcWord(enumLanguageSupport, val);
-			numAtIndex.put(DEF_FMT.THOUS, val);
+			numAtIndex.put(DEF.THOUS, val);
 			holder.setThou(thous);
 
 			val = BigInteger.valueOf(Long.valueOf(components[1]));
 			huns = IntToWordDelegate.calcWord(enumLanguageSupport, val);
-			numAtIndex.put(DEF_FMT.HUNS, val);
-			holder.setHun(huns);
+			numAtIndex.put(DEF.HUNS, val);
+			if (val.intValue() >= 100) {
+				holder.setHun(DEF.SPACE.val() + huns);
+			} else {
+				holder.setHun(huns);
+			}
 			break;
 
 		case 1:
 			val = BigInteger.valueOf(Long.valueOf(components[0]));
 			huns = IntToWordDelegate.calcWord(enumLanguageSupport, val);
-			numAtIndex.put(DEF_FMT.HUNS, val);
+			numAtIndex.put(DEF.HUNS, val);
 			holder.setHun(huns);
 			break;
 		default:
