@@ -28,6 +28,16 @@ public class IntToWordDelegateTest {
 		assertNotNull(sup);
 	}
 	
+	@Test(expected = IntToWordExc.class)
+	public void testExceedNumRange() throws IntToWordExc{
+		IntToWordDelegate.calcWord(sup, new BigInteger("1000"));
+	}
+	
+	@Test(expected = IntToWordExc.class)
+	public void testBelowNumRange() throws IntToWordExc{
+		IntToWordDelegate.calcWord(sup, new BigInteger("-1"));
+	}
+	
 	@Test
 	public void test999() throws IntToWordExc {
 		assertEquals("Nine hundred and Ninety Nine", IntToWordDelegate.calcWord(sup, new BigInteger("999")));
@@ -48,16 +58,6 @@ public class IntToWordDelegateTest {
 		assertEquals("One hundred and Ninety", IntToWordDelegate.calcWord(sup, new BigInteger("190")));
 	}
 
-	/**
-	 * Delegate only acts on <100
-	 * @throws IntToWordExc
-	 */
-	//@Test(expected = IntToWordExc.class)
-	public void testInvalidInput() throws IntToWordExc {
-
-		IntToWordDelegate.calcWord(sup, new BigInteger("100"));
-
-	}
 
 	@Test(expected = IntToWordExc.class)
 	public void testNullNumInput() throws IntToWordExc {
