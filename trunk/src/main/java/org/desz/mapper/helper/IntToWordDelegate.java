@@ -5,8 +5,6 @@ import java.util.logging.Logger;
 
 import org.desz.language.ILanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.DEF;
-import org.desz.numbertoword.exceptions.IntRangeLowerExc;
-import org.desz.numbertoword.exceptions.IntRangeUpperExc;
 import org.desz.numbertoword.exceptions.IntToWordExc;
 
 import com.google.common.base.Preconditions;
@@ -14,15 +12,13 @@ import com.google.common.collect.Range;
 import com.google.common.collect.Ranges;
 
 /**
- * Acts as a delegate for IntToWord It calculates the word for number [0-999]
+ * Acts as a delegate for IntToWord. It calculates the word for number [0-999]
  * range
  * 
  * @author des
  * 
  */
 public final class IntToWordDelegate {
-
-	public static final Range<Integer> TO_TEEN_RANGE = Ranges.closed(0, 19);
 
 	protected transient final static Logger LOGGER = Logger
 			.getLogger(IntToWordDelegate.class.getName());
@@ -32,14 +28,14 @@ public final class IntToWordDelegate {
 	 * @param enumLanguageSupport
 	 * @param num
 	 * @return
-	 * @throws IntToWordExc if number range violated
+	 * @throws IntToWordExc
+	 *             if number range violated
 	 */
 	public static String calcWord(ILanguageSupport enumLanguageSupport,
 			BigInteger num) throws IntToWordExc {
 
 		Range<Integer> range = Ranges.closed(0, 999);
 
-		
 		try {
 			Preconditions.checkNotNull(enumLanguageSupport);
 		} catch (NullPointerException e) {
@@ -52,7 +48,7 @@ public final class IntToWordDelegate {
 			// LOGGER.info(enumLanguageSupport.getNullInput());
 			throw new IntToWordExc(enumLanguageSupport.getNullInput());
 		}
-		
+
 		if (range.lowerEndpoint().compareTo(num.intValue()) > 0) {
 			throw new IntToWordExc(enumLanguageSupport.getNegativeInput());
 		}
@@ -60,11 +56,10 @@ public final class IntToWordDelegate {
 			throw new IntToWordExc(enumLanguageSupport.getInvalidInput());
 		}
 
-
 		String str = String.valueOf(num);
 
 		if (enumLanguageSupport.getWord(str) != null) {
-			//LOGGER.info("Direct return");
+			// LOGGER.info("Direct return");
 			return enumLanguageSupport.getWord(str);
 		}
 
