@@ -1,4 +1,4 @@
-package org.desz.mapper.helper;
+package org.desz.numbertoword.delegate;
 
 import java.math.BigInteger;
 import java.util.logging.Logger;

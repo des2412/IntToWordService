@@ -9,6 +9,7 @@ import static org.junit.Assert.assertNotNull;
 import java.math.BigInteger;
 
 import org.desz.language.EnumLanguageSupport;
+import org.desz.numbertoword.delegate.IntToWordDelegate;
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.exceptions.IntToWordExc;
 import org.junit.Before;

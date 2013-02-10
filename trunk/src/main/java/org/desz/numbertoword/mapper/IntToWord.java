@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.desz.language.ILanguageSupport;
-import org.desz.mapper.helper.IntToWordDelegate;
+import org.desz.numbertoword.delegate.IntToWordDelegate;
 import org.desz.numbertoword.enums.EnumHolder.DEF;
 import org.desz.numbertoword.enums.EnumHolder.NUMBER_CONSTANT;
 import org.desz.numbertoword.exceptions.IntRangeLowerExc;
