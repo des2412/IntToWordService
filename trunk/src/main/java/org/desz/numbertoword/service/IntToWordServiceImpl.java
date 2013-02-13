@@ -4,20 +4,16 @@
 package org.desz.numbertoword.service;
 
 import java.math.BigInteger;
-import java.util.List;
 import java.util.logging.Logger;
 
-import org.desz.domain.NumberFrequency;
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.exceptions.IntToWordExc;
 import org.desz.numbertoword.exceptions.IntToWordServiceException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.factory.IntToWordEnumFactory;
 import org.desz.numbertoword.mapper.INumberToWordMapper;
+import org.desz.numbertoword.repository.NumberFrequencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,17 +25,17 @@ import org.springframework.stereotype.Service;
 public final class IntToWordServiceImpl implements
 		INumberToWordService<BigInteger> {
 
-	private MongoTemplate mongoTemplate;
-
 	protected final static Logger LOGGER = Logger
 			.getLogger(IntToWordServiceImpl.class.getName());
 
 	private String errMsg;
 
+	private NumberFrequencyRepository repo;
+
 	@Autowired
-	public IntToWordServiceImpl(MongoTemplate mongoTemplate) {
+	public IntToWordServiceImpl(NumberFrequencyRepository repo) {
 		super();
-		this.mongoTemplate = mongoTemplate;
+		this.repo = repo;
 	}
 
 	@Override
@@ -53,11 +49,11 @@ public final class IntToWordServiceImpl implements
 			LOGGER.severe(e.getMessage());
 			throw new IntToWordServiceException(e.getMessage());
 		}
-		try {
+		/*try {
 			saveFrequency(num);
 		} catch (Exception e) {
 			LOGGER.severe(e.getMessage());
-		}
+		}*/
 
 		try {
 
@@ -70,28 +66,7 @@ public final class IntToWordServiceImpl implements
 
 	}
 
-	@Override
-	public void saveFrequency(String num) throws IntToWordServiceException {
-		try {
-			
-			NumberFrequency freq = mongoTemplate.findOne(new Query(Criteria
-					.where("number").is(num)), NumberFrequency.class);
-			if(freq == null){
-				mongoTemplate.insert(new NumberFrequency(num, 1));
-			}
-			else{
-				LOGGER.info("NUMBER::" + freq.getNumber());
-
-				LOGGER.info("CNT::" + freq.getCount());
-				freq.setCount(freq.getCount() + 1);
-				mongoTemplate.save(freq);
-			}
-			
-		} catch (Exception e) {
-			// LOGGER.severe(e.getMessage());
-			throw (new IntToWordServiceException(e.getMessage()));
-		}
-	}
+	
 
 	@Override
 	public String getErrorMessage() {

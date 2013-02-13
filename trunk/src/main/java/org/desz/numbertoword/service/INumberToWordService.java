@@ -22,5 +22,5 @@ public interface INumberToWordService<T extends Number> {
 
 	String getErrorMessage();
 
-	void saveFrequency(String num) throws IntToWordServiceException;
+	//void saveFrequency(String num) throws IntToWordServiceException;
 }
