@@ -247,8 +247,8 @@ public enum IntToWordEnumFactory implements INumberToWordFactory<BigInteger> {
 			}
 
 		} else {
-			LOGGER.info("Reference removed from mappingsCache for "
-					+ provLang.name());
+			LOGGER.info("Key"
+					+ provLang.name() + "not found in cache");
 		}
 
 		return !mappingsCache.containsKey(provLang);

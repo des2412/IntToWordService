@@ -153,17 +153,13 @@ public class IntToWordEnumFactoryTest {
 	@Test(expected=NumberToWordFactoryException.class)
 	public void testFail() throws Exception{
 		INumberToWordFactory<BigInteger> tested = IntToWordEnumFactory.UK_FAC;
-		//IntToWord mapper = PowerMock.createMock(IntToWord.class);
-
-		
+				
 		ARGS[0] = null;
 		tested.getIntegerToWordMapper();
 		PowerMock.expectNew(IntToWord.class, ARGS);
 
 		replay(IntToWordEnumFactory.class);
 		//replay(mapper);
-
-		// Note how we verify the class, not the instance!
 		verify(IntToWordEnumFactory.class);
 		//verify(mapper);
 
@@ -203,27 +199,27 @@ public class IntToWordEnumFactoryTest {
 				"getIntegerToWordMapper");
 
 		try {
-			// PowerMock.expectStrictNew(IntToWord.class, ARGS);
+			PowerMock.expectStrictNew(IntToWord.class, ARGS);
 		} catch (Exception e1) {
 			LOGGER.severe("testremoveNumberToWordEnumFactory expectStrictNew exception");
 		}
 
-		replay(IntToWordEnumFactory.class);
-
+		try {
+			tested.getIntegerToWordMapper();
+		} catch (NumberToWordFactoryException e) {
+			LOGGER.severe("testremoveNumberToWordEnumFactory getIntegerToWordMapper invocation failure");
+		}
+		
 		boolean cleared = false;
 		try {
-			try {
-				tested.getIntegerToWordMapper();
-			} catch (NumberToWordFactoryException e) {
-				LOGGER.severe("testremoveNumberToWordEnumFactory getIntegerToWordMapper invocation failure");
-			}
+			
 			cleared = IntToWordEnumFactory
 					.removeNumberToWordEnumFactory(PROV_LANG.UK);
 		} catch (FactoryMapperRemovalException e) {
 			LOGGER.severe("testremoveNumberToWordEnumFactory invocation failure");
 		}
-
-		// Note how we verify the class, not the instance!
+		
+		replay(IntToWordEnumFactory.class);
 		verify(IntToWordEnumFactory.class);
 
 		// Assert that lookUpPreInitialised returns expected value
