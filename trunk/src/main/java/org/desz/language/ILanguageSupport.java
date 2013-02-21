@@ -11,9 +11,6 @@ package org.desz.language;
  */
 public interface ILanguageSupport {
 
-	/* ImmutableMap returned so not violating Demeter */
-	//public ImmutableMap<String, String> getIntToWordMap();
-
 	public String getNegativeInput();
 
 	public String getInvalidInput();
@@ -32,6 +29,6 @@ public interface ILanguageSupport {
 
 	public String getUnkownErr();
 	
-	String getWord(String num);
+	public String getWord(String num);
 
 }

@@ -24,7 +24,7 @@ jar
     </packaging>
 
 	<name>
-word4num-webapp Maven Webapp
+	numbertoword
     </name>
 
 
@@ -40,8 +40,9 @@ http://maven.apache.org
 	<repositories>
 
 		<repository>
-			<id>Morphia repository</id>
-			<url>http://morphia.googlecode.com/svn/mavenrepo/</url>
+			<id>com.springsource.repository.bundles.milestone</id>
+			<name>SpringSource Enterprise Bundle Repository - SpringSource Milestone Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/milestone</url>
 		</repository>
 
 		<repository>
@@ -83,24 +84,11 @@ http://maven.apache.org
 			<version>2.10.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.google.code.morphia</groupId>
-			<artifactId>morphia</artifactId>
-			<version>${morphia.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.javaconfig</groupId>
-			<artifactId>spring-javaconfig</artifactId>
-			<version>1.0.0.m3</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>${org.springframework.version}</version>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -110,6 +98,12 @@ http://maven.apache.org
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -117,17 +111,27 @@ http://maven.apache.org
 			<version>${org.springframework.version}</version>
 		</dependency>
 
+
 		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>2.2.2</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.expression</artifactId>
+			<version>${org.springframework.version}</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
 			<version>1.1.2.RELEASE</version>
 		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons-core</artifactId>
+			<version>1.4.0.RELEASE</version>
+		</dependency>
+
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>jbehave-junit-runner</artifactId>
@@ -175,6 +179,7 @@ http://maven.apache.org
 			<artifactId>easymock</artifactId>
 			<version>3.1</version>
 			<scope>test</scope>
+
 		</dependency>
 
 

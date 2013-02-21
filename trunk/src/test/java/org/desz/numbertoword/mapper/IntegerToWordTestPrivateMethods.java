@@ -1,6 +1,6 @@
 /**
  * 
- */
+ *//*
 package org.desz.numbertoword.mapper;
 
 import static org.junit.Assert.assertEquals;
@@ -18,10 +18,10 @@ import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-/**
+*//**
  * @author des
  * 
- */
+ *//*
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ IntToWord.class, EnumLanguageSupport.class })
 public class IntegerToWordTestPrivateMethods extends IntegerToWordMapperTest {
@@ -69,3 +69,4 @@ public class IntegerToWordTestPrivateMethods extends IntegerToWordMapperTest {
 	}
 
 }
+*/

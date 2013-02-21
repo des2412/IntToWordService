@@ -29,7 +29,7 @@ import com.google.common.collect.Ranges;
 public final class IntToWord implements INumberToWordMapper<BigInteger> {
 
 	private static final Range<Integer> DEC_RANGE = Ranges.closed(1, 99);
-	private final ILanguageSupport enumLanguageSupport;
+	private ILanguageSupport enumLanguageSupport = null;
 
 	protected transient final static Logger LOGGER = Logger
 			.getLogger(IntToWord.class.getName());
@@ -59,7 +59,7 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 	 * Constructor is private to enforce Singleton semantics
 	 * 
 	 * @see IntToWordEnumFactory which 'injects' the correct enumLanguageSupport
-	 *      and chosen IValAndFormatValidator
+	 *      and IValAndFormatValidator
 	 * 
 	 * @param enumLanguageSupport
 	 * @param validator
@@ -78,7 +78,6 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 		return enumLanguageSupport;
 	}
 
-
 	/**
 	 * 
 	 * @param num
@@ -88,11 +87,11 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 	@Override
 	public String getWord(BigInteger num) throws IntToWordExc {
 
-		
-		if(enumLanguageSupport.getWord(String.valueOf(num)) != null){
+		// check if num can be retrieved directly
+		if (enumLanguageSupport.getWord(String.valueOf(num)) != null) {
 			return enumLanguageSupport.getWord(String.valueOf(num));
 		}
-		
+
 		final Map<DEF, BigInteger> numAtIndex = new EnumMap<DEF, BigInteger>(
 				DEF.class);
 
@@ -176,7 +175,6 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 			throw new IntToWordExc(e.getMessage());
 		}
 
-	
 		String[] components = formattedNumber.split(DEF.NUM_SEP.val());
 		final int nComps = components.length;
 

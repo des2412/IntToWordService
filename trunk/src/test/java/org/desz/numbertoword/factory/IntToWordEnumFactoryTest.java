@@ -12,40 +12,65 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import org.desz.language.EnumLanguageSupport;
+import org.desz.language.ILanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.mapper.INumberToWordMapper;
 import org.desz.numbertoword.mapper.IntToWord;
+import org.desz.numbertoword.service.validator.UkIntValidator;
+import org.easymock.EasyMock;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(IntToWordEnumFactory.class)
+@PrepareForTest({ IntToWordEnumFactory.class, IntToWord.class,
+		EnumLanguageSupport.class, UkIntValidator.class })
 public class IntToWordEnumFactoryTest {
+
+	EnumLanguageSupport sup;
+
+	UkIntValidator val;
+
+	Object[] ARGS = new Object[2];
 
 	private final static Logger LOGGER = Logger
 			.getLogger(IntToWordEnumFactoryTest.class.getName());
 
-	private static final Object ARGS[] = new Object[] { new EnumLanguageSupport(
-			PROV_LANG.UK) };
+	ILanguageSupport langSupport = new EnumLanguageSupport(PROV_LANG.UK);
+
+	// private static final Object ARGS[] = new Object[] { langSupport, new
+	// UkIntValidator() };
+
+	@Before
+	public void init() {
+
+		sup = PowerMock.createMock(EnumLanguageSupport.class);
+		val = PowerMock.createMock(UkIntValidator.class);
+
+		ARGS[0] = sup;
+		ARGS[1] = val;
+	}
 
 	@After
 	public void clean() {
 		try {
-			IntToWordEnumFactory
-					.removeNumberToWordEnumFactory(PROV_LANG.UK);
+			IntToWordEnumFactory.removeNumberToWordEnumFactory(PROV_LANG.UK);
 		} catch (FactoryMapperRemovalException e) {
 			LOGGER.severe("FactoryMapperRemovalException");
 		}
 	}
 
-	
+	/**
+	 * Test that the caching mechanism returns the same IntToWord or not
+	 */
 	@Test
 	public void testFactoryCache() {
 
@@ -53,14 +78,13 @@ public class IntToWordEnumFactoryTest {
 
 		INumberToWordMapper<BigInteger> mapper = null;
 		try {
-			mapper = fac.getIntegerToWordMapper(); // add mapper to factoryCache
+			mapper = fac.getIntegerToWordMapper(); // adds mapper to cache
 		} catch (NumberToWordFactoryException e) {
 			LOGGER.severe("testFactoryCache exception." + e.getCause());
 		}
 
-		// Reset the factoryCache toempty state
-		Whitebox.setInternalState(IntToWordEnumFactory.class,
-				"mappingsCache",
+		// Reset cache to empty state
+		Whitebox.setInternalState(IntToWordEnumFactory.class, "mappingsCache",
 				new HashMap<PROV_LANG, IntToWordEnumFactory>());
 
 		// Call getIntegerToWord again -> mapper2
@@ -88,101 +112,65 @@ public class IntToWordEnumFactoryTest {
 	}
 
 	@Test
-	public void testInstantiateInstance() {
+	public void mockStatic() throws NumberToWordFactoryException {
 
-		// We create a new instance of test class under test as usually.
+		IntToWord mapper = PowerMock.createMock(IntToWord.class);
+
+		PowerMockito.mockStatic(IntToWordEnumFactory.class);
+
+		PowerMockito.when(IntToWordEnumFactory.getMapper(PROV_LANG.UK))
+				.thenReturn(mapper);
+
+	}
+
+	/**
+	 * Interaction test -
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testGetIntegerToWordMapper() throws Exception {
+
+		// Create a new instance of test class under test as usually.
 		INumberToWordFactory<BigInteger> tested = IntToWordEnumFactory.UK_FAC;
-		INumberToWordMapper<BigInteger> mapper = null;
-		try {
-			mapper = tested.getIntegerToWordMapper();
-		} catch (NumberToWordFactoryException e) {
-			LOGGER.severe("getIntegerToWordMapper failure" + e.getMessage());
-		}
+		IntToWord mapper = PowerMock.createMock(IntToWord.class);
 
-		try {
-			// PowerMock.expectStrictNew(IntToWord.class, ARGS);
-			PowerMock.expectPrivate(IntToWordEnumFactory.class,
-					"instantiateInstance", ARGS).andReturn(mapper);
-		} catch (Exception e1) {
-			LOGGER.severe("testInstantiateInstance expectPrivate exception");
-		}
+		tested.getIntegerToWordMapper();
+		PowerMock.expectNew(IntToWord.class, ARGS).andReturn(mapper);
 
 		replay(IntToWordEnumFactory.class);
+		replay(mapper);
 
 		// Note how we verify the class, not the instance!
 		verify(IntToWordEnumFactory.class);
+		verify(mapper);
 
 		assertNotNull(mapper);
+
+	}
+	
+	
+	@Test(expected=NumberToWordFactoryException.class)
+	public void testFail() throws Exception{
+		INumberToWordFactory<BigInteger> tested = IntToWordEnumFactory.UK_FAC;
+		//IntToWord mapper = PowerMock.createMock(IntToWord.class);
+
+		
+		ARGS[0] = null;
+		tested.getIntegerToWordMapper();
+		PowerMock.expectNew(IntToWord.class, ARGS);
+
+		replay(IntToWordEnumFactory.class);
+		//replay(mapper);
+
+		// Note how we verify the class, not the instance!
+		verify(IntToWordEnumFactory.class);
+		//verify(mapper);
 
 	}
 
 	@Test
-	public void testIsCachedTrue() {
-
-		// We create a new instance of test class under test as usually.
-		INumberToWordFactory<BigInteger> tested = IntToWordEnumFactory.UK_FAC;
-		INumberToWordMapper<BigInteger> mapper = null;
-		try {
-			mapper = tested.getIntegerToWordMapper();
-		} catch (NumberToWordFactoryException e) {
-			LOGGER.severe("getIntegerToWordMapper failure" + e.getMessage());
-		}
-
-		try {
-			PowerMock.expectStrictNew(IntToWord.class, ARGS);
-			PowerMock.expectPrivate(IntToWordEnumFactory.class,
-					"instantiateInstance", ARGS).andReturn(mapper);
-		} catch (Exception e1) {
-			LOGGER.severe("testInstantiateInstance expectPrivate exception");
-		}
-
-		replay(IntToWordEnumFactory.class);
-
-		// Note how we verify the class, not the instance!
-		verify(IntToWordEnumFactory.class);
-
-		assertNotNull(mapper);
-
-	}
-
-	// @Test TODO delete
-	public void testIsCachedFalse() {
-
-		// We create a new instance of test class under test as usually.
-		INumberToWordFactory<BigInteger> tested = IntToWordEnumFactory.UK_FAC;
-		IntToWord mapper = null;
-
-		PowerMock.mockStaticPartial(IntToWordEnumFactory.class, "isCached");
-		PowerMock.mockStaticPartial(IntToWordEnumFactory.class,
-				"getIntegerToWordMapper");
-
-		try {
-			mapper = (IntToWord) tested.getIntegerToWordMapper();
-		} catch (NumberToWordFactoryException e) {
-			LOGGER.severe("testLookUpPreInitialisedAssertTrueResult invocation failure");
-		}
-		try {
-			PowerMock.expectStrictNew(IntToWord.class, ARGS)
-					.andReturn(mapper);
-			PowerMock.expectPrivate(tested, "lookUpPreInitialised", ARGS)
-					.andReturn(false);
-		} catch (Exception e1) {
-			LOGGER.severe("testInstantiateInstance expectPrivate exception");
-		}
-
-		replay(IntToWordEnumFactory.class);
-
-		assertNotNull(mapper);
-
-		// Note how we verify the class, not the instance!
-		verify(IntToWordEnumFactory.class);
-
-		// Assert that lookUpPreInitialised returns expected value
-
-	}
-
-	@Test
-	public void testGetIntegerToWord() {
+	public void testPrivateConstructorInvoked() throws Exception {
 
 		// We create a new instance of test class under test as usually.
 		INumberToWordFactory<BigInteger> tested = IntToWordEnumFactory.UK_FAC;
@@ -191,25 +179,16 @@ public class IntToWordEnumFactoryTest {
 		PowerMock.mockStaticPartial(IntToWordEnumFactory.class,
 				"getIntegerToWordMapper");
 
-		try {
-			PowerMock.expectStrictNew(IntToWord.class, ARGS);
-		} catch (Exception e1) {
-			LOGGER.severe("testGetIntegerToWord expectStrictNew exception");
-		}
+		PowerMock.expectStrictNew(IntToWord.class, ARGS);
+
+		mapper = tested.getIntegerToWordMapper();
+		assertNotNull(mapper);
 
 		replay(IntToWordEnumFactory.class);
 
-		try {
-			mapper = tested.getIntegerToWordMapper();
-		} catch (NumberToWordFactoryException e) {
-			LOGGER.severe("testGetNumberToWord invocation failure");
-		}
-
-		// Note how we verify the class, not the instance!
+		// replay(mapper);
 		verify(IntToWordEnumFactory.class);
 
-		// Assert that lookUpPreInitialised returns expected value
-		assertNotNull(mapper);
 	}
 
 	@Test
@@ -224,7 +203,7 @@ public class IntToWordEnumFactoryTest {
 				"getIntegerToWordMapper");
 
 		try {
-			PowerMock.expectStrictNew(IntToWord.class, ARGS);
+			// PowerMock.expectStrictNew(IntToWord.class, ARGS);
 		} catch (Exception e1) {
 			LOGGER.severe("testremoveNumberToWordEnumFactory expectStrictNew exception");
 		}

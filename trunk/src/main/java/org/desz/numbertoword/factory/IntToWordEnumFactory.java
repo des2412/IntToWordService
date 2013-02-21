@@ -34,7 +34,7 @@ public enum IntToWordEnumFactory implements INumberToWordFactory<BigInteger> {
 	// Language specific factories
 	UK_FAC(), FR_FAC(), DE_FAC(), NL_FAC();
 
-	// Each IFNumberToWord instance once instantiated will be cached.
+	// Each IFNumberToWord instance will be cached by PROV_LANG key.
 	private static Map<PROV_LANG, INumberToWordMapper<BigInteger>> mappingsCache = Collections
 			.synchronizedMap(new HashMap<PROV_LANG, INumberToWordMapper<BigInteger>>());
 
@@ -101,7 +101,7 @@ public enum IntToWordEnumFactory implements INumberToWordFactory<BigInteger> {
 	/**
 	 * 
 	 * @param pl
-	 * @return
+	 * @return integerToWordMapper
 	 * @throws NumberToWordFactoryException
 	 */
 	public static INumberToWordMapper<BigInteger> getMapper(PROV_LANG pl)
