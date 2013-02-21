@@ -13,11 +13,6 @@ import com.mongodb.MongoURI;
 // @EnableMongoRepositories(basePackages="org.desz.numbertoword.repository")
 public class NumberFrequencyRepositoryConfig {
 
-	/*
-	 * public NumberFrequencyRepositoryConfig() { super(); // TODO
-	 * Auto-generated constructor stub }
-	 */
-
 	public @Bean
 	MongoDbFactory mongoDbFactory() throws Exception {
 		MongoDbFactory db;
@@ -49,11 +44,12 @@ public class NumberFrequencyRepositoryConfig {
 	NumberFrequencyRepository numberFrequencyRepository() throws Exception {
 		NumberFrequencyRepository numberFrequencyRepository = null;
 		try {
-			numberFrequencyRepository = new NumberFrequencyRepository(mongoTemplate());
+			numberFrequencyRepository = new NumberFrequencyRepository(
+					mongoTemplate());
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
-		//numberFrequencyRepository.setMongoTemplate(mongoTemplate());
+		// numberFrequencyRepository.setMongoTemplate(mongoTemplate());
 
 		return numberFrequencyRepository;
 	}

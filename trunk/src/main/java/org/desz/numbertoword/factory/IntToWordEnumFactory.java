@@ -20,6 +20,7 @@ import org.desz.numbertoword.mapper.INumberToWordMapper;
 import org.desz.numbertoword.mapper.IntToWord;
 import org.desz.numbertoword.service.validator.IFormatter;
 import org.desz.numbertoword.service.validator.UkIntValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author des
@@ -41,6 +42,7 @@ public enum IntToWordEnumFactory implements INumberToWordFactory<BigInteger> {
 	private final static Logger LOGGER = Logger
 			.getLogger(IntToWordEnumFactory.class.getName());
 
+	
 	/**
 	 * 
 	 * @param pl
@@ -231,7 +233,7 @@ public enum IntToWordEnumFactory implements INumberToWordFactory<BigInteger> {
 	 * @return
 	 * @throws FactoryMapperRemovalException
 	 */
-	public static boolean removeNumberToWordEnumFactory(final PROV_LANG provLang)
+	public static boolean unCacheFactory(final PROV_LANG provLang)
 			throws FactoryMapperRemovalException {
 
 		if (mappingsCache.containsKey(provLang)) {
@@ -247,11 +249,11 @@ public enum IntToWordEnumFactory implements INumberToWordFactory<BigInteger> {
 			}
 
 		} else {
-			LOGGER.info("Key"
-					+ provLang.name() + "not found in cache");
+			LOGGER.info("Key" + provLang.name() + "not found in cache");
 		}
 
-		return !mappingsCache.containsKey(provLang);
+		boolean res = mappingsCache.containsKey(provLang);
+		return res;
 	}
 
 }

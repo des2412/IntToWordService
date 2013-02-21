@@ -23,7 +23,7 @@ public class NlIntegerToWordTest extends IntegerToWordMapperTest {
 
 	@After
 	public void clean() throws Exception {
-		IntToWordEnumFactory.removeNumberToWordEnumFactory(PROV_LANG.NL);
+		IntToWordEnumFactory.unCacheFactory(PROV_LANG.NL);
 	}
 
 	@Test

@@ -1,16 +1,17 @@
-package org.desz.spring.config;
+package org.desz.numbertoword.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
-import org.desz.numbertoword.repository.NumberFrequencyRepository;
+import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
+import org.desz.numbertoword.exceptions.IntToWordServiceException;
+import org.desz.spring.config.IntToWordServiceConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -18,15 +19,15 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 @ComponentScan(basePackages = { "org.desz.spring.config",
-		"org.desz.numbertoword.repository", "org.desz.numbertoword.service" })
-public class NumberFrequencyRepositoryConfigTest {
+		"org.desz.numbertoword.service" })
+public class IntToWordServiceTest {
 
 	ApplicationContext ctx;
 
 	@Before
 	public void init() {
 		ctx = new AnnotationConfigApplicationContext(
-				NumberFrequencyRepositoryConfig.class);
+				IntToWordServiceConfig.class);
 
 	}
 
@@ -34,21 +35,17 @@ public class NumberFrequencyRepositoryConfigTest {
 	public void testConfigOk() {
 
 		assertNotNull(ctx);
-		assertTrue(ctx.containsBean("mongoTemplate"));
-		assertNotNull(ctx.getBean(MongoTemplate.class));
-
-		assertTrue(ctx.containsBean("numberFrequencyRepository"));
-		assertNotNull(ctx.getBean(NumberFrequencyRepository.class));
+		assertNotNull(ctx.getBean("intToWordService"));
 
 	}
 
 	@Test
-	public void testMongoTemplate() {
+	public void testGetWord() throws IntToWordServiceException {
+		IntToWordServiceImpl s = (IntToWordServiceImpl) ctx
+				.getBean("intToWordService");
+		String str = s.getWordInlang(PROV_LANG.UK, "100");
 
-		ctx.getBean(MongoTemplate.class).dropCollection("numberFrequency");
-		ctx.getBean(MongoTemplate.class).createCollection("numberFrequency");
-		assertTrue(ctx.getBean(MongoTemplate.class).collectionExists(
-				"numberFrequency"));
+		assertEquals("One hundred", str);
 	}
 
 }

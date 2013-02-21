@@ -30,7 +30,7 @@ public class DeIntegerToWordMapperTest extends IntegerToWordMapperTest {
 
 	@After
 	public void clean() throws Exception {
-		IntToWordEnumFactory.removeNumberToWordEnumFactory(PROV_LANG.DE);
+		IntToWordEnumFactory.unCacheFactory(PROV_LANG.DE);
 	}
 
 	@Test

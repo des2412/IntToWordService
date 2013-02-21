@@ -33,7 +33,7 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	@After
 	public void clean() {
 		try {
-			IntToWordEnumFactory.removeNumberToWordEnumFactory(PROV_LANG.UK);
+			IntToWordEnumFactory.unCacheFactory(PROV_LANG.UK);
 		} catch (FactoryMapperRemovalException e) {
 			LOGGER.severe(e.getMessage());
 		}

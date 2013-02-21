@@ -24,7 +24,7 @@ public class FrIntegerToWordMapperTest extends IntegerToWordMapperTest {
 
 	@After
 	public void clean() throws Exception {
-		IntToWordEnumFactory.removeNumberToWordEnumFactory(PROV_LANG.FR);
+		IntToWordEnumFactory.unCacheFactory(PROV_LANG.FR);
 	}
 
 	@Test
