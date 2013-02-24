@@ -18,32 +18,15 @@ public class NumberFrequencyRepository {
 
 	protected final static Logger LOGGER = Logger
 			.getLogger(NumberFrequencyRepository.class.getName());
-	
-	
-
-	/*public NumberFrequencyRepository() {
-		super();
-		this.col = assignCollection();
-	}*/
 
 	@Autowired()
 	public NumberFrequencyRepository(MongoTemplate mongoTemplate) {
-		//synchronized (this) {
-			this.mongoTemplate = mongoTemplate;
-			this.col = assignCollection();
-		//}
-	}
-	
-	
 
-	//@Autowired()
-	/*public void setMongoTemplate(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
+		this.numFreqColn = assignCollection();
 	}
-*/
 
-
-	private DBCollection col = null;
+	private DBCollection numFreqColn = null;
 
 	/**
 	 * 
@@ -52,40 +35,38 @@ public class NumberFrequencyRepository {
 	public DBCollection assignCollection() {
 
 		if (!mongoTemplate.collectionExists(NumberFrequency.class)) {
-			col = mongoTemplate.createCollection("numberFrequency");
+			numFreqColn = mongoTemplate.createCollection("numberFrequency");
 		} else {
 
-			col = mongoTemplate.getCollection("numberFrequency");
-			// LOGGER.info("found collection:" + col.getName());
+			numFreqColn = mongoTemplate.getCollection("numberFrequency");
 		}
-		col.ensureIndex("number");
-		return col;
+		numFreqColn.ensureIndex("number");
+		return numFreqColn;
 	}
 
 	public void saveNumberFrequency(final String num) throws MongoException {
 
-		col.setWriteConcern(WriteConcern.JOURNALED);
+		numFreqColn.setWriteConcern(WriteConcern.JOURNALED);
 		NumberFrequency freq = findIntegerFrequency(num);
 		BasicDBObject dbObj = new BasicDBObject();
 
 		try {
 			if (freq.getNumber() != null) {
 
-				LOGGER.info("found:" + freq.toString());
 				int cnt = freq.getCount();
 				BasicDBObject newObj = new BasicDBObject();
 				newObj.put("number", freq.getNumber());
 				newObj.put("count", ++cnt);
 				dbObj.put("number", num);
-				col.remove(dbObj);
-				col.insert(newObj);
+				numFreqColn.remove(dbObj);
+				numFreqColn.insert(newObj);
 
 			} else {
 
 				LOGGER.info("inserting " + num + " with count 1");
 				dbObj.put("number", num);
 				dbObj.put("count", 1);
-				col.insert(dbObj);
+				numFreqColn.insert(dbObj);
 
 			}
 		} catch (MongoException e) {
@@ -101,7 +82,7 @@ public class NumberFrequencyRepository {
 		NumberFrequency freq = new NumberFrequency();
 
 		BasicDBObject keys = new BasicDBObject("number", num);
-		obj = col.findOne(keys);
+		obj = numFreqColn.findOne(keys);
 		if (obj != null) {
 			freq = new NumberFrequency((String) obj.get("number"),
 					(Integer) obj.get("count"));

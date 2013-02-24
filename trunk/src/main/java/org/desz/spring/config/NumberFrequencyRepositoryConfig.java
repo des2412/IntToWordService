@@ -9,6 +9,13 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
 import com.mongodb.MongoURI;
 
+/**
+ * Configuration for MONGO DB that records number count. Intended for future
+ * statistics
+ * 
+ * @author des
+ * 
+ */
 @Configuration()
 // @EnableMongoRepositories(basePackages="org.desz.numbertoword.repository")
 public class NumberFrequencyRepositoryConfig {
@@ -49,7 +56,6 @@ public class NumberFrequencyRepositoryConfig {
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
-		// numberFrequencyRepository.setMongoTemplate(mongoTemplate());
 
 		return numberFrequencyRepository;
 	}

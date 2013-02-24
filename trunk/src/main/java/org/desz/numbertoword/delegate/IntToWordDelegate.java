@@ -83,7 +83,6 @@ public final class IntToWordDelegate {
 				int n = Integer.parseInt(sb.toString());
 
 				if (enumLanguageSupport.getWord(String.valueOf(n)) != null) {
-					LOGGER.info("int val:" + n);
 					return res + enumLanguageSupport.getWord(String.valueOf(n));
 				} else {
 
