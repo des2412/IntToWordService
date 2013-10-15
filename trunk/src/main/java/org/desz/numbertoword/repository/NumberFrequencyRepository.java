@@ -1,95 +1,156 @@
 package org.desz.numbertoword.repository;
 
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
+import static org.springframework.data.mongodb.core.query.Update.update;
+
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.desz.domain.NumberFrequency;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 import com.mongodb.MongoException;
-import com.mongodb.WriteConcern;
 
 @Repository
-public class NumberFrequencyRepository {
+public class NumberFrequencyRepository implements INumberFreqRepo {
 
 	protected final static Logger LOGGER = Logger
 			.getLogger(NumberFrequencyRepository.class.getName());
 
 	@Autowired()
-	public NumberFrequencyRepository(MongoTemplate mongoTemplate) {
+	public NumberFrequencyRepository(MongoOperations mongoTemplate) {
 
 		this.mongoTemplate = mongoTemplate;
-		this.numFreqColn = assignCollection();
+		// this.numFreqColn = createCollection();
 	}
 
-	private DBCollection numFreqColn = null;
-
-	/**
-	 * 
-	 * @return
-	 */
-	public DBCollection assignCollection() {
-
-		if (!mongoTemplate.collectionExists(NumberFrequency.class)) {
-			numFreqColn = mongoTemplate.createCollection("numberFrequency");
-		} else {
-
-			numFreqColn = mongoTemplate.getCollection("numberFrequency");
+	@Override
+	public boolean containsNumberFrequency(String num) {
+		if (mongoTemplate.findById(num, NumberFrequency.class) == null) {
+			return false;
 		}
-		numFreqColn.ensureIndex("number");
-		return numFreqColn;
+		return true;
 	}
 
+	@Override
+	public void removeNumberFrequency(String num) {
+		mongoTemplate.remove(query(where("number").is(num)),
+				NumberFrequency.class);
+	}
+
+	@Override
 	public void saveNumberFrequency(final String num) throws MongoException {
 
-		numFreqColn.setWriteConcern(WriteConcern.JOURNALED);
-		NumberFrequency freq = findIntegerFrequency(num);
-		BasicDBObject dbObj = new BasicDBObject();
-
-		try {
-			if (freq.getNumber() != null) {
-
-				int cnt = freq.getCount();
-				BasicDBObject newObj = new BasicDBObject();
-				newObj.put("number", freq.getNumber());
-				newObj.put("count", ++cnt);
-				dbObj.put("number", num);
-				numFreqColn.remove(dbObj);
-				numFreqColn.insert(newObj);
-
-			} else {
-
-				LOGGER.info("inserting " + num + " with count 1");
-				dbObj.put("number", num);
-				dbObj.put("count", 1);
-				numFreqColn.insert(dbObj);
-
-			}
-		} catch (MongoException e) {
-			throw new MongoException(e.getMessage());
+		NumberFrequency freq = null;
+		if (containsNumberFrequency(num)) {
+			freq = findNumberFrequency(num);
+			LOGGER.info("Updating NumberFrequency " + freq.toString());
+			final int cnt = freq.getCount() + 1;
+			freq.setCount(cnt);
+			mongoTemplate.updateFirst(query(where("number").is(num)),
+					update("count", cnt), NumberFrequency.class);
+			return;
 		}
+
+		freq = new NumberFrequency(num, 1);
+		mongoTemplate.insert(freq);
 
 	}
 
-	public NumberFrequency findIntegerFrequency(String num) {
+	@Override
+	public NumberFrequency findNumberFrequency(String num) {
 
-		DBObject obj = null;
+		if (containsNumberFrequency(num)) {
 
-		NumberFrequency freq = new NumberFrequency();
-
-		BasicDBObject keys = new BasicDBObject("number", num);
-		obj = numFreqColn.findOne(keys);
-		if (obj != null) {
-			freq = new NumberFrequency((String) obj.get("number"),
-					(Integer) obj.get("count"));
+			return mongoTemplate.findById(num, NumberFrequency.class);
 		}
 
-		return freq;
+		return null;
 	}
 
-	private MongoTemplate mongoTemplate;
+	private MongoOperations mongoTemplate;
+
+	@Override
+	public List<NumberFrequency> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<NumberFrequency> findAll(Sort arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <S extends NumberFrequency> List<S> save(Iterable<S> arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<NumberFrequency> findAll(Pageable arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long count() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void delete(String arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void delete(NumberFrequency arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void delete(Iterable<? extends NumberFrequency> arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteAll() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean exists(String arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Iterable<NumberFrequency> findAll(Iterable<String> arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public NumberFrequency findOne(String arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <S extends NumberFrequency> S save(S arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

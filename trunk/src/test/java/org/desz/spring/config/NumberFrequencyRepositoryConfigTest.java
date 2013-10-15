@@ -1,54 +1,73 @@
 package org.desz.spring.config;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import javax.inject.Inject;
 
+import org.desz.numbertoword.repository.INumberFreqRepo;
 import org.desz.numbertoword.repository.NumberFrequencyRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader = AnnotationConfigContextLoader.class)
-@ComponentScan(basePackages = { "org.desz.spring.config",
-		"org.desz.numbertoword.repository", "org.desz.numbertoword.service" })
+import com.mongodb.MongoURI;
+
+/**
+ * Configuration for Mongo test database
+ * 
+ * @author des
+ * 
+ */
+@Configuration()
+@PropertySource(value = { "classpath:test.mongo.properties" })
 public class NumberFrequencyRepositoryConfigTest {
+	
+	@Inject
+	private Environment environment;
 
-	ApplicationContext ctx;
-
-	@Before
-	public void init() {
-		ctx = new AnnotationConfigApplicationContext(
-				NumberFrequencyRepositoryConfig.class);
-
+	public @Bean
+	MongoDbFactory mongoDbFactory() throws Exception {
+		MongoDbFactory db;
+		try {
+			db = new SimpleMongoDbFactory(
+					new MongoURI(environment.getProperty("test.db")));
+			
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+		return db;
 	}
 
-	@Test
-	public void testConfigOk() {
+	public @Bean()
+	MongoOperations mongoTemplate() throws Exception {
 
-		assertNotNull(ctx);
-		assertTrue(ctx.containsBean("mongoTemplate"));
-		assertNotNull(ctx.getBean(MongoTemplate.class));
+		MongoTemplate mongoTemplate;
+		try {
+			mongoTemplate = new MongoTemplate(mongoDbFactory());
 
-		assertTrue(ctx.containsBean("numberFrequencyRepository"));
-		assertNotNull(ctx.getBean(NumberFrequencyRepository.class));
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+		return mongoTemplate;
 
 	}
+	
+	
 
-	@Test
-	public void testMongoTemplate() {
+	public @Bean()
+	INumberFreqRepo numberFrequencyRepository() throws Exception {
+		NumberFrequencyRepository numberFrequencyRepository = null;
+		try {
+			numberFrequencyRepository = new NumberFrequencyRepository(
+					mongoTemplate());
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
 
-		ctx.getBean(MongoTemplate.class).dropCollection("numberFrequency");
-		ctx.getBean(MongoTemplate.class).createCollection("numberFrequency");
-		assertTrue(ctx.getBean(MongoTemplate.class).collectionExists(
-				"numberFrequency"));
+		return numberFrequencyRepository;
 	}
 
 }

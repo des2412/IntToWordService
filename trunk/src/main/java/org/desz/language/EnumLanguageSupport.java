@@ -128,6 +128,7 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 	/**
 	 * LoD aware
 	 */
+	@Override
 	public String getWord(String num) {
 		if (immutable.containsKey(num)) {
 			return immutable.get(num);

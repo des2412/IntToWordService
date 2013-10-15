@@ -1,33 +1,27 @@
 package org.desz.numbertoword.factory;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 import static org.powermock.api.easymock.PowerMock.replay;
 import static org.powermock.api.easymock.PowerMock.verify;
 
 import java.math.BigInteger;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import org.desz.language.EnumLanguageSupport;
-import org.desz.language.ILanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.mapper.INumberToWordMapper;
 import org.desz.numbertoword.mapper.IntToWord;
 import org.desz.numbertoword.service.validator.UkIntValidator;
-import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;

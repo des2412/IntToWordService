@@ -33,27 +33,25 @@ public final class IntToWordServiceImpl implements
 	@Autowired
 	private NumberFrequencyRepository numberFrequencyRepository;
 
-	/*@Autowired
-	public IntToWordServiceImpl(
-			NumberFrequencyRepository numberFrequencyRepository) {
-		super();
-		this.numberFrequencyRepository = numberFrequencyRepository;
-	}*/
+	/*
+	 * @Autowired public IntToWordServiceImpl( NumberFrequencyRepository
+	 * numberFrequencyRepository) { super(); this.numberFrequencyRepository =
+	 * numberFrequencyRepository; }
+	 */
 
-	//@Autowired
+	// @Autowired
 	public IntToWordServiceImpl() {
 		super();
-		//this.numberFrequencyRepository = numberFrequencyRepository;
+		// this.numberFrequencyRepository = numberFrequencyRepository;
 	}
-	
+
 	@Override
 	public String getWordInlang(PROV_LANG provLang, String num)
 			throws IntToWordServiceException {
 
 		INumberToWordMapper<BigInteger> intToWordMapper = null;
-		if (numberFrequencyRepository != null) {
-			numberFrequencyRepository.saveNumberFrequency(num);
-		}
+
+		numberFrequencyRepository.saveNumberFrequency(num);
 		try {
 			intToWordMapper = IntToWordEnumFactory.getMapper(provLang);
 		} catch (NumberToWordFactoryException e) {

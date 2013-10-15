@@ -2,81 +2,66 @@ package org.desz.numbertoword.repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.desz.domain.NumberFrequency;
-import org.desz.spring.config.NumberFrequencyRepositoryConfig;
+import org.desz.spring.config.NumberFrequencyRepositoryConfigTest;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader = AnnotationConfigContextLoader.class)
-@ComponentScan(basePackages = { "org.desz.spring.config",
-		"org.desz.numbertoword.repository" })
+@ContextConfiguration(classes = { NumberFrequencyRepositoryConfigTest.class })
+@ComponentScan(basePackages = { "org.desz.numbertoword.repository" })
 public class NumberRepositoryTest {
 
-	NumberFrequencyRepository numberFrequencyRepository;
+	@Autowired
+	private INumberFreqRepo numberFrequencyRepository;
 
-	ApplicationContext ctx;
+	@Autowired
+	private MongoOperations mongoTemplate;
+
+	private final NumberFrequency nf = new NumberFrequency("100", 1);
 
 	@Before
 	public void init() {
-		ctx = new AnnotationConfigApplicationContext(
-				NumberFrequencyRepositoryConfig.class);
-		numberFrequencyRepository = (NumberFrequencyRepository) ctx
-				.getBean("numberFrequencyRepository");
-	}
-
-	@Test
-	public void testGetCollection() {
-
-		DBCollection col = numberFrequencyRepository.assignCollection();
-		assertNotNull(col);
-	}
-
-	@Test
-	public void testInsert() {
-		numberFrequencyRepository.saveNumberFrequency("100");
-	}
-
-	@Test
-	public void testGetFrequency() {
-		assertNotNull(numberFrequencyRepository.findIntegerFrequency("100"));
-	}
-
-	@Test
-	public void testUpdateCount() {
-
-		String num = "100";
-
-		BasicDBObject obj = new BasicDBObject();
-		obj.put("number", num);
-		numberFrequencyRepository.assignCollection().remove(obj);
-
-		numberFrequencyRepository.saveNumberFrequency(num);
-
-		NumberFrequency f = numberFrequencyRepository.findIntegerFrequency(num);
-
-		assertEquals(1, f.getCount());
-
-		numberFrequencyRepository.saveNumberFrequency(num);
-		f = numberFrequencyRepository.findIntegerFrequency(num);
-		assertEquals(2, f.getCount());
+		mongoTemplate.insert(nf);
 
 	}
 
+	@After
+	public void after() {
+		mongoTemplate.remove(nf);
+		
+	}
+
 	@Test
-	public void testServiceAutowire() {
-		// INumberToWordService service = n
+	public void testLookUpNumberFrequency() {
+		assertTrue(numberFrequencyRepository.containsNumberFrequency(nf.getNumber()));
+	}
+
+	@Test
+	public void testFindNumberFrequency() {
+		assertNotNull(numberFrequencyRepository.findNumberFrequency("100"));
+	}
+
+	@Test
+	public void testSaveNumberFrequency() {
+
+		int num = 2;
+		String val = "100";
+		NumberFrequency nf = numberFrequencyRepository.findNumberFrequency(val);
+		nf.setCount(num);
+		numberFrequencyRepository.saveNumberFrequency(val);
+		assertEquals(2, numberFrequencyRepository.findNumberFrequency(val)
+				.getCount());
+
 	}
 
 }

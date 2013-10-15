@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration(value = "intToWordConfig")
 @ComponentScan({ "org.desz.spring.config" })
-public class IntToWordServiceConfig {
+public class IntegerToWordServiceConfig {
 	protected final static Logger LOGGER = Logger
-			.getLogger(IntToWordServiceConfig.class.getName());
+			.getLogger(IntegerToWordServiceConfig.class.getName());
 
 	@Bean(name = "intToWordService")
 	public INumberToWordService<BigInteger> intToWordService() {

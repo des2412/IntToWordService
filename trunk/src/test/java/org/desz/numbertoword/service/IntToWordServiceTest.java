@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.exceptions.IntToWordServiceException;
-import org.desz.spring.config.IntToWordServiceConfig;
+import org.desz.spring.config.IntegerToWordServiceConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +27,7 @@ public class IntToWordServiceTest {
 	@Before
 	public void init() {
 		ctx = new AnnotationConfigApplicationContext(
-				IntToWordServiceConfig.class);
+				IntegerToWordServiceConfig.class);
 
 	}
 
