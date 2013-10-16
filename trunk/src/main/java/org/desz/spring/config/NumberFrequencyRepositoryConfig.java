@@ -4,7 +4,6 @@ import javax.inject.Inject;
 
 import org.desz.numbertoword.repository.NumberFrequencyRepository;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -23,7 +22,6 @@ import com.mongodb.MongoURI;
  */
 @Configuration()
 @PropertySource(value = { "classpath:mongo.properties" })
-@ComponentScan(basePackages = { "org.desz.numbertoword.service" })
 public class NumberFrequencyRepositoryConfig {
 
 	@Inject

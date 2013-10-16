@@ -30,7 +30,6 @@ public final class IntToWordServiceImpl implements
 
 	private String errMsg;
 
-	// @Autowired
 	private final NumberFrequencyRepository numberFrequencyRepository;
 
 	@Autowired
