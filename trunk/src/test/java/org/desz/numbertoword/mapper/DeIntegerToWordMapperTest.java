@@ -9,7 +9,7 @@ import static org.junit.Assert.assertNotNull;
 import java.math.BigInteger;
 
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
-import org.desz.numbertoword.exceptions.IntToWordExc;
+import org.desz.numbertoword.exceptions.IntToWordException;
 import org.desz.numbertoword.factory.IntToWordEnumFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -34,7 +34,7 @@ public class DeIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	}
 
 	@Test
-	public void test() throws IntToWordExc{
+	public void test() throws IntToWordException{
 		assertEquals("Einundzwanzig",
 				intToWordMapper.getWord(new BigInteger("21")));
 	}

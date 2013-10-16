@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import org.desz.language.ILanguageSupport;
 import org.desz.numbertoword.enums.EnumHolder.DEF;
-import org.desz.numbertoword.exceptions.IntToWordExc;
+import org.desz.numbertoword.exceptions.IntToWordException;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
@@ -28,32 +28,32 @@ public final class IntToWordDelegate {
 	 * @param enumLanguageSupport
 	 * @param num
 	 * @return
-	 * @throws IntToWordExc
+	 * @throws IntToWordException
 	 *             if number range violated
 	 */
 	public static String calcWord(ILanguageSupport enumLanguageSupport,
-			BigInteger num) throws IntToWordExc {
+			BigInteger num) throws IntToWordException {
 
 		Range<Integer> range = Ranges.closed(0, 999);
 
 		try {
 			Preconditions.checkNotNull(enumLanguageSupport);
 		} catch (NullPointerException e) {
-			throw new IntToWordExc("Language Support required");
+			throw new IntToWordException("Language Support required");
 		}
 
 		try {
 			Preconditions.checkNotNull(num);
 		} catch (NullPointerException e) {
 			// LOGGER.info(enumLanguageSupport.getNullInput());
-			throw new IntToWordExc(enumLanguageSupport.getNullInput());
+			throw new IntToWordException(enumLanguageSupport.getNullInput());
 		}
 
 		if (range.lowerEndpoint().compareTo(num.intValue()) > 0) {
-			throw new IntToWordExc(enumLanguageSupport.getNegativeInput());
+			throw new IntToWordException(enumLanguageSupport.getNegativeInput());
 		}
 		if (range.upperEndpoint().compareTo(num.intValue()) < 0) {
-			throw new IntToWordExc(enumLanguageSupport.getInvalidInput());
+			throw new IntToWordException(enumLanguageSupport.getInvalidInput());
 		}
 
 		String str = String.valueOf(num);

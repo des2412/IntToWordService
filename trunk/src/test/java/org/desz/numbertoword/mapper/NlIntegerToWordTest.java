@@ -7,7 +7,7 @@ import java.math.BigInteger;
 
 import org.desz.numbertoword.enums.EnumHolder.NL_ERRORS;
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
-import org.desz.numbertoword.exceptions.IntToWordExc;
+import org.desz.numbertoword.exceptions.IntToWordException;
 import org.desz.numbertoword.factory.IntToWordEnumFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -27,25 +27,25 @@ public class NlIntegerToWordTest extends IntegerToWordMapperTest {
 	}
 
 	@Test
-	public void testTwentyOne() throws IntToWordExc {
+	public void testTwentyOne() throws IntToWordException {
 		assertEquals("Eenentwintig",
 				intToWordMapper.getWord(new BigInteger("21")));
 	}
 
 	@Test
-	public void testOneHundredNinety() throws IntToWordExc {
+	public void testOneHundredNinety() throws IntToWordException {
 		assertEquals("Een honderd en negentig",
 				intToWordMapper.getWord(new BigInteger("190")));
 	}
 
 	// FIXME @Test(expected = IntRangeUpperExc.class)
-	public void checkErrorMessage() throws IntToWordExc {
+	public void checkErrorMessage() throws IntToWordException {
 
 		String s = null;
 		try {
 			assertEquals(NL_ERRORS.NEGATIVE_INPUT,
 					intToWordMapper.getWord(new BigInteger("-21")));
-		} catch (IntToWordExc e) {
+		} catch (IntToWordException e) {
 			s = e.getMessage();
 		}
 

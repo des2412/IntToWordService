@@ -15,19 +15,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
 
-import com.mongodb.MongoException;
-
 @Repository
 public class NumberFrequencyRepository implements INumberFreqRepo {
 
-	protected final static Logger LOGGER = Logger
+	protected final Logger LOGGER = Logger
 			.getLogger(NumberFrequencyRepository.class.getName());
 
 	@Autowired()
 	public NumberFrequencyRepository(MongoOperations mongoTemplate) {
 
 		this.mongoTemplate = mongoTemplate;
-		// this.numFreqColn = createCollection();
 	}
 
 	@Override
@@ -45,12 +42,12 @@ public class NumberFrequencyRepository implements INumberFreqRepo {
 	}
 
 	@Override
-	public void saveNumberFrequency(final String num) throws MongoException {
+	public void saveNumberFrequency(final String num) {
 
 		NumberFrequency freq = null;
 		if (containsNumberFrequency(num)) {
 			freq = findNumberFrequency(num);
-			LOGGER.info("Updating NumberFrequency " + freq.toString());
+			LOGGER.info("Updating NumberFrequency [current persistent JSON representation]:" + freq.toString());
 			final int cnt = freq.getCount() + 1;
 			freq.setCount(cnt);
 			mongoTemplate.updateFirst(query(where("number").is(num)),

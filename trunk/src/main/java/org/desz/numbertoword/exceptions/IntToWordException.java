@@ -7,7 +7,7 @@ package org.desz.numbertoword.exceptions;
  * @author des
  *
  */
-public class IntToWordExc extends Exception {
+public class IntToWordException extends Exception {
 
 	/**
 	 * 
@@ -17,14 +17,14 @@ public class IntToWordExc extends Exception {
 	/**
 	 * 
 	 */
-	public IntToWordExc() {
+	public IntToWordException() {
 
 	}
 
 	/**
 	 * @param message
 	 */
-	public IntToWordExc(String message) {
+	public IntToWordException(String message) {
 		super(message);
 		
 	}
@@ -32,7 +32,7 @@ public class IntToWordExc extends Exception {
 	/**
 	 * @param cause
 	 */
-	public IntToWordExc(Throwable cause) {
+	public IntToWordException(Throwable cause) {
 		super(cause);
 		
 	}
@@ -41,7 +41,7 @@ public class IntToWordExc extends Exception {
 	 * @param message
 	 * @param cause
 	 */
-	public IntToWordExc(String message, Throwable cause) {
+	public IntToWordException(String message, Throwable cause) {
 		super(message, cause);
 		
 	}
@@ -52,7 +52,7 @@ public class IntToWordExc extends Exception {
 	 * @param enableSuppression
 	 * @param writableStackTrace
 	 */
-	public IntToWordExc(String message, Throwable cause,
+	public IntToWordException(String message, Throwable cause,
 			boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		

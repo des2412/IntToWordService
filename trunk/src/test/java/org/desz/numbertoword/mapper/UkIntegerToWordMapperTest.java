@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 import org.desz.numbertoword.exceptions.FactoryMapperRemovalException;
-import org.desz.numbertoword.exceptions.IntToWordExc;
+import org.desz.numbertoword.exceptions.IntToWordException;
 import org.desz.numbertoword.exceptions.NumberToWordFactoryException;
 import org.desz.numbertoword.factory.IntToWordEnumFactory;
 import org.junit.After;
@@ -63,17 +63,17 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void expectNullPointerException() throws IntToWordExc {
+	public void expectNullPointerException() throws IntToWordException {
 		numberToWordMapper.getWord(null);
 	}
 
 	@Test
-	public void testNoMinBoundRangeViolation() throws IntToWordExc {
+	public void testNoMinBoundRangeViolation() throws IntToWordException {
 		numberToWordMapper.getWord(new BigInteger("0"));
 	}
 
 	@Test
-	public void testNotLowerCase() throws IntToWordExc {
+	public void testNotLowerCase() throws IntToWordException {
 		String s = numberToWordMapper.getWord(new BigInteger("98989866"));
 		assertEquals(
 				"Ninety eight million nine hundred and eighty nine thousand eight hundred and sixty six",
@@ -84,28 +84,28 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 				numberToWordMapper.getWord(new BigInteger("999999999")));
 	}
 
-	@Test(expected = IntToWordExc.class)
-	public void testMinBoundRangeViolation() throws IntToWordExc {
+	@Test(expected = IntToWordException.class)
+	public void testMinBoundRangeViolation() throws IntToWordException {
 		numberToWordMapper.getWord(new BigInteger("-1"));
 	}
 
 	@Test
-	public void testNoMaxBoundRangeViolation() throws IntToWordExc {
+	public void testNoMaxBoundRangeViolation() throws IntToWordException {
 		numberToWordMapper.getWord(new BigInteger("999999999"));
 	}
 
-	@Test(expected = IntToWordExc.class)
-	public void testRangeViolation() throws IntToWordExc {
+	@Test(expected = IntToWordException.class)
+	public void testRangeViolation() throws IntToWordException {
 		numberToWordMapper.getWord(new BigInteger("1000000000"));
 	}
 
 	@Test
-	public void testZero() throws IntToWordExc {
+	public void testZero() throws IntToWordException {
 		assertEquals("Zero", numberToWordMapper.getWord(BigInteger.ZERO));
 	}
 
 	@Test
-	public void testDecimals() throws IntToWordExc {
+	public void testDecimals() throws IntToWordException {
 
 		assertEquals("One", numberToWordMapper.getWord(BigInteger.ONE));
 		assertEquals("Ten", numberToWordMapper.getWord(new BigInteger("10")));
@@ -113,20 +113,20 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	}
 
 	@Test
-	public void testTeens() throws IntToWordExc {
+	public void testTeens() throws IntToWordException {
 		try {
 			assertEquals("Eleven",
 					numberToWordMapper.getWord(new BigInteger("11")));
 			assertEquals("Fourteen",
 					numberToWordMapper.getWord(new BigInteger("14")));
-		} catch (IntToWordExc e) {
+		} catch (IntToWordException e) {
 			LOGGER.severe(e.getMessage());
 		}
 
 	}
 
 	@Test
-	public void testTens() throws IntToWordExc {
+	public void testTens() throws IntToWordException {
 
 		assertEquals("Forty", numberToWordMapper.getWord(new BigInteger("40")));
 		int num = 41;
@@ -142,7 +142,7 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	}
 
 	@Test
-	public void testFails() throws IntToWordExc {
+	public void testFails() throws IntToWordException {
 		
 		assertEquals(
 				"Nine hundred and ninety nine million nine hundred and nine thousand",
@@ -165,7 +165,7 @@ public class UkIntegerToWordMapperTest extends IntegerToWordMapperTest {
 	}
 
 	@Test
-	public void testGetWords() throws IntToWordExc {
+	public void testGetWords() throws IntToWordException {
 
 		assertEquals(
 				"Eleven million one hundred and eleven thousand one hundred and eleven",

@@ -11,7 +11,7 @@ import org.desz.numbertoword.enums.EnumHolder.DEF;
 import org.desz.numbertoword.enums.EnumHolder.NUMBER_CONSTANT;
 import org.desz.numbertoword.exceptions.IntRangeLowerExc;
 import org.desz.numbertoword.exceptions.IntRangeUpperExc;
-import org.desz.numbertoword.exceptions.IntToWordExc;
+import org.desz.numbertoword.exceptions.IntToWordException;
 import org.desz.numbertoword.factory.IntToWordEnumFactory;
 import org.desz.numbertoword.service.validator.IFormatter;
 
@@ -82,10 +82,10 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 	 * 
 	 * @param num
 	 * @return
-	 * @throws IntToWordExc
+	 * @throws IntToWordException
 	 */
 	@Override
-	public String getWord(BigInteger num) throws IntToWordExc {
+	public String getWord(BigInteger num) throws IntToWordException {
 
 		// check if num can be retrieved directly
 		if (enumLanguageSupport.getWord(String.valueOf(num)) != null) {
@@ -169,10 +169,10 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 		} catch (IntRangeUpperExc e) {
 			LOGGER.info(e.getMessage());
 			setErrorMessage(enumLanguageSupport.getNumberFormatErr());
-			throw new IntToWordExc(e);
+			throw new IntToWordException(e);
 		} catch (IntRangeLowerExc e) {
 			setErrorMessage(enumLanguageSupport.getInvalidInput());
-			throw new IntToWordExc(e.getMessage());
+			throw new IntToWordException(e.getMessage());
 		}
 
 		String[] components = formattedNumber.split(DEF.NUM_SEP.val());
@@ -238,7 +238,7 @@ public final class IntToWord implements INumberToWordMapper<BigInteger> {
 		default:
 			// LOGGER.info(enumLanguageSupport.getInvalidInput() + num);
 			setErrorMessage(enumLanguageSupport.getInvalidInput() + num);
-			throw new IntToWordExc(enumLanguageSupport.getInvalidInput() + num);
+			throw new IntToWordException(enumLanguageSupport.getInvalidInput() + num);
 
 		}
 

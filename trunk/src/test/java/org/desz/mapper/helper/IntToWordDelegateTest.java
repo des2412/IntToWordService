@@ -11,7 +11,7 @@ import java.math.BigInteger;
 import org.desz.language.EnumLanguageSupport;
 import org.desz.numbertoword.delegate.IntToWordDelegate;
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
-import org.desz.numbertoword.exceptions.IntToWordExc;
+import org.desz.numbertoword.exceptions.IntToWordException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,46 +29,46 @@ public class IntToWordDelegateTest {
 		assertNotNull(sup);
 	}
 	
-	@Test(expected = IntToWordExc.class)
-	public void testExceedNumRange() throws IntToWordExc{
+	@Test(expected = IntToWordException.class)
+	public void testExceedNumRange() throws IntToWordException{
 		IntToWordDelegate.calcWord(sup, new BigInteger("1000"));
 	}
 	
-	@Test(expected = IntToWordExc.class)
-	public void testBelowNumRange() throws IntToWordExc{
+	@Test(expected = IntToWordException.class)
+	public void testBelowNumRange() throws IntToWordException{
 		IntToWordDelegate.calcWord(sup, new BigInteger("-1"));
 	}
 	
 	@Test
-	public void test999() throws IntToWordExc {
+	public void test999() throws IntToWordException {
 		assertEquals("Nine hundred and Ninety Nine", IntToWordDelegate.calcWord(sup, new BigInteger("999")));
 	}
 
 	@Test
-	public void test99() throws IntToWordExc {
+	public void test99() throws IntToWordException {
 		assertEquals("Ninety Nine", IntToWordDelegate.calcWord(sup, new BigInteger("99")));
 	}
 	
 	@Test
-	public void test90() throws IntToWordExc {
+	public void test90() throws IntToWordException {
 		assertEquals("Ninety", IntToWordDelegate.calcWord(sup, new BigInteger("90")));
 	}
 	
 	@Test
-	public void test190() throws IntToWordExc {
+	public void test190() throws IntToWordException {
 		assertEquals("One hundred and Ninety", IntToWordDelegate.calcWord(sup, new BigInteger("190")));
 	}
 
 
-	@Test(expected = IntToWordExc.class)
-	public void testNullNumInput() throws IntToWordExc {
+	@Test(expected = IntToWordException.class)
+	public void testNullNumInput() throws IntToWordException {
 
 		IntToWordDelegate.calcWord(sup, null);
 
 	}
 	
-	@Test(expected = IntToWordExc.class)
-	public void testNullLangSupportInput() throws IntToWordExc {
+	@Test(expected = IntToWordException.class)
+	public void testNullLangSupportInput() throws IntToWordException {
 
 		IntToWordDelegate.calcWord(null, BigInteger.TEN);
 

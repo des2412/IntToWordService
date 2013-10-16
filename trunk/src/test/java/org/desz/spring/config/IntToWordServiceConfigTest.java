@@ -11,27 +11,20 @@ import org.desz.numbertoword.service.INumberToWordService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { IntegerToWordServiceConfig.class })
-@ComponentScan(basePackages = { "org.desz.numbertoword.service" })
 public class IntToWordServiceConfigTest {
 
 	@Autowired
-	INumberToWordService<BigInteger> service;
+	private INumberToWordService<BigInteger> intToWordService;
 
-	@Test
-	public void testServiceInit() {
-		assertNotNull(service);
-
-	}
 
 	@Test
 	public void testServiceOps() throws IntToWordServiceException {
-		String s = service.getWordInlang(PROV_LANG.UK, "1");
+		String s = intToWordService.getWordInlang(PROV_LANG.UK, "1");
 		assertNotNull(s);
 		assertEquals("One", s);
 	}

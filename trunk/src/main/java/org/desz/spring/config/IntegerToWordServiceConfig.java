@@ -5,24 +5,24 @@ import java.util.logging.Logger;
 
 import org.desz.numbertoword.service.INumberToWordService;
 import org.desz.numbertoword.service.IntToWordServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
-@Configuration(value = "intToWordConfig")
-@ComponentScan({ "org.desz.spring.config" })
+@Configuration
+@Import(value = { NumberFrequencyRepositoryConfig.class })
 public class IntegerToWordServiceConfig {
-	protected final static Logger LOGGER = Logger
+	protected final Logger LOGGER = Logger
 			.getLogger(IntegerToWordServiceConfig.class.getName());
 
-	@Bean(name = "intToWordService")
+	@Autowired
+	private NumberFrequencyRepositoryConfig numberFrequencyRepositoryConfig;
+
+	@Bean
 	public INumberToWordService<BigInteger> intToWordService() {
-		try {
-			return new IntToWordServiceImpl();
-		} catch (Exception e) {
-			LOGGER.severe(e.getMessage());
-		}
-		return null;
+
+		return new IntToWordServiceImpl(numberFrequencyRepositoryConfig.numberFrequencyRepository());
 	}
 
 }
