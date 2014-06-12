@@ -69,7 +69,7 @@ public final class IntToWordDelegate {
 			return enumLanguageSupport.getWord(String.valueOf(s))
 					+ enumLanguageSupport.getHunUnit();
 		} else {
-			StringBuilder sb = new StringBuilder();
+			//StringBuilder sb = new StringBuilder();
 			String res = null;
 			if (num.intValue() > 100) {
 
@@ -77,10 +77,10 @@ public final class IntToWordDelegate {
 						+ enumLanguageSupport.getHunUnit()
 						+ enumLanguageSupport.getAnd();
 
-				sb.append(str.charAt(1));
-				sb.append(str.charAt(2));
+				/*sb.append(str.charAt(1));
+				sb.append(str.charAt(2));*/
 
-				int n = Integer.parseInt(sb.toString());
+				int n = Integer.parseInt(String.valueOf(str.charAt(1)) + str.charAt(2));
 
 				if (enumLanguageSupport.getWord(String.valueOf(n)) != null) {
 					return res + enumLanguageSupport.getWord(String.valueOf(n));

@@ -17,15 +17,16 @@ import org.desz.numbertoword.factory.IntToWordEnumFactory;
 public final class EnumHolder {
 
 	/**
-	 * Enum encapsulating application level provisioned languages EMTY is
-	 * defined for UI HTML elements, e.g, SELECT
+	 * Enum encapsulating application level provisioned languages.
+	 * EMPTY is defined for UI HTML elements; valid:boolean field assists
+	 * validation of input
 	 * 
 	 * @author des
 	 * 
 	 */
 	public enum PROV_LANG {
-		UK("UK", "UK-ENGLISH", true), FR("FR", "FRANÇAIS", true), DE("DE",
-				"DEUTSCH", true), NL("NL", "NEDERLANDSE", true), EMPTY("EMPTY",
+		UK("UK", "UK-English", true), FR("FR", "Français", true), DE("DE",
+				"Deutsch", true), NL("NL", "Nederlandse", true), EMPTY("EMPTY",
 				"Select...", false);
 
 		private String code;
@@ -114,7 +115,7 @@ public final class EnumHolder {
 				"Zeventien"), EIGHTEEN("18", "Achttien"), NINETEEN("19",
 				"Negentien"), TWENTY("20", "Twintig"), TWENTYONE("21",
 				"Eenentwintig"), TWENTYTWO("22", "Tweeëntwintig"), TWENTYTHREE(
-				"23", "Dreiëntwintig"), TWENTYFOUR("24", "Vierentwintig"), TWENTYFIVE(
+				"23", "Dreieëntwintig"), TWENTYFOUR("24", "Vierentwintig"), TWENTYFIVE(
 				"25", "Vijfentwintig"), TWENTYSIX("26", "Zesentwintig"), TWENTYSEVEN(
 				"27", "Zevenentwintig"), TWENTYEIGHT("28", "Achtentwintig"), TWENTYNINE(
 				"29", "Negenentwintig"), THIRTY("30", "Dertig"), FORTY("40",
@@ -278,8 +279,8 @@ public final class EnumHolder {
 
 	public enum FR_ERRORS {
 		INVALID_INPUT("Invalid d'entrée"), INVALID_NUMBER(
-				"Fractionnés ou non nombres entiers a refusé"), NULL_INPUT(
-				"Aucun numéro de convertir"), UNKNOWN("erreur inconnue"), NEGATIVE_INPUT(
+				"Fractionnées ou non nombres entiers a refusé"), NULL_INPUT(
+				"Aucun numro de convertir"), UNKNOWN("erreur inconnue"), NEGATIVE_INPUT(
 				"L'entrée négative entier"), NUMBERFORMAT(
 				"Exception Format de nombre"), INVALID_LN_SEL(
 				"Langue valide pas choisi");
