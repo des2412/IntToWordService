@@ -18,10 +18,10 @@ public class IntRangeUpperExc extends Exception {
 		super();
 	}
 
-	public IntRangeUpperExc(String message, Throwable cause,
-			boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
+//	public IntRangeUpperExc(String message, Throwable cause,
+//			boolean enableSuppression, boolean writableStackTrace) {
+//		super(message, cause, enableSuppression, writableStackTrace);
+//	}
 
 	public IntRangeUpperExc(String message, Throwable cause) {
 		super(message, cause);
