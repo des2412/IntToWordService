@@ -17,9 +17,9 @@ import org.desz.numbertoword.factory.IntToWordEnumFactory;
 public final class EnumHolder {
 
 	/**
-	 * Enum encapsulating application level provisioned languages.
-	 * EMPTY is defined for UI HTML elements; valid:boolean field assists
-	 * validation of input
+	 * Enum encapsulating application level provisioned languages. EMPTY is
+	 * defined for UI HTML elements; valid:boolean field assists validation of
+	 * input
 	 * 
 	 * @author des
 	 * 
@@ -355,9 +355,9 @@ public final class EnumHolder {
 	public enum DEF {
 
 		SPACE(" "), AND(SPACE.val() + "and" + SPACE.val()), EMPTY(""), ERR_SEP(
-				SPACE.val() + "/" + SPACE.val()), NUM_SEP(","), MILLS(SPACE
-				.val() + "million"), THOUS(SPACE.val() + "thousand"), HUNS(
-				SPACE.val() + "hundred");
+				SPACE.val() + "/" + SPACE.val()), NUM_SEP(","), BILLS(SPACE
+				.val() + "billion"), MILLS(SPACE.val() + "million"), THOUS(
+				SPACE.val() + "thousand"), HUNS(SPACE.val() + "hundred");
 
 		private String val;
 

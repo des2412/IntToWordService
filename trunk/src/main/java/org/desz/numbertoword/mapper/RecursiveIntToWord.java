@@ -11,7 +11,8 @@ import org.desz.numbertoword.enums.EnumHolder.DEF;
 import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
 
 /**
- * @author des
+ * @author des Converts integer (0-Integer.MAX_VALUE) to corresponding word
+ *         format in PROV_LANG
  * 
  */
 public class RecursiveIntToWord {
@@ -48,7 +49,7 @@ public class RecursiveIntToWord {
 		case 0:
 			int modHun = n;
 			String hun = String.valueOf(fmt.charAt(0));
-			int modDiv = 100;
+			final int modDiv = 100;
 			modHun %= modDiv;
 			if (modHun == 0) {
 				sb.append(langSupp.getWord(hun).toLowerCase()
@@ -117,6 +118,40 @@ public class RecursiveIntToWord {
 			}
 
 			break;
+		case 3:
+			arr = fmt.split(",", ++len);
+			convert(sb, Integer.valueOf(arr[0]));
+			sb.append(langSupp.getBillUnit());
+			if (Integer.valueOf(arr[1]) > 0) {
+				if (Integer.valueOf(arr[1]) < 100) {
+					sb = new StringBuilder(sb.toString().trim());
+					sb.append(langSupp.getAnd());
+				} else {
+					sb.append(DEF.SPACE.val());
+
+				}
+				convert(sb, Integer.valueOf(arr[1]));
+				sb.append(langSupp.getMillUnit());
+			}
+			if (Integer.valueOf(arr[2]) > 0) {
+				if (Integer.valueOf(arr[2]) < 100) {
+					sb = new StringBuilder(sb.toString().trim());
+					sb.append(langSupp.getAnd());
+				} else {
+					sb.append(DEF.SPACE.val());
+				}
+				convert(sb, Integer.valueOf(arr[2]));
+				sb.append(langSupp.getThouUnit());
+			}
+			if (Integer.valueOf(arr[3]) > 0) {
+				if (Integer.valueOf(arr[3]) < 100) {
+					sb = new StringBuilder(sb.toString().trim());
+					sb.append(langSupp.getAnd());
+				} else {
+					sb.append(DEF.SPACE.val());
+				}
+				convert(sb, Integer.valueOf(arr[3]));
+			}
 
 		}
 

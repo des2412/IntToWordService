@@ -43,6 +43,7 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 	private String unknownErr;
 
 	private ImmutableMap<String, String> immutable;
+	private String billUnit;
 
 	/**
 	 * Class is a container for the language specific words and errors.
@@ -55,6 +56,7 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 		Map<String, String> intToWordMap = new HashMap<String, String>();
 		switch (pl) {
 		case UK:
+			this.billUnit = DEF.BILLS.val();
 			this.millUnit = DEF.MILLS.val();
 			this.thouUnit = DEF.THOUS.val();
 			this.hunUnit = DEF.HUNS.val();
@@ -188,6 +190,11 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 	@Override
 	public String getUnkownErr() {
 		return unknownErr;
+	}
+
+	public String getBillUnit() {
+		// TODO Auto-generated method stub
+		return billUnit;
 	}
 
 }
