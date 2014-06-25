@@ -26,15 +26,16 @@ public class RecursiveIntToWord {
 	}
 
 	/**
-	 * converts number to word recursively.
+	 * converts number to word recursively. Number is formatted to discrete
+	 * components. Each component is in range 0-999.
 	 * 
 	 * @param sb
 	 * @param n
-	 * @return
+	 * @return String containing language specific word.
 	 */
 	public String convert(StringBuilder sb, int n) {
-
-		// check if in langSupp..
+		//TODO validate n
+		// check if can be retrieved using langSupp..
 		if (langSupp.containsWord(String.valueOf(n))) {
 			sb.append(langSupp.getWord(String.valueOf(n)).toLowerCase());
 			return sb.toString();
@@ -53,12 +54,13 @@ public class RecursiveIntToWord {
 			String hun = String.valueOf(fmt.charAt(0));
 			final int modDiv = 100;
 			modHun %= modDiv;
+			// 1..9 hundred
 			if (modHun == 0) {
 				sb.append(langSupp.getWord(hun).toLowerCase()
 						+ langSupp.getHunUnit());
 				break;
 			}
-
+			// is modHun available using langSupp..
 			if (langSupp.containsWord(String.valueOf(modHun))) {
 				sb.append(langSupp.getWord(hun).toLowerCase()
 						+ langSupp.getHunUnit()
@@ -67,6 +69,7 @@ public class RecursiveIntToWord {
 								.toLowerCase());
 				break;
 			}
+			// ..no calculation required
 			String dec = null;
 			int k = modHun;
 			modHun %= 10;
@@ -80,6 +83,7 @@ public class RecursiveIntToWord {
 						+ dec.toLowerCase());
 				break;
 			}
+			// n is less than 100
 			dec = langSupp.getWord(String.valueOf(k)).toLowerCase()
 					+ DEF.SPACE.val()
 					+ langSupp.getWord(String.valueOf(modHun)).toLowerCase();
@@ -103,7 +107,7 @@ public class RecursiveIntToWord {
 			arr = fmt.split(",", ++len);
 			convert(sb, Integer.valueOf(arr[0]));
 			sb.append(langSupp.getMillUnit() + DEF.SPACE.val());
-			// loop over arr performing conversion
+			// loop over arr[1].. performing conversion if arr[n] > 0
 			for (int j = 1; j < arr.length; j++) {
 				wrdBdr = format(sb, Integer.valueOf(arr[j]));
 				if (wrdBdr.isConv()) {
@@ -144,6 +148,7 @@ public class RecursiveIntToWord {
 
 	/**
 	 * builds word and indicates whether to progress with the recursion
+	 * 
 	 * @see WordBuilder
 	 * 
 	 * @param sb
