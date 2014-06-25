@@ -59,6 +59,13 @@ public class RecursiveIntToWordTest {
 		assertNotNull(s);
 		assertEquals("twenty three", s);
 	}
+	
+	@Test
+	public final void test64() {
+		String s = rsv.convert(new StringBuilder(), 64);
+		assertNotNull(s);
+		assertEquals("sixty four", s);
+	}
 
 	@Test
 	public final void test90() {
