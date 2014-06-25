@@ -26,6 +26,7 @@ public class RecursiveIntToWord {
 	}
 
 	/**
+	 * converts number to word recursively.
 	 * 
 	 * @param sb
 	 * @param n
@@ -44,6 +45,7 @@ public class RecursiveIntToWord {
 		String fmt = NumberFormat.getIntegerInstance(Locale.UK).format(n);
 
 		int len = fmt.length() - fmt.replaceAll(",", "").length();
+		WordBuilder wrdBdr = null;
 		switch (len) {
 
 		case 0:
@@ -89,13 +91,11 @@ public class RecursiveIntToWord {
 			arr = fmt.split(",", ++len);
 			convert(sb, Integer.valueOf(arr[0]));
 			sb.append(langSupp.getThouUnit());
-			if (Integer.valueOf(arr[1]) > 0) {
-				if (Integer.valueOf(arr[1]) < 100) {
-					sb.append(langSupp.getAnd());
-				} else {
-					sb.append(DEF.SPACE.val());
-				}
+			wrdBdr = format(sb, Integer.valueOf(arr[1]));
+			if (wrdBdr.isConv()) {
+				sb = wrdBdr.getSb();
 				convert(sb, Integer.valueOf(arr[1]));
+
 			}
 			break;
 
@@ -103,18 +103,16 @@ public class RecursiveIntToWord {
 			arr = fmt.split(",", ++len);
 			convert(sb, Integer.valueOf(arr[0]));
 			sb.append(langSupp.getMillUnit() + DEF.SPACE.val());
-			if (Integer.valueOf(arr[1]) > 0) {
-				convert(sb, Integer.valueOf(arr[1]));
-				sb.append(langSupp.getThouUnit());
-			}
-			if (Integer.valueOf(arr[2]) > 0) {
-				if (Integer.valueOf(arr[2]) < 100) {
-					sb = new StringBuilder(sb.toString().trim());
-					sb.append(langSupp.getAnd());
-				} else {
-					sb.append(DEF.SPACE.val());
+			// loop over arr performing conversion
+			for (int j = 1; j < arr.length; j++) {
+				wrdBdr = format(sb, Integer.valueOf(arr[j]));
+				if (wrdBdr.isConv()) {
+					sb = wrdBdr.getSb();
+					convert(sb, Integer.valueOf(arr[j]));
+					if (j == 1)
+
+						sb.append(langSupp.getThouUnit());
 				}
-				convert(sb, Integer.valueOf(arr[2]));
 			}
 
 			break;
@@ -122,40 +120,69 @@ public class RecursiveIntToWord {
 			arr = fmt.split(",", ++len);
 			convert(sb, Integer.valueOf(arr[0]));
 			sb.append(langSupp.getBillUnit());
-			if (Integer.valueOf(arr[1]) > 0) {
-				if (Integer.valueOf(arr[1]) < 100) {
-					sb = new StringBuilder(sb.toString().trim());
-					sb.append(langSupp.getAnd());
-				} else {
-					sb.append(DEF.SPACE.val());
+
+			for (int j = 1; j < arr.length; j++) {
+				wrdBdr = format(sb, Integer.valueOf(arr[j]));
+				if (wrdBdr.isConv()) {
+					sb = wrdBdr.getSb();
+					convert(sb, Integer.valueOf(arr[j]));
+					if (j == 1)
+
+						sb.append(langSupp.getMillUnit());
+					if (j == 2)
+
+						sb.append(langSupp.getThouUnit());
 
 				}
-				convert(sb, Integer.valueOf(arr[1]));
-				sb.append(langSupp.getMillUnit());
-			}
-			if (Integer.valueOf(arr[2]) > 0) {
-				if (Integer.valueOf(arr[2]) < 100) {
-					sb = new StringBuilder(sb.toString().trim());
-					sb.append(langSupp.getAnd());
-				} else {
-					sb.append(DEF.SPACE.val());
-				}
-				convert(sb, Integer.valueOf(arr[2]));
-				sb.append(langSupp.getThouUnit());
-			}
-			if (Integer.valueOf(arr[3]) > 0) {
-				if (Integer.valueOf(arr[3]) < 100) {
-					sb = new StringBuilder(sb.toString().trim());
-					sb.append(langSupp.getAnd());
-				} else {
-					sb.append(DEF.SPACE.val());
-				}
-				convert(sb, Integer.valueOf(arr[3]));
 			}
 
 		}
 
 		return sb.toString().trim();
+
+	}
+
+	/**
+	 * builds word and indicates whether to progress with the recursion
+	 * @see WordBuilder
+	 * 
+	 * @param sb
+	 * @param i
+	 * @return
+	 */
+
+	private WordBuilder format(StringBuilder sb, int i) {
+		StringBuilder sbCpy = new StringBuilder(sb.toString().trim());
+
+		if (i > 0) {
+			if (i < 100) {
+
+				sbCpy.append(langSupp.getAnd());
+			} else {
+				sbCpy.append(DEF.SPACE.val());
+			}
+			return new WordBuilder(sbCpy, true);
+		}
+		return new WordBuilder(sb, false);
+	}
+
+	private class WordBuilder {
+		public WordBuilder(StringBuilder sb, boolean bol) {
+			super();
+			this.sb = sb;
+			this.conv = bol;
+		}
+
+		private final StringBuilder sb;
+		private final boolean conv;
+
+		public StringBuilder getSb() {
+			return sb;
+		}
+
+		public boolean isConv() {
+			return conv;
+		}
 
 	}
 }
