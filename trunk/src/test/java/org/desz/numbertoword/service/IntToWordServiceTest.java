@@ -25,7 +25,7 @@ public class IntToWordServiceTest {
 
 		String str = intToWordService.getWordInlang(PROV_LANG.UK, "100");
 
-		assertEquals("One hundred", str);
+		assertEquals("one hundred", str);
 	}
 
 }

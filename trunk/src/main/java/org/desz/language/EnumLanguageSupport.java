@@ -23,7 +23,7 @@ import com.google.common.collect.ImmutableMap;
  * Class that holds the enum sourced constants particular to PROV_LANG.
  * 
  * This class is used by INumberToWordFactory which is responsible for the
- * centralised creation of the IFIntegerToWordMapper.
+ * creation of the IFIntegerToWordMapper.
  * 
  * @author des
  * 
@@ -134,6 +134,10 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 			return immutable.get(num);
 		}
 		return null;
+	}
+	
+	public boolean containsWord(String num){
+		return immutable.containsKey(num);
 	}
 
 	/**

@@ -26,7 +26,7 @@ public class IntToWordServiceConfigTest {
 	public void testServiceOps() throws IntToWordServiceException {
 		String s = intToWordService.getWordInlang(PROV_LANG.UK, "1");
 		assertNotNull(s);
-		assertEquals("One", s);
+		assertEquals("one", s);
 	}
 
 }
