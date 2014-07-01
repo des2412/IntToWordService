@@ -34,7 +34,7 @@ public class RecursiveIntToWord {
 	 * @return String containing language specific word.
 	 */
 	public String convert(StringBuilder sb, int n) {
-		//TODO validate n
+		//TODO update validation of n.
 		// check if can be retrieved using langSupp..
 		if (langSupp.containsWord(String.valueOf(n))) {
 			sb.append(langSupp.getWord(String.valueOf(n)).toLowerCase());
@@ -107,7 +107,8 @@ public class RecursiveIntToWord {
 			arr = fmt.split(",", ++len);
 			convert(sb, Integer.valueOf(arr[0]));
 			sb.append(langSupp.getMillUnit() + DEF.SPACE.val());
-			// loop over arr[1].. performing conversion if arr[n] > 0
+
+			// loop from arr[1].. performing conversion if arr[n] > 0
 			for (int j = 1; j < arr.length; j++) {
 				wrdBdr = format(sb, Integer.valueOf(arr[j]));
 				if (wrdBdr.isConv()) {
