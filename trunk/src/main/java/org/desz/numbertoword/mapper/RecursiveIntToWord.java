@@ -69,7 +69,7 @@ public class RecursiveIntToWord {
 								.toLowerCase());
 				break;
 			}
-			// ..no calculation required
+			// ..no! Calculation required
 			String dec = null;
 			int k = modHun;
 			modHun %= 10;

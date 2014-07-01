@@ -16,7 +16,7 @@ org.desz
     </artifactId>
 
 	<version>
-	1.0-FINAL
+	1.1-RECURSIVE
     </version>
 
 	<packaging>
@@ -32,7 +32,7 @@ jar
 http://maven.apache.org
     </url>
 	<properties>
-		<org.springframework.version>3.2.3.RELEASE</org.springframework.version>
+		<org.springframework.version>4.0.5.RELEASE</org.springframework.version>
 		<powermock.version>1.4.12</powermock.version>
 		<morphia.version>0.98</morphia.version>
 	</properties>
@@ -120,7 +120,7 @@ http://maven.apache.org
 
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>org.springframework.expression</artifactId>
+			<artifactId>spring-expression</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
 
@@ -210,10 +210,6 @@ http://maven.apache.org
 				</configuration>
 
 			</plugin>
-
-			<!-- <plugin> <artifactId> maven-compiler-plugin </artifactId> <configuration> 
-				<source> 1.6 </source> <target> 1.6 </target> </configuration> </plugin> -->
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
