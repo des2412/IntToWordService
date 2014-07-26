@@ -70,6 +70,7 @@ public final class LanguageSupport implements ILanguageSupport {
 
 			break;
 		case FR:
+			this.billUnit = FR_FMT.BILLS.val();
 			this.millUnit = FR_FMT.MILLS.val();
 			this.thouUnit = FR_FMT.THOUS.val();
 			this.hunUnit = FR_FMT.HUNS.val();
@@ -86,6 +87,7 @@ public final class LanguageSupport implements ILanguageSupport {
 			break;
 
 		case DE:
+			this.billUnit = DE_FMT.BILLS.val();
 			this.millUnit = DE_FMT.MILLS.val();
 			this.thouUnit = DE_FMT.THOUS.val();
 			this.hunUnit = DE_FMT.HUNS.val();
@@ -101,6 +103,7 @@ public final class LanguageSupport implements ILanguageSupport {
 			break;
 
 		case NL:
+			this.billUnit = NL_FMT.BILLS.val();
 			this.millUnit = NL_FMT.MILLS.val();
 			this.thouUnit = NL_FMT.THOUS.val();
 			this.hunUnit = NL_FMT.HUNS.val();

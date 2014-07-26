@@ -5,13 +5,11 @@ package org.desz.numtoword.cms;
 
 import java.math.BigInteger;
 
-
-
 /**
  * @author des
  * 
- *         ContentContainer: Enums for language, integer to word mappings, Errors,
- *         Format and Units
+ *         ContentContainer: Enums for language, integer to word mappings,
+ *         Errors, Format and Units
  * 
  */
 public final class ContentContainer {
@@ -380,7 +378,7 @@ public final class ContentContainer {
 	public enum FR_FMT {
 		AND(DEF.SPACE.val() + "et" + DEF.SPACE.val()), MILLS(DEF.SPACE.val()
 				+ "million"), THOUS(DEF.SPACE.val() + "mille"), HUNS(DEF.SPACE
-				.val() + "cent");
+				.val() + "cent"), BILLS(DEF.SPACE.val() + "milliard");
 
 		private String val;
 
@@ -403,8 +401,8 @@ public final class ContentContainer {
 	public enum DE_FMT {
 
 		AND(DEF.SPACE.val() + "und" + DEF.SPACE.val()), MILLS(DEF.SPACE.val()
-				+ "million"), THOUS(DEF.SPACE.val() + "tausend"), HUNS(
-				DEF.SPACE.val() + "hundert");
+				+ "million"), BILLS(DEF.SPACE.val() + "milliarde"), THOUS(
+				DEF.SPACE.val() + "tausend"), HUNS(DEF.SPACE.val() + "hundert");
 
 		private String val;
 
@@ -420,8 +418,8 @@ public final class ContentContainer {
 	public enum NL_FMT {
 
 		AND(DEF.SPACE.val() + "en" + DEF.SPACE.val()), MILLS(DEF.SPACE.val()
-				+ "miljeon"), THOUS(DEF.SPACE.val() + "duizend"), HUNS(
-				DEF.SPACE.val() + "honderd");
+				+ "miljeon"), BILLS(DEF.SPACE.val() + "miljard"), THOUS(
+				DEF.SPACE.val() + "duizend"), HUNS(DEF.SPACE.val() + "honderd");
 
 		private String val;
 
