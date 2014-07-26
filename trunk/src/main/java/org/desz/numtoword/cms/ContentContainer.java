@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.desz.numbertoword.enums;
+package org.desz.numtoword.cms;
 
 import java.math.BigInteger;
 
@@ -10,11 +10,11 @@ import java.math.BigInteger;
 /**
  * @author des
  * 
- *         EnumHolder: Enums for language, integer to word mappings, Errors,
+ *         ContentContainer: Enums for language, integer to word mappings, Errors,
  *         Format and Units
  * 
  */
-public final class EnumHolder {
+public final class ContentContainer {
 
 	/**
 	 * Enum encapsulating application level provisioned languages. EMPTY is
@@ -345,7 +345,7 @@ public final class EnumHolder {
 	};
 
 	/**
-	 * Enum format help for String representation of converted number and errors
+	 * Formatted representation of converted number and errors
 	 * 
 	 * DEF is UK and includes the language-independent space, separators etc.
 	 * 

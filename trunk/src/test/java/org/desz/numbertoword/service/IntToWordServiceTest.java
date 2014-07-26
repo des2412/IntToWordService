@@ -4,8 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.math.BigInteger;
 
-import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
-import org.desz.numbertoword.exceptions.IntToWordServiceException;
+import org.desz.numtoword.cms.ContentContainer.PROV_LANG;
+import org.desz.numtoword.exceptions.IntToWordServiceException;
+import org.desz.numtoword.service.INumberToWordService;
 import org.desz.spring.config.IntegerToWordServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;

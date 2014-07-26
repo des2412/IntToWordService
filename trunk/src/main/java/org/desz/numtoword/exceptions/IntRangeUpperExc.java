@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.desz.numbertoword.exceptions;
+package org.desz.numtoword.exceptions;
 
 /**
  * @author des

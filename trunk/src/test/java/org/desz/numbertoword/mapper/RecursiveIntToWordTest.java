@@ -2,7 +2,8 @@ package org.desz.numbertoword.mapper;
 
 import static org.junit.Assert.*;
 
-import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
+import org.desz.numtoword.cms.ContentContainer.PROV_LANG;
+import org.desz.numtoword.mapper.RecursiveIntToWord;
 import org.junit.Before;
 import org.junit.Test;
 

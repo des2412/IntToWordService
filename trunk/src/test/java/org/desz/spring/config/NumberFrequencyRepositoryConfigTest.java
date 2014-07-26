@@ -2,8 +2,8 @@ package org.desz.spring.config;
 
 import javax.inject.Inject;
 
-import org.desz.numbertoword.repository.INumberFreqRepo;
-import org.desz.numbertoword.repository.NumberFrequencyRepository;
+import org.desz.numtoword.repository.INumberFreqRepo;
+import org.desz.numtoword.repository.NumberFrequencyRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;

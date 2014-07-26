@@ -1,4 +1,4 @@
-package org.desz.numbertoword.repository;
+package org.desz.numtoword.repository;
 
 import org.desz.domain.NumberFrequency;
 import org.springframework.data.mongodb.repository.MongoRepository;

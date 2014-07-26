@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.desz.numbertoword.service.validator;
+package org.desz.numtoword.service.validator;
 
 import java.math.BigInteger;
 import java.text.NumberFormat;
@@ -9,8 +9,8 @@ import java.util.Locale;
 import java.util.logging.Logger;
 
 import org.desz.language.ILanguageSupport;
-import org.desz.numbertoword.exceptions.IntRangeLowerExc;
-import org.desz.numbertoword.exceptions.IntRangeUpperExc;
+import org.desz.numtoword.exceptions.IntRangeLowerExc;
+import org.desz.numtoword.exceptions.IntRangeUpperExc;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
@@ -32,7 +32,7 @@ public final class UkIntValidator implements IFormatter {
 	private transient static NumberFormat ukFmtr = NumberFormat
 			.getIntegerInstance(Locale.UK);
 
-	private static final Range<Integer> range = Ranges.closed(0, 999999999);
+	private static final Range<Integer> range = Ranges.closed(0, Integer.MAX_VALUE);
 
 	private ILanguageSupport enumLanguageSupport;
 

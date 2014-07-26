@@ -3,32 +3,29 @@ package org.desz.language;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.desz.numbertoword.enums.EnumHolder.DEF;
-import org.desz.numbertoword.enums.EnumHolder.DE_ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.DE_FMT;
-import org.desz.numbertoword.enums.EnumHolder.DE_WORDS;
-import org.desz.numbertoword.enums.EnumHolder.FR_ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.FR_FMT;
-import org.desz.numbertoword.enums.EnumHolder.FR_WORDS;
-import org.desz.numbertoword.enums.EnumHolder.NL_ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.NL_FMT;
-import org.desz.numbertoword.enums.EnumHolder.NL_WORDS;
-import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
-import org.desz.numbertoword.enums.EnumHolder.UK_ERRORS;
-import org.desz.numbertoword.enums.EnumHolder.UK_WORDS;
+import org.desz.numtoword.cms.ContentContainer.DEF;
+import org.desz.numtoword.cms.ContentContainer.DE_ERRORS;
+import org.desz.numtoword.cms.ContentContainer.DE_FMT;
+import org.desz.numtoword.cms.ContentContainer.DE_WORDS;
+import org.desz.numtoword.cms.ContentContainer.FR_ERRORS;
+import org.desz.numtoword.cms.ContentContainer.FR_FMT;
+import org.desz.numtoword.cms.ContentContainer.FR_WORDS;
+import org.desz.numtoword.cms.ContentContainer.NL_ERRORS;
+import org.desz.numtoword.cms.ContentContainer.NL_FMT;
+import org.desz.numtoword.cms.ContentContainer.NL_WORDS;
+import org.desz.numtoword.cms.ContentContainer.PROV_LANG;
+import org.desz.numtoword.cms.ContentContainer.UK_ERRORS;
+import org.desz.numtoword.cms.ContentContainer.UK_WORDS;
 
 import com.google.common.collect.ImmutableMap;
 
 /**
- * Class that holds the enum sourced constants particular to PROV_LANG.
- * 
- * This class is used by INumberToWordFactory which is responsible for the
- * creation of the IFIntegerToWordMapper.
+ * Class that holds constants for PROV_LANG.
  * 
  * @author des
  * 
  */
-public final class EnumLanguageSupport implements ILanguageSupport {
+public final class LanguageSupport implements ILanguageSupport {
 
 	private String millUnit;
 	private String thouUnit;
@@ -51,7 +48,7 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 	 * @param pl
 	 *            PROV_LANG
 	 */
-	public EnumLanguageSupport(final PROV_LANG pl) {
+	public LanguageSupport(final PROV_LANG pl) {
 
 		Map<String, String> intToWordMap = new HashMap<String, String>();
 		switch (pl) {
@@ -137,8 +134,8 @@ public final class EnumLanguageSupport implements ILanguageSupport {
 		}
 		return null;
 	}
-	
-	public boolean containsWord(String num){
+
+	public boolean containsWord(String num) {
 		return immutable.containsKey(num);
 	}
 

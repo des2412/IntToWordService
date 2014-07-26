@@ -1,4 +1,4 @@
-package org.desz.numbertoword.repository;
+package org.desz.numtoword.repository;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;

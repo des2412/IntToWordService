@@ -1,10 +1,10 @@
 /**
  * 
  */
-package org.desz.numbertoword.service;
+package org.desz.numtoword.service;
 
-import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
-import org.desz.numbertoword.exceptions.IntToWordServiceException;
+import org.desz.numtoword.cms.ContentContainer.PROV_LANG;
+import org.desz.numtoword.exceptions.IntToWordServiceException;
 
 /**
  * @author des

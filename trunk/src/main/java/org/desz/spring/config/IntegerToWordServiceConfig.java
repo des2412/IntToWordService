@@ -3,8 +3,8 @@ package org.desz.spring.config;
 import java.math.BigInteger;
 import java.util.logging.Logger;
 
-import org.desz.numbertoword.service.INumberToWordService;
-import org.desz.numbertoword.service.IntToWordServiceImpl;
+import org.desz.numtoword.service.INumberToWordService;
+import org.desz.numtoword.service.IntToWordServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

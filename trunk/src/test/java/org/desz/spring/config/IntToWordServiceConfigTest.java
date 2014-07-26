@@ -5,9 +5,9 @@ import static org.junit.Assert.assertNotNull;
 
 import java.math.BigInteger;
 
-import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
-import org.desz.numbertoword.exceptions.IntToWordServiceException;
-import org.desz.numbertoword.service.INumberToWordService;
+import org.desz.numtoword.cms.ContentContainer.PROV_LANG;
+import org.desz.numtoword.exceptions.IntToWordServiceException;
+import org.desz.numtoword.service.INumberToWordService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

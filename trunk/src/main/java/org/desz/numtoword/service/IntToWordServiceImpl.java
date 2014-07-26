@@ -1,15 +1,15 @@
 /**
  * 
  */
-package org.desz.numbertoword.service;
+package org.desz.numtoword.service;
 
 import java.math.BigInteger;
 import java.util.logging.Logger;
 
-import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
-import org.desz.numbertoword.exceptions.IntToWordServiceException;
-import org.desz.numbertoword.mapper.RecursiveIntToWord;
-import org.desz.numbertoword.repository.NumberFrequencyRepository;
+import org.desz.numtoword.cms.ContentContainer.PROV_LANG;
+import org.desz.numtoword.exceptions.IntToWordServiceException;
+import org.desz.numtoword.mapper.RecursiveIntToWord;
+import org.desz.numtoword.repository.NumberFrequencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

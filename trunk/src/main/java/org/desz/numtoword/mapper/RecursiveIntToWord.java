@@ -1,14 +1,18 @@
 /**
  * 
  */
-package org.desz.numbertoword.mapper;
+package org.desz.numtoword.mapper;
 
 import java.text.NumberFormat;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
-import org.desz.language.EnumLanguageSupport;
-import org.desz.numbertoword.enums.EnumHolder.DEF;
-import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
+import org.desz.language.ILanguageSupport;
+import org.desz.language.LanguageSupport;
+import org.desz.numtoword.cms.ContentContainer.DEF;
+import org.desz.numtoword.cms.ContentContainer.PROV_LANG;
 
 /**
  * @author des Converts integer (0-Integer.MAX_VALUE) to corresponding word
@@ -17,24 +21,32 @@ import org.desz.numbertoword.enums.EnumHolder.PROV_LANG;
  */
 public class RecursiveIntToWord {
 
-	private EnumLanguageSupport langSupp;
+	private ILanguageSupport langSupp;
+	private static Map<PROV_LANG, ILanguageSupport> _cache = Collections
+			.synchronizedMap(new HashMap<PROV_LANG, ILanguageSupport>());
 
 	public RecursiveIntToWord(PROV_LANG ln) {
 
-		langSupp = new EnumLanguageSupport(ln);
+		if (!(_cache.containsKey(ln))) {
+			// cache langSupp
+			langSupp = new LanguageSupport(ln);
+			_cache.put(ln, langSupp);
+		} else
+			langSupp = _cache.get(ln);
 
 	}
 
+
 	/**
-	 * converts number to word recursively. Number is formatted to discrete
-	 * components. Each component is in range 0-999.
+	 * converts number to word recursively. Number is formatted to the discrete
+	 * components where each component is in range 1 - 999.
 	 * 
 	 * @param sb
 	 * @param n
 	 * @return String containing language specific word.
 	 */
 	public String convert(StringBuilder sb, int n) {
-		//TODO update validation of n.
+		// TODO update validation of n (for >= billion).
 		// check if can be retrieved using langSupp..
 		if (langSupp.containsWord(String.valueOf(n))) {
 			sb.append(langSupp.getWord(String.valueOf(n)).toLowerCase());

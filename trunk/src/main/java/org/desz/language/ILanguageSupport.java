@@ -31,4 +31,8 @@ public interface ILanguageSupport {
 	
 	public String getWord(String num);
 
+	public boolean containsWord(String valueOf);
+
+	public String getBillUnit();
+
 }
