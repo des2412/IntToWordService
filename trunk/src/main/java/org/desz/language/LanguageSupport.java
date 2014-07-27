@@ -61,7 +61,7 @@ public final class LanguageSupport implements ILanguageSupport {
 			this.invalidInput = UK_ERRORS.INVALID_INPUT.getError();
 			this.nullInput = UK_ERRORS.NULL_INPUT.getError();
 			this.negativeInput = UK_ERRORS.NEGATIVE_INPUT.getError();
-			this.negativeInput = UK_ERRORS.NUMBERFORMAT.getError();
+			this.negativeInput = UK_ERRORS.NUMBER_FORMAT.getError();
 			this.unknownErr = UK_ERRORS.UNKNOWN.getError();
 			// generate Map of int to word for UK English
 			for (UK_WORDS intToWord : UK_WORDS.values()) {
@@ -78,7 +78,7 @@ public final class LanguageSupport implements ILanguageSupport {
 			this.invalidInput = FR_ERRORS.INVALID_INPUT.getError();
 			this.nullInput = FR_ERRORS.NULL_INPUT.getError();
 			this.negativeInput = FR_ERRORS.NEGATIVE_INPUT.getError();
-			this.negativeInput = FR_ERRORS.NUMBERFORMAT.getError();
+			this.negativeInput = FR_ERRORS.NUMBER_FORMAT.getError();
 			this.unknownErr = FR_ERRORS.UNKNOWN.getError();
 			for (FR_WORDS intToWord : FR_WORDS.values()) {
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
@@ -95,7 +95,7 @@ public final class LanguageSupport implements ILanguageSupport {
 			this.invalidInput = DE_ERRORS.INVALID_INPUT.getError();
 			this.nullInput = DE_ERRORS.NULL_INPUT.getError();
 			this.negativeInput = DE_ERRORS.NEGATIVE_INPUT.getError();
-			this.negativeInput = DE_ERRORS.NUMBERFORMAT.getError();
+			this.negativeInput = DE_ERRORS.NUMBER_FORMAT.getError();
 			this.unknownErr = DE_ERRORS.UNKNOWN.getError();
 			for (DE_WORDS intToWord : DE_WORDS.values()) {
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
@@ -111,7 +111,7 @@ public final class LanguageSupport implements ILanguageSupport {
 			this.invalidInput = NL_ERRORS.INVALID_INPUT.getError();
 			this.nullInput = NL_ERRORS.NULL_INPUT.getError();
 			this.negativeInput = NL_ERRORS.NEGATIVE_INPUT.getError();
-			this.negativeInput = NL_ERRORS.NUMBERFORMAT.getError();
+			this.negativeInput = NL_ERRORS.NUMBER_FORMAT.getError();
 			this.unknownErr = NL_ERRORS.UNKNOWN.getError();
 			for (NL_WORDS intToWord : NL_WORDS.values()) {
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());

@@ -20,7 +20,4 @@ public interface INumberToWordService<T extends Number> {
 	String getWordInlang(PROV_LANG provLn, String num)
 			throws IntToWordServiceException;
 
-	String getErrorMessage();
-
-	//void saveFrequency(String num) throws IntToWordServiceException;
 }

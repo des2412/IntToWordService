@@ -258,9 +258,9 @@ public final class ContentContainer {
 	public enum UK_ERRORS {
 		INVALID_INPUT("Invalid input"), INVALID_NUMBER(
 				"Fractional or non integral numbers disallowed"), NULL_INPUT(
-				"Enter an Integer to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT(
-				"Negative integer input"), NUMBERFORMAT(
-				"Number Format Exception"), INVALID_LN_SEL(
+				"Enter Integer to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT(
+				"Negative Integer not allowed"), NUMBER_FORMAT(
+				"Number Format Exception.. Integer too Large"), INVALID_LN_SEL(
 				"Select a valid language");
 
 		private final String error;
@@ -278,10 +278,10 @@ public final class ContentContainer {
 	public enum FR_ERRORS {
 		INVALID_INPUT("Invalid d'entrée"), INVALID_NUMBER(
 				"Fractionnées ou non nombres entiers a refusé"), NULL_INPUT(
-				"Aucun numro de convertir"), UNKNOWN("erreur inconnue"), NEGATIVE_INPUT(
-				"L'entrée négative entier"), NUMBERFORMAT(
-				"Exception Format de nombre"), INVALID_LN_SEL(
-				"Langue valide pas choisi");
+				"Aucun numero de convertir"), UNKNOWN("erreur inconnue"), NEGATIVE_INPUT(
+				"Entier négatif non autorisé"), NUMBER_FORMAT(
+				"Exception Format de nombre.. Entier trop grand"), INVALID_LN_SEL(
+				"Sélectionnez une langue valide");
 		private String error;
 
 		private FR_ERRORS(String error) {
@@ -304,8 +304,9 @@ public final class ContentContainer {
 		INVALID_INPUT("ungültige Eingabe"), INVALID_NUMBER(
 				"Gebrochene oder nicht ganze Zahlen aberkannt"), NULL_INPUT(
 				"null-Eingang"), UNKNOWN("unbekannter Fehler"), NEGATIVE_INPUT(
-				"Minuseingang"), NUMBERFORMAT("Zahlenformat Ausnahme"), INVALID_LN_SEL(
-				"ungültige Auswahl der Sprache");
+				"Negative Integer nicht erlaubt"), NUMBER_FORMAT(
+				"Zahlenformat Ausnahme.. Integer zu groß"), INVALID_LN_SEL(
+				"Wählen Sie eine gültige Sprache");
 		private String error;
 
 		private DE_ERRORS(String error) {
@@ -328,8 +329,9 @@ public final class ContentContainer {
 		INVALID_INPUT("Ongeldige Invoer"), INVALID_NUMBER(
 				"Fractionele of niet-gehele getallen niet toegestaan"), NULL_INPUT(
 				"null-Eingang"), UNKNOWN("Onbekende Fout"), NEGATIVE_INPUT(
-				"Negatieve Ingang"), NUMBERFORMAT("Getalnotatie Uitzondering"), INVALID_LN_SEL(
-				"Ongeldig Taalkeuze");
+				"Negatieve Integer niet toegestaan"), NUMBER_FORMAT(
+				"Getalnotatie Uitzondering..Integer te groot"), INVALID_LN_SEL(
+				"Selecteer een geldige taal");
 		private String error;
 
 		private NL_ERRORS(String error) {
