@@ -36,20 +36,19 @@ public class RecursiveIntToWord {
 
 	}
 
-
 	/**
-	 * converts number to word recursively. Number is formatted to the discrete
-	 * components where each component is in range 1 - 999.
+	 * converts number to word recursively. Number is UK formatted to the
+	 * discrete components where each component [1 - 999].
 	 * 
-	 * @param sb
+	 * @param word
 	 * @param n
 	 * @return String containing language specific word.
 	 */
 	public String convert(StringBuilder sb, int n) {
-		// TODO update validation of n (for >= billion).
 		// check if can be retrieved using langSupp..
-		if (langSupp.containsWord(String.valueOf(n))) {
-			sb.append(langSupp.getWord(String.valueOf(n)).toLowerCase());
+		final String str = String.valueOf(n);
+		if (langSupp.containsWord(str)) {
+			sb.append(langSupp.getWord(str).toLowerCase());
 			return sb.toString();
 		}
 
@@ -72,7 +71,7 @@ public class RecursiveIntToWord {
 						+ langSupp.getHunUnit());
 				break;
 			}
-			// is modHun available using langSupp..
+			// check whether modHun contained in langSupp..
 			if (langSupp.containsWord(String.valueOf(modHun))) {
 				sb.append(langSupp.getWord(hun).toLowerCase()
 						+ langSupp.getHunUnit()
@@ -107,8 +106,8 @@ public class RecursiveIntToWord {
 			arr = fmt.split(",", ++len);
 			convert(sb, Integer.valueOf(arr[0]));
 			sb.append(langSupp.getThouUnit());
-			wrdBdr = format(sb, Integer.valueOf(arr[1]));
-			if (wrdBdr.isConv()) {
+			wrdBdr = buildWord(sb, Integer.valueOf(arr[1]));
+			if (wrdBdr.unFinished()) {
 				sb = wrdBdr.getSb();
 				convert(sb, Integer.valueOf(arr[1]));
 
@@ -122,8 +121,8 @@ public class RecursiveIntToWord {
 
 			// loop from arr[1].. performing conversion if arr[n] > 0
 			for (int j = 1; j < arr.length; j++) {
-				wrdBdr = format(sb, Integer.valueOf(arr[j]));
-				if (wrdBdr.isConv()) {
+				wrdBdr = buildWord(sb, Integer.valueOf(arr[j]));
+				if (wrdBdr.unFinished()) {
 					sb = wrdBdr.getSb();
 					convert(sb, Integer.valueOf(arr[j]));
 					if (j == 1)
@@ -139,8 +138,8 @@ public class RecursiveIntToWord {
 			sb.append(langSupp.getBillUnit());
 
 			for (int j = 1; j < arr.length; j++) {
-				wrdBdr = format(sb, Integer.valueOf(arr[j]));
-				if (wrdBdr.isConv()) {
+				wrdBdr = buildWord(sb, Integer.valueOf(arr[j]));
+				if (wrdBdr.unFinished()) {
 					sb = wrdBdr.getSb();
 					convert(sb, Integer.valueOf(arr[j]));
 					if (j == 1)
@@ -160,16 +159,17 @@ public class RecursiveIntToWord {
 	}
 
 	/**
-	 * builds word and indicates whether to progress with the recursion
+	 * builds word and indicates whether to progress with the recursion based on
+	 * param i being greater than 0 which if so directs another recursion
 	 * 
 	 * @see WordBuilder
 	 * 
-	 * @param sb
+	 * @param word
 	 * @param i
 	 * @return
 	 */
 
-	private WordBuilder format(StringBuilder sb, int i) {
+	private WordBuilder buildWord(StringBuilder sb, int i) {
 		StringBuilder sbCpy = new StringBuilder(sb.toString().trim());
 
 		if (i > 0) {
@@ -181,25 +181,26 @@ public class RecursiveIntToWord {
 			}
 			return new WordBuilder(sbCpy, true);
 		}
+		// false means recursion is finished
 		return new WordBuilder(sb, false);
 	}
 
 	private class WordBuilder {
-		public WordBuilder(StringBuilder sb, boolean bol) {
+		public WordBuilder(StringBuilder word, boolean unFinished) {
 			super();
-			this.sb = sb;
-			this.conv = bol;
+			this.word = word;
+			this.unFinished = unFinished;
 		}
 
-		private final StringBuilder sb;
-		private final boolean conv;
+		private final StringBuilder word;
+		private final boolean unFinished;
 
 		public StringBuilder getSb() {
-			return sb;
+			return word;
 		}
 
-		public boolean isConv() {
-			return conv;
+		public boolean unFinished() {
+			return unFinished;
 		}
 
 	}

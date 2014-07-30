@@ -259,8 +259,8 @@ public final class ContentContainer {
 		INVALID_INPUT("Invalid input"), INVALID_NUMBER(
 				"Fractional or non integral numbers disallowed"), NULL_INPUT(
 				"Enter Integer to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT(
-				"Negative Integer not allowed"), NUMBER_FORMAT(
-				"Number Format Exception.. Integer too Large"), INVALID_LN_SEL(
+				"Negative Integer input disallowed"), NUMBER_FORMAT(
+				"Number Format Exception.. Integer too Large"), LANG_ERR(
 				"Select a valid language");
 
 		private final String error;
@@ -280,7 +280,7 @@ public final class ContentContainer {
 				"Fractionnées ou non nombres entiers a refusé"), NULL_INPUT(
 				"Aucun numero de convertir"), UNKNOWN("erreur inconnue"), NEGATIVE_INPUT(
 				"Entier négatif non autorisé"), NUMBER_FORMAT(
-				"Exception Format de nombre.. Entier trop grand"), INVALID_LN_SEL(
+				"Exception Format de nombre.. Entier trop grand"), LANG_ERR(
 				"Sélectionnez une langue valide");
 		private String error;
 
@@ -305,7 +305,7 @@ public final class ContentContainer {
 				"Gebrochene oder nicht ganze Zahlen aberkannt"), NULL_INPUT(
 				"null-Eingang"), UNKNOWN("unbekannter Fehler"), NEGATIVE_INPUT(
 				"Negative Integer nicht erlaubt"), NUMBER_FORMAT(
-				"Zahlenformat Ausnahme.. Integer zu groß"), INVALID_LN_SEL(
+				"Zahlenformat Ausnahme.. Integer zu groß"), LANG_ERR(
 				"Wählen Sie eine gültige Sprache");
 		private String error;
 
@@ -330,7 +330,7 @@ public final class ContentContainer {
 				"Fractionele of niet-gehele getallen niet toegestaan"), NULL_INPUT(
 				"null-Eingang"), UNKNOWN("Onbekende Fout"), NEGATIVE_INPUT(
 				"Negatieve Integer niet toegestaan"), NUMBER_FORMAT(
-				"Getalnotatie Uitzondering..Integer te groot"), INVALID_LN_SEL(
+				"Getalnotatie Uitzondering..Integer te groot"), LANG_ERR(
 				"Selecteer een geldige taal");
 		private String error;
 

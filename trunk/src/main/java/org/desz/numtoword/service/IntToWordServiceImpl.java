@@ -39,13 +39,12 @@ public final class IntToWordServiceImpl implements
 			throws IntToWordServiceException {
 		numberFrequencyRepository.saveNumberFrequency(num);
 		RecursiveIntToWord converter = new RecursiveIntToWord(provLang);
-		String res = null;
 		try {
-			res = converter.convert(new StringBuilder(), Integer.valueOf(num));
+			return converter.convert(new StringBuilder(), Integer.valueOf(num));
 		} catch (Exception e) {
 			throw new IntToWordServiceException(e.getLocalizedMessage());
 		}
-		return res;
+
 	}
 
 }
