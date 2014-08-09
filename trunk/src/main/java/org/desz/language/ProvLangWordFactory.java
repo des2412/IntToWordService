@@ -20,7 +20,7 @@ import org.desz.integertoword.content.ContentContainer.UK_WORDS;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * Class that holds constants for PROV_LANG.
+ * Class that defines constants for supported PROV_LANG.
  * 
  * @author des
  * 
@@ -43,7 +43,11 @@ public final class ProvLangWordFactory implements ILanguageSupport {
 	private String billUnit;
 
 	/**
-	 * Class is a container for the language specific words and errors.
+	 * Class is a container for the language specific words and errors. In the
+	 * context of the application a Flyweight approach is used. Only
+	 * instantiated once and cached.
+	 * 
+	 * @see RecursiveIntToWord
 	 * 
 	 * @param pl
 	 *            PROV_LANG
@@ -128,7 +132,7 @@ public final class ProvLangWordFactory implements ILanguageSupport {
 	}
 
 	/**
-	 * LoD aware
+	 * return the word for PROV_LN
 	 */
 	@Override
 	public String getWord(String num) {
@@ -193,7 +197,6 @@ public final class ProvLangWordFactory implements ILanguageSupport {
 	}
 
 	public String getBillUnit() {
-		// TODO Auto-generated method stub
 		return billUnit;
 	}
 
