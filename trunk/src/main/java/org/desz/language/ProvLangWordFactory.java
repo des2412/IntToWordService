@@ -25,7 +25,7 @@ import com.google.common.collect.ImmutableMap;
  * @author des
  * 
  */
-public final class LanguageSupport implements ILanguageSupport {
+public final class ProvLangWordFactory implements ILanguageSupport {
 
 	private String millUnit;
 	private String thouUnit;
@@ -48,7 +48,7 @@ public final class LanguageSupport implements ILanguageSupport {
 	 * @param pl
 	 *            PROV_LANG
 	 */
-	public LanguageSupport(final PROV_LANG pl) {
+	public ProvLangWordFactory(final PROV_LANG pl) {
 
 		Map<String, String> intToWordMap = new HashMap<String, String>();
 		switch (pl) {

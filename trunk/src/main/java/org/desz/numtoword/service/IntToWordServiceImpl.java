@@ -34,9 +34,14 @@ public final class IntToWordServiceImpl implements
 		this.numberFrequencyRepository = numberFrequencyRepository;
 	}
 
+	public IntToWordServiceImpl() {
+		numberFrequencyRepository = null;
+	}
+
 	@Override
-	public String getWordInlang(PROV_LANG provLang, String num)
+	public String getWordInLang(PROV_LANG provLang, String num)
 			throws IntToWordServiceException {
+		if(numberFrequencyRepository != null)
 		numberFrequencyRepository.saveNumberFrequency(num);
 		RecursiveIntToWord converter = new RecursiveIntToWord(provLang);
 		try {

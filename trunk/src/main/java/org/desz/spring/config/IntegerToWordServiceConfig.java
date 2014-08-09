@@ -22,7 +22,8 @@ public class IntegerToWordServiceConfig {
 	@Bean
 	public INumberToWordService<BigInteger> intToWordService() {
 
-		return new IntToWordServiceImpl(numberFrequencyRepositoryConfig.numberFrequencyRepository());
+		return new IntToWordServiceImpl(
+				numberFrequencyRepositoryConfig.numberFrequencyRepository());
 	}
 
 }
