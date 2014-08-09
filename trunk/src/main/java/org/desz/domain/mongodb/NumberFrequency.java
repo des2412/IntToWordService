@@ -1,4 +1,4 @@
-package org.desz.domain;
+package org.desz.domain.mongodb;
 
 import java.io.Serializable;
 

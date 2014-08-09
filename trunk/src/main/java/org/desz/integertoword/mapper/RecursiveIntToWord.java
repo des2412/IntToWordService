@@ -1,4 +1,4 @@
-package org.desz.numtoword.mapper;
+package org.desz.integertoword.mapper;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -9,10 +9,10 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.desz.integertoword.content.ContentContainer.DEF;
+import org.desz.integertoword.content.ContentContainer.PROV_LANG;
 import org.desz.language.ILanguageSupport;
 import org.desz.language.ProvLangWordFactory;
-import org.desz.numtoword.cms.ContentContainer.DEF;
-import org.desz.numtoword.cms.ContentContainer.PROV_LANG;
 
 /**
  * @author des Converts integer (0-Integer.MAX_VALUE) to corresponding word
@@ -55,40 +55,41 @@ public class RecursiveIntToWord {
 
 		String[] arr = null;
 		String fmt = NumberFormat.getIntegerInstance(Locale.UK).format(n);
-		int len = fmt.length() - fmt.replaceAll(",", "").length();
+		int len = fmt.length() - fmt.replaceAll(DEF.NUM_SEP.val(), "").length();
 		WordBuilder wrdBdr = null;
 
 		List<IntWithUnit> list = new ArrayList<IntWithUnit>();
 		switch (len) {
 
 		case 0:
-			int modHun = n;
+			int nmod = n;
 			String hun = String.valueOf(fmt.charAt(0));
-			final int modDiv = 100;
-			modHun %= modDiv;
+			//final int modDiv = 100;
+			nmod %= 100;
 			// 1..9 hundred
-			if (modHun == 0) {
+			if (nmod == 0) {
 				sb.append(provLangSupp.getWord(hun).toLowerCase()
 						+ provLangSupp.getHunUnit());
 				break;
 			}
 			// check whether modHun contained in provLangSupp..
-			if (provLangSupp.containsWord(String.valueOf(modHun))) {
+			if (provLangSupp.containsWord(String.valueOf(nmod))) {
 				sb.append(provLangSupp.getWord(hun).toLowerCase()
 						+ provLangSupp.getHunUnit()
 						+ provLangSupp.getAnd()
-						+ provLangSupp.getWord(String.valueOf(modHun))
+						+ provLangSupp.getWord(String.valueOf(nmod))
 								.toLowerCase());
 				break;
 			}
 			// ..no! Calculation required
 			String dec = null;
-			int k = modHun;//ie., modhum = 23
-			modHun %= 10;// modHun = 3
-			k -= modHun; // k == 20
+			int k = nmod;//ie., modhum = 23
+			nmod %= 10;// ..modHun = 3
+			k -= nmod; // .. k == 20
 			if (n >= 100) {
+				// 
 				dec = provLangSupp.getWord(String.valueOf(k)) + DEF.SPACE.val()
-						+ provLangSupp.getWord(String.valueOf(modHun));
+						+ provLangSupp.getWord(String.valueOf(nmod));
 
 				sb.append(provLangSupp.getWord(hun).toLowerCase()
 						+ provLangSupp.getHunUnit() + provLangSupp.getAnd()
@@ -98,7 +99,7 @@ public class RecursiveIntToWord {
 			// n < 100
 			dec = provLangSupp.getWord(String.valueOf(k)).toLowerCase()
 					+ DEF.SPACE.val()
-					+ provLangSupp.getWord(String.valueOf(modHun))
+					+ provLangSupp.getWord(String.valueOf(nmod))
 							.toLowerCase();
 			sb.append(dec);
 

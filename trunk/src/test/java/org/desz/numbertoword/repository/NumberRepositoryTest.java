@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.desz.domain.NumberFrequency;
-import org.desz.numtoword.repository.INumberFreqRepo;
+import org.desz.domain.mongodb.NumberFrequency;
+import org.desz.integertoword.repository.INumberFreqRepo;
 import org.desz.spring.config.NumberFrequencyRepositoryConfigTest;
 import org.junit.After;
 import org.junit.Before;
@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { NumberFrequencyRepositoryConfigTest.class })
-@ComponentScan(basePackages = { "org.desz.numtoword.repository" })
+@ComponentScan(basePackages = { "org.desz.integertoword.repository" })
 public class NumberRepositoryTest {
 
 	@Autowired

@@ -3,19 +3,19 @@ package org.desz.language;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.desz.numtoword.cms.ContentContainer.DEF;
-import org.desz.numtoword.cms.ContentContainer.DE_ERRORS;
-import org.desz.numtoword.cms.ContentContainer.DE_FMT;
-import org.desz.numtoword.cms.ContentContainer.DE_WORDS;
-import org.desz.numtoword.cms.ContentContainer.FR_ERRORS;
-import org.desz.numtoword.cms.ContentContainer.FR_FMT;
-import org.desz.numtoword.cms.ContentContainer.FR_WORDS;
-import org.desz.numtoword.cms.ContentContainer.NL_ERRORS;
-import org.desz.numtoword.cms.ContentContainer.NL_FMT;
-import org.desz.numtoword.cms.ContentContainer.NL_WORDS;
-import org.desz.numtoword.cms.ContentContainer.PROV_LANG;
-import org.desz.numtoword.cms.ContentContainer.UK_ERRORS;
-import org.desz.numtoword.cms.ContentContainer.UK_WORDS;
+import org.desz.integertoword.content.ContentContainer.DEF;
+import org.desz.integertoword.content.ContentContainer.DE_ERRORS;
+import org.desz.integertoword.content.ContentContainer.DE_FMT;
+import org.desz.integertoword.content.ContentContainer.DE_WORDS;
+import org.desz.integertoword.content.ContentContainer.FR_ERRORS;
+import org.desz.integertoword.content.ContentContainer.FR_FMT;
+import org.desz.integertoword.content.ContentContainer.FR_WORDS;
+import org.desz.integertoword.content.ContentContainer.NL_ERRORS;
+import org.desz.integertoword.content.ContentContainer.NL_FMT;
+import org.desz.integertoword.content.ContentContainer.NL_WORDS;
+import org.desz.integertoword.content.ContentContainer.PROV_LANG;
+import org.desz.integertoword.content.ContentContainer.UK_ERRORS;
+import org.desz.integertoword.content.ContentContainer.UK_WORDS;
 
 import com.google.common.collect.ImmutableMap;
 

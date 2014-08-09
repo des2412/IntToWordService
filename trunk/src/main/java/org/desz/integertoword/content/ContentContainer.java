@@ -1,9 +1,8 @@
 /**
  * 
  */
-package org.desz.numtoword.cms;
+package org.desz.integertoword.content;
 
-import java.math.BigInteger;
 
 /**
  * @author des
@@ -18,8 +17,6 @@ public final class ContentContainer {
 	 * Enum encapsulating application level provisioned languages. EMPTY is
 	 * defined for UI HTML elements; valid:boolean field assists validation of
 	 * input
-	 * 
-	 * @author des
 	 * 
 	 */
 	public enum PROV_LANG {
@@ -59,49 +56,7 @@ public final class ContentContainer {
 	};
 
 	/**
-	 * Enum for BigInteger constants
-	 * 
-	 * @author des
-	 * 
-	 */
-	public enum NUMBER_CONSTANT {
-
-		MINUS_ONE, ZERO, TEN, ONE_HUNDRED, TWENTY, NINE;
-
-		private NUMBER_CONSTANT() {
-
-		}
-
-		public BigInteger getVal() {
-			switch (this) {
-			case MINUS_ONE:
-				return new BigInteger("-1");
-			case ZERO:
-				return BigInteger.ZERO;
-			case NINE:
-				return new BigInteger("9");
-			case TEN:
-				return BigInteger.TEN;
-			case TWENTY:
-				return new BigInteger("20");
-			case ONE_HUNDRED:
-				return new BigInteger("100");
-			default:
-				break;
-			}
-			return null;
-		}
-	};
-
-	/**
 	 * XX_WORDS specific mappings.
-	 * 
-	 * The Factory will set the appropriate mapping.
-	 * 
-	 * @see IntToWordEnumFactory
-	 * 
-	 * @author des
-	 * 
 	 */
 	public enum NL_WORDS {
 		ZERO("0", "Nul"), ONE("1", "Een"), TWO("2", "Twee"), THREE("3", "Drei"), FOUR(
@@ -347,9 +302,7 @@ public final class ContentContainer {
 	/**
 	 * Formatted representation of converted number and errors
 	 * 
-	 * DEF is UK and includes the language-independent space, separators etc.
-	 * 
-	 * @author des
+	 * DEF represents language-independent space, separators etc.
 	 * 
 	 */
 	public enum DEF {
@@ -372,9 +325,7 @@ public final class ContentContainer {
 	};
 
 	/**
-	 * For the French..
-	 * 
-	 * @author des
+	 * French.
 	 * 
 	 */
 	public enum FR_FMT {

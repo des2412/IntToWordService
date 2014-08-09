@@ -1,16 +1,16 @@
 /**
  * 
  */
-package org.desz.numtoword.service.validator;
+package org.desz.integertoword.service.validator;
 
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.logging.Logger;
 
+import org.desz.integertoword.exceptions.IntRangeLowerExc;
+import org.desz.integertoword.exceptions.IntRangeUpperExc;
 import org.desz.language.ILanguageSupport;
-import org.desz.numtoword.exceptions.IntRangeLowerExc;
-import org.desz.numtoword.exceptions.IntRangeUpperExc;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;

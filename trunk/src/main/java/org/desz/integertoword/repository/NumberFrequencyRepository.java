@@ -1,4 +1,4 @@
-package org.desz.numtoword.repository;
+package org.desz.integertoword.repository;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
@@ -7,7 +7,7 @@ import static org.springframework.data.mongodb.core.query.Update.update;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.desz.domain.NumberFrequency;
+import org.desz.domain.mongodb.NumberFrequency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

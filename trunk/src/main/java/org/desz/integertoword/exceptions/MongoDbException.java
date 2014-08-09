@@ -1,25 +1,31 @@
 /**
  * 
  */
-package org.desz.numtoword.exceptions;
+package org.desz.integertoword.exceptions;
 
 /**
  * @author des
- * 
+ *
  */
-public class IntToWordServiceException extends Exception {
+public class MongoDbException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public IntToWordServiceException() {
+	/**
+	 * 
+	 */
+	public MongoDbException() {
 		super();
 
 	}
 
-	public IntToWordServiceException(String message) {
+	/**
+	 * @param message
+	 */
+	public MongoDbException(String message) {
 		super(message);
 
 	}

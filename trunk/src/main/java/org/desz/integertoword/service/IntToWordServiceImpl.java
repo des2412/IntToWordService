@@ -1,15 +1,15 @@
 /**
  * 
  */
-package org.desz.numtoword.service;
+package org.desz.integertoword.service;
 
 import java.math.BigInteger;
 import java.util.logging.Logger;
 
-import org.desz.numtoword.cms.ContentContainer.PROV_LANG;
-import org.desz.numtoword.exceptions.IntToWordServiceException;
-import org.desz.numtoword.mapper.RecursiveIntToWord;
-import org.desz.numtoword.repository.NumberFrequencyRepository;
+import org.desz.integertoword.content.ContentContainer.PROV_LANG;
+import org.desz.integertoword.exceptions.IntToWordServiceException;
+import org.desz.integertoword.mapper.RecursiveIntToWord;
+import org.desz.integertoword.repository.NumberFrequencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -2,8 +2,8 @@ package org.desz.numbertoword.mapper;
 
 import static org.junit.Assert.*;
 
-import org.desz.numtoword.cms.ContentContainer.PROV_LANG;
-import org.desz.numtoword.mapper.RecursiveIntToWord;
+import org.desz.integertoword.content.ContentContainer.PROV_LANG;
+import org.desz.integertoword.mapper.RecursiveIntToWord;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,6 +1,6 @@
-package org.desz.numtoword.repository;
+package org.desz.integertoword.repository;
 
-import org.desz.domain.NumberFrequency;
+import org.desz.domain.mongodb.NumberFrequency;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface INumberFreqRepo extends MongoRepository<NumberFrequency, String> {

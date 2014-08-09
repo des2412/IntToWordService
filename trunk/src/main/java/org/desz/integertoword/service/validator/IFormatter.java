@@ -1,12 +1,12 @@
 /**
  * 
  */
-package org.desz.numtoword.service.validator;
+package org.desz.integertoword.service.validator;
 
 import java.math.BigInteger;
 
-import org.desz.numtoword.exceptions.IntRangeLowerExc;
-import org.desz.numtoword.exceptions.IntRangeUpperExc;
+import org.desz.integertoword.exceptions.IntRangeLowerExc;
+import org.desz.integertoword.exceptions.IntRangeUpperExc;
 
 /**
  * @author des

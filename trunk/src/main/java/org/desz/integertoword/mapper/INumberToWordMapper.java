@@ -1,6 +1,6 @@
-package org.desz.numtoword.mapper;
+package org.desz.integertoword.mapper;
 
-import org.desz.numtoword.exceptions.IntToWordException;
+import org.desz.integertoword.exceptions.IntToWordException;
 
 public interface INumberToWordMapper<T extends Number> {
 
