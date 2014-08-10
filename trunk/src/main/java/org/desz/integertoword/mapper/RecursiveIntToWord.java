@@ -11,8 +11,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.desz.integertoword.content.ContentContainer.DEF;
 import org.desz.integertoword.content.ContentContainer.PROV_LANG;
-import org.desz.language.ILanguageSupport;
-import org.desz.language.ProvLangWordFactory;
+import org.desz.integertoword.language.ILanguageSupport;
+import org.desz.integertoword.language.ProvLangWordFactory;
 
 /**
  * @author des Converts integer (0-Integer.MAX_VALUE) to corresponding word

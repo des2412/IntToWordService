@@ -1,4 +1,4 @@
-package org.desz.language;
+package org.desz.integertoword.language;
 
 import java.util.HashMap;
 import java.util.Map;

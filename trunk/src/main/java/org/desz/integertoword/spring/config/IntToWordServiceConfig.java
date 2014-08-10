@@ -1,4 +1,4 @@
-package org.desz.spring.config;
+package org.desz.integertoword.spring.config;
 
 import java.math.BigInteger;
 import java.util.logging.Logger;
@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import(value = { NumberFrequencyRepositoryConfig.class })
-public class IntegerToWordServiceConfig {
+public class IntToWordServiceConfig {
 	protected final Logger LOGGER = Logger
-			.getLogger(IntegerToWordServiceConfig.class.getName());
+			.getLogger(IntToWordServiceConfig.class.getName());
 
 	@Autowired
 	private NumberFrequencyRepositoryConfig numberFrequencyRepositoryConfig;

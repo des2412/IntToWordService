@@ -2,7 +2,7 @@
  * Interface for application Errors, number order units
  * and integer to Word Map
  */
-package org.desz.language;
+package org.desz.integertoword.language;
 
 
 /**
