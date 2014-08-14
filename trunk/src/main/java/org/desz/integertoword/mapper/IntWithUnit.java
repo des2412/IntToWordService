@@ -34,13 +34,6 @@ public final class IntWithUnit {
 	}
 
 	public String getUnit() {
-//		if (i > 0) {
-//			if (i > 100)
-//				unit.concat(and);
-//			else
-//				unit.concat(DEF.SPACE.val());
-//
-//		}
 		return unit;
 	}
 
