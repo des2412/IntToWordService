@@ -1,4 +1,4 @@
-package org.desz.numbertoword.mapper;
+package org.desz.integertoword.mapper;
 
 import static org.junit.Assert.*;
 
@@ -7,10 +7,13 @@ import org.desz.integertoword.mapper.RecursiveIntToWord;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RecursiveIntToWordTest {
+public class TestRecursiveIntToWord {
 
 	RecursiveIntToWord rsv;
 
+	/**
+	 * create instance with UK language output
+	 */
 	@Before
 	public void init() {
 		rsv = new RecursiveIntToWord(PROV_LANG.UK);

@@ -1,4 +1,4 @@
-package org.desz.numbertoword.repository;
+package org.desz.integertoword.repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.desz.domain.mongodb.NumberFrequency;
 import org.desz.integertoword.repository.INumberFreqRepo;
-import org.desz.spring.config.NumberFrequencyRepositoryConfigTest;
+import org.desz.integertoword.spring.config.NumberFrequencyRepositoryConfigTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

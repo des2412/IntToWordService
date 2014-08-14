@@ -1,6 +1,7 @@
-package org.desz.numbertoword.service;
+package org.desz.integertoword.spring.config;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.math.BigInteger;
 
@@ -16,23 +17,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { IntToWordServiceConfig.class })
-public class IntToWordServiceTest {
+public class IntToWordServiceConfigTest {
 
 	@Autowired
 	private INumberToWordService<BigInteger> intToWordService;
 
-	@Test
-	public void testZero() throws IntToWordServiceException {
-		String str = intToWordService.getWordInLang(PROV_LANG.UK, "0");
-		assertEquals("zero", str);
-	}
 
 	@Test
-	public void testGetWord() throws IntToWordServiceException {
-
-		String str = intToWordService.getWordInLang(PROV_LANG.UK, "100");
-
-		assertEquals("one hundred", str);
+	public void testServiceOps() throws IntToWordServiceException {
+		String s = intToWordService.getWordInLang(PROV_LANG.UK, "1");
+		assertNotNull(s);
+		assertEquals("one", s);
 	}
 
 }

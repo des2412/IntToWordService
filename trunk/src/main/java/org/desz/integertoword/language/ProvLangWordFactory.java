@@ -142,6 +142,7 @@ public final class ProvLangWordFactory implements ILanguageSupport {
 		return null;
 	}
 
+	@Override
 	public boolean containsWord(String num) {
 		return immutable.containsKey(num);
 	}
@@ -196,6 +197,7 @@ public final class ProvLangWordFactory implements ILanguageSupport {
 		return unknownErr;
 	}
 
+	@Override
 	public String getBillUnit() {
 		return billUnit;
 	}

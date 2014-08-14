@@ -1,4 +1,4 @@
-package org.desz.spring.config;
+package org.desz.integertoword.spring.config;
 
 import javax.inject.Inject;
 
