@@ -17,6 +17,11 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+/**
+ * @author des
+ * test lifecycle of NumberFrequency entity
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { NumberFrequencyRepositoryConfigTest.class })
 @ComponentScan(basePackages = { "org.desz.integertoword.repository" })

@@ -12,7 +12,7 @@ org.desz
     </groupId>
 
 	<artifactId>
-		numbertoword
+		integertoword
     </artifactId>
 
 	<version>
@@ -24,7 +24,7 @@ jar
     </packaging>
 
 	<name>
-	numbertoword
+	integertoword
     </name>
 
 

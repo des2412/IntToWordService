@@ -4,7 +4,6 @@ import org.junit.Test;
 
 public class TestRandomGenerator {
 
-	// RandomGenerator gen;
 	@Test
 	public final void test() {
 		int i = 0;
