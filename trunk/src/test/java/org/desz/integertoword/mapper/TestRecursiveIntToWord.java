@@ -12,7 +12,7 @@ public class TestRecursiveIntToWord {
 	RecursiveIntToWord rsv;
 
 	/**
-	 * create instance with UK language output
+	 * RecursiveIntToWord UK language output
 	 */
 	@Before
 	public void init() {

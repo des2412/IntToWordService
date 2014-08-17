@@ -1,8 +1,8 @@
 package org.desz.integertoword.mapper;
 
 /**
- * Simple convenience class to fulfil DRY. Associates int to be converted with
- * the unit to append.
+ * Simple convenience class that serves to elimate duplication in RecursiveIntToWord.
+ * Associates int to be converted with the unit / and values to append based on i.
  *
  */
 public final class IntWithUnit {
