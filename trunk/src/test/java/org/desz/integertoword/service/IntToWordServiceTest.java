@@ -22,17 +22,15 @@ public class IntToWordServiceTest {
 	private INumberToWordService<BigInteger> intToWordService;
 
 	@Test
-	public void testZero() throws IntToWordServiceException {
-		String str = intToWordService.getWordInLang(PROV_LANG.UK, "0");
-		assertEquals("zero", str);
-	}
-
-	@Test
 	public void testGetWord() throws IntToWordServiceException {
 
-		String str = intToWordService.getWordInLang(PROV_LANG.UK, "100");
+		assertEquals("one hundred",
+				intToWordService.getWordInLang(PROV_LANG.UK, "100"));
+	}
 
-		assertEquals("one hundred", str);
+	@Test(expected = IntToWordServiceException.class)
+	public void testWithEmptyProvLang() throws IntToWordServiceException {
+		intToWordService.getWordInLang(PROV_LANG.EMPTY, "100");
 	}
 
 }

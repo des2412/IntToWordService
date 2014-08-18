@@ -41,8 +41,11 @@ public final class IntToWordServiceImpl implements
 	@Override
 	public String getWordInLang(PROV_LANG provLang, String num)
 			throws IntToWordServiceException {
-		if(numberFrequencyRepository != null)
-		numberFrequencyRepository.saveNumberFrequency(num);
+		if (provLang.equals(PROV_LANG.EMPTY))
+			throw new IntToWordServiceException(
+					"Empty provisioned language specified");
+		if (numberFrequencyRepository != null)
+			numberFrequencyRepository.saveNumberFrequency(num);
 		RecursiveIntToWord converter = new RecursiveIntToWord(provLang);
 		try {
 			return converter.convert(new StringBuilder(), Integer.valueOf(num));
