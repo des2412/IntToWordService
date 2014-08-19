@@ -1,11 +1,13 @@
 package org.desz.integertoword.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 import java.math.BigInteger;
 
 import org.desz.integertoword.content.ContentContainer.PROV_LANG;
 import org.desz.integertoword.exceptions.IntToWordServiceException;
+import org.desz.integertoword.repository.IntFreqRepo;
 import org.desz.integertoword.service.INumberToWordService;
 import org.desz.integertoword.spring.config.IntToWordServiceConfig;
 import org.junit.Test;
@@ -16,7 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { IntToWordServiceConfig.class })
-public class IntToWordServiceTest {
+public class TestIntToWordService {
 
 	@Autowired
 	private INumberToWordService<BigInteger> intToWordService;
@@ -31,6 +33,16 @@ public class IntToWordServiceTest {
 	@Test(expected = IntToWordServiceException.class)
 	public void testWithEmptyProvLang() throws IntToWordServiceException {
 		intToWordService.getWordInLang(PROV_LANG.EMPTY, "100");
+	}
+	/**
+	 * ascertain non-availability does not block..
+	 * @throws IntToWordServiceException 
+	 */
+	@Test
+	public void testWithMockedRepo() throws IntToWordServiceException{
+		IntFreqRepo mock = mock(IntFreqRepo.class);
+		when(mock.isAvailable()).thenReturn(false);
+		intToWordService.getWordInLang(PROV_LANG.UK, "100");
 	}
 
 }

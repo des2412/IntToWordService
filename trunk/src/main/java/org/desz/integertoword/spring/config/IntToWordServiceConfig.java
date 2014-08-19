@@ -11,19 +11,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import(value = { NumberFrequencyRepositoryConfig.class })
+@Import(value = { IntFrequencyRepoConfig.class })
 public class IntToWordServiceConfig {
 	protected final Logger LOGGER = Logger
 			.getLogger(IntToWordServiceConfig.class.getName());
 
 	@Autowired
-	private NumberFrequencyRepositoryConfig numberFrequencyRepositoryConfig;
+	private IntFrequencyRepoConfig numberFrequencyRepositoryConfig;
 
 	@Bean
 	public INumberToWordService<BigInteger> intToWordService() {
 
 		return new IntToWordServiceImpl(
-				numberFrequencyRepositoryConfig.numberFrequencyRepository());
+				numberFrequencyRepositoryConfig.intFreqRepo());
 	}
 
 }

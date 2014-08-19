@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import org.desz.integertoword.content.ContentContainer.PROV_LANG;
 import org.desz.integertoword.exceptions.IntToWordServiceException;
 import org.desz.integertoword.mapper.RecursiveIntToWord;
-import org.desz.integertoword.repository.NumberFrequencyRepository;
+import org.desz.integertoword.repository.IntFreqRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,20 +26,19 @@ public final class IntToWordServiceImpl implements
 	protected final Logger LOGGER = Logger.getLogger(IntToWordServiceImpl.class
 			.getName());
 
-	private final NumberFrequencyRepository numberFrequencyRepository;
+	private final IntFreqRepo intFreqRepo;
 
 	@Autowired
-	public IntToWordServiceImpl(
-			NumberFrequencyRepository numberFrequencyRepository) {
-		this.numberFrequencyRepository = numberFrequencyRepository;
+	public IntToWordServiceImpl(IntFreqRepo numberFrequencyRepository) {
+		this.intFreqRepo = numberFrequencyRepository;
 	}
 
 	/**
-	 * required if platform (ie GAE) connection to the repository is not
+	 * required if platform (ie GAE) connection to MongoDB repository is not
 	 * permitted
 	 */
 	public IntToWordServiceImpl() {
-		numberFrequencyRepository = null;
+		intFreqRepo = null;
 	}
 
 	@Override
@@ -48,8 +47,10 @@ public final class IntToWordServiceImpl implements
 		if (provLang.equals(PROV_LANG.EMPTY))
 			throw new IntToWordServiceException(
 					"Empty provisioned language specified");
-		if (numberFrequencyRepository != null)
-			numberFrequencyRepository.saveNumberFrequency(num);
+		if (intFreqRepo != null & intFreqRepo.isAvailable()) {
+			intFreqRepo.saveOrUpdateFrequency(num);
+		} else
+			LOGGER.info("repo unavailable");
 		RecursiveIntToWord converter = new RecursiveIntToWord(provLang);
 		try {
 			return converter.convert(new StringBuilder(), Integer.valueOf(num));
