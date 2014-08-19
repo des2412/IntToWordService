@@ -15,7 +15,7 @@ public interface INumberToWordService<T extends Number> {
 	 * 
 	 * @param provLn
 	 * @param num
-	 * @return
+	 * @return word(s) in provLn
 	 */
 	String getWordInLang(PROV_LANG provLn, String num)
 			throws IntToWordServiceException;

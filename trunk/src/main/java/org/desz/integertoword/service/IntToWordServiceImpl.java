@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 /**
  * 
  * @author des Service Stereotype; update MongoDb and invokes the integer
- *         conversion.
+ *         conversion to word.
  * 
  */
 @Service
@@ -34,6 +34,10 @@ public final class IntToWordServiceImpl implements
 		this.numberFrequencyRepository = numberFrequencyRepository;
 	}
 
+	/**
+	 * required if platform (ie GAE) connection to the repository is not
+	 * permitted
+	 */
 	public IntToWordServiceImpl() {
 		numberFrequencyRepository = null;
 	}
