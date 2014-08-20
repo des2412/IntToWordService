@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.net.UnknownHostException;
+import java.util.logging.Logger;
 
 import org.desz.domain.mongodb.NumberFrequency;
 import org.desz.integertoword.spring.config.IntFrequencyRepoConfig;
@@ -29,7 +30,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 // @ComponentScan(basePackages = { "org.desz.integertoword.repository" })
 public class TestIntFreqRepo {
 
-	// @Autowired
+	protected final Logger LOGGER = Logger.getLogger(TestIntFreqRepo.class
+			.getName());
 	private INumberFreqRepo intFreqRepo;
 
 	private String id = "100";
@@ -38,13 +40,15 @@ public class TestIntFreqRepo {
 
 	@Before
 	public void init() throws UnknownHostException {
+		
 		annoCtx = new AnnotationConfigApplicationContext();
 		annoCtx.register(IntFrequencyRepoConfig.class);
 		annoCtx.register(TestIntFrequencyRepoConfig.class);
 		annoCtx.refresh();
 
 		MongoDbFactory fac = annoCtx.getBean(MongoDbFactory.class);
-		String s = fac.getDb().getName();
+		
+		LOGGER.info("Database Name:" + fac.getDb().getName());
 
 		try {
 			MongoTemplate mongoTemplate = new MongoTemplate(fac);

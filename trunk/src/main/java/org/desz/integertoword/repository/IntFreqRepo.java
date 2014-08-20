@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
 
@@ -25,8 +24,7 @@ public class IntFreqRepo implements INumberFreqRepo {
 	protected final Logger LOGGER = Logger.getLogger(IntFreqRepo.class
 			.getName());
 
-	@Autowired
-	private MongoDbFactory mongoDbFactory;
+	private MongoOperations mongoOps;
 
 	@Autowired()
 	public IntFreqRepo(MongoOperations mongoOps) {
@@ -61,8 +59,6 @@ public class IntFreqRepo implements INumberFreqRepo {
 		mongoOps.insert(new NumberFrequency(num, 1));
 
 	}
-
-	private MongoOperations mongoOps;
 
 	@Override
 	public List<NumberFrequency> findAll() {
