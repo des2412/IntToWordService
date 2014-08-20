@@ -17,14 +17,19 @@ import org.springframework.stereotype.Repository;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-
+/**
+ * Partial implementation of MongoRepository.
+ * Non-implemented methods return null.
+ * @author des
+ *
+ */
 @Repository
 public class IntFreqRepo implements INumberFreqRepo {
 
 	protected final Logger LOGGER = Logger.getLogger(IntFreqRepo.class
 			.getName());
 
-	private MongoOperations mongoOps;
+	private final MongoOperations mongoOps;
 
 	@Autowired()
 	public IntFreqRepo(MongoOperations mongoOps) {
@@ -62,13 +67,11 @@ public class IntFreqRepo implements INumberFreqRepo {
 
 	@Override
 	public List<NumberFrequency> findAll() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<NumberFrequency> findAll(Sort arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -80,7 +83,6 @@ public class IntFreqRepo implements INumberFreqRepo {
 
 	@Override
 	public Page<NumberFrequency> findAll(Pageable arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

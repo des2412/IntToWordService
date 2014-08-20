@@ -10,7 +10,9 @@ import java.util.logging.Logger;
 import org.desz.domain.mongodb.NumberFrequency;
 import org.desz.integertoword.spring.config.IntFrequencyRepoConfig;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -19,6 +21,8 @@ import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.mongodb.DB;
 
 /**
  * @author des test lifecycle of NumberFrequency entity
@@ -36,35 +40,48 @@ public class TestIntFreqRepo {
 
 	private String id = "100";
 
-	private AnnotationConfigApplicationContext annoCtx;
+	private static AnnotationConfigApplicationContext annoCtx;
+	private static DB db;
+	private static MongoDbFactory mongoFactory;
 
-	@Before
-	public void init() throws UnknownHostException {
-		
+	@BeforeClass
+	public static void beforeClass() {
 		annoCtx = new AnnotationConfigApplicationContext();
 		annoCtx.register(IntFrequencyRepoConfig.class);
 		annoCtx.register(TestIntFrequencyRepoConfig.class);
 		annoCtx.refresh();
+		mongoFactory = annoCtx.getBean(MongoDbFactory.class);
 
-		MongoDbFactory fac = annoCtx.getBean(MongoDbFactory.class);
-		
-		LOGGER.info("Database Name:" + fac.getDb().getName());
+		db = mongoFactory.getDb();
+	}
+
+	@Before
+	public void init() throws UnknownHostException {
+
+		LOGGER.info("Database Name:" + db.getName());
 
 		try {
-			MongoTemplate mongoTemplate = new MongoTemplate(fac);
+			MongoTemplate mongoTemplate = new MongoTemplate(mongoFactory);
 			intFreqRepo = new IntFreqRepo(mongoTemplate);
+			db.requestStart();
+			db.requestEnsureConnection();
+			intFreqRepo.saveOrUpdateFrequency(id);
+
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
 
-		intFreqRepo.saveOrUpdateFrequency(id);
+	}
 
+	@AfterClass
+	public static void afterClass() {
+		annoCtx.close();
 	}
 
 	@After
 	public void after() {
 		intFreqRepo.delete(id);
-		annoCtx.close();
+		db.requestDone();
 
 	}
 
