@@ -195,14 +195,13 @@ public class RecursiveConverter {
 	private String buildWithUnit(List<IntWithUnit> list) {
 		StringBuilder sb = new StringBuilder();
 		for (IntWithUnit it : list) {
-			if (it.getI() > 0) {
-				if (it.getI() < 100)
-					sb.append(it.getAnd());
-				convert(sb, it.getI());
-				if (it.getUnit() != "")
-					sb.append(it.getUnit() + DEF.SPACE.val());
-
-			}
+			if (it.getI() == 0)// irrelevant
+				continue;
+			if (it.getI() < 100)
+				sb.append(it.getAnd());
+			convert(sb, it.getI());
+			if (it.getUnit() != "")
+				sb.append(it.getUnit() + DEF.SPACE.val());
 
 		}
 
