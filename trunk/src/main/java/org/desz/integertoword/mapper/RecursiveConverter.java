@@ -109,8 +109,7 @@ public class RecursiveConverter {
 								.toLowerCase());
 				break;
 			}
-			// ..no! Calculation required for the decimal (i.e., nmod % 10 not
-			// 0)
+			// ..no! Calculation required for the decimal (i.e., nmod % 10 > 0)
 			int k = nmod;// e.g., nmod = 23
 			nmod %= 10;// ..nmod = 3
 			k -= nmod; // .. k == 20
@@ -124,10 +123,8 @@ public class RecursiveConverter {
 
 			}
 
-			sb.append(provLangSupp.getWord(String.valueOf(n / 100))
-					.toLowerCase()
-					+ provLangSupp.getHunUnit()
-					+ provLangSupp.getAnd()
+			sb.append(provLangSupp.getWord(hun).toLowerCase()
+					+ provLangSupp.getHunUnit() + provLangSupp.getAnd()
 					+ provLangSupp.getWord(String.valueOf(k)).toLowerCase()
 					+ DEF.SPACE.val()
 					+ provLangSupp.getWord(String.valueOf(nmod)).toLowerCase());
@@ -140,7 +137,7 @@ public class RecursiveConverter {
 			if (Integer.valueOf(arr[1]) > 0) {
 
 				if (Integer.valueOf(arr[1]) < 100)
-					sb.append(this.provLangSupp.getAnd());
+					sb.append(provLangSupp.getAnd());
 				else
 					sb.append(DEF.SPACE.val());
 
