@@ -81,6 +81,10 @@ public class RecursiveConverter {
 		String[] arr = null;
 		String fmt = NumberFormat.getIntegerInstance(Locale.UK).format(n);
 		int len = fmt.length() - fmt.replaceAll(DEF.NUM_SEP.val(), "").length();
+		if (len > 0) {
+			int tmp = len;
+			arr = fmt.split(",", ++tmp);
+		}
 
 		List<IntWithUnit> list = new ArrayList<IntWithUnit>();
 
@@ -88,18 +92,17 @@ public class RecursiveConverter {
 
 		case 0:
 			int nmod = n;
-			String hun = String.valueOf(fmt.charAt(0));
 			nmod %= 100;
+			final String hun = String.valueOf(n / 100);
 			// 1..9 hundred
 			if (nmod == 0) {
-				sb.append(provLangSupp.getWord(String.valueOf(n / 100))
-						.toLowerCase() + provLangSupp.getHunUnit());
+				sb.append(provLangSupp.getWord(hun).toLowerCase()
+						+ provLangSupp.getHunUnit());
 				break;
 			}
 			// nmod > 0 check whether nmod contained in provLangSupp..
 			if (provLangSupp.containsWord(String.valueOf(nmod))) {
-				sb.append(provLangSupp.getWord(String.valueOf(n / 100))
-						.toLowerCase()
+				sb.append(provLangSupp.getWord(hun).toLowerCase()
 						+ provLangSupp.getHunUnit()
 						+ provLangSupp.getAnd()
 						+ provLangSupp.getWord(String.valueOf(nmod))
@@ -132,7 +135,6 @@ public class RecursiveConverter {
 			break;
 
 		case 1:// ..otherwise calculate recursively
-			arr = fmt.split(",", ++len);
 			convert(sb, Integer.valueOf(arr[0]));
 			sb.append(provLangSupp.getThouUnit());
 			if (Integer.valueOf(arr[1]) > 0) {
@@ -150,7 +152,6 @@ public class RecursiveConverter {
 			break;
 
 		case 2:
-			arr = fmt.split(",", ++len);
 			convert(sb, Integer.valueOf(arr[0]));
 			sb.append(provLangSupp.getMillUnit() + DEF.SPACE.val());
 
@@ -164,7 +165,6 @@ public class RecursiveConverter {
 			sb.append(buildWithUnit(list));
 			break;
 		case 3:
-			arr = fmt.split(",", ++len);
 			convert(sb, Integer.valueOf(arr[0]));
 			sb.append(provLangSupp.getBillUnit() + DEF.SPACE.val());
 
@@ -190,7 +190,7 @@ public class RecursiveConverter {
 	/**
 	 * 
 	 * @param list
-	 * @return Word with unit
+	 * @return Word with unit appended (not for hundred)
 	 */
 	private String buildWithUnit(List<IntWithUnit> list) {
 		StringBuilder sb = new StringBuilder();
