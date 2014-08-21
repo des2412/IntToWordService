@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 import org.desz.integertoword.content.ContentContainer.PROV_LANG;
 import org.desz.integertoword.exceptions.IntToWordServiceException;
-import org.desz.integertoword.mapper.RecursiveIntToWord;
+import org.desz.integertoword.mapper.RecursiveConverter;
 import org.desz.integertoword.repository.IntFreqRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,8 +50,8 @@ public final class IntToWordServiceImpl implements
 		if (intFreqRepo != null & intFreqRepo.isAvailable()) {
 			intFreqRepo.saveOrUpdateFrequency(num);
 		} else
-			LOGGER.info("repo unavailable");
-		RecursiveIntToWord converter = new RecursiveIntToWord(provLang);
+			LOGGER.info("repository unavailable - stats not collected");
+		RecursiveConverter converter = new RecursiveConverter(provLang);
 		try {
 			return converter.convert(new StringBuilder(), Integer.valueOf(num));
 		} catch (Exception e) {

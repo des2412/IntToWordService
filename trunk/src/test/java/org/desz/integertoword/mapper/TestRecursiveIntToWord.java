@@ -3,20 +3,20 @@ package org.desz.integertoword.mapper;
 import static org.junit.Assert.*;
 
 import org.desz.integertoword.content.ContentContainer.PROV_LANG;
-import org.desz.integertoword.mapper.RecursiveIntToWord;
+import org.desz.integertoword.mapper.RecursiveConverter;
 import org.junit.Before;
 import org.junit.Test;
 
 public class TestRecursiveIntToWord {
 
-	RecursiveIntToWord rsv;
+	RecursiveConverter rsv;
 
 	/**
-	 * RecursiveIntToWord UK language output
+	 * RecursiveConverter UK language output
 	 */
 	@Before
 	public void init() {
-		rsv = new RecursiveIntToWord(PROV_LANG.UK);
+		rsv = new RecursiveConverter(PROV_LANG.UK);
 	}
 
 	@Test

@@ -1,7 +1,7 @@
 package org.desz.integertoword.mapper;
 
 /**
- * Simple convenience class that serves to elimate duplication in RecursiveIntToWord.
+ * Simple convenience class that serves to elimate duplication in RecursiveConverter.
  * Associates int to be converted with the unit / and values to append based on i.
  *
  */

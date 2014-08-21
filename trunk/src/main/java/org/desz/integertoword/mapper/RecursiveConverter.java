@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
 import org.desz.integertoword.content.ContentContainer.DEF;
 import org.desz.integertoword.content.ContentContainer.PROV_LANG;
 import org.desz.integertoword.language.ILanguageSupport;
@@ -19,21 +19,46 @@ import org.desz.integertoword.language.ProvLangWordFactory;
  *         format in PROV_LANG
  * 
  */
-public class RecursiveIntToWord {
-	protected final Logger LOGGER = Logger.getLogger(getClass());
+public class RecursiveConverter {
+	protected final Logger LOGGER = Logger.getLogger(RecursiveConverter.class
+			.getName());
 	private ILanguageSupport provLangSupp;
-	private static Map<PROV_LANG, ILanguageSupport> _cache = Collections
+	private static Map<PROV_LANG, ILanguageSupport> LANG_SUP_CACHE = Collections
 			.synchronizedMap(new HashMap<PROV_LANG, ILanguageSupport>());
 
-	public RecursiveIntToWord(PROV_LANG ln) {
+	/**
+	 * Cache ln
+	 * 
+	 * @param ln
+	 */
+	public RecursiveConverter(PROV_LANG ln) {
 
-		if (!(_cache.containsKey(ln))) {
+		if (!(LANG_SUP_CACHE.containsKey(ln))) {
 			// cache provLangSupp to enhance performance
 			provLangSupp = new ProvLangWordFactory(ln);
-			_cache.put(ln, provLangSupp);
+			LANG_SUP_CACHE.put(ln, provLangSupp);
 		} else
-			provLangSupp = _cache.get(ln);
+			provLangSupp = LANG_SUP_CACHE.get(ln);
 
+	}
+
+	public String convert(Integer i) {
+		//
+		if (i < 20)
+			return provLangSupp.getWord(String.valueOf(i));
+		if (i < 100)
+			return provLangSupp.getWord(String.valueOf(i / 10))
+					+ ((i % 10 > 0) ? " " + convert(i % 10) : "");
+		if (i < 1000)
+			return provLangSupp.getWord(String.valueOf(i / 100))
+					+ provLangSupp.getHunUnit()
+					+ ((i % 100 > 0) ? provLangSupp.getAnd() + convert(i % 100)
+							: "");
+		if (i < 1000000)
+			return convert(i / 1000) + " Thousand "
+					+ ((i % 1000 > 0) ? " " + convert(i % 1000) : "");
+		return convert(i / 1000000) + " Million "
+				+ ((i % 1000000 > 0) ? " " + convert(i % 1000000) : "");
 	}
 
 	/**
@@ -67,38 +92,42 @@ public class RecursiveIntToWord {
 			nmod %= 100;
 			// 1..9 hundred
 			if (nmod == 0) {
-				sb.append(provLangSupp.getWord(hun).toLowerCase()
-						+ provLangSupp.getHunUnit());
+				sb.append(provLangSupp.getWord(String.valueOf(n / 100))
+						.toLowerCase() + provLangSupp.getHunUnit());
 				break;
 			}
-			// check whether modHun contained in provLangSupp..
+			// nmod > 0 check whether nmod contained in provLangSupp..
 			if (provLangSupp.containsWord(String.valueOf(nmod))) {
-				sb.append(provLangSupp.getWord(hun).toLowerCase()
+				sb.append(provLangSupp.getWord(String.valueOf(n / 100))
+						.toLowerCase()
 						+ provLangSupp.getHunUnit()
 						+ provLangSupp.getAnd()
 						+ provLangSupp.getWord(String.valueOf(nmod))
 								.toLowerCase());
 				break;
 			}
-			// ..no! Calculation required
-			String dec = null;
-			int k = nmod;// ie., modhum = 23
-			nmod %= 10;// ..modHun = 3
+			// ..no! Calculation required for the decimal (i.e., nmod % 10 not
+			// 0)
+			int k = nmod;// e.g., nmod = 23
+			nmod %= 10;// ..nmod = 3
 			k -= nmod; // .. k == 20
-			if (n >= 100) {
-				dec = provLangSupp.getWord(String.valueOf(k)) + DEF.SPACE.val()
-						+ provLangSupp.getWord(String.valueOf(nmod));
+			if (n <= 100) {// < 100
 
-				sb.append(provLangSupp.getWord(hun).toLowerCase()
-						+ provLangSupp.getHunUnit() + provLangSupp.getAnd()
-						+ dec.toLowerCase());
+				sb.append(provLangSupp.getWord(String.valueOf(k)).toLowerCase()
+						+ DEF.SPACE.val()
+						+ provLangSupp.getWord(String.valueOf(nmod))
+								.toLowerCase());
 				break;
+
 			}
-			// n < 100
-			dec = provLangSupp.getWord(String.valueOf(k)).toLowerCase()
+
+			sb.append(provLangSupp.getWord(String.valueOf(n / 100))
+					.toLowerCase()
+					+ provLangSupp.getHunUnit()
+					+ provLangSupp.getAnd()
+					+ provLangSupp.getWord(String.valueOf(k)).toLowerCase()
 					+ DEF.SPACE.val()
-					+ provLangSupp.getWord(String.valueOf(nmod)).toLowerCase();
-			sb.append(dec);
+					+ provLangSupp.getWord(String.valueOf(nmod)).toLowerCase());
 
 			break;
 

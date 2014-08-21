@@ -20,7 +20,12 @@ import org.desz.integertoword.content.ContentContainer.UK_WORDS;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * Class that defines constants for supported PROV_LANG.
+ * Defines constants for supported PROV_LANG.
+ * 
+ * is a container for the language specific words and errors. In the context of
+ * the application a Flyweight approach is used as instantiated once per
+ * language and cached.
+ * @see RecursiveConverter
  * 
  * @author des
  * 
@@ -43,11 +48,6 @@ public final class ProvLangWordFactory implements ILanguageSupport {
 	private String billUnit;
 
 	/**
-	 * Class is a container for the language specific words and errors. In the
-	 * context of the application a Flyweight approach is used. Only
-	 * instantiated once and cached.
-	 * 
-	 * @see RecursiveIntToWord
 	 * 
 	 * @param pl
 	 *            PROV_LANG
