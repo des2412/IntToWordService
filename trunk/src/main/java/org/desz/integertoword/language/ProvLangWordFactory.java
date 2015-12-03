@@ -16,6 +16,7 @@ import org.desz.integertoword.content.ContentContainer.NL_WORDS;
 import org.desz.integertoword.content.ContentContainer.PROV_LANG;
 import org.desz.integertoword.content.ContentContainer.UK_ERRORS;
 import org.desz.integertoword.content.ContentContainer.UK_WORDS;
+import org.desz.integertoword.mapper.RecursiveConverter;
 
 import com.google.common.collect.ImmutableMap;
 

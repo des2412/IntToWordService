@@ -32,11 +32,23 @@ jar
 http://maven.apache.org
     </url>
 	<properties>
-		<org.springframework.version>4.0.5.RELEASE</org.springframework.version>
+	<org.springframework.version>4.2.3.RELEASE</org.springframework.version>
 		<powermock.version>1.5.5</powermock.version>
 		<morphia.version>0.98</morphia.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	
+	<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-framework-bom</artifactId>
+            <version>${org.springframework.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
 
 
 	<dependencies>
@@ -50,8 +62,9 @@ http://maven.apache.org
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
-			<version>2.12.3</version>
+			<version>3.1.1</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -63,48 +76,45 @@ http://maven.apache.org
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>${org.springframework.version}</version>
+			<!-- <version>${org.springframework.version}</version> -->
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>${org.springframework.version}</version>
+			<!-- <version>${org.springframework.version}</version> -->
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
+			</dependency>
 
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
+			</dependency>
 
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-expression</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
+			</dependency>
 
 
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
-			<version>1.1.2.RELEASE</version>
+			<version>1.8.1.RELEASE</version>
 		</dependency>
 
 
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-commons-core</artifactId>
-			<version>1.4.0.RELEASE</version>
+			<version>1.4.1.RELEASE</version>
 		</dependency>
 
 		<!-- <dependency> <groupId>de.codecentric</groupId> <artifactId>jbehave-junit-runner</artifactId> 
@@ -114,8 +124,7 @@ http://maven.apache.org
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
+			</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
@@ -155,7 +164,7 @@ http://maven.apache.org
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

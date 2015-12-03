@@ -9,19 +9,18 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
-import com.mongodb.MongoURI;
+import com.mongodb.MongoClient;
 
 @Configuration()
 @PropertySource(value = { "classpath:test.mongo.properties" })
-public class TestIntFrequencyRepoConfig {
+public class TestRepoConfig {
 	@Inject
 	private Environment env;
 
 	public @Bean MongoDbFactory dbFactory() {
 		MongoDbFactory db;
 		try {
-			db = new SimpleMongoDbFactory(new MongoURI(
-					env.getProperty("mongo.db")));
+			db = new SimpleMongoDbFactory(new MongoClient(env.getProperty("mongo.db")), "test_number_freq");
 		} catch (Exception e) {
 
 			throw new RuntimeException(e.getMessage());

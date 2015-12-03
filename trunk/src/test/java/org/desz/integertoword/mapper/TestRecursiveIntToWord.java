@@ -1,9 +1,9 @@
 package org.desz.integertoword.mapper;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.desz.integertoword.content.ContentContainer.PROV_LANG;
-import org.desz.integertoword.mapper.RecursiveConverter;
 import org.junit.Before;
 import org.junit.Test;
 

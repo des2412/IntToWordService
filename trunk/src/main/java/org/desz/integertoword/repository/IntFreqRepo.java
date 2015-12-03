@@ -17,17 +17,18 @@ import org.springframework.stereotype.Repository;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+
 /**
- * Partial implementation of MongoRepository.
- * Non-implemented methods return null.
+ * Partial implementation of MongoRepository. Non-implemented methods return
+ * null.
+ * 
  * @author des
  *
  */
 @Repository
-public class IntFreqRepo implements INumberFreqRepo {
+public class IntFreqRepo implements IFIntFreqRepo {
 
-	protected final Logger LOGGER = Logger.getLogger(IntFreqRepo.class
-			.getName());
+	protected final Logger LOGGER = Logger.getLogger(IntFreqRepo.class.getName());
 
 	private final MongoOperations mongoOps;
 
@@ -56,8 +57,7 @@ public class IntFreqRepo implements INumberFreqRepo {
 			nf = findOne(num);
 			final int cnt = nf.getCount() + 1;
 			nf.setCount(cnt);
-			mongoOps.updateFirst(query(where("number").is(num)),
-					update("count", cnt), NumberFrequency.class);
+			mongoOps.updateFirst(query(where("number").is(num)), update("count", cnt), NumberFrequency.class);
 			return;
 		}
 		// insert new NumberFrequency with count 1
@@ -139,6 +139,18 @@ public class IntFreqRepo implements INumberFreqRepo {
 	public void deleteAll() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public <S extends NumberFrequency> S insert(S arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <S extends NumberFrequency> List<S> insert(Iterable<S> arg0) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

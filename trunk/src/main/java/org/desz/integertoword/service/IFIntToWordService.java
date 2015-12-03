@@ -10,7 +10,7 @@ import org.desz.integertoword.exceptions.IntToWordServiceException;
  * @author des
  * 
  */
-public interface INumberToWordService<T extends Number> {
+public interface IFIntToWordService<T extends Number> {
 	/**
 	 * 
 	 * @param provLn

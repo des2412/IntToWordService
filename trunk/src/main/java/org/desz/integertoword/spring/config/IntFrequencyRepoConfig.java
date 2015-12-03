@@ -2,6 +2,7 @@ package org.desz.integertoword.spring.config;
 
 import javax.inject.Inject;
 
+import org.desz.integertoword.repository.IFIntFreqRepo;
 import org.desz.integertoword.repository.IntFreqRepo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +12,7 @@ import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
-import com.mongodb.MongoURI;
+import com.mongodb.MongoClient;
 
 /**
  * Configuration for Mongo document database
@@ -29,25 +30,19 @@ public class IntFrequencyRepoConfig {
 	public @Bean MongoDbFactory dbFactory() {
 		MongoDbFactory db;
 		try {
-			db = new SimpleMongoDbFactory(new MongoURI(
-					env.getProperty("mongo.db")));
+			db = new SimpleMongoDbFactory(new MongoClient(env.getProperty("mongo.db")), "number_freq");
 		} catch (Exception e) {
-
-			throw new RuntimeException(e.getMessage());
+			return null;
 		}
 		return db;
 	}
 
-	public @Bean() IntFreqRepo intFreqRepo() {
+	public @Bean() IFIntFreqRepo intFreqRepo() {
 		IntFreqRepo repo = null;
-		try {
-			MongoTemplate mongoTemplate = new MongoTemplate(dbFactory());
-			repo = new IntFreqRepo(mongoTemplate);
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
-		}
-
-		return repo;
+		if (dbFactory() == null)
+			return null;
+		MongoTemplate mongoTemplate = new MongoTemplate(dbFactory());
+		return new IntFreqRepo(mongoTemplate);
 	}
 
 }

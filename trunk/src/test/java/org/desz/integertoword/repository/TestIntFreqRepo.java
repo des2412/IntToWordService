@@ -30,13 +30,12 @@ import com.mongodb.DB;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @PropertySource(value = { "classpath:test.mongo.properties" })
-@ContextConfiguration(classes = { TestIntFrequencyRepoConfig.class })
+@ContextConfiguration(classes = { TestRepoConfig.class })
 // @ComponentScan(basePackages = { "org.desz.integertoword.repository" })
 public class TestIntFreqRepo {
 
-	protected final Logger LOGGER = Logger.getLogger(TestIntFreqRepo.class
-			.getName());
-	private INumberFreqRepo intFreqRepo;
+	protected final Logger LOGGER = Logger.getLogger(TestIntFreqRepo.class.getName());
+	private IFIntFreqRepo intFreqRepo;
 
 	private String id = "100";
 
@@ -48,7 +47,7 @@ public class TestIntFreqRepo {
 	public static void beforeClass() {
 		annoCtx = new AnnotationConfigApplicationContext();
 		annoCtx.register(IntFrequencyRepoConfig.class);
-		annoCtx.register(TestIntFrequencyRepoConfig.class);
+		annoCtx.register(TestRepoConfig.class);
 		annoCtx.refresh();
 		mongoFactory = annoCtx.getBean(MongoDbFactory.class);
 
@@ -63,8 +62,8 @@ public class TestIntFreqRepo {
 		try {
 			MongoTemplate mongoTemplate = new MongoTemplate(mongoFactory);
 			intFreqRepo = new IntFreqRepo(mongoTemplate);
-			db.requestStart();
-			db.requestEnsureConnection();
+			// db.;
+			// db.requestEnsureConnection();
 			intFreqRepo.saveOrUpdateFrequency(id);
 
 		} catch (Exception e) {
@@ -81,7 +80,6 @@ public class TestIntFreqRepo {
 	@After
 	public void after() {
 		intFreqRepo.delete(id);
-		db.requestDone();
 
 	}
 

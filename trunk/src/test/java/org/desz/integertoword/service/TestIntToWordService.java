@@ -1,14 +1,14 @@
 package org.desz.integertoword.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.math.BigInteger;
 
 import org.desz.integertoword.content.ContentContainer.PROV_LANG;
 import org.desz.integertoword.exceptions.IntToWordServiceException;
 import org.desz.integertoword.repository.IntFreqRepo;
-import org.desz.integertoword.service.INumberToWordService;
 import org.desz.integertoword.spring.config.IntToWordServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TestIntToWordService {
 
 	@Autowired
-	private INumberToWordService<BigInteger> intToWordService;
+	private IFIntToWordService<BigInteger> intToWordService;
 
 	@Test
 	public void testGetWord() throws IntToWordServiceException {
