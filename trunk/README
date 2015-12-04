@@ -1,0 +1,9 @@
+Service that converts an INTEGER to WORD in several languages.
+
+GIT host URL : https://bitbucket.org/deswilliams2000/inttowordservice
+
+Mongo DB:-
+
+Hosted on MongoLab as single instance
+
+Mongo URL : https://mongolab.com/
