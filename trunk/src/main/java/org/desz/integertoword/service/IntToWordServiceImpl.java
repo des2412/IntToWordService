@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import org.desz.integertoword.content.ContentContainer.PROV_LANG;
 import org.desz.integertoword.exceptions.IntToWordServiceException;
 import org.desz.integertoword.mapper.RecursiveConverter;
-import org.desz.integertoword.repository.IFIntFreqRepo;
+import org.desz.integertoword.repository.IntFreqRepoJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +25,10 @@ public final class IntToWordServiceImpl implements IFIntToWordService<BigInteger
 
 	protected final Logger LOGGER = Logger.getLogger(IntToWordServiceImpl.class.getName());
 
-	private final Optional<IFIntFreqRepo> optFreqRepo;
+	private final Optional<IntFreqRepoJpaRepository> optFreqRepo;
 
 	@Autowired
-	public IntToWordServiceImpl(Optional<IFIntFreqRepo> optFreqRepoSrv) {
+	public IntToWordServiceImpl(Optional<IntFreqRepoJpaRepository> optFreqRepoSrv) {
 		this.optFreqRepo = optFreqRepoSrv;
 		LOGGER.info("Mongo Repo Service Present:" + optFreqRepo.isPresent());
 	}

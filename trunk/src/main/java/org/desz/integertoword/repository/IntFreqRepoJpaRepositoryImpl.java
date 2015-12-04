@@ -13,10 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 
 /**
  * Partial implementation of MongoRepository. Non-implemented methods return
@@ -26,29 +24,31 @@ import com.mongodb.DBObject;
  *
  */
 @Repository
-public class IntFreqRepo implements IFIntFreqRepo {
+public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 
-	protected final Logger LOGGER = Logger.getLogger(IntFreqRepo.class.getName());
+	protected final Logger LOGGER = Logger.getLogger(IntFreqRepoJpaRepositoryImpl.class.getName());
 
 	private final MongoOperations mongoOps;
 
 	@Autowired()
-	public IntFreqRepo(MongoOperations mongoOps) {
+	public IntFreqRepoJpaRepositoryImpl(MongoOperations mongoOps) {
 
 		this.mongoOps = mongoOps;
 	}
 
-	@Override
-	public boolean isAvailable() {
+	// @Override
+	/*
+	 * public boolean isAvailable() {
+	 * 
+	 * DBObject ping = new BasicDBObject("ping", "1"); if
+	 * (mongoOps.executeCommand(ping).ok()) return true;
+	 * 
+	 * return false;
+	 * 
+	 * }
+	 */
 
-		DBObject ping = new BasicDBObject("ping", "1");
-		if (mongoOps.executeCommand(ping).ok())
-			return true;
-
-		return false;
-
-	}
-
+	@Query
 	@Override
 	public void saveOrUpdateFrequency(final String num) {
 
@@ -65,6 +65,7 @@ public class IntFreqRepo implements IFIntFreqRepo {
 
 	}
 
+	@Query
 	@Override
 	public List<NumberFrequency> findAll() {
 		return null;
@@ -77,7 +78,6 @@ public class IntFreqRepo implements IFIntFreqRepo {
 
 	@Override
 	public <S extends NumberFrequency> List<S> save(Iterable<S> arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -119,7 +119,8 @@ public class IntFreqRepo implements IFIntFreqRepo {
 
 	@Override
 	public void delete(String id) {
-		mongoOps.remove(query(where("number").is(id)), NumberFrequency.class);
+		if (mongoOps.findById(id, NumberFrequency.class) == null)
+			mongoOps.remove(query(where("number").is(id)), NumberFrequency.class);
 
 	}
 
@@ -136,8 +137,8 @@ public class IntFreqRepo implements IFIntFreqRepo {
 	}
 
 	@Override
-	public void deleteAll() {
-		// TODO Auto-generated method stub
+	public void deleteAllInCollection(String name) {
+		mongoOps.getCollection(name).drop();
 
 	}
 
@@ -151,6 +152,17 @@ public class IntFreqRepo implements IFIntFreqRepo {
 	public <S extends NumberFrequency> List<S> insert(Iterable<S> arg0) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void createCollection(String name) {
+		mongoOps.createCollection(name);
+	}
+
+	@Override
+	public void deleteAll() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

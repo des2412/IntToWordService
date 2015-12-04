@@ -20,7 +20,6 @@ public class NumberFrequency implements Serializable {
 
 	@PersistenceConstructor
 	public NumberFrequency(String number, int count) {
-		super();
 		this.number = number;
 		this.count = count;
 	}
@@ -30,7 +29,6 @@ public class NumberFrequency implements Serializable {
 		this.number = number;
 		this.count = 1;
 	}
-
 
 	public String getNumber() {
 		return number;
@@ -43,8 +41,6 @@ public class NumberFrequency implements Serializable {
 	public void setCount(int count) {
 		this.count = count;
 	}
-	
-	
 
 	@Override
 	public int hashCode() {
