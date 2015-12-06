@@ -34,8 +34,8 @@ public class TestIntFreqRepo {
 	private IntFreqRepoJpaRepository intFreqRepo;
 
 	private String id = "1";
-	private final String idNot = "-1";
-	private String testColn = "numberFrequencies";
+	private final String idNot = "-1x";
+	private String testColn = "numberFreqTestColn";
 
 	@Before
 	public void init() throws UnknownHostException {
@@ -67,9 +67,10 @@ public class TestIntFreqRepo {
 	public void testSaveOrUpdate() {
 
 		final int num = 2;
+		intFreqRepo.saveOrUpdateFrequency(id);
 		NumberFrequency nf = intFreqRepo.findOne(id);
-		LOGGER.info("Number Frequency:" + nf.toString());
-		nf.setCount(num);
+		LOGGER.info(String.format("Saved Number Frequency, %s", nf.toString()));
+		nf.incrementCount();
 		intFreqRepo.saveOrUpdateFrequency(id);
 		assertEquals(num, intFreqRepo.findOne(id).getCount());
 

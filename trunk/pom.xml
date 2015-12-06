@@ -54,6 +54,12 @@ http://maven.apache.org
 	<dependencies>
 
 		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+
+		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
@@ -158,12 +164,6 @@ http://maven.apache.org
 			<scope>test</scope>
 		</dependency>
 
-		<!-- <dependency> <groupId>org.powermock</groupId> <artifactId>powermock-api-easymock</artifactId> 
-			<version>${powermock.version}</version> <scope>test</scope> </dependency> -->
-
-		<!-- <dependency> <groupId>org.easymock</groupId> <artifactId>easymock</artifactId> 
-			<version>3.1</version> <scope>test</scope> </dependency> -->
-
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
@@ -198,8 +198,8 @@ http://maven.apache.org
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 

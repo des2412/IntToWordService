@@ -4,9 +4,15 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 import static org.springframework.data.mongodb.core.query.Update.update;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.LineIterator;
 import org.desz.domain.mongodb.NumberFrequency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,9 +22,11 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+
 /**
- * Partial implementation of MongoRepository. Non-implemented methods return
- * null.
+ * MongoRepository. Non-implemented methods return null/do nothing.
  * 
  * @author des
  *
@@ -30,15 +38,35 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 
 	private final MongoOperations mongoOps;
 
-	@Autowired()
+	private boolean initOk = false;
+
+	@Autowired(required = false)
 	public IntFreqRepoJpaRepositoryImpl(MongoOperations mongoOps) {
 
 		this.mongoOps = mongoOps;
+
 	}
 
-	// @Override
+	@PostConstruct()
+	public void chkConn() {
+		ProcessBuilder pb = new ProcessBuilder("curl",
+				"https://api.mongolab.com/api/1/databases?apiKey=ACnducluV0wsD8N1GBVkJT9p531BqwNd");
+		Process proc;
+		try {
+			proc = pb.start();
+			LineIterator itr = IOUtils.lineIterator(proc.getInputStream(), Charset.forName("UTF-8"));
+			String s = itr.nextLine();
+			if (s != null & s.contains("number_freq"))
+				initOk = true;
+
+		} catch (IOException e) {
+			LOGGER.severe("Todo");
+		}
+
+	}
+
 	/*
-	 * public boolean isAvailable() {
+	 * @Override public boolean isAvailable() {
 	 * 
 	 * DBObject ping = new BasicDBObject("ping", "1"); if
 	 * (mongoOps.executeCommand(ping).ok()) return true;
@@ -52,16 +80,17 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 	@Override
 	public void saveOrUpdateFrequency(final String num) {
 
-		NumberFrequency nf = null;
-		if (exists(num)) {
-			nf = findOne(num);
-			final int cnt = nf.getCount() + 1;
-			nf.setCount(cnt);
-			mongoOps.updateFirst(query(where("number").is(num)), update("count", cnt), NumberFrequency.class);
-			return;
+		if (initOk) {
+			if (exists(num)) {
+				NumberFrequency nf = findOne(num);
+				nf.incrementCount();
+				mongoOps.updateFirst(query(where("number").is(num)), update("count", nf.getCount()),
+						NumberFrequency.class);
+				return;
+			}
+			// insert new NumberFrequency with count 1
+			mongoOps.insert(new NumberFrequency(num, 1));
 		}
-		// insert new NumberFrequency with count 1
-		mongoOps.insert(new NumberFrequency(num, 1));
 
 	}
 
@@ -72,13 +101,13 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 	}
 
 	@Override
-	public List<NumberFrequency> findAll(Sort arg0) {
-		return null;
+	public List<NumberFrequency> findAll(Sort sort) {
+		return findAll(sort);
 	}
 
 	@Override
-	public <S extends NumberFrequency> List<S> save(Iterable<S> arg0) {
-		return null;
+	public <S extends NumberFrequency> List<S> save(Iterable<S> iter) {
+		return save(iter);
 	}
 
 	@Override
@@ -88,14 +117,12 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 
 	@Override
 	public long count() {
-		// TODO Auto-generated method stub
-		return 0;
+		return count();
 	}
 
 	@Override
 	public <S extends NumberFrequency> S save(S entity) {
-		// TODO Auto-generated method stub
-		return null;
+		return save(entity);
 	}
 
 	@Override
@@ -132,25 +159,23 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 
 	@Override
 	public void delete(Iterable<? extends NumberFrequency> entities) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteAllInCollection(String name) {
+		LOGGER.info(String.format("Dropping Collection Named, %s", name));
 		mongoOps.getCollection(name).drop();
 
 	}
 
 	@Override
 	public <S extends NumberFrequency> S insert(S arg0) {
-		// TODO Auto-generated method stub
-		return null;
+		return insert(arg0);
 	}
 
 	@Override
 	public <S extends NumberFrequency> List<S> insert(Iterable<S> arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -161,7 +186,6 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 
 	@Override
 	public void deleteAll() {
-		// TODO Auto-generated method stub
 
 	}
 
