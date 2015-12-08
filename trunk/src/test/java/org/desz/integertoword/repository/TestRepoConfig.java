@@ -5,11 +5,14 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import com.mongodb.Mongo;
@@ -17,6 +20,9 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.ReadPreference;
 import com.mongodb.WriteConcern;
+import com.mongodb.client.MongoDatabase;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.MongoFactoryBean;
 
 @Configuration()
 @PropertySource(value = { "classpath:test.mongo.properties" })
@@ -27,25 +33,33 @@ public class TestRepoConfig extends AbstractMongoConfiguration {
 	@Inject
 	private Environment env;
 
+	@Bean
+	public String dbUri() {
+		return env.getProperty("db.url");
+	}
+
+	@Bean
+	public String dbHttps() {
+		return env.getProperty("db.https");
+	}
+
 	@Override
 	protected String getDatabaseName() {
 		return env.getProperty("db.id");
 	}
 
-	@Override
-	public Mongo mongo() throws Exception {
-		MongoClientURI uri = new MongoClientURI(env.getProperty("mongo.db"));
-		MongoClient client = new MongoClient(uri);
-		// TODO check ping or better look at Restful API provided to check
-		// availability. Caution provider specific API..
-		client.setReadPreference(ReadPreference.nearest());
-		client.setWriteConcern(WriteConcern.SAFE);
-		return client;
+	public @Bean MongoDbFactory mongoDbFactory() throws Exception {
+		return new SimpleMongoDbFactory(new MongoClient(), getDatabaseName());
 	}
 
-	@Bean
-	public MongoTemplate mongoTemplate() throws Exception {
-		return new MongoTemplate(mongo(), getDatabaseName());
+	public @Bean MongoTemplate mongoTemplate() throws Exception {
 
+		return new MongoTemplate(mongoDbFactory());
+	}
+
+	@Override
+	public Mongo mongo() throws Exception {
+		MongoClientURI connectionString = new MongoClientURI(env.getProperty("db.url"));
+		return new MongoClient(connectionString);
 	}
 }

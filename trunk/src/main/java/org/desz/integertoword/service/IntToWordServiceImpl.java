@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import org.desz.domain.mongodb.NumberFrequency;
 import org.desz.integertoword.content.ContentContainer.PROV_LANG;
 import org.desz.integertoword.exceptions.IntToWordServiceException;
 import org.desz.integertoword.mapper.RecursiveConverter;
@@ -38,9 +39,12 @@ public final class IntToWordServiceImpl implements IFIntToWordService<BigInteger
 		if (provLang.equals(PROV_LANG.EMPTY))
 			throw new IntToWordServiceException("Empty provisioned language specified");
 		if (optFreqRepo.isPresent())
-			optFreqRepo.get().saveOrUpdateFrequency(num);
+			optFreqRepo.get().save(new NumberFrequency(num));// todo create
+																// method so no
+																// dep on
+																// NumberFreq.
 		else
-			LOGGER.info("repository unavailable - stats not collected");
+			LOGGER.info("repository unavailable - stats will not be collected");
 		RecursiveConverter converter = new RecursiveConverter(provLang);
 		try {
 			return converter.convert(new StringBuilder(), Integer.valueOf(num));

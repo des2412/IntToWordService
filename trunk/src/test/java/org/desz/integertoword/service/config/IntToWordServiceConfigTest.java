@@ -1,4 +1,4 @@
-package org.desz.integertoword.spring.config;
+package org.desz.integertoword.service.config;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import org.desz.integertoword.content.ContentContainer.PROV_LANG;
 import org.desz.integertoword.exceptions.IntToWordServiceException;
 import org.desz.integertoword.service.IFIntToWordService;
+import org.desz.integertoword.spring.config.IntToWordServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

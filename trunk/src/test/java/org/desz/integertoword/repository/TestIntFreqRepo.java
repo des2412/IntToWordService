@@ -16,8 +16,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.mongodb.client.MongoDatabase;
 
 /**
  * @author des test lifecycle of NumberFrequency entity
@@ -35,45 +39,44 @@ public class TestIntFreqRepo {
 
 	private String id = "1";
 	private final String idNot = "-1x";
-	private String testColn = "numberFreqTestColn";
+	@Autowired
+	private String dbUri;
+
+	@Autowired
+	private String dbHttps;
+
+	private Query query;
+
+	private NumberFrequency numberFreq;
 
 	@Before
 	public void init() throws UnknownHostException {
 		LOGGER.info("Database Name:" + mongoTemplate.getDb().getName());
-		intFreqRepo = new IntFreqRepoJpaRepositoryImpl(mongoTemplate);
-		intFreqRepo.createCollection(testColn);
-
-	}
-
-	@After
-	public void after() {
-		intFreqRepo.deleteAllInCollection(testColn);
+		intFreqRepo = new IntFreqRepoJpaRepositoryImpl(mongoTemplate, dbUri, dbHttps);
+		// call PostConstruct method
+		((IntFreqRepoJpaRepositoryImpl) intFreqRepo).chkConn();
+		numberFreq = new NumberFrequency("1", 1);
+		query = new Query(Criteria.where("number").is("1"));
+		mongoTemplate.remove(query, NumberFrequency.class);
 
 	}
 
 	@Test
 	public void testExists() {
+		intFreqRepo.save(numberFreq);
 		assertTrue(intFreqRepo.exists(id));
 		assertFalse(intFreqRepo.exists(idNot));
 	}
 
 	@Test
 	public void testFindOne() {
-		intFreqRepo.saveOrUpdateFrequency(id);
+		intFreqRepo.save(numberFreq);
 		assertNotNull(intFreqRepo.findOne(id));
 	}
 
-	@Test
-	public void testSaveOrUpdate() {
-
-		final int num = 2;
-		intFreqRepo.saveOrUpdateFrequency(id);
-		NumberFrequency nf = intFreqRepo.findOne(id);
-		LOGGER.info(String.format("Saved Number Frequency, %s", nf.toString()));
-		nf.incrementCount();
-		intFreqRepo.saveOrUpdateFrequency(id);
-		assertEquals(num, intFreqRepo.findOne(id).getCount());
+	public void finalize() throws Throwable {
+		super.finalize();
+		mongoTemplate.getDb().getMongo().close();
 
 	}
-
 }
