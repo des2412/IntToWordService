@@ -20,8 +20,7 @@ import org.desz.integertoword.language.ProvLangWordFactory;
  * 
  */
 public class RecursiveConverter {
-	protected final Logger LOGGER = Logger.getLogger(RecursiveConverter.class
-			.getName());
+	protected final Logger LOGGER = Logger.getLogger(RecursiveConverter.class.getName());
 	private ILanguageSupport provLangSupp;
 	private static Map<PROV_LANG, ILanguageSupport> LANG_SUP_CACHE = Collections
 			.synchronizedMap(new HashMap<PROV_LANG, ILanguageSupport>());
@@ -47,18 +46,13 @@ public class RecursiveConverter {
 		if (i < 20)
 			return provLangSupp.getWord(String.valueOf(i));
 		if (i < 100)
-			return provLangSupp.getWord(String.valueOf(i / 10))
-					+ ((i % 10 > 0) ? " " + convert(i % 10) : "");
+			return provLangSupp.getWord(String.valueOf(i / 10)) + ((i % 10 > 0) ? " " + convert(i % 10) : "");
 		if (i < 1000)
-			return provLangSupp.getWord(String.valueOf(i / 100))
-					+ provLangSupp.getHunUnit()
-					+ ((i % 100 > 0) ? provLangSupp.getAnd() + convert(i % 100)
-							: "");
+			return provLangSupp.getWord(String.valueOf(i / 100)) + provLangSupp.getHunUnit()
+					+ ((i % 100 > 0) ? provLangSupp.getAnd() + convert(i % 100) : "");
 		if (i < 1000000)
-			return convert(i / 1000) + " Thousand "
-					+ ((i % 1000 > 0) ? " " + convert(i % 1000) : "");
-		return convert(i / 1000000) + " Million "
-				+ ((i % 1000000 > 0) ? " " + convert(i % 1000000) : "");
+			return convert(i / 1000) + " Thousand " + ((i % 1000 > 0) ? " " + convert(i % 1000) : "");
+		return convert(i / 1000000) + " Million " + ((i % 1000000 > 0) ? " " + convert(i % 1000000) : "");
 	}
 
 	/**
@@ -96,17 +90,13 @@ public class RecursiveConverter {
 			final String hun = String.valueOf(n / 100);
 			// 1..9 hundred
 			if (nmod == 0) {
-				sb.append(provLangSupp.getWord(hun).toLowerCase()
-						+ provLangSupp.getHunUnit());
+				sb.append(provLangSupp.getWord(hun).toLowerCase() + provLangSupp.getHunUnit());
 				break;
 			}
 			// nmod > 0 check whether nmod contained in provLangSupp..
 			if (provLangSupp.containsWord(String.valueOf(nmod))) {
-				sb.append(provLangSupp.getWord(hun).toLowerCase()
-						+ provLangSupp.getHunUnit()
-						+ provLangSupp.getAnd()
-						+ provLangSupp.getWord(String.valueOf(nmod))
-								.toLowerCase());
+				sb.append(provLangSupp.getWord(hun).toLowerCase() + provLangSupp.getHunUnit() + provLangSupp.getAnd()
+						+ provLangSupp.getWord(String.valueOf(nmod)).toLowerCase());
 				break;
 			}
 			// ..no! Calculation required for the decimal (i.e., nmod % 10 > 0)
@@ -115,33 +105,29 @@ public class RecursiveConverter {
 			k -= nmod; // .. k == 20
 			if (n <= 100) {// < 100
 
-				sb.append(provLangSupp.getWord(String.valueOf(k)).toLowerCase()
-						+ DEF.SPACE.val()
-						+ provLangSupp.getWord(String.valueOf(nmod))
-								.toLowerCase());
+				sb.append(provLangSupp.getWord(String.valueOf(k)).toLowerCase() + DEF.SPACE.val()
+						+ provLangSupp.getWord(String.valueOf(nmod)).toLowerCase());
 				break;
 
 			}
 
-			sb.append(provLangSupp.getWord(hun).toLowerCase()
-					+ provLangSupp.getHunUnit() + provLangSupp.getAnd()
-					+ provLangSupp.getWord(String.valueOf(k)).toLowerCase()
-					+ DEF.SPACE.val()
+			sb.append(provLangSupp.getWord(hun).toLowerCase() + provLangSupp.getHunUnit() + provLangSupp.getAnd()
+					+ provLangSupp.getWord(String.valueOf(k)).toLowerCase() + DEF.SPACE.val()
 					+ provLangSupp.getWord(String.valueOf(nmod)).toLowerCase());
 
 			break;
 
 		case 1:// ..otherwise calculate recursively
-			convert(sb, Integer.valueOf(arr[0]));
+			convert(sb, Integer.parseInt(arr[0]));
 			sb.append(provLangSupp.getThouUnit());
-			if (Integer.valueOf(arr[1]) > 0) {
+			if (Integer.parseInt(arr[1]) > 0) {
 
-				if (Integer.valueOf(arr[1]) < 100)
+				if (Integer.parseInt(arr[1]) < 100)
 					sb.append(provLangSupp.getAnd());
 				else
 					sb.append(DEF.SPACE.val());
 
-				list.add(new IntWithUnit(Integer.valueOf(arr[1]), "", ""));
+				list.add(new IntWithUnit(Integer.parseInt(arr[1]), "", ""));
 				sb.append(buildWithUnit(list));
 
 			}
@@ -149,33 +135,23 @@ public class RecursiveConverter {
 			break;
 
 		case 2:
-			convert(sb, Integer.valueOf(arr[0]));
+			convert(sb, Integer.parseInt(arr[0]));
 			sb.append(provLangSupp.getMillUnit() + DEF.SPACE.val());
 
-			list.add(
-					0,
-					new IntWithUnit(Integer.valueOf(arr[1]), provLangSupp
-							.getThouUnit(), provLangSupp.getAnd()));
+			list.add(0, new IntWithUnit(Integer.parseInt(arr[1]), provLangSupp.getThouUnit(), provLangSupp.getAnd()));
 
-			list.add(1, new IntWithUnit(Integer.valueOf(arr[2]), "",
-					provLangSupp.getAnd()));
+			list.add(1, new IntWithUnit(Integer.parseInt(arr[2]), "", provLangSupp.getAnd()));
 			sb.append(buildWithUnit(list));
 			break;
 		case 3:
-			convert(sb, Integer.valueOf(arr[0]));
+			convert(sb, Integer.parseInt(arr[0]));
 			sb.append(provLangSupp.getBillUnit() + DEF.SPACE.val());
 
-			list.add(
-					0,
-					new IntWithUnit(Integer.valueOf(arr[1]), provLangSupp
-							.getMillUnit(), provLangSupp.getAnd()));
+			list.add(0, new IntWithUnit(Integer.parseInt(arr[1]), provLangSupp.getMillUnit(), provLangSupp.getAnd()));
 
-			list.add(
-					1,
-					new IntWithUnit(Integer.valueOf(arr[2]), provLangSupp
-							.getThouUnit(), provLangSupp.getAnd()));
+			list.add(1, new IntWithUnit(Integer.parseInt(arr[2]), provLangSupp.getThouUnit(), provLangSupp.getAnd()));
 
-			list.add(2, new IntWithUnit(Integer.valueOf(arr[3]), "", ""));
+			list.add(2, new IntWithUnit(Integer.parseInt(arr[3]), "", ""));
 			sb.append(buildWithUnit(list));
 
 		}
@@ -197,8 +173,8 @@ public class RecursiveConverter {
 			if (it.getI() < 100)
 				sb.append(it.getAnd());
 			convert(sb, it.getI());
-			if (it.getUnit() != "")
-				sb.append(it.getUnit() + DEF.SPACE.val());
+			// if (it.getUnit() != "")
+			sb.append(it.getUnit() + DEF.SPACE.val());
 
 		}
 

@@ -1,6 +1,5 @@
 package org.desz.integertoword.repository.mongo;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -12,7 +11,6 @@ import org.desz.domain.mongodb.NumberFrequency;
 import org.desz.integertoword.config.repo.TestRepoConfig;
 import org.desz.integertoword.repository.IntFreqRepoJpaRepository;
 import org.desz.integertoword.repository.IntFreqRepoJpaRepositoryImpl;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,8 +21,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.mongodb.client.MongoDatabase;
 
 /**
  * @author des test lifecycle of NumberFrequency entity
@@ -37,28 +33,24 @@ public class TestIntFreqRepo {
 
 	protected final Logger LOGGER = Logger.getLogger(TestIntFreqRepo.class.getName());
 	@Autowired
-	MongoTemplate mongoTemplate;
+	private MongoTemplate mongoTemplate;
 	private IntFreqRepoJpaRepository intFreqRepo;
 
 	private String id = "1";
 	private final String idNot = "-1x";
-	@Autowired
-	private String dbUri;
 
 	@Autowired
-	private String dbHttps;
-
-	private Query query;
+	private String restApi;
 
 	private NumberFrequency numberFreq;
 
 	@Before
 	public void init() throws UnknownHostException {
-		LOGGER.info("Database Name:" + mongoTemplate.getDb().getName());
-		intFreqRepo = new IntFreqRepoJpaRepositoryImpl(mongoTemplate, dbUri, dbHttps);
+		LOGGER.info(String.format("Database Name : %s", mongoTemplate.getDb().getName()));
+
+		intFreqRepo = new IntFreqRepoJpaRepositoryImpl(mongoTemplate, restApi);
 		numberFreq = new NumberFrequency("1", 1);
-		query = new Query(Criteria.where("number").is("1"));
-		mongoTemplate.remove(query, NumberFrequency.class);
+		mongoTemplate.remove(new Query(Criteria.where("number").is("1")), NumberFrequency.class);
 
 	}
 
@@ -80,9 +72,10 @@ public class TestIntFreqRepo {
 		}
 	}
 
-	public void finalize() throws Throwable {
-		super.finalize();
-		mongoTemplate.getDb().getMongo().close();
-
-	}
+	/*
+	 * public void finalize() throws Throwable { super.finalize();
+	 * mongoTemplate.getDb().getMongo().close();
+	 * 
+	 * }
+	 */
 }

@@ -3,18 +3,17 @@ package org.desz.integertoword.repository;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.Response;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.LineIterator;
-import org.apache.commons.lang3.StringUtils;
 import org.desz.domain.mongodb.NumberFrequency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,9 +24,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 
 /**
  * MongoRepository. Non-implemented methods return null/do nothing.
@@ -40,54 +36,31 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 
 	protected final Logger LOGGER = Logger.getLogger(IntFreqRepoJpaRepositoryImpl.class.getName());
 
-	// private final MongoOperations mongoOps;
 	private final MongoTemplate mongoOps;
-
-	private boolean initOk = false;
-
-	private final String dbUri;
 
 	private final String dbRestUrl;
 
 	@Autowired()
-	public IntFreqRepoJpaRepositoryImpl(MongoOperations mongoOps, String dbUri, String dbHttps) {
+	public IntFreqRepoJpaRepositoryImpl(MongoOperations mongoOps, String dbRestApi) {
 
 		this.mongoOps = (MongoTemplate) mongoOps;
-		this.dbUri = dbUri;// TODO dont need this
-		this.dbRestUrl = dbHttps;
-		LOGGER.info(String.format("Mongo URI : %s", dbUri));
-		LOGGER.info(String.format("Mongo REST URL : %s", dbRestUrl));
+		this.dbRestUrl = dbRestApi;
+		LOGGER.info(String.format("Mongo REST API URL : %s", dbRestUrl));
 
 	}
 
 	@Override
 	public boolean isAvailable() {
-		final String dbNme = mongoOps.getDb().getName();
-
-		// create PING request to URI
+		// create Reactive request to URI
 		String[] arr = dbRestUrl.split("\\?");
-		StringBuilder sb = new StringBuilder();
-		sb.append(arr[0]).append("/" + dbNme + "/ping?").append(arr[1]);
-		// LOGGER.info("CURL PING" + sb.toString());
-
-		ProcessBuilder pb = new ProcessBuilder("curl", dbRestUrl);
-		Process proc = null;
-		InputStream is = null;
+		// invoke response
+		Future<Response> response = ClientBuilder.newClient()
+				.target(arr[0] + "/" + mongoOps.getDb().getName() + "/ping?" + arr[1]).request().async().get();
 		try {
-			proc = pb.start();
-			is = proc.getInputStream();
-			final String s = IOUtils.lineIterator(is, Charset.forName("UTF-8")).toString();
-
-			if (StringUtils.isNotEmpty(s) & StringUtils.contains(s, "200 OK"))
-				return true;
-
-		} catch (IOException e) {
-			LOGGER.severe("Todo");
+			return (response.get(3, TimeUnit.SECONDS).getStatus() == 200);
+		} catch (InterruptedException | ExecutionException | TimeoutException e) {
 			return false;
-		} finally {
-			IOUtils.closeQuietly(is);
 		}
-		return false;
 
 	}
 
@@ -149,7 +122,6 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 
 	@Override
 	public Iterable<NumberFrequency> findAll(Iterable<String> ids) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

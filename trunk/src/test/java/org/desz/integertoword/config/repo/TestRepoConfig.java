@@ -34,14 +34,13 @@ public class TestRepoConfig extends AbstractMongoConfiguration {
 	@Inject
 	private Environment env;
 
-	@Bean
-	public String dbUri() {
-		return env.getProperty("db.url");
-	}
+	/*
+	 * @Bean public String dbUri() { return env.getProperty("db.url"); }
+	 */
 
 	@Bean
-	public String dbHttps() {
-		return env.getProperty("db.https");
+	public String dbRestUrl() {
+		return env.getProperty("mongolab.rest.api");
 	}
 
 	@Override
@@ -60,7 +59,7 @@ public class TestRepoConfig extends AbstractMongoConfiguration {
 
 	@Override
 	public Mongo mongo() throws Exception {
-		MongoClientURI connectionString = new MongoClientURI(env.getProperty("db.url"));
-		return new MongoClient(connectionString);
+		MongoClientURI uri = new MongoClientURI(env.getProperty("mongodb.uri"));
+		return new MongoClient(uri);
 	}
 }

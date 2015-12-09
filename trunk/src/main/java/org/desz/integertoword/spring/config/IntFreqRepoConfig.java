@@ -55,8 +55,7 @@ public class IntFreqRepoConfig extends AbstractMongoConfiguration {
 		if (mongo() == null)
 			return null;
 		MongoTemplate mongoTemplate = new MongoTemplate(mongo(), getDatabaseName());
-		return new IntFreqRepoJpaRepositoryImpl(mongoTemplate, env.getProperty("mongo.db.uri"),
-				env.getProperty("mongolab.rest.api"));
+		return new IntFreqRepoJpaRepositoryImpl(mongoTemplate, env.getProperty("mongolab.rest.api"));
 	}
 
 	public @Bean MongoTemplate mongoTemplate() throws Exception {
