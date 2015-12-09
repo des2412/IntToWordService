@@ -31,7 +31,10 @@ public final class IntToWordServiceImpl implements IFIntToWordService<BigInteger
 	@Autowired
 	public IntToWordServiceImpl(Optional<IntFreqRepoJpaRepository> optFreqRepoSrv) {
 		this.optFreqRepo = optFreqRepoSrv;
-		LOGGER.info("Mongo Repo Service Present:" + optFreqRepo.isPresent());
+		if (optFreqRepo.isPresent())
+			LOGGER.info("Mongo Repo Service Available");
+		else
+			LOGGER.info("Mongo Repo Service Unavailable");
 	}
 
 	@Override
@@ -47,7 +50,7 @@ public final class IntToWordServiceImpl implements IFIntToWordService<BigInteger
 			LOGGER.info("repository unavailable - stats will not be collected");
 		RecursiveConverter converter = new RecursiveConverter(provLang);
 		try {
-			return converter.convert(new StringBuilder(), Integer.valueOf(num));
+			return converter.convert(new StringBuilder(), Integer.parseInt(num));
 		} catch (Exception e) {
 			throw new IntToWordServiceException(e.getLocalizedMessage());
 		}
