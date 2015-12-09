@@ -1,9 +1,10 @@
-package org.desz.integertoword.repository;
+package org.desz.integertoword.config.repo;
 
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
+import org.desz.integertoword.repository.mongo.TestIntFreqRepo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
 import org.springframework.context.annotation.Configuration;

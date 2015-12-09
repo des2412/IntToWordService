@@ -1,12 +1,7 @@
 package org.desz.integertoword.repository;
 
-import static com.mongodb.client.model.Filters.*;
-
-import com.mongodb.client.result.UpdateResult;
-
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
-import static org.springframework.data.mongodb.core.query.Update.update;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,21 +14,20 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
-import org.bson.Document;
+import org.apache.commons.lang3.StringUtils;
 import org.desz.domain.mongodb.NumberFrequency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import com.mongodb.Mongo;
-import com.mongodb.WriteResult;
 
 /**
  * MongoRepository. Non-implemented methods return null/do nothing.
@@ -46,56 +40,56 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 
 	protected final Logger LOGGER = Logger.getLogger(IntFreqRepoJpaRepositoryImpl.class.getName());
 
-	private final MongoOperations mongoOps;
+	// private final MongoOperations mongoOps;
+	private final MongoTemplate mongoOps;
 
 	private boolean initOk = false;
 
 	private final String dbUri;
 
-	private final String dbHttps;
+	private final String dbRestUrl;
 
 	@Autowired()
 	public IntFreqRepoJpaRepositoryImpl(MongoOperations mongoOps, String dbUri, String dbHttps) {
 
-		this.mongoOps = mongoOps;
-		this.dbUri = dbUri;
-		this.dbHttps = dbHttps;
+		this.mongoOps = (MongoTemplate) mongoOps;
+		this.dbUri = dbUri;// TODO dont need this
+		this.dbRestUrl = dbHttps;
 		LOGGER.info(String.format("Mongo URI : %s", dbUri));
-		LOGGER.info(String.format("Mongo URI : %s", dbHttps));
+		LOGGER.info(String.format("Mongo REST URL : %s", dbRestUrl));
 
 	}
 
-	@PostConstruct()
-	public void chkConn() {
-		ProcessBuilder pb = new ProcessBuilder("curl", dbHttps);
+	@Override
+	public boolean isAvailable() {
+		final String dbNme = mongoOps.getDb().getName();
+
+		// create PING request to URI
+		String[] arr = dbRestUrl.split("\\?");
+		StringBuilder sb = new StringBuilder();
+		sb.append(arr[0]).append("/" + dbNme + "/ping?").append(arr[1]);
+		// LOGGER.info("CURL PING" + sb.toString());
+
+		ProcessBuilder pb = new ProcessBuilder("curl", dbRestUrl);
 		Process proc = null;
 		InputStream is = null;
 		try {
 			proc = pb.start();
 			is = proc.getInputStream();
-			LineIterator itr = IOUtils.lineIterator(is, Charset.forName("UTF-8"));
-			String s = itr.nextLine();
-			if (Objects.nonNull(s) & (s.contains("number_freq") | s.contains("test_number_freq")))
-				initOk = true;
+			final String s = IOUtils.lineIterator(is, Charset.forName("UTF-8")).toString();
+
+			if (StringUtils.isNotEmpty(s) & StringUtils.contains(s, "200 OK"))
+				return true;
 
 		} catch (IOException e) {
 			LOGGER.severe("Todo");
+			return false;
 		} finally {
 			IOUtils.closeQuietly(is);
 		}
+		return false;
 
 	}
-
-	/*
-	 * @Override public boolean isAvailable() {
-	 * 
-	 * DBObject ping = new BasicDBObject("ping", "1"); if
-	 * (mongoOps.executeCommand(ping).ok()) return true;
-	 * 
-	 * return false;
-	 * 
-	 * }
-	 */
 
 	@Override
 	public List<NumberFrequency> findAll() {
@@ -109,7 +103,9 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 
 	@Override
 	public <S extends NumberFrequency> List<S> save(Iterable<S> iter) {
-		return save(iter);
+		if (isAvailable())
+			return save(iter);
+		return null;
 	}
 
 	@Override
@@ -119,23 +115,33 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 
 	@Override
 	public long count() {
-		return mongoOps.findAll(NumberFrequency.class).size();
+		if (isAvailable())
+			return mongoOps.findAll(NumberFrequency.class).size();
+		return -1;
 	}
 
 	@Override
 	public <S extends NumberFrequency> S save(S entity) {
-		mongoOps.save(entity);
-		return (S) findOne(entity.getId());
+		if (isAvailable()) {
+			mongoOps.save(entity);
+			return (S) findOne(entity.getId());
+		}
+		return entity;
 	}
 
 	@Override
 	public NumberFrequency findOne(String id) {
-		Query query = new Query(Criteria.where("number").is(id));
-		return mongoOps.findOne(query, NumberFrequency.class);
+		if (isAvailable()) {
+			Query query = new Query(Criteria.where("number").is(id));
+			return mongoOps.findOne(query, NumberFrequency.class);
+		}
+		return null;
 	}
 
 	@Override
 	public boolean exists(String id) {
+		if (!isAvailable())
+			return false;
 		if (Objects.nonNull(findOne(id)))
 			return true;
 		return false;
@@ -149,7 +155,7 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 
 	@Override
 	public void delete(String id) {
-		if (mongoOps.findById(id, NumberFrequency.class) == null)
+		if (Objects.nonNull(findOne(id)))
 			mongoOps.remove(query(where("number").is(id)), NumberFrequency.class);
 
 	}
@@ -162,13 +168,6 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 
 	@Override
 	public void delete(Iterable<? extends NumberFrequency> entities) {
-
-	}
-
-	@Override
-	public void deleteAllInCollection(String name) {
-		LOGGER.info(String.format("Drop Collection [name], %s", name));
-		mongoOps.getCollection(name).drop();
 
 	}
 

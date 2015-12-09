@@ -1,4 +1,4 @@
-package org.desz.integertoword.repository;
+package org.desz.integertoword.repository.mongo;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -9,6 +9,9 @@ import java.net.UnknownHostException;
 import java.util.logging.Logger;
 
 import org.desz.domain.mongodb.NumberFrequency;
+import org.desz.integertoword.config.repo.TestRepoConfig;
+import org.desz.integertoword.repository.IntFreqRepoJpaRepository;
+import org.desz.integertoword.repository.IntFreqRepoJpaRepositoryImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,8 +56,6 @@ public class TestIntFreqRepo {
 	public void init() throws UnknownHostException {
 		LOGGER.info("Database Name:" + mongoTemplate.getDb().getName());
 		intFreqRepo = new IntFreqRepoJpaRepositoryImpl(mongoTemplate, dbUri, dbHttps);
-		// call PostConstruct method
-		((IntFreqRepoJpaRepositoryImpl) intFreqRepo).chkConn();
 		numberFreq = new NumberFrequency("1", 1);
 		query = new Query(Criteria.where("number").is("1"));
 		mongoTemplate.remove(query, NumberFrequency.class);
@@ -63,15 +64,20 @@ public class TestIntFreqRepo {
 
 	@Test
 	public void testExists() {
-		intFreqRepo.save(numberFreq);
-		assertTrue(intFreqRepo.exists(id));
-		assertFalse(intFreqRepo.exists(idNot));
+		if (intFreqRepo.isAvailable()) {
+
+			intFreqRepo.save(numberFreq);
+			assertTrue(intFreqRepo.exists(id));
+			assertFalse(intFreqRepo.exists(idNot));
+		}
 	}
 
 	@Test
 	public void testFindOne() {
-		intFreqRepo.save(numberFreq);
-		assertNotNull(intFreqRepo.findOne(id));
+		if (intFreqRepo.isAvailable()) {
+			intFreqRepo.save(numberFreq);
+			assertNotNull(intFreqRepo.findOne(id));
+		}
 	}
 
 	public void finalize() throws Throwable {

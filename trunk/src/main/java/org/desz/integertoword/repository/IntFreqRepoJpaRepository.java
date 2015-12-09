@@ -5,8 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface IntFreqRepoJpaRepository extends MongoRepository<NumberFrequency, String> {
 
-	void deleteAllInCollection(String name);
-
-	// boolean isAvailable();
+	boolean isAvailable();
 
 }
