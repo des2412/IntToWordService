@@ -59,7 +59,7 @@ public class EmbeddedMongoTest {
 				NumberFrequency.class);
 		assertEquals(1, wrtRes.getN());
 		final NumberFrequency nf = mongoTemplate.findOne(query, NumberFrequency.class);
-		assertEquals("COUNT expected should be 2", 2, nf.getCount());
+		assertEquals("COUNT expected should be 2", Integer.valueOf(2), nf.getCount());
 
 	}
 

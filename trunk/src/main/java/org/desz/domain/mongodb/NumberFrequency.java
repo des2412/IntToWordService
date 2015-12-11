@@ -20,24 +20,21 @@ public class NumberFrequency implements Serializable {
 
 	@Indexed
 	private String number;
-	private int count;
+	private Integer count;
 
 	public NumberFrequency() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	// @PersistenceConstructor
-	public NumberFrequency(String number, int count) {
-		// super();
+	@PersistenceConstructor
+	public NumberFrequency(String number, Integer count) {
 		this.number = number;
 		this.count = count;
 	}
 
-	// @PersistenceConstructor
+	@PersistenceConstructor
 	public NumberFrequency(String number) {
 		this.number = number;
-		this.count = 1;
+		this.count = new Integer(1);
 	}
 
 	/**
@@ -51,7 +48,7 @@ public class NumberFrequency implements Serializable {
 		return number;
 	}
 
-	public int getCount() {
+	public Integer getCount() {
 		return count;
 	}
 
@@ -68,9 +65,9 @@ public class NumberFrequency implements Serializable {
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	@Override
-	public String toString() {
-		return String.format("NumberFrequency [id=%s, number=%s, count=%s]", id, number, count);
-	}
+	/*
+	 * @Override public String toString() { return String.format(
+	 * "NumberFrequency [id=%s, number=%s, count=%s]", id, number, count); }
+	 */
 
 }
