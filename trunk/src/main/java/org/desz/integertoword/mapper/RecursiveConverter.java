@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import org.desz.integertoword.content.ContentContainer.DEF;
@@ -166,6 +167,7 @@ public class RecursiveConverter {
 	 * @return Word with unit appended (not for hundred)
 	 */
 	private String buildWithUnit(List<IntWithUnit> list) {
+		Objects.nonNull(list);
 		StringBuilder sb = new StringBuilder();
 		for (IntWithUnit it : list) {
 			if (it.getI() == 0)// irrelevant
@@ -173,8 +175,7 @@ public class RecursiveConverter {
 			if (it.getI() < 100)
 				sb.append(it.getAnd());
 			convert(sb, it.getI());
-			// if (it.getUnit() != "")
-			sb.append(it.getUnit() + DEF.SPACE.val());
+			sb.append(it.getUnit());// + DEF.SPACE.val());
 
 		}
 

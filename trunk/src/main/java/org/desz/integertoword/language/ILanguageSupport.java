@@ -4,7 +4,6 @@
  */
 package org.desz.integertoword.language;
 
-
 /**
  * @author des
  * 
@@ -23,12 +22,10 @@ public interface ILanguageSupport {
 
 	public String getAnd();
 
-	public String getNullInput();
-
 	public String getNumberFormatErr();
 
 	public String getUnkownErr();
-	
+
 	public String getWord(String num);
 
 	public boolean containsWord(String valueOf);

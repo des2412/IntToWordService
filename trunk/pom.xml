@@ -160,10 +160,6 @@ http://maven.apache.org
 			<version>1.4.1.RELEASE</version>
 		</dependency>
 
-		<!-- <dependency> <groupId>de.codecentric</groupId> <artifactId>jbehave-junit-runner</artifactId> 
-			<version>1.0.1</version> </dependency> <dependency> <groupId>org.jbehave</groupId> 
-			<artifactId>jbehave-core</artifactId> <version>4.0-beta-3</version> </dependency> -->
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
@@ -173,9 +169,6 @@ http://maven.apache.org
 			<artifactId>guava</artifactId>
 			<version>17.0</version>
 		</dependency>
-
-		<!-- <dependency> <groupId>org.powermock</groupId> <artifactId>powermock-core</artifactId> 
-			<version>1.5.5</version> </dependency> -->
 
 		<dependency>
 			<groupId>org.powermock</groupId>
@@ -205,12 +198,6 @@ http://maven.apache.org
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>com.google.code.findbugs</groupId>
-			<artifactId>jsr305</artifactId>
-			<version>3.0.1</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>com.google.code.findbugs</groupId>
 			<artifactId>jsr305</artifactId>
@@ -312,14 +299,14 @@ http://maven.apache.org
 					<failOnError>false</failOnError>
 				</configuration>
 				<executions>
-					<!-- Ensures that FindBugs inspects source code when project is compiled. -->
-					<execution>
+					<!-- FIXME Ensures that FindBugs inspects source code when project is compiled. -->
+				<!-- 	<execution>
 						<id>analyze-compile</id>
 						<phase>compile</phase>
 						<goals>
 							<goal>check</goal>
 						</goals>
-					</execution>
+					</execution> -->
 				</executions>
 			</plugin>
 
@@ -372,7 +359,8 @@ http://maven.apache.org
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>

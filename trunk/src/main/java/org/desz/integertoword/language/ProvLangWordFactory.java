@@ -21,11 +21,9 @@ import org.desz.integertoword.mapper.RecursiveConverter;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * Defines constants for supported PROV_LANG.
+ * Defines constants for PROV_LANG; container for the language specific words
+ * and errors.
  * 
- * is a container for the language specific words and errors. In the context of
- * the application a Flyweight approach is used as instantiated once per
- * language and cached.
  * @see RecursiveConverter
  * 
  * @author des
@@ -37,14 +35,10 @@ public final class ProvLangWordFactory implements ILanguageSupport {
 	private String thouUnit;
 	private String hunUnit;
 	private String and;
-
 	private String invalidInput;
-
-	private String nullInput;
 	private String negativeInput;
 	private String numberFormatErr;
 	private String unknownErr;
-
 	private ImmutableMap<String, String> immutable;
 	private String billUnit;
 
@@ -64,14 +58,12 @@ public final class ProvLangWordFactory implements ILanguageSupport {
 			this.hunUnit = DEF.HUNS.val();
 			this.and = DEF.AND.val();
 			this.invalidInput = UK_ERRORS.INVALID_INPUT.getError();
-			this.nullInput = UK_ERRORS.NULL_INPUT.getError();
 			this.negativeInput = UK_ERRORS.NEGATIVE_INPUT.getError();
 			this.negativeInput = UK_ERRORS.NUMBER_FORMAT.getError();
 			this.unknownErr = UK_ERRORS.UNKNOWN.getError();
 			// generate Map of int to word for UK English
-			for (UK_WORDS intToWord : UK_WORDS.values()) {
+			for (UK_WORDS intToWord : UK_WORDS.values())
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
-			}
 
 			break;
 		case FR:
@@ -81,13 +73,11 @@ public final class ProvLangWordFactory implements ILanguageSupport {
 			this.hunUnit = FR_FMT.HUNS.val();
 			this.and = FR_FMT.AND.val();
 			this.invalidInput = FR_ERRORS.INVALID_INPUT.getError();
-			this.nullInput = FR_ERRORS.NULL_INPUT.getError();
 			this.negativeInput = FR_ERRORS.NEGATIVE_INPUT.getError();
 			this.negativeInput = FR_ERRORS.NUMBER_FORMAT.getError();
 			this.unknownErr = FR_ERRORS.UNKNOWN.getError();
-			for (FR_WORDS intToWord : FR_WORDS.values()) {
+			for (FR_WORDS intToWord : FR_WORDS.values())
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
-			}
 
 			break;
 
@@ -98,13 +88,12 @@ public final class ProvLangWordFactory implements ILanguageSupport {
 			this.hunUnit = DE_FMT.HUNS.val();
 			this.and = DE_FMT.AND.val();
 			this.invalidInput = DE_ERRORS.INVALID_INPUT.getError();
-			this.nullInput = DE_ERRORS.NULL_INPUT.getError();
 			this.negativeInput = DE_ERRORS.NEGATIVE_INPUT.getError();
 			this.negativeInput = DE_ERRORS.NUMBER_FORMAT.getError();
 			this.unknownErr = DE_ERRORS.UNKNOWN.getError();
-			for (DE_WORDS intToWord : DE_WORDS.values()) {
+			for (DE_WORDS intToWord : DE_WORDS.values())
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
-			}
+
 			break;
 
 		case NL:
@@ -114,13 +103,12 @@ public final class ProvLangWordFactory implements ILanguageSupport {
 			this.hunUnit = NL_FMT.HUNS.val();
 			this.and = NL_FMT.AND.val();
 			this.invalidInput = NL_ERRORS.INVALID_INPUT.getError();
-			this.nullInput = NL_ERRORS.NULL_INPUT.getError();
 			this.negativeInput = NL_ERRORS.NEGATIVE_INPUT.getError();
 			this.negativeInput = NL_ERRORS.NUMBER_FORMAT.getError();
 			this.unknownErr = NL_ERRORS.UNKNOWN.getError();
-			for (NL_WORDS intToWord : NL_WORDS.values()) {
+			for (NL_WORDS intToWord : NL_WORDS.values())
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
-			}
+
 			break;
 
 		default:
@@ -128,8 +116,7 @@ public final class ProvLangWordFactory implements ILanguageSupport {
 
 		}
 
-		immutable = new ImmutableMap.Builder<String, String>().putAll(
-				intToWordMap).build();
+		immutable = new ImmutableMap.Builder<String, String>().putAll(intToWordMap).build();
 	}
 
 	/**
@@ -183,10 +170,9 @@ public final class ProvLangWordFactory implements ILanguageSupport {
 		return and;
 	}
 
-	@Override
-	public String getNullInput() {
-		return nullInput;
-	}
+	/*
+	 * @Override public String getNullInput() { return nullInput; }
+	 */
 
 	@Override
 	public String getNumberFormatErr() {
