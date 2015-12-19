@@ -299,14 +299,10 @@ http://maven.apache.org
 					<failOnError>false</failOnError>
 				</configuration>
 				<executions>
-					<!-- FIXME Ensures that FindBugs inspects source code when project is compiled. -->
-				<!-- 	<execution>
-						<id>analyze-compile</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution> -->
+					<!-- FIXME Ensures that FindBugs inspects source code when project is 
+						compiled. -->
+					<!-- <execution> <id>analyze-compile</id> <phase>compile</phase> <goals> 
+						<goal>check</goal> </goals> </execution> -->
 				</executions>
 			</plugin>
 

@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import org.desz.domain.mongodb.NumberFrequency;
 import org.desz.integertoword.content.ContentContainer.PROV_LANG;
 import org.desz.integertoword.exceptions.IntToWordServiceException;
-import org.desz.integertoword.mapper.RecursiveConverter;
+import org.desz.integertoword.mapper.Converter;
 import org.desz.integertoword.repository.IntFreqRepoJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,9 +48,9 @@ public final class IntToWordServiceImpl implements IFIntToWordService<BigInteger
 																// NumberFreq.
 		else
 			LOGGER.info("repository unavailable - stats will not be collected");
-		RecursiveConverter converter = new RecursiveConverter(provLang);
+		Converter converter = new Converter(provLang);
 		try {
-			return converter.convert(new StringBuilder(), Integer.parseInt(num));
+			return converter.convert(Integer.parseInt(num)).toLowerCase();
 		} catch (Exception e) {
 			throw new IntToWordServiceException(e.getLocalizedMessage());
 		}

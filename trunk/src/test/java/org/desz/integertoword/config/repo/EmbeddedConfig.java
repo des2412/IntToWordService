@@ -33,10 +33,12 @@ public class EmbeddedConfig extends AbstractMongoConfiguration {
 		return new EmbeddedMongoBuilder().version("3.0.7").bindIp("127.0.0.1").port(12345).build();
 	}
 
+	@Override
 	public @Bean MongoDbFactory mongoDbFactory() throws Exception {
 		return new SimpleMongoDbFactory(new MongoClient(), getDatabaseName());
 	}
 
+	@Override
 	public @Bean MongoTemplate mongoTemplate() throws Exception {
 
 		return new MongoTemplate(mongoDbFactory());

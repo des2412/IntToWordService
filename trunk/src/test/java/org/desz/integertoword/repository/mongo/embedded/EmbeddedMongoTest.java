@@ -72,6 +72,7 @@ public class EmbeddedMongoTest {
 
 	}
 
+	@Override
 	public void finalize() throws Throwable {
 		super.finalize();
 		mongoTemplate.getDb().getMongo().close();

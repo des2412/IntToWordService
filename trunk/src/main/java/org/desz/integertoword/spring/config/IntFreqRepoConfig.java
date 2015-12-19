@@ -47,6 +47,7 @@ public class IntFreqRepoConfig extends AbstractMongoConfiguration {
 		return env.getProperty("db.id");
 	}
 
+	@Override
 	public @Bean MongoDbFactory mongoDbFactory() throws Exception {
 		return new SimpleMongoDbFactory(new MongoClient(), getDatabaseName());
 	}
@@ -58,6 +59,7 @@ public class IntFreqRepoConfig extends AbstractMongoConfiguration {
 		return new IntFreqRepoJpaRepositoryImpl(mongoTemplate, env.getProperty("mongolab.rest.api"));
 	}
 
+	@Override
 	public @Bean MongoTemplate mongoTemplate() throws Exception {
 
 		return new MongoTemplate(mongoDbFactory());

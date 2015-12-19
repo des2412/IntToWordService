@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import org.desz.integertoword.repository.mongo.TestIntFreqRepo;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -19,11 +18,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.ReadPreference;
-import com.mongodb.WriteConcern;
-import com.mongodb.client.MongoDatabase;
-import org.springframework.data.mongodb.MongoDbFactory;
-import org.springframework.data.mongodb.core.MongoFactoryBean;
 
 @Configuration()
 @PropertySource(value = { "classpath:test.mongo.properties" })
@@ -48,10 +42,12 @@ public class TestRepoConfig extends AbstractMongoConfiguration {
 		return env.getProperty("db.id");
 	}
 
+	@Override
 	public @Bean MongoDbFactory mongoDbFactory() throws Exception {
 		return new SimpleMongoDbFactory(new MongoClient(), getDatabaseName());
 	}
 
+	@Override
 	public @Bean MongoTemplate mongoTemplate() throws Exception {
 
 		return new MongoTemplate(mongoDbFactory());

@@ -16,7 +16,7 @@ import org.desz.integertoword.content.ContentContainer.NL_WORDS;
 import org.desz.integertoword.content.ContentContainer.PROV_LANG;
 import org.desz.integertoword.content.ContentContainer.UK_ERRORS;
 import org.desz.integertoword.content.ContentContainer.UK_WORDS;
-import org.desz.integertoword.mapper.RecursiveConverter;
+import org.desz.integertoword.mapper.Converter;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -24,7 +24,7 @@ import com.google.common.collect.ImmutableMap;
  * Defines constants for PROV_LANG; container for the language specific words
  * and errors.
  * 
- * @see RecursiveConverter
+ * @see Converter
  * 
  * @author des
  * 
