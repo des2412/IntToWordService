@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import(value = { IntFreqRepoConfig.class }) // TODO is this necessary?
+@Import(value = { IntFreqRepoConfig.class })
 public class IntToWordServiceConfig {
 	protected final Logger LOGGER = Logger.getLogger(IntToWordServiceConfig.class.getName());
 

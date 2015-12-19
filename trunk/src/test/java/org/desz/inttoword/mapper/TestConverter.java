@@ -20,18 +20,15 @@ public class TestConverter {
 		rsv = new Converter(PROV_LANG.UK);
 	}
 
-	@Test
-	public void testJavaStream() {
+	@Test(expected = NullPointerException.class)
+	public void testNull() {
+		rsv.funcIntToString(null);
 
-		final Converter _rc = new Converter(PROV_LANG.UK);
-		/*
-		 * int n = 123; String s = _rc.java8Function(n); assertNotNull(s);
-		 * assertEquals("one hundred and twenty three", s);
-		 */
-		//
-		String s = rsv.funcIntToString(Integer.MAX_VALUE);
-		assertNotNull(s);
+	}
 
+	@Test(expected = NullPointerException.class)
+	public void testNonInt() {
+		rsv.funcIntToString(Integer.MAX_VALUE + 1);
 	}
 
 	@Test
