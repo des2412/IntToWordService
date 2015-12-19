@@ -10,7 +10,7 @@
  * org.springframework.data.mongodb.core.query.Query; import
  * org.springframework.data.mongodb.core.query.Update;
  * 
- * import org.desz.integertoword.config.repo.EmbeddedConfig;
+ * import org.desz.inttoword.config.repo.EmbeddedConfig;
  * 
  * public class EmbeddedApp {
  * 
