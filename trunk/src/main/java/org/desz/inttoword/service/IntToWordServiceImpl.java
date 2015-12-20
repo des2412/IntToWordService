@@ -9,10 +9,8 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.desz.domain.mongodb.NumberFrequency;
-import org.desz.inttoword.service.IFIntToWordService;
-//import org.desz.inttoword.service.IntToWordServiceImpl;
-import org.desz.inttoword.content.LangContent.PROV_LANG;
 import org.desz.inttoword.exceptions.IntToWordServiceException;
+import org.desz.inttoword.language.LangContent.PROV_LANG;
 import org.desz.inttoword.mapper.Converter;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,7 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public final class IntToWordServiceImpl implements IFIntToWordService<BigInteger> {
+public final class IntToWordServiceImpl implements IConverterService<BigInteger> {
 
 	protected final Logger LOGGER = Logger.getLogger(IntToWordServiceImpl.class.getName());
 

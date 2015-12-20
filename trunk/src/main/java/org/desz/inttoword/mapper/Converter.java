@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
-import org.desz.inttoword.content.LangContent.DEF;
-import org.desz.inttoword.content.LangContent.PROV_LANG;
 import org.desz.inttoword.language.ILangProvider;
 import org.desz.inttoword.language.ProvLangFac;
+import org.desz.inttoword.language.LangContent.DEF;
+import org.desz.inttoword.language.LangContent.PROV_LANG;
 
 /**
  * @author des Converts integer to corresponding word format in PROV_LANG

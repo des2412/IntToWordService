@@ -4,19 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import org.desz.inttoword.content.LangContent.DEF;
-import org.desz.inttoword.content.LangContent.DE_ERRORS;
-import org.desz.inttoword.content.LangContent.DE_FMT;
-import org.desz.inttoword.content.LangContent.DE_WORDS;
-import org.desz.inttoword.content.LangContent.FR_ERRORS;
-import org.desz.inttoword.content.LangContent.FR_FMT;
-import org.desz.inttoword.content.LangContent.FR_WORDS;
-import org.desz.inttoword.content.LangContent.NL_ERRORS;
-import org.desz.inttoword.content.LangContent.NL_FMT;
-import org.desz.inttoword.content.LangContent.NL_WORDS;
-import org.desz.inttoword.content.LangContent.PROV_LANG;
-import org.desz.inttoword.content.LangContent.UK_ERRORS;
-import org.desz.inttoword.content.LangContent.UK_WORDS;
+import org.desz.inttoword.language.LangContent.DEF;
+import org.desz.inttoword.language.LangContent.DE_FMT;
+import org.desz.inttoword.language.LangContent.DE_WORDS;
+import org.desz.inttoword.language.LangContent.FR_FMT;
+import org.desz.inttoword.language.LangContent.FR_WORDS;
+import org.desz.inttoword.language.LangContent.NL_FMT;
+import org.desz.inttoword.language.LangContent.NL_WORDS;
+import org.desz.inttoword.language.LangContent.PROV_LANG;
+import org.desz.inttoword.language.LangContent.UK_WORDS;
 import org.desz.inttoword.mapper.Converter;
 
 import com.google.common.collect.ImmutableMap;
@@ -53,11 +49,9 @@ public final class ProvLangFac implements ILangProvider {
 			this.thouUnit = DEF.THOUS.val();
 			this.hunUnit = DEF.HUNS.val();
 			this.and = DEF.AND.val();
-			UK_ERRORS.UNKNOWN.getError();
 			// populate Map of int to word for UK English
 			for (UK_WORDS intToWord : UK_WORDS.values())
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
-
 			break;
 		case FR:
 			this.billUnit = FR_FMT.BILLS.val();
@@ -65,7 +59,7 @@ public final class ProvLangFac implements ILangProvider {
 			this.thouUnit = FR_FMT.THOUS.val();
 			this.hunUnit = FR_FMT.HUNS.val();
 			this.and = FR_FMT.AND.val();
-			FR_ERRORS.UNKNOWN.getError();
+
 			for (FR_WORDS intToWord : FR_WORDS.values())
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
 
@@ -77,7 +71,6 @@ public final class ProvLangFac implements ILangProvider {
 			this.thouUnit = DE_FMT.THOUS.val();
 			this.hunUnit = DE_FMT.HUNS.val();
 			this.and = DE_FMT.AND.val();
-			DE_ERRORS.UNKNOWN.getError();
 			for (DE_WORDS intToWord : DE_WORDS.values())
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
 
@@ -89,7 +82,6 @@ public final class ProvLangFac implements ILangProvider {
 			this.thouUnit = NL_FMT.THOUS.val();
 			this.hunUnit = NL_FMT.HUNS.val();
 			this.and = NL_FMT.AND.val();
-			NL_ERRORS.UNKNOWN.getError();
 			for (NL_WORDS intToWord : NL_WORDS.values())
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
 

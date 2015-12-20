@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 import org.desz.inttoword.spring.config.IntFreqRepoConfig;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
-import org.desz.inttoword.service.IFIntToWordService;
+import org.desz.inttoword.service.IConverterService;
 import org.desz.inttoword.service.IntToWordServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ public class IntToWordServiceConfig {
 	private IntFreqRepoConfig intFreqRepoConfig;
 
 	@Bean
-	public IFIntToWordService<BigInteger> intToWordService() {
+	public IConverterService<BigInteger> intToWordService() {
 
 		Optional<IntFreqRepoJpaRepository> opt = Optional.empty();
 		try {

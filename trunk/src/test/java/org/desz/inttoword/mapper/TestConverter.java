@@ -3,7 +3,7 @@ package org.desz.inttoword.mapper;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.desz.inttoword.content.LangContent.PROV_LANG;
+import org.desz.inttoword.language.LangContent.PROV_LANG;
 import org.desz.inttoword.mapper.Converter;
 import org.junit.Before;
 import org.junit.Test;

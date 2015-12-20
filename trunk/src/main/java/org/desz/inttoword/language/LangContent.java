@@ -1,16 +1,20 @@
 /**
  * 
  */
-package org.desz.inttoword.content;
+package org.desz.inttoword.language;
 
 /**
  * @author des
  * 
- *         Enums for language, integer to word mappings, Errors, Format and
- *         Units
+ *         Enums for language, int -> word mappings, Errors, Format and Units
  * 
  */
 public final class LangContent {
+
+	public String getErrForLang(PROV_LANG p, String s) {
+		return null;
+
+	}
 
 	/**
 	 * PROV_LANG for multiple languages.
@@ -236,7 +240,7 @@ public final class LangContent {
 	public enum UK_ERRORS {
 		INVALID_INPUT("Invalid input"), INVALID_NUMBER("Fractional or non integral numbers disallowed"), NULL_INPUT(
 				"Enter Integer to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT(
-						"Negative Integer input disallowed"), NUMBER_FORMAT(
+						"Negative Integer disallowed"), NUMBER_FORMAT(
 								"Number Format Exception.. Integer too Large"), LANG_ERR("Select a valid language");
 
 		private final String error;

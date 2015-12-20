@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import java.math.BigInteger;
 
-import org.desz.inttoword.content.LangContent.PROV_LANG;
 import org.desz.inttoword.exceptions.IntToWordServiceException;
+import org.desz.inttoword.language.LangContent.PROV_LANG;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepositoryImpl;
-import org.desz.inttoword.service.IFIntToWordService;
+import org.desz.inttoword.service.IConverterService;
 import org.desz.inttoword.spring.config.IntToWordServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TestIntToWordService {
 
 	@Autowired
-	private IFIntToWordService<BigInteger> intToWordService;
+	private IConverterService<BigInteger> intToWordService;
 
 	@Test
 	public void testGetWord() throws IntToWordServiceException {
