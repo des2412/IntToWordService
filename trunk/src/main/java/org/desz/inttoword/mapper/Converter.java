@@ -109,12 +109,12 @@ public class Converter {
 		int last = Integer.parseInt(lst.get(lst.size() - 1));
 		final List<String> _strm = new ArrayList<String>();
 
-		// stream into _strm.
+		// stream into _strm. TODO avoid if !> 0.
 		lst.stream().filter(Objects::nonNull).forEach(s -> {
 			_strm.add(doConversion(s));
 		});
 		final int sz = _strm.size();
-		// LOGGER.info("Number of elements:" + _strm.size());
+
 		if (sz == 1)
 			return _strm.get(0);
 
@@ -123,8 +123,6 @@ public class Converter {
 
 		// calc. the start index
 		final int startIdx = units.size() - sz;
-		// LOGGER.info("Start iteration index:" + startIdx);
-
 		List<String> sub = units.subList(startIdx, units.size());
 		StringBuilder sb = new StringBuilder();
 		int k = 0;
@@ -137,8 +135,7 @@ public class Converter {
 			final String str = s + sub.get(k) + DEF.SPACE.val();
 			k++;
 
-			if (k == _strm.size()) {
-				log.info("final int:" + last);
+			if (k == sz) {
 				if (intInRange(last))
 					sb.append(provLn.getAnd() + str.trim());
 				else
