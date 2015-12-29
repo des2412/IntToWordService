@@ -19,6 +19,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -29,9 +30,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @PropertySource(value = { "classpath:test.mongo.properties" })
 @ContextConfiguration(classes = { TestRepoConfig.class })
+@ActiveProfiles({ "dev" })
 public class TestIntFreqRepo {
 
-	protected final Logger LOGGER = Logger.getLogger(TestIntFreqRepo.class.getName());
+	protected final Logger log = Logger.getLogger(TestIntFreqRepo.class.getName());
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	private IntFreqRepoJpaRepository intFreqRepo;
@@ -46,11 +48,16 @@ public class TestIntFreqRepo {
 
 	@Before
 	public void init() throws UnknownHostException {
-		LOGGER.info(String.format("Database Name : %s", mongoTemplate.getDb().getName()));
+		log.info(String.format("Database Name : %s", mongoTemplate.getDb().getName()));
 
 		intFreqRepo = new IntFreqRepoJpaRepositoryImpl(mongoTemplate, restApi);
 		numberFreq = new NumberFrequency("1", 1);
 		mongoTemplate.remove(new Query(Criteria.where("number").is("1")), NumberFrequency.class);
+
+	}
+
+	@Test
+	public void testSocket() {
 
 	}
 
@@ -72,10 +79,4 @@ public class TestIntFreqRepo {
 		}
 	}
 
-	/*
-	 * public void finalize() throws Throwable { super.finalize();
-	 * mongoTemplate.getDb().getMongo().close();
-	 * 
-	 * }
-	 */
 }

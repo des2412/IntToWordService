@@ -34,18 +34,24 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 
-	protected final Logger LOGGER = Logger.getLogger(IntFreqRepoJpaRepositoryImpl.class.getName());
+	protected final Logger log = Logger.getLogger(IntFreqRepoJpaRepositoryImpl.class.getName());
 
 	private final MongoTemplate mongoOps;
 
 	private final String dbRestUrl;
 
+	/**
+	 * 
+	 * @param mongoOps
+	 *            the MongoOps.
+	 * @param dbRestApi
+	 *            the resource URI.
+	 */
 	@Autowired()
 	public IntFreqRepoJpaRepositoryImpl(MongoOperations mongoOps, String dbRestApi) {
 
 		this.mongoOps = (MongoTemplate) mongoOps;
 		this.dbRestUrl = dbRestApi;
-		LOGGER.info(String.format("Mongo REST API URL : %s", dbRestUrl));
 
 	}
 
@@ -69,16 +75,16 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 		return null;
 	}
 
-	@Override
+	@Override // TODO FIXME
 	public List<NumberFrequency> findAll(Sort sort) {
-		return findAll(sort);
+		return (mongoOps.findAll(NumberFrequency.class));
 	}
 
 	@Override
 	public <S extends NumberFrequency> List<S> save(Iterable<S> iter) {
 		if (isAvailable())
-			return save(iter);
-		return null;
+			mongoOps.save(iter);
+		return (List<S>) iter;
 	}
 
 	@Override
@@ -144,8 +150,9 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 	}
 
 	@Override
-	public <S extends NumberFrequency> S insert(S arg0) {
-		return insert(arg0);
+	public <S extends NumberFrequency> S insert(S entity) {
+		save(entity);
+		return (S) findOne(entity.getId());
 	}
 
 	@Override

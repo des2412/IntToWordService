@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.desz.inttoword.repository.mongo.TestIntFreqRepo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -20,6 +21,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 
 @Configuration()
+@Profile({ "cloud", "dev" })
 @PropertySource(value = { "classpath:test.mongo.properties" })
 @EnableMongoRepositories(basePackageClasses = { TestIntFreqRepo.class })
 public class TestRepoConfig extends AbstractMongoConfiguration {
@@ -27,10 +29,6 @@ public class TestRepoConfig extends AbstractMongoConfiguration {
 	protected final Logger LOGGER = Logger.getLogger(TestRepoConfig.class.getName());
 	@Inject
 	private Environment env;
-
-	/*
-	 * @Bean public String dbUri() { return env.getProperty("db.url"); }
-	 */
 
 	@Bean
 	public String dbRestUrl() {

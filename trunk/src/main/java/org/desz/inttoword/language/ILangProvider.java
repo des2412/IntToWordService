@@ -4,6 +4,8 @@
  */
 package org.desz.inttoword.language;
 
+import java.util.List;
+
 /**
  * @author des
  * 
@@ -28,5 +30,7 @@ public interface ILangProvider {
 	public boolean containsWord(String valueOf);
 
 	public String getBillUnit();
+
+	public List<String> unitsList();
 
 }

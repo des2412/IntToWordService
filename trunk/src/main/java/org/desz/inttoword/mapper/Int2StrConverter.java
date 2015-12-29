@@ -13,20 +13,19 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.apache.commons.lang3.StringUtils;
 import org.desz.inttoword.language.ILangProvider;
-import org.desz.inttoword.language.ProvLangFac;
 import org.desz.inttoword.language.LangContent.DEF;
 import org.desz.inttoword.language.LangContent.PROV_LANG;
+import org.desz.inttoword.language.ProvLangFac;
 
 /**
  * @author des Converts integer to corresponding word format in PROV_LANG
  * 
  */
-public class Converter {
-	protected final Logger log = Logger.getLogger(Converter.class.getName());
+public class Int2StrConverter {
+	protected final Logger log = Logger.getLogger(Int2StrConverter.class.getName());
 	private ILangProvider provLn;
-	private static Map<PROV_LANG, ILangProvider> LANG_SUP_CACHE = Collections
+	private static Map<PROV_LANG, ILangProvider> PROV_LANG_CACHE = Collections
 			.synchronizedMap(new HashMap<PROV_LANG, ILangProvider>());
 
 	/**
@@ -35,13 +34,13 @@ public class Converter {
 	 * @param ln
 	 *            the provisioned language.
 	 */
-	public Converter(PROV_LANG ln) {
+	public Int2StrConverter(PROV_LANG ln) {
 
-		if (!(LANG_SUP_CACHE.containsKey(ln))) {
+		if (!(PROV_LANG_CACHE.containsKey(ln))) {
 			provLn = new ProvLangFac(ln);
-			LANG_SUP_CACHE.put(ln, provLn);
+			PROV_LANG_CACHE.put(ln, provLn);
 		} else
-			provLn = LANG_SUP_CACHE.get(ln);
+			provLn = PROV_LANG_CACHE.get(ln);
 
 	}
 
@@ -60,25 +59,24 @@ public class Converter {
 			sb.append(provLn.getWord(key).toLowerCase());
 			return sb.toString();
 		}
-		int nmod = n;
-		nmod %= 100;
-		final String hun = String.valueOf(n / 100);
-		// 1..9 hundred
+		int nmod = n % 100;
+		final String hun = provLn.getWord(String.valueOf(n / 100));
+		// 100..900
 		if (nmod == 0) {
-			sb.append(provLn.getWord(hun).toLowerCase() + provLn.getHunUnit());
+			sb.append(hun.toLowerCase() + provLn.getHunUnit());
 			return sb.toString();
 		}
-		// nmod > 0 check whether nmod contained in provLangSupp..
+		// nmod mapped directly
 		if (provLn.containsWord(String.valueOf(nmod))) {
-			sb.append(provLn.getWord(hun).toLowerCase() + provLn.getHunUnit() + DEF.SPACE.val() + provLn.getAnd()
+			sb.append(hun.toLowerCase() + provLn.getHunUnit() + DEF.SPACE.val() + provLn.getAnd()
 					+ provLn.getWord(String.valueOf(nmod)).toLowerCase());
 			return sb.toString();
 		}
-		// ..no! Calculation required for the decimal (i.e., nmod % 10 > 0)
+		// nmod % 10 > 0)
 		int k = nmod;// e.g., nmod = 23
 		nmod %= 10;// ..nmod = 3
 		k -= nmod; // .. k == 20
-		if (n <= 100) {// < 100
+		if (inRange(n)) {
 
 			sb.append(provLn.getWord(String.valueOf(k)).toLowerCase() + DEF.SPACE.val()
 					+ provLn.getWord(String.valueOf(nmod)).toLowerCase());
@@ -86,7 +84,7 @@ public class Converter {
 
 		}
 
-		sb.append(provLn.getWord(hun).toLowerCase() + provLn.getHunUnit() + DEF.SPACE.val() + provLn.getAnd()
+		sb.append(hun.toLowerCase() + provLn.getHunUnit() + DEF.SPACE.val() + provLn.getAnd()
 				+ provLn.getWord(String.valueOf(k)).toLowerCase() + DEF.SPACE.val()
 				+ provLn.getWord(String.valueOf(nmod)).toLowerCase());
 
@@ -97,19 +95,19 @@ public class Converter {
 	 * 
 	 * @param n
 	 *            the integer.
-	 * @return the String for n.
+	 * @return the word for n.
 	 */
 
 	public String funcIntToString(Integer n) {
-		n = Objects.requireNonNull(n, "converter requires non-null parameter");
+		n = Objects.requireNonNull(n, "requires non-null parameter");
 		final String fmt = NumberFormat.getIntegerInstance(Locale.UK).format(n);
 		// split to list
-		List<String> lst = Arrays.asList(fmt.split(","));
+		final List<String> lst = Arrays.asList(fmt.split(","));
 		// save last int.
 		int last = Integer.parseInt(lst.get(lst.size() - 1));
 		final List<String> _strm = new ArrayList<String>();
 
-		// stream into _strm. TODO avoid if !> 0.
+		// stream into _strm.
 		lst.stream().filter(Objects::nonNull).forEach(s -> {
 			_strm.add(doConversion(s));
 		});
@@ -118,12 +116,11 @@ public class Converter {
 		if (sz == 1)
 			return _strm.get(0);
 
-		List<String> units = Arrays.asList(provLn.getBillUnit(), provLn.getMillUnit(), provLn.getThouUnit(),
-				StringUtils.EMPTY);
+		List<String> units = provLn.unitsList();
 
 		// calc. the start index
 		final int startIdx = units.size() - sz;
-		List<String> sub = units.subList(startIdx, units.size());
+		final List<String> sub = units.subList(startIdx, units.size());
 		StringBuilder sb = new StringBuilder();
 		int k = 0;
 		for (final String s : _strm) {
@@ -135,12 +132,9 @@ public class Converter {
 			final String str = s + sub.get(k) + DEF.SPACE.val();
 			k++;
 
-			if (k == sz) {
-				if (intInRange(last))
-					sb.append(provLn.getAnd() + str.trim());
-				else
-					sb.append(str);
-			} else
+			if (k == sz & inRange(last)) // between 1 and 99 inclusive.
+				sb.append(provLn.getAnd() + str.trim());
+			else
 				sb.append(str);
 
 		}
@@ -154,7 +148,7 @@ public class Converter {
 	 * @param i
 	 * @return
 	 */
-	private boolean intInRange(int i) {
+	private boolean inRange(int i) {
 		return IntStream.range(1, 100).boxed().collect(Collectors.toSet()).contains(i);
 	}
 

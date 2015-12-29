@@ -1,9 +1,12 @@
 package org.desz.inttoword.language;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.desz.inttoword.language.LangContent.DEF;
 import org.desz.inttoword.language.LangContent.DE_FMT;
 import org.desz.inttoword.language.LangContent.DE_WORDS;
@@ -13,14 +16,14 @@ import org.desz.inttoword.language.LangContent.NL_FMT;
 import org.desz.inttoword.language.LangContent.NL_WORDS;
 import org.desz.inttoword.language.LangContent.PROV_LANG;
 import org.desz.inttoword.language.LangContent.UK_WORDS;
-import org.desz.inttoword.mapper.Converter;
+import org.desz.inttoword.mapper.Int2StrConverter;
 
 import com.google.common.collect.ImmutableMap;
 
 /**
  * Defines constants for a PROV_LANG; cache for language specific words.
  * 
- * @see Converter
+ * @see Int2StrConverter
  * 
  * @author des
  * 
@@ -101,14 +104,11 @@ public final class ProvLangFac implements ILangProvider {
 	@Override
 	public String getWord(String num) {
 		Objects.requireNonNull(num);
-		if (map.containsKey(num))
-			return map.get(num);
-		return null;
+		return map.get(num);
 	}
 
 	@Override
 	public boolean containsWord(String num) {
-		Objects.requireNonNull(num);
 		return map.containsKey(num);
 	}
 
@@ -135,6 +135,11 @@ public final class ProvLangFac implements ILangProvider {
 	@Override
 	public String getBillUnit() {
 		return billUnit;
+	}
+
+	@Override
+	public List<String> unitsList() {
+		return Arrays.asList(this.getBillUnit(), this.getMillUnit(), this.getThouUnit(), StringUtils.EMPTY);
 	}
 
 }

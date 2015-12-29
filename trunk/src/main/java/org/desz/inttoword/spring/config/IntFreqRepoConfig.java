@@ -1,11 +1,14 @@
 package org.desz.inttoword.spring.config;
 
+import java.util.logging.Logger;
+
 import javax.inject.Inject;
 
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepositoryImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -19,46 +22,57 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 
 /**
- * Configuration for Mongo document database
+ * Configure Mongo database.
  * 
  * @author des
  * 
  */
 @Configuration()
+@Profile({ "cloud", "dev" })
 @EnableMongoRepositories()
 @PropertySource(value = { "classpath:mongo.properties" })
 public class IntFreqRepoConfig extends AbstractMongoConfiguration {
-
+	protected final Logger log = Logger.getLogger(IntFreqRepoConfig.class.getName());
 	@Inject
 	private Environment env;
 
+	@Profile({ "dev" })
 	@Bean
 	public String dbUri() {
 		return env.getProperty("db.url");
 	}
 
+	@Profile({ "dev" })
 	@Bean
 	public String restApi() {
 		return env.getProperty("mongolab.rest.api");
 	}
 
+	@Profile({ "dev" })
 	@Override
 	protected String getDatabaseName() {
 		return env.getProperty("db.id");
 	}
 
+	@Profile({ "dev" })
 	@Override
 	public @Bean MongoDbFactory mongoDbFactory() throws Exception {
 		return new SimpleMongoDbFactory(new MongoClient(), getDatabaseName());
 	}
 
-	public @Bean() IntFreqRepoJpaRepository intFreqRepo() throws Exception {
-		if (mongo() == null)
-			return null;
+	@Profile({ "dev" })
+	public @Bean(name = "dev_repo") IntFreqRepoJpaRepository intFreqRepo() throws Exception {
 		MongoTemplate mongoTemplate = new MongoTemplate(mongo(), getDatabaseName());
 		return new IntFreqRepoJpaRepositoryImpl(mongoTemplate, env.getProperty("mongolab.rest.api"));
 	}
 
+	@Profile("cloud")
+	public @Bean(name = "cloudrepo") String emp() throws Exception {
+		// cannot instantiate Socket in cloud google.
+		return "";
+	}
+
+	@Profile({ "dev" })
 	@Override
 	public @Bean MongoTemplate mongoTemplate() throws Exception {
 
@@ -67,8 +81,10 @@ public class IntFreqRepoConfig extends AbstractMongoConfiguration {
 
 	@Override
 	public Mongo mongo() throws Exception {
-		MongoClientURI connectionString = new MongoClientURI(env.getProperty("mongo.db.uri"));
-		return new MongoClient(connectionString);
+
+		MongoClientURI clientUri = new MongoClientURI(env.getProperty("mongo.db.uri"));
+		return new MongoClient(clientUri);
+
 	}
 
 }

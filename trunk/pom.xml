@@ -7,7 +7,7 @@
 
 	<groupId>org.desz.conversion</groupId>
 	<artifactId>inttoword</artifactId>
-	<version>1.2-RELEASE</version>
+	<version>1.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>integertoword</name>
@@ -17,7 +17,7 @@
 http://maven.apache.org
     </url>
 	<properties>
-		<org.springframework.version>4.2.3.RELEASE</org.springframework.version>
+		<org.springframework.version>4.2.4.RELEASE</org.springframework.version>
 		<powermock.version>1.5.5</powermock.version>
 		<morphia.version>0.98</morphia.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -147,6 +147,18 @@ http://maven.apache.org
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-commons-core</artifactId>
 			<version>1.4.1.RELEASE</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.13</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.13</version>
 		</dependency>
 
 		<dependency>
