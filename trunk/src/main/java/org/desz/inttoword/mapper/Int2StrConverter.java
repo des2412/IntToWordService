@@ -16,38 +16,39 @@ import java.util.stream.IntStream;
 import org.desz.inttoword.language.ILangProvider;
 import org.desz.inttoword.language.LangContent.DEF;
 import org.desz.inttoword.language.LangContent.PROV_LANG;
-import org.desz.inttoword.language.ProvLangFac;
+import org.desz.inttoword.language.ProvLangFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * @author des Converts integer to corresponding word format in PROV_LANG
  * 
  */
+@Component
 public class Int2StrConverter {
 	protected final Logger log = Logger.getLogger(Int2StrConverter.class.getName());
-	private ILangProvider provLn;
+	private ILangProvider provLangFac;
 	private static Map<PROV_LANG, ILangProvider> PROV_LANG_CACHE = Collections
 			.synchronizedMap(new HashMap<PROV_LANG, ILangProvider>());
 
 	/**
-	 * construct and cache.
+	 * construct ProvLangFactory if not cached.
 	 * 
 	 * @param ln
 	 *            the provisioned language.
 	 */
-	public Int2StrConverter(PROV_LANG ln) {
+	private void assignProvLangFactoryFromCache(PROV_LANG ln) {
 
-		if (!(PROV_LANG_CACHE.containsKey(ln))) {
-			provLn = new ProvLangFac(ln);
-			PROV_LANG_CACHE.put(ln, provLn);
-		} else
-			provLn = PROV_LANG_CACHE.get(ln);
+		if (!(PROV_LANG_CACHE.containsKey(ln)))
+			PROV_LANG_CACHE.put(ln, new ProvLangFactory(ln));
+
+		provLangFac = PROV_LANG_CACHE.get(ln);
 
 	}
 
 	/**
 	 * 
-	 * @param prm
-	 * @return
+	 * @param prm.
+	 * @return the word with units
 	 */
 	private String doConversion(String prm) {
 		prm = Objects.requireNonNull(prm);
@@ -55,21 +56,21 @@ public class Int2StrConverter {
 		StringBuilder sb = new StringBuilder();
 		final int n = Integer.parseInt(prm);
 		final String key = String.valueOf(n);
-		if (provLn.containsWord(key)) {
-			sb.append(provLn.getWord(key).toLowerCase());
+		if (provLangFac.containsWord(key)) {
+			sb.append(provLangFac.getWord(key).toLowerCase());
 			return sb.toString();
 		}
 		int nmod = n % 100;
-		final String hun = provLn.getWord(String.valueOf(n / 100));
+		final String hun = provLangFac.getWord(String.valueOf(n / 100));
 		// 100..900
 		if (nmod == 0) {
-			sb.append(hun.toLowerCase() + provLn.getHunUnit());
+			sb.append(hun.toLowerCase() + provLangFac.getHunUnit());
 			return sb.toString();
 		}
 		// nmod mapped directly
-		if (provLn.containsWord(String.valueOf(nmod))) {
-			sb.append(hun.toLowerCase() + provLn.getHunUnit() + DEF.SPACE.val() + provLn.getAnd()
-					+ provLn.getWord(String.valueOf(nmod)).toLowerCase());
+		if (provLangFac.containsWord(String.valueOf(nmod))) {
+			sb.append(hun.toLowerCase() + provLangFac.getHunUnit() + DEF.SPACE.val() + provLangFac.getAnd()
+					+ provLangFac.getWord(String.valueOf(nmod)).toLowerCase());
 			return sb.toString();
 		}
 		// nmod % 10 > 0)
@@ -78,15 +79,15 @@ public class Int2StrConverter {
 		k -= nmod; // .. k == 20
 		if (inRange(n)) {
 
-			sb.append(provLn.getWord(String.valueOf(k)).toLowerCase() + DEF.SPACE.val()
-					+ provLn.getWord(String.valueOf(nmod)).toLowerCase());
+			sb.append(provLangFac.getWord(String.valueOf(k)).toLowerCase() + DEF.SPACE.val()
+					+ provLangFac.getWord(String.valueOf(nmod)).toLowerCase());
 			return sb.toString();
 
 		}
 
-		sb.append(hun.toLowerCase() + provLn.getHunUnit() + DEF.SPACE.val() + provLn.getAnd()
-				+ provLn.getWord(String.valueOf(k)).toLowerCase() + DEF.SPACE.val()
-				+ provLn.getWord(String.valueOf(nmod)).toLowerCase());
+		sb.append(hun.toLowerCase() + provLangFac.getHunUnit() + DEF.SPACE.val() + provLangFac.getAnd()
+				+ provLangFac.getWord(String.valueOf(k)).toLowerCase() + DEF.SPACE.val()
+				+ provLangFac.getWord(String.valueOf(nmod)).toLowerCase());
 
 		return sb.toString();
 	}
@@ -98,7 +99,8 @@ public class Int2StrConverter {
 	 * @return the word for n.
 	 */
 
-	public String funcIntToString(Integer n) {
+	public String funcIntToString(Integer n, PROV_LANG provLang) {
+		assignProvLangFactoryFromCache(provLang);
 		n = Objects.requireNonNull(n, "requires non-null parameter");
 		final String fmt = NumberFormat.getIntegerInstance(Locale.UK).format(n);
 		// split to list
@@ -116,7 +118,7 @@ public class Int2StrConverter {
 		if (sz == 1)
 			return _strm.get(0);
 
-		List<String> units = provLn.unitsList();
+		List<String> units = provLangFac.unitsList();
 
 		// calc. the start index
 		final int startIdx = units.size() - sz;
@@ -125,7 +127,7 @@ public class Int2StrConverter {
 		int k = 0;
 		for (final String s : _strm) {
 			// ignore zero
-			if (s.equals(provLn.getWord("0").toLowerCase())) {
+			if (s.equals(provLangFac.getWord("0").toLowerCase())) {
 				k++;
 				continue;
 			}
@@ -133,7 +135,7 @@ public class Int2StrConverter {
 			k++;
 
 			if (k == sz & inRange(last)) // between 1 and 99 inclusive.
-				sb.append(provLn.getAnd() + str.trim());
+				sb.append(provLangFac.getAnd() + str.trim());
 			else
 				sb.append(str);
 

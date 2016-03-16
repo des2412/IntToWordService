@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.desz.inttoword.mapper.Int2StrConverter;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.desz.inttoword.service.IConverterService;
 import org.desz.inttoword.service.ConversionSrv;
@@ -29,12 +29,17 @@ public class IntToWordServiceConfig {
 	@Qualifier(value = "cloudrepo")
 	private String cloudrepo;
 
+	@Bean // (name = "converterService")
+	public Int2StrConverter converterService() {
+		return new Int2StrConverter();
+	}
+
 	@Bean
 	public IConverterService<BigInteger> intToWordService() {
 		Optional<IntFreqRepoJpaRepository> opt = Optional.empty();
 		if (Objects.nonNull(cloudrepo)) {
 			log.info("creating empty repository for ConversionSrv");
-			return new ConversionSrv(opt);
+			return new ConversionSrv(opt, converterService());
 		}
 
 		try {
@@ -44,6 +49,6 @@ public class IntToWordServiceConfig {
 			log.error("investigate:" + e.getMessage());
 
 		}
-		return new ConversionSrv(opt);
+		return new ConversionSrv(opt, converterService());
 	}
 }

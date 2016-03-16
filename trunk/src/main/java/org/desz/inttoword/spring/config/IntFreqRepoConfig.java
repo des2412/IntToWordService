@@ -68,7 +68,7 @@ public class IntFreqRepoConfig extends AbstractMongoConfiguration {
 
 	@Profile("cloud")
 	public @Bean(name = "cloudrepo") String emp() throws Exception {
-		// cannot instantiate Socket in cloud google.
+		// prevent connection attempt to Mongo for google app engine.
 		return "";
 	}
 

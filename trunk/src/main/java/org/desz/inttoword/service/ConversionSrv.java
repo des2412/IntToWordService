@@ -31,9 +31,12 @@ public final class ConversionSrv implements IConverterService<BigInteger> {
 
 	private final Optional<IntFreqRepoJpaRepository> optFreqRepo;
 
+	private final Int2StrConverter converter;
+
 	@Autowired
-	public ConversionSrv(Optional<IntFreqRepoJpaRepository> optFreqRepoSrv) {
+	public ConversionSrv(Optional<IntFreqRepoJpaRepository> optFreqRepoSrv, Int2StrConverter converter) {
 		this.optFreqRepo = optFreqRepoSrv;
+		this.converter = converter;
 	}
 
 	/**
@@ -52,9 +55,9 @@ public final class ConversionSrv implements IConverterService<BigInteger> {
 		} else
 			log.info("repository connection not permissible");
 
-		Int2StrConverter converter = new Int2StrConverter(provLang);
+		// converter = new Int2StrConverter(provLang);
 		try {
-			return converter.funcIntToString(Integer.parseInt(num));
+			return converter.funcIntToString(Integer.parseInt(num), provLang);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			throw new IntToWordServiceException(e.getLocalizedMessage());

@@ -21,20 +21,20 @@ import org.desz.inttoword.mapper.Int2StrConverter;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * Defines constants for a PROV_LANG; cache for language specific words.
+ * Defines Strings for number constants for a PROV_LANG.
  * 
  * @see Int2StrConverter
  * 
  * @author des
  * 
  */
-public final class ProvLangFac implements ILangProvider {
+public final class ProvLangFactory implements ILangProvider {
 
 	private String millUnit;
 	private String thouUnit;
 	private String hunUnit;
 	private String and;
-	private ImmutableMap<String, String> map;
+	private ImmutableMap<String, String> wordIntMapping;
 	private String billUnit;
 
 	/**
@@ -42,7 +42,7 @@ public final class ProvLangFac implements ILangProvider {
 	 * @param _lnId
 	 *            PROV_LANG
 	 */
-	public ProvLangFac(final PROV_LANG _lnId) {
+	public ProvLangFactory(final PROV_LANG _lnId) {
 
 		Map<String, String> intToWordMap = new HashMap<String, String>();
 		switch (_lnId) {
@@ -95,7 +95,7 @@ public final class ProvLangFac implements ILangProvider {
 
 		}
 
-		map = new ImmutableMap.Builder<String, String>().putAll(intToWordMap).build();
+		wordIntMapping = new ImmutableMap.Builder<String, String>().putAll(intToWordMap).build();
 	}
 
 	/**
@@ -104,12 +104,12 @@ public final class ProvLangFac implements ILangProvider {
 	@Override
 	public String getWord(String num) {
 		Objects.requireNonNull(num);
-		return map.get(num);
+		return wordIntMapping.get(num);
 	}
 
 	@Override
 	public boolean containsWord(String num) {
-		return map.containsKey(num);
+		return wordIntMapping.containsKey(num);
 	}
 
 	@Override

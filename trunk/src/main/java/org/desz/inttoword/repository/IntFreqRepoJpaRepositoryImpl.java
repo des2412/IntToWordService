@@ -75,7 +75,7 @@ public class IntFreqRepoJpaRepositoryImpl implements IntFreqRepoJpaRepository {
 		return null;
 	}
 
-	@Override // TODO FIXME
+	@Override
 	public List<NumberFrequency> findAll(Sort sort) {
 		return (mongoOps.findAll(NumberFrequency.class));
 	}
