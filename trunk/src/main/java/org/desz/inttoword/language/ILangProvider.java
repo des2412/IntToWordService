@@ -5,6 +5,7 @@
 package org.desz.inttoword.language;
 
 import java.util.List;
+import org.desz.inttoword.language.LanguageRepository.ProvLang;
 
 /**
  * @author des
@@ -12,11 +13,6 @@ import java.util.List;
  */
 public interface ILangProvider {
 
-	/*
-	 * public String getNegativeInput();
-	 * 
-	 * public String getInvalidInput();
-	 */
 	public String getHunUnit();
 
 	public String getMillUnit();
@@ -32,5 +28,7 @@ public interface ILangProvider {
 	public String getBillUnit();
 
 	public List<String> unitsList();
+
+	public String getErrorForProvLang(ProvLang provLang, String key);
 
 }

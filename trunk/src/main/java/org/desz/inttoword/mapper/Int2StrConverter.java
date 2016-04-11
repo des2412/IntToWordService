@@ -14,21 +14,21 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.desz.inttoword.language.ILangProvider;
-import org.desz.inttoword.language.LangContent.DEF;
-import org.desz.inttoword.language.LangContent.PROV_LANG;
+import org.desz.inttoword.language.LanguageRepository.Def;
+import org.desz.inttoword.language.LanguageRepository.ProvLang;
 import org.desz.inttoword.language.ProvLangFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * @author des Converts integer to corresponding word format in PROV_LANG
+ * @author des Converts integer to corresponding word format in ProvLang
  * 
  */
 @Component
 public class Int2StrConverter {
 	protected final Logger log = Logger.getLogger(Int2StrConverter.class.getName());
 	private ILangProvider provLangFac;
-	private static Map<PROV_LANG, ILangProvider> PROV_LANG_CACHE = Collections
-			.synchronizedMap(new HashMap<PROV_LANG, ILangProvider>());
+	private static Map<ProvLang, ILangProvider> PROV_LANG_CACHE = Collections
+			.synchronizedMap(new HashMap<ProvLang, ILangProvider>());
 
 	/**
 	 * construct ProvLangFactory if not cached.
@@ -36,7 +36,7 @@ public class Int2StrConverter {
 	 * @param ln
 	 *            the provisioned language.
 	 */
-	private void assignProvLangFactoryFromCache(PROV_LANG ln) {
+	private void assignProvLangFactoryFromCache(ProvLang ln) {
 
 		if (!(PROV_LANG_CACHE.containsKey(ln)))
 			PROV_LANG_CACHE.put(ln, new ProvLangFactory(ln));
@@ -69,7 +69,7 @@ public class Int2StrConverter {
 		}
 		// nmod mapped directly
 		if (provLangFac.containsWord(String.valueOf(nmod))) {
-			sb.append(hun.toLowerCase() + provLangFac.getHunUnit() + DEF.SPACE.val() + provLangFac.getAnd()
+			sb.append(hun.toLowerCase() + provLangFac.getHunUnit() + Def.SPACE.val() + provLangFac.getAnd()
 					+ provLangFac.getWord(String.valueOf(nmod)).toLowerCase());
 			return sb.toString();
 		}
@@ -79,14 +79,14 @@ public class Int2StrConverter {
 		k -= nmod; // .. k == 20
 		if (inRange(n)) {
 
-			sb.append(provLangFac.getWord(String.valueOf(k)).toLowerCase() + DEF.SPACE.val()
+			sb.append(provLangFac.getWord(String.valueOf(k)).toLowerCase() + Def.SPACE.val()
 					+ provLangFac.getWord(String.valueOf(nmod)).toLowerCase());
 			return sb.toString();
 
 		}
 
-		sb.append(hun.toLowerCase() + provLangFac.getHunUnit() + DEF.SPACE.val() + provLangFac.getAnd()
-				+ provLangFac.getWord(String.valueOf(k)).toLowerCase() + DEF.SPACE.val()
+		sb.append(hun.toLowerCase() + provLangFac.getHunUnit() + Def.SPACE.val() + provLangFac.getAnd()
+				+ provLangFac.getWord(String.valueOf(k)).toLowerCase() + Def.SPACE.val()
 				+ provLangFac.getWord(String.valueOf(nmod)).toLowerCase());
 
 		return sb.toString();
@@ -99,7 +99,7 @@ public class Int2StrConverter {
 	 * @return the word for n.
 	 */
 
-	public String funcIntToString(Integer n, PROV_LANG provLang) {
+	public String funcIntToString(Integer n, ProvLang provLang) {
 		assignProvLangFactoryFromCache(provLang);
 		n = Objects.requireNonNull(n, "requires non-null parameter");
 		final String fmt = NumberFormat.getIntegerInstance(Locale.UK).format(n);
@@ -131,7 +131,7 @@ public class Int2StrConverter {
 				k++;
 				continue;
 			}
-			final String str = s + sub.get(k) + DEF.SPACE.val();
+			final String str = s + sub.get(k) + Def.SPACE.val();
 			k++;
 
 			if (k == sz & inRange(last)) // between 1 and 99 inclusive.

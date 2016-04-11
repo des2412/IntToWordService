@@ -9,18 +9,13 @@ package org.desz.inttoword.language;
  *         Enums for language, int -> word mappings, Errors, Format and Units
  * 
  */
-public final class LangContent {
-
-	public String getErrForLang(PROV_LANG p, String s) {
-		return null;
-
-	}
+public final class LanguageRepository {
 
 	/**
-	 * PROV_LANG for multiple languages.
+	 * ProvLang members for multiple languages.
 	 * 
 	 */
-	public enum PROV_LANG {
+	public enum ProvLang {
 		UK("UK", "UK-English", true), FR("FR", "Français", true), DE("DE", "Deutsch", true), NL("NL", "Nederlandse",
 				true), EMPTY("EMPTY", "Select...", false);
 
@@ -39,7 +34,7 @@ public final class LangContent {
 		 * @param description
 		 * @param valid
 		 */
-		private PROV_LANG(String code, String description, boolean valid) {
+		private ProvLang(String code, String description, boolean valid) {
 			this.code = code;
 			this.description = description;
 			this.valid = valid;
@@ -58,7 +53,7 @@ public final class LangContent {
 	/**
 	 * XX_WORDS specific mappings.
 	 */
-	public enum NL_WORDS {
+	public enum NlNumberWordPair {
 		ZERO("0", "Nul"), ONE("1", "Een"), TWO("2", "Twee"), THREE("3", "Drei"), FOUR("4", "Vier"), FIVE("5",
 				"Vijf"), SIX("6", "Zes"), SEVEN("7", "Zeven"), EIGHT("8", "Acht"), NINE("9", "Negen"), TEN("10",
 						"Tien"), ELEVEN("11", "Elf"), TWELVE("12", "Twaalf"), THIRTEEN("13", "Dertein"), FOURTEEN("14",
@@ -94,7 +89,7 @@ public final class LangContent {
 		private String word;
 		private String num;
 
-		private NL_WORDS(String num, String word) {
+		private NlNumberWordPair(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}
@@ -109,7 +104,7 @@ public final class LangContent {
 
 	};
 
-	public enum DE_WORDS {
+	public enum DeNumberWordPair {
 		ZERO("0", "Null"), ONE("1", "Eins"), TWO("2", "Zwei"), THREE("3", "Drei"), FOUR("4", "Vier"), FIVE("5",
 				"Fünf"), SIX("6", "Sechs"), SEVEN("7", "Sieben"), EIGHT("8", "Acht"), NINE("9", "Neun"), TEN("10",
 						"Zehn"), ELEVEN("11", "Elf"), TWELVE("12", "Zwölf"), THIRTEEN("13", "Dreizehn"), FOURTEEN("14",
@@ -145,7 +140,7 @@ public final class LangContent {
 		private String word;
 		private String num;
 
-		private DE_WORDS(String num, String word) {
+		private DeNumberWordPair(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}
@@ -166,7 +161,7 @@ public final class LangContent {
 	 * @author des
 	 * 
 	 */
-	public enum FR_WORDS {
+	public enum FrNumberWordPair {
 		ZERO("0", "Zéro"), ONE("1", "Un"), TWO("2", "Deux"), THREE("3", "Trois"), FOUR("4", "Quatre"), FIVE("5",
 				"Cinq"), SIX("6", "Six"), SEVEN("7", "Sept"), EIGHT("8", "Huit"), NINE("9", "Neuf"), TEN("10",
 						"Dix"), ELEVEN("11", "Onze"), TWELVE("12", "Douze"), THIRTEEN("13", "Treize"), FOURTEEN("14",
@@ -180,7 +175,7 @@ public final class LangContent {
 		private String word;
 		private String num;
 
-		private FR_WORDS(String num, String word) {
+		private FrNumberWordPair(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}
@@ -195,7 +190,7 @@ public final class LangContent {
 
 	};
 
-	public enum UK_WORDS {
+	public enum UkNumberWordPair {
 		ZERO("0", "Zero"), ONE("1", "One"), TWO("2", "Two"), THREE("3", "Three"), FOUR("4", "Four"), FIVE("5",
 				"Five"), SIX("6", "Six"), SEVEN("7", "Seven"), EIGHT("8", "Eight"), NINE("9", "Nine"), TEN("10",
 						"Ten"), ELEVEN("11", "Eleven"), TWELVE("12", "Twelve"), THIRTEEN("13", "Thirteen"), FOURTEEN(
@@ -209,7 +204,7 @@ public final class LangContent {
 		private String word;
 		private String num;
 
-		private UK_WORDS(String num, String word) {
+		private UkNumberWordPair(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}
@@ -237,7 +232,7 @@ public final class LangContent {
 	 * @author des
 	 * 
 	 */
-	public enum UK_ERRORS {
+	public enum UkError {
 		INVALID_INPUT("Invalid input"), INVALID_NUMBER("Fractional or non integral numbers disallowed"), NULL_INPUT(
 				"Enter Integer to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT(
 						"Negative Integer disallowed"), NUMBER_FORMAT(
@@ -245,7 +240,7 @@ public final class LangContent {
 
 		private final String error;
 
-		UK_ERRORS(String error) {
+		UkError(String error) {
 			this.error = error;
 		}
 
@@ -255,7 +250,7 @@ public final class LangContent {
 
 	};
 
-	public enum FR_ERRORS {
+	public enum FrError {
 		INVALID_INPUT("Invalid d'entrée"), INVALID_NUMBER("Fractionnées ou non nombres entiers a refusé"), NULL_INPUT(
 				"Aucun numero de convertir"), UNKNOWN("erreur inconnue"), NEGATIVE_INPUT(
 						"Entier négatif non autorisé"), NUMBER_FORMAT(
@@ -263,7 +258,7 @@ public final class LangContent {
 										"Sélectionnez une langue valide");
 		private String error;
 
-		private FR_ERRORS(String error) {
+		private FrError(String error) {
 			this.error = error;
 		}
 
@@ -279,14 +274,14 @@ public final class LangContent {
 	 * @author des
 	 * 
 	 */
-	public enum DE_ERRORS {
+	public enum DeError {
 		INVALID_INPUT("ungültige Eingabe"), INVALID_NUMBER("Gebrochene oder nicht ganze Zahlen aberkannt"), NULL_INPUT(
 				"null-Eingang"), UNKNOWN("unbekannter Fehler"), NEGATIVE_INPUT(
 						"Negative Integer nicht erlaubt"), NUMBER_FORMAT(
 								"Zahlenformat Ausnahme.. Integer zu groß"), LANG_ERR("Wählen Sie eine gültige Sprache");
 		private String error;
 
-		private DE_ERRORS(String error) {
+		private DeError(String error) {
 			this.error = error;
 		}
 
@@ -302,14 +297,14 @@ public final class LangContent {
 	 * @author des
 	 * 
 	 */
-	public enum NL_ERRORS {
+	public enum NlError {
 		INVALID_INPUT("Ongeldige Invoer"), INVALID_NUMBER(
 				"Fractionele of niet-gehele getallen niet toegestaan"), NULL_INPUT("null-Eingang"), UNKNOWN(
 						"Onbekende Fout"), NEGATIVE_INPUT("Negatieve Integer niet toegestaan"), NUMBER_FORMAT(
 								"Getalnotatie Uitzondering..Integer te groot"), LANG_ERR("Selecteer een geldige taal");
 		private String error;
 
-		private NL_ERRORS(String error) {
+		private NlError(String error) {
 			this.error = error;
 		}
 
@@ -320,18 +315,18 @@ public final class LangContent {
 	};
 
 	/**
-	 * DEF => space, separators etc.
+	 * Def => space, separators etc.
 	 * 
 	 */
-	public enum DEF {
+	public enum Def {
 
 		SPACE(" "), AND("and" + SPACE.val()), EMPTY(""), ERR_SEP(SPACE.val() + "/" + SPACE.val()), NUM_SEP(","), BILLS(
-				SPACE.val() + "billion"), MILLS(SPACE.val() + "million"), THOUS(SPACE.val() + "thousand"), HUNS(
-						SPACE.val() + "hundred");
+				SPACE.val() + "billion"), MILLS(
+						SPACE.val() + "million"), THOUS(SPACE.val() + "thousand"), HUNS(SPACE.val() + "hundred");
 
 		private String val;
 
-		DEF(String val) {
+		Def(String val) {
 			this.val = val;
 		}
 
@@ -345,13 +340,13 @@ public final class LangContent {
 	 * French.
 	 * 
 	 */
-	public enum FR_FMT {
-		AND("et" + DEF.SPACE.val()), MILLS(DEF.SPACE.val() + "million"), THOUS(DEF.SPACE.val() + "mille"), HUNS(
-				DEF.SPACE.val() + "cent"), BILLS(DEF.SPACE.val() + "milliard");
+	public enum FrFormat {
+		AND("et" + Def.SPACE.val()), MILLS(Def.SPACE.val() + "million"), THOUS(Def.SPACE.val() + "mille"), HUNS(
+				Def.SPACE.val() + "cent"), BILLS(Def.SPACE.val() + "milliard");
 
 		private String val;
 
-		FR_FMT(String val) {
+		FrFormat(String val) {
 			this.val = val;
 		}
 
@@ -367,14 +362,14 @@ public final class LangContent {
 	 * @author des
 	 * 
 	 */
-	public enum DE_FMT {
+	public enum DeFormat {
 
-		AND("und" + DEF.SPACE.val()), MILLS(DEF.SPACE.val() + "million"), BILLS(DEF.SPACE.val() + "milliarde"), THOUS(
-				DEF.SPACE.val() + "tausend"), HUNS(DEF.SPACE.val() + "hundert");
+		AND("und" + Def.SPACE.val()), MILLS(Def.SPACE.val() + "million"), BILLS(Def.SPACE.val() + "milliarde"), THOUS(
+				Def.SPACE.val() + "tausend"), HUNS(Def.SPACE.val() + "hundert");
 
 		private String val;
 
-		DE_FMT(String val) {
+		DeFormat(String val) {
 			this.val = val;
 		}
 
@@ -383,14 +378,14 @@ public final class LangContent {
 		}
 	};
 
-	public enum NL_FMT {
+	public enum NlFormat {
 
-		AND("en" + DEF.SPACE.val()), MILLS(DEF.SPACE.val() + "miljeon"), BILLS(DEF.SPACE.val() + "miljard"), THOUS(
-				DEF.SPACE.val() + "duizend"), HUNS(DEF.SPACE.val() + "honderd");
+		AND("en" + Def.SPACE.val()), MILLS(Def.SPACE.val() + "miljeon"), BILLS(Def.SPACE.val() + "miljard"), THOUS(
+				Def.SPACE.val() + "duizend"), HUNS(Def.SPACE.val() + "honderd");
 
 		private String val;
 
-		NL_FMT(String val) {
+		NlFormat(String val) {
 			this.val = val;
 		}
 

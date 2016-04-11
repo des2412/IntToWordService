@@ -4,24 +4,32 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
-import org.desz.inttoword.language.LangContent.DEF;
-import org.desz.inttoword.language.LangContent.DE_FMT;
-import org.desz.inttoword.language.LangContent.DE_WORDS;
-import org.desz.inttoword.language.LangContent.FR_FMT;
-import org.desz.inttoword.language.LangContent.FR_WORDS;
-import org.desz.inttoword.language.LangContent.NL_FMT;
-import org.desz.inttoword.language.LangContent.NL_WORDS;
-import org.desz.inttoword.language.LangContent.PROV_LANG;
-import org.desz.inttoword.language.LangContent.UK_WORDS;
+import org.desz.inttoword.language.LanguageRepository.Def;
+import org.desz.inttoword.language.LanguageRepository.DeError;
+import org.desz.inttoword.language.LanguageRepository.DeFormat;
+import org.desz.inttoword.language.LanguageRepository.DeNumberWordPair;
+import org.desz.inttoword.language.LanguageRepository.FrError;
+import org.desz.inttoword.language.LanguageRepository.FrFormat;
+import org.desz.inttoword.language.LanguageRepository.FrNumberWordPair;
+import org.desz.inttoword.language.LanguageRepository.NlError;
+import org.desz.inttoword.language.LanguageRepository.NlFormat;
+import org.desz.inttoword.language.LanguageRepository.NlNumberWordPair;
+import org.desz.inttoword.language.LanguageRepository.ProvLang;
+import org.desz.inttoword.language.LanguageRepository.UkError;
+import org.desz.inttoword.language.LanguageRepository.UkNumberWordPair;
 import org.desz.inttoword.mapper.Int2StrConverter;
 
 import com.google.common.collect.ImmutableMap;
 
 /**
- * Defines Strings for number constants for a PROV_LANG.
+ * Defines Strings for number constants for a ProvLang.
  * 
  * @see Int2StrConverter
  * 
@@ -34,58 +42,69 @@ public final class ProvLangFactory implements ILangProvider {
 	private String thouUnit;
 	private String hunUnit;
 	private String and;
-	private ImmutableMap<String, String> wordIntMapping;
 	private String billUnit;
+	private ImmutableMap<String, String> wordIntMapping;
+	private ImmutableMap<ProvLang, Map<String, String>> provLnToErrMap;
 
 	/**
 	 * 
-	 * @param _lnId
-	 *            PROV_LANG
+	 * @param provLang
+	 *            ProvLang
 	 */
-	public ProvLangFactory(final PROV_LANG _lnId) {
+	public ProvLangFactory(final ProvLang provLang) {
 
 		Map<String, String> intToWordMap = new HashMap<String, String>();
-		switch (_lnId) {
+		Map<String, String> errs = new HashMap<String, String>();
+		Map<ProvLang, Map<String, String>> errMap = new HashMap<ProvLang, Map<String, String>>();
+		switch (provLang) {
 		case UK:
-			this.billUnit = DEF.BILLS.val();
-			this.millUnit = DEF.MILLS.val();
-			this.thouUnit = DEF.THOUS.val();
-			this.hunUnit = DEF.HUNS.val();
-			this.and = DEF.AND.val();
+			errs = Stream.of(UkError.values()).collect(Collectors.toMap(UkError::name, UkError::getError));
+			errMap.put(ProvLang.UK, errs);
+			this.billUnit = Def.BILLS.val();
+			this.millUnit = Def.MILLS.val();
+			this.thouUnit = Def.THOUS.val();
+			this.hunUnit = Def.HUNS.val();
+			this.and = Def.AND.val();
 			// populate Map of int to word for UK English
-			for (UK_WORDS intToWord : UK_WORDS.values())
+			for (UkNumberWordPair intToWord : UkNumberWordPair.values())
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
 			break;
 		case FR:
-			this.billUnit = FR_FMT.BILLS.val();
-			this.millUnit = FR_FMT.MILLS.val();
-			this.thouUnit = FR_FMT.THOUS.val();
-			this.hunUnit = FR_FMT.HUNS.val();
-			this.and = FR_FMT.AND.val();
+			errs = Stream.of(FrError.values()).collect(Collectors.toMap(FrError::name, FrError::getError));
+			errMap.put(ProvLang.FR, errs);
+			this.billUnit = FrFormat.BILLS.val();
+			this.millUnit = FrFormat.MILLS.val();
+			this.thouUnit = FrFormat.THOUS.val();
+			this.hunUnit = FrFormat.HUNS.val();
+			this.and = FrFormat.AND.val();
 
-			for (FR_WORDS intToWord : FR_WORDS.values())
+			for (FrNumberWordPair intToWord : FrNumberWordPair.values())
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
 
 			break;
 
 		case DE:
-			this.billUnit = DE_FMT.BILLS.val();
-			this.millUnit = DE_FMT.MILLS.val();
-			this.thouUnit = DE_FMT.THOUS.val();
-			this.hunUnit = DE_FMT.HUNS.val();
-			this.and = DE_FMT.AND.val();
-			for (DE_WORDS intToWord : DE_WORDS.values())
+			errs = Stream.of(DeError.values()).collect(Collectors.toMap(DeError::name, DeError::getError));
+			errMap.put(ProvLang.DE, errs);
+			this.billUnit = DeFormat.BILLS.val();
+			this.millUnit = DeFormat.MILLS.val();
+			this.thouUnit = DeFormat.THOUS.val();
+			this.hunUnit = DeFormat.HUNS.val();
+			this.and = DeFormat.AND.val();
+			for (DeNumberWordPair intToWord : DeNumberWordPair.values())
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
 
 			break;
 
 		case NL:
-			this.billUnit = NL_FMT.BILLS.val();
-			this.millUnit = NL_FMT.MILLS.val();
-			this.thouUnit = NL_FMT.THOUS.val();
-			this.hunUnit = NL_FMT.HUNS.val();
-			this.and = NL_FMT.AND.val();
-			for (NL_WORDS intToWord : NL_WORDS.values())
+			errs = Stream.of(NlError.values()).collect(Collectors.toMap(NlError::name, NlError::getError));
+			errMap.put(ProvLang.NL, errs);
+			this.billUnit = NlFormat.BILLS.val();
+			this.millUnit = NlFormat.MILLS.val();
+			this.thouUnit = NlFormat.THOUS.val();
+			this.hunUnit = NlFormat.HUNS.val();
+			this.and = NlFormat.AND.val();
+			for (NlNumberWordPair intToWord : NlNumberWordPair.values())
 				intToWordMap.put(intToWord.getNum(), intToWord.getWord());
 
 			break;
@@ -96,6 +115,7 @@ public final class ProvLangFactory implements ILangProvider {
 		}
 
 		wordIntMapping = new ImmutableMap.Builder<String, String>().putAll(intToWordMap).build();
+		provLnToErrMap = new ImmutableMap.Builder<ProvLang, Map<String, String>>().putAll(errMap).build();
 	}
 
 	/**
@@ -139,7 +159,20 @@ public final class ProvLangFactory implements ILangProvider {
 
 	@Override
 	public List<String> unitsList() {
-		return Arrays.asList(this.getBillUnit(), this.getMillUnit(), this.getThouUnit(), StringUtils.EMPTY);
+		return Arrays.asList(getBillUnit(), getMillUnit(), getThouUnit(), StringUtils.EMPTY);
+	}
+
+	@Override
+	public String getErrorForProvLang(ProvLang provLang, String key) {
+		if (provLang.equals(ProvLang.EMPTY))
+			return StringUtils.EMPTY;
+		Set<Entry<String, String>> ents = provLnToErrMap.get(provLang).entrySet();
+
+		List<Entry<String, String>> lst = ents.stream().filter(s -> s.getKey().equals(key))
+				.collect(Collectors.toList());
+
+		String s = lst.get(0).getValue();
+		return s;
 	}
 
 }

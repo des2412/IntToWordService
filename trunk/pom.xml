@@ -17,9 +17,9 @@
 http://maven.apache.org
     </url>
 	<properties>
-		<org.springframework.version>4.2.4.RELEASE</org.springframework.version>
-		<powermock.version>1.5.5</powermock.version>
-		<morphia.version>0.98</morphia.version>
+		<org.springframework.version>4.2.3.RELEASE</org.springframework.version>
+		<powermock.version>1.6.4</powermock.version>
+		<!-- <morphia.version>0.98</morphia.version> -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 

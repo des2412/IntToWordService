@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 import java.math.BigInteger;
 
 import org.desz.inttoword.exceptions.IntToWordServiceException;
-import org.desz.inttoword.language.LangContent.PROV_LANG;
+import org.desz.inttoword.language.LanguageRepository.ProvLang;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepositoryImpl;
 import org.desz.inttoword.service.IConverterService;
 import org.desz.inttoword.spring.config.IntToWordServiceConfig;
@@ -28,12 +28,12 @@ public class TestIntToWordService {
 	@Test
 	public void testGetWord() throws IntToWordServiceException {
 
-		assertEquals("one hundred", intToWordService.getWordInLang(PROV_LANG.UK, "100"));
+		assertEquals("one hundred", intToWordService.getWordInLang(ProvLang.UK, "100"));
 	}
 
 	@Test(expected = IntToWordServiceException.class)
 	public void testWithEmptyProvLang() throws IntToWordServiceException {
-		intToWordService.getWordInLang(PROV_LANG.EMPTY, "100");
+		intToWordService.getWordInLang(ProvLang.EMPTY, "100");
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class TestIntToWordService {
 	public void testWithMockedRepo() throws IntToWordServiceException {
 		IntFreqRepoJpaRepositoryImpl mock = mock(IntFreqRepoJpaRepositoryImpl.class);
 		when(mock.isAvailable()).thenReturn(false);
-		intToWordService.getWordInLang(PROV_LANG.UK, "100");
+		intToWordService.getWordInLang(ProvLang.UK, "100");
 	}
 
 }

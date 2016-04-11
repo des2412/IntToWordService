@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import org.desz.domain.mongodb.NumberFrequency;
 import org.desz.inttoword.exceptions.IntToWordServiceException;
-import org.desz.inttoword.language.LangContent.PROV_LANG;
+import org.desz.inttoword.language.LanguageRepository.ProvLang;
 import org.desz.inttoword.mapper.Int2StrConverter;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ public final class ConversionSrv implements IConverterService<BigInteger> {
 	 * Executes conversion to word.
 	 */
 	@Override
-	public String getWordInLang(PROV_LANG provLang, String num) throws IntToWordServiceException {
+	public String getWordInLang(ProvLang provLang, String num) throws IntToWordServiceException {
 		num = Objects.requireNonNull(num, MSG);
 		provLang = Objects.requireNonNull(provLang, MSG);
 		if (!provLang.isValid())
