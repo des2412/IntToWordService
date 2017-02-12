@@ -13,22 +13,25 @@ import org.desz.inttoword.language.LanguageRepository.ProvLang;
  */
 public interface ILangProvider {
 
-	public String getHunUnit();
+	public String getHundred();
 
-	public String getMillUnit();
+	public String getMillion();
 
-	public String getThouUnit();
+	public String getThousand();
 
 	public String getAnd();
 
 	public String getWord(String num);
 
-	public boolean containsWord(String valueOf);
-
-	public String getBillUnit();
+	public String getBillion();
 
 	public List<String> unitsList();
 
-	public String getErrorForProvLang(ProvLang provLang, String key);
+	/**
+	 * 
+	 * @param provLang
+	 * @return ILangProvider for provLang.
+	 */
+	public ILangProvider factoryForProvLang(final ProvLang provLang);
 
 }

@@ -5,10 +5,10 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.desz.inttoword.mapper.Int2StrConverter;
+import org.desz.inttoword.mapper.Int2StrWorker;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
-import org.desz.inttoword.service.IConverterService;
-import org.desz.inttoword.service.ConversionSrv;
+import org.desz.inttoword.service.IntoWordServiceInterface;
+import org.desz.inttoword.service.IntToWordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -30,25 +30,25 @@ public class IntToWordServiceConfig {
 	private String cloudrepo;
 
 	@Bean // (name = "converterService")
-	public Int2StrConverter converterService() {
-		return new Int2StrConverter();
+	public Int2StrWorker converterService() {
+		return new Int2StrWorker();
 	}
 
 	@Bean
-	public IConverterService<BigInteger> intToWordService() {
+	public IntoWordServiceInterface<BigInteger> intToWordService() {
 		Optional<IntFreqRepoJpaRepository> opt = Optional.empty();
 		if (Objects.nonNull(cloudrepo)) {
-			log.info("creating empty repository for ConversionSrv");
-			return new ConversionSrv(opt, converterService());
+			log.info("creating empty repository for IntToWordService");
+			return new IntToWordService(opt, converterService());
 		}
 
 		try {
-			log.info("creating functional repository for ConversionSrv");
+			log.info("creating functional repository for IntToWordService");
 			opt = Optional.of(intFreqRepoConfig.intFreqRepo());
 		} catch (Exception e) {
 			log.error("investigate:" + e.getMessage());
 
 		}
-		return new ConversionSrv(opt, converterService());
+		return new IntToWordService(opt, converterService());
 	}
 }

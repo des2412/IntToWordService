@@ -16,8 +16,8 @@ public final class LanguageRepository {
 	 * 
 	 */
 	public enum ProvLang {
-		UK("UK", "UK-English", true), FR("FR", "Français", true), DE("DE", "Deutsch", true), NL("NL", "Nederlandse",
-				true), EMPTY("EMPTY", "Select...", false);
+		EMPTY("EMPTY", "Select...", false), UK("UK", "UK-English", true), FR("FR", "Français", true), DE("DE",
+				"Deutsch", true), NL("NL", "Nederlandse", true);
 
 		private String code;
 		private String description;
@@ -53,7 +53,7 @@ public final class LanguageRepository {
 	/**
 	 * XX_WORDS specific mappings.
 	 */
-	public enum NlNumberWordPair {
+	public enum NlIntWordPair {
 		ZERO("0", "Nul"), ONE("1", "Een"), TWO("2", "Twee"), THREE("3", "Drei"), FOUR("4", "Vier"), FIVE("5",
 				"Vijf"), SIX("6", "Zes"), SEVEN("7", "Zeven"), EIGHT("8", "Acht"), NINE("9", "Negen"), TEN("10",
 						"Tien"), ELEVEN("11", "Elf"), TWELVE("12", "Twaalf"), THIRTEEN("13", "Dertein"), FOURTEEN("14",
@@ -89,7 +89,7 @@ public final class LanguageRepository {
 		private String word;
 		private String num;
 
-		private NlNumberWordPair(String num, String word) {
+		private NlIntWordPair(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}
@@ -104,7 +104,7 @@ public final class LanguageRepository {
 
 	};
 
-	public enum DeNumberWordPair {
+	public enum DeIntWordPair {
 		ZERO("0", "Null"), ONE("1", "Eins"), TWO("2", "Zwei"), THREE("3", "Drei"), FOUR("4", "Vier"), FIVE("5",
 				"Fünf"), SIX("6", "Sechs"), SEVEN("7", "Sieben"), EIGHT("8", "Acht"), NINE("9", "Neun"), TEN("10",
 						"Zehn"), ELEVEN("11", "Elf"), TWELVE("12", "Zwölf"), THIRTEEN("13", "Dreizehn"), FOURTEEN("14",
@@ -140,7 +140,7 @@ public final class LanguageRepository {
 		private String word;
 		private String num;
 
-		private DeNumberWordPair(String num, String word) {
+		private DeIntWordPair(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}
@@ -161,7 +161,7 @@ public final class LanguageRepository {
 	 * @author des
 	 * 
 	 */
-	public enum FrNumberWordPair {
+	public enum FrIntWordPair {
 		ZERO("0", "Zéro"), ONE("1", "Un"), TWO("2", "Deux"), THREE("3", "Trois"), FOUR("4", "Quatre"), FIVE("5",
 				"Cinq"), SIX("6", "Six"), SEVEN("7", "Sept"), EIGHT("8", "Huit"), NINE("9", "Neuf"), TEN("10",
 						"Dix"), ELEVEN("11", "Onze"), TWELVE("12", "Douze"), THIRTEEN("13", "Treize"), FOURTEEN("14",
@@ -175,7 +175,7 @@ public final class LanguageRepository {
 		private String word;
 		private String num;
 
-		private FrNumberWordPair(String num, String word) {
+		private FrIntWordPair(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}
@@ -190,7 +190,7 @@ public final class LanguageRepository {
 
 	};
 
-	public enum UkNumberWordPair {
+	public enum UkIntWordPair {
 		ZERO("0", "Zero"), ONE("1", "One"), TWO("2", "Two"), THREE("3", "Three"), FOUR("4", "Four"), FIVE("5",
 				"Five"), SIX("6", "Six"), SEVEN("7", "Seven"), EIGHT("8", "Eight"), NINE("9", "Nine"), TEN("10",
 						"Ten"), ELEVEN("11", "Eleven"), TWELVE("12", "Twelve"), THIRTEEN("13", "Thirteen"), FOURTEEN(
@@ -204,7 +204,7 @@ public final class LanguageRepository {
 		private String word;
 		private String num;
 
-		private UkNumberWordPair(String num, String word) {
+		private UkIntWordPair(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}

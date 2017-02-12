@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.desz.domain.mongodb.NumberFrequency;
 import org.desz.inttoword.exceptions.IntToWordServiceException;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
-import org.desz.inttoword.mapper.Int2StrConverter;
+import org.desz.inttoword.mapper.Int2StrWorker;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,18 +23,18 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public final class ConversionSrv implements IConverterService<BigInteger> {
+public final class IntToWordService implements IntoWordServiceInterface<BigInteger> {
 
 	private static final String MSG = "Service requires non-null parameters";
 
-	protected final Logger log = LoggerFactory.getLogger(ConversionSrv.class);
+	protected final Logger log = LoggerFactory.getLogger(IntToWordService.class);
 
 	private final Optional<IntFreqRepoJpaRepository> optFreqRepo;
 
-	private final Int2StrConverter converter;
+	private final Int2StrWorker converter;
 
 	@Autowired
-	public ConversionSrv(Optional<IntFreqRepoJpaRepository> optFreqRepoSrv, Int2StrConverter converter) {
+	public IntToWordService(Optional<IntFreqRepoJpaRepository> optFreqRepoSrv, Int2StrWorker converter) {
 		this.optFreqRepo = optFreqRepoSrv;
 		this.converter = converter;
 	}
@@ -50,14 +50,12 @@ public final class ConversionSrv implements IConverterService<BigInteger> {
 			throw new IntToWordServiceException("Invalid language specified");
 		if (optFreqRepo.isPresent()) {
 			log.info(String.format("saving %s", num));
-			optFreqRepo.get().save(new NumberFrequency(num));// todo change to
-																// String
+			optFreqRepo.get().save(new NumberFrequency(num));
 		} else
 			log.info("repository connection not permissible");
 
-		// converter = new Int2StrConverter(provLang);
 		try {
-			return converter.funcIntToString(Integer.parseInt(num), provLang);
+			return converter.convertIntToWord(Integer.parseInt(num), provLang);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			throw new IntToWordServiceException(e.getLocalizedMessage());

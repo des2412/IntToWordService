@@ -10,7 +10,7 @@ import org.desz.inttoword.language.LanguageRepository.ProvLang;
  * @author des
  * 
  */
-public interface IConverterService<T extends Number> {
+public interface IntoWordServiceInterface<T extends Number> {
 	/**
 	 * 
 	 * @param provLn

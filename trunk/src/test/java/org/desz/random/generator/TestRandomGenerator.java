@@ -7,8 +7,7 @@ import org.junit.Test;
 
 public class TestRandomGenerator {
 
-	private final static Logger LOGGER = Logger
-			.getLogger(TestRandomGenerator.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(TestRandomGenerator.class.getName());
 
 	@Test
 	@Ignore
@@ -16,8 +15,7 @@ public class TestRandomGenerator {
 		int i = 0;
 		for (; i < 100;) {
 			int n = RandomGenerator.randomInt();
-			LOGGER.info("[" + i + "]number digits in random:"
-					+ String.valueOf(n).length());
+			LOGGER.info("[" + i + "]number digits in random:" + String.valueOf(n).length());
 			i++;
 		}
 	}

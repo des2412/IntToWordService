@@ -43,12 +43,9 @@ public class EmbeddedMongoTest {
 	@Test
 	public void testSave() {
 		mongoTemplate.save(numberFreq);
-		LOGGER.info(String.format("Save, %s ", numberFreq));
-
 		final NumberFrequency nf = mongoTemplate.findOne(query, NumberFrequency.class);
-		assertNotNull("NULL Unexpected", nf);
-		LOGGER.info(String.format("Number Freq findOne %s", nf.toString()));
-		assertEquals("NUMBER expected should be 1", "1", nf.getNumber());
+		assertNotNull("Unexpected null NumberFrequency", nf);
+		assertEquals("NumberFrequency not found", "1", nf.getNumber());
 	}
 
 	@Test
