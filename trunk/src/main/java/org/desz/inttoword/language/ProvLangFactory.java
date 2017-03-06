@@ -1,15 +1,12 @@
 package org.desz.inttoword.language;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
 import org.desz.inttoword.language.LanguageRepository.DeFormat;
 import org.desz.inttoword.language.LanguageRepository.DeIntWordPair;
 import org.desz.inttoword.language.LanguageRepository.Def;
@@ -19,15 +16,14 @@ import org.desz.inttoword.language.LanguageRepository.NlFormat;
 import org.desz.inttoword.language.LanguageRepository.NlIntWordPair;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
 import org.desz.inttoword.language.LanguageRepository.UkIntWordPair;
-import org.desz.inttoword.mapper.Int2StrWorker;
+import org.desz.inttoword.mapper.ConversionWorker;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 /**
  * Defines Strings for number constants for a ProvLang.
  * 
- * @see Int2StrWorker
+ * @see ConversionWorker
  * 
  * @author des
  * 
@@ -164,9 +160,4 @@ public final class ProvLangFactory implements ILangProvider {
 		return billn;
 	}
 
-	@Override
-	public List<String> unitsList() {
-		return new ImmutableList.Builder<String>()
-				.addAll(Arrays.asList(getBillion(), getMillion(), getThousand(), StringUtils.EMPTY)).build();
-	}
 }

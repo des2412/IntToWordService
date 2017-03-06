@@ -17,16 +17,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ActiveProfiles({ "dev", "cloud" })
 public class TestInt2StrConverter {
 	@Autowired
-	protected Int2StrWorker converterService;
+	protected ConversionWorker converterService;
 	private static final String MAX_INT = "two billion one hundred and forty seven million four hundred and eighty three thousand six hundred and forty seven";
-
-	/**
-	 * RecursiveConverter UK language output
-	 */
-	/*
-	 * @BeforeClass public static void init() { converterService = new
-	 * Int2StrWorker(); }
-	 */
 
 	@Test(expected = NullPointerException.class)
 	public void testNull() {
@@ -49,7 +41,6 @@ public class TestInt2StrConverter {
 	public final void testZero() {
 		String s = converterService.convertIntToWord(0, ProvLang.UK);
 		assertNotNull("null unexpected", s);
-		;
 		assertEquals("zero", s);
 	}
 
@@ -61,7 +52,7 @@ public class TestInt2StrConverter {
 	}
 
 	@Test
-	public void testIntMax() {
+	public void testMax() {
 		String s = converterService.convertIntToWord(Integer.MAX_VALUE, ProvLang.UK);
 		assertNotNull("null unexpected", s);
 		assertEquals(MAX_INT, s);
@@ -119,7 +110,7 @@ public class TestInt2StrConverter {
 	@Test
 	public final void test10000() {
 		String s = converterService.convertIntToWord(10000, ProvLang.UK);
-		assertNotNull("null unexpected", s);
+		assertNotNull("null UNexpected", s);
 		assertEquals("ten thousand", s);
 	}
 

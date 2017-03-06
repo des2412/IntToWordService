@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.desz.domain.mongodb.NumberFrequency;
 import org.desz.inttoword.exceptions.IntToWordServiceException;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
-import org.desz.inttoword.mapper.Int2StrWorker;
+import org.desz.inttoword.mapper.ConversionWorker;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,10 +31,10 @@ public final class IntToWordService implements IntoWordServiceInterface<BigInteg
 
 	private final Optional<IntFreqRepoJpaRepository> optFreqRepo;
 
-	private final Int2StrWorker converter;
+	private final ConversionWorker converter;
 
 	@Autowired
-	public IntToWordService(Optional<IntFreqRepoJpaRepository> optFreqRepoSrv, Int2StrWorker converter) {
+	public IntToWordService(Optional<IntFreqRepoJpaRepository> optFreqRepoSrv, ConversionWorker converter) {
 		this.optFreqRepo = optFreqRepoSrv;
 		this.converter = converter;
 	}

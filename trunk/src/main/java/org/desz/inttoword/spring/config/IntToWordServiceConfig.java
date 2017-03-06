@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.desz.inttoword.mapper.Int2StrWorker;
+import org.desz.inttoword.mapper.ConversionWorker;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.desz.inttoword.service.IntoWordServiceInterface;
 import org.desz.inttoword.service.IntToWordService;
@@ -29,9 +29,9 @@ public class IntToWordServiceConfig {
 	@Qualifier(value = "cloudrepo")
 	private String cloudrepo;
 
-	@Bean // (name = "converterService")
-	public Int2StrWorker converterService() {
-		return new Int2StrWorker();
+	@Bean
+	public ConversionWorker converterService() {
+		return new ConversionWorker();
 	}
 
 	@Bean

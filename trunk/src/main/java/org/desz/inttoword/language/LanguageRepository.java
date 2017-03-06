@@ -105,7 +105,7 @@ public final class LanguageRepository {
 	};
 
 	public enum DeIntWordPair {
-		ZERO("0", "Null"), ONE("1", "Eins"), TWO("2", "Zwei"), THREE("3", "Drei"), FOUR("4", "Vier"), FIVE("5",
+		ZERO("0", "Null"), ONE("1", "ein"), TWO("2", "Zwei"), THREE("3", "Drei"), FOUR("4", "Vier"), FIVE("5",
 				"Fünf"), SIX("6", "Sechs"), SEVEN("7", "Sieben"), EIGHT("8", "Acht"), NINE("9", "Neun"), TEN("10",
 						"Zehn"), ELEVEN("11", "Elf"), TWELVE("12", "Zwölf"), THIRTEEN("13", "Dreizehn"), FOURTEEN("14",
 								"Vierzehn"), FIFTEEN("15", "Fünfzehn"), SIXTEEN("16", "Sechzehn"), SEVENTEEN("17",
@@ -364,8 +364,8 @@ public final class LanguageRepository {
 	 */
 	public enum DeFormat {
 
-		AND("und" + Def.SPACE.val()), MILLS(Def.SPACE.val() + "million"), BILLS(Def.SPACE.val() + "milliarde"), THOUS(
-				Def.SPACE.val() + "tausend"), HUNS(Def.SPACE.val() + "hundert");
+		AND("und"), MILLS(Def.SPACE.val() + "million"), BILLS(Def.SPACE.val() + "milliarde"), THOUS(
+				Def.SPACE.val() + "tausend"), HUNS("hundert");
 
 		private String val;
 

@@ -4,7 +4,6 @@
  */
 package org.desz.inttoword.language;
 
-import java.util.List;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
 
 /**
@@ -13,25 +12,23 @@ import org.desz.inttoword.language.LanguageRepository.ProvLang;
  */
 public interface ILangProvider {
 
-	public String getHundred();
+	String getHundred();
 
-	public String getMillion();
+	String getMillion();
 
-	public String getThousand();
+	String getThousand();
 
-	public String getAnd();
+	String getAnd();
 
-	public String getWord(String num);
+	String getWord(String num);
 
-	public String getBillion();
-
-	public List<String> unitsList();
+	String getBillion();
 
 	/**
 	 * 
 	 * @param provLang
 	 * @return ILangProvider for provLang.
 	 */
-	public ILangProvider factoryForProvLang(final ProvLang provLang);
+	ILangProvider factoryForProvLang(final ProvLang provLang);
 
 }
