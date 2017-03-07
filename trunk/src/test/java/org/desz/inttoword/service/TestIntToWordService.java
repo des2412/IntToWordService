@@ -8,7 +8,7 @@ import java.math.BigInteger;
 import org.desz.inttoword.exceptions.IntToWordServiceException;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepositoryImpl;
-import org.desz.inttoword.service.IntoWordServiceInterface;
+import org.desz.inttoword.service.INumberToWordService;
 import org.desz.inttoword.spring.config.IntToWordServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TestIntToWordService {
 
 	@Autowired
-	private IntoWordServiceInterface<BigInteger> intToWordService;
+	private INumberToWordService<BigInteger> intToWordService;
 
 	@Test
 	public void testGetWord() throws IntToWordServiceException {

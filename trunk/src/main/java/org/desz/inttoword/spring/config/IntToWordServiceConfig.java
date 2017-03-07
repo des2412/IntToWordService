@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.desz.inttoword.mapper.ConversionWorker;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
-import org.desz.inttoword.service.IntoWordServiceInterface;
+import org.desz.inttoword.service.INumberToWordService;
 import org.desz.inttoword.service.IntToWordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,7 +35,7 @@ public class IntToWordServiceConfig {
 	}
 
 	@Bean
-	public IntoWordServiceInterface<BigInteger> intToWordService() {
+	public INumberToWordService<BigInteger> intToWordService() {
 		Optional<IntFreqRepoJpaRepository> opt = Optional.empty();
 		if (Objects.nonNull(cloudrepo)) {
 			log.info("creating empty repository for IntToWordService");

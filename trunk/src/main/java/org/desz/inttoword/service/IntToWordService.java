@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public final class IntToWordService implements IntoWordServiceInterface<BigInteger> {
+public final class IntToWordService implements INumberToWordService<BigInteger> {
 
 	private static final String MSG = "Service requires non-null parameters";
 
