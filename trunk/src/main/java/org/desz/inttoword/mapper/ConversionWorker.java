@@ -1,5 +1,8 @@
 package org.desz.inttoword.mapper;
 
+import static org.desz.inttoword.language.LanguageRepository.Def.SPACE;
+import static org.desz.inttoword.language.ProvLangFactory.getInstance;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,13 +13,10 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.desz.inttoword.language.ILangProvider;
-import static org.desz.inttoword.language.LanguageRepository.Def.*;
-
 import org.desz.inttoword.language.LanguageRepository.DeFormat;
 import org.desz.inttoword.language.LanguageRepository.DeIntWordPair;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
-import static org.desz.inttoword.language.ProvLangFactory.getInstance;
+import org.desz.inttoword.language.NumericalLangMapping;
 import org.springframework.stereotype.Component;
 
 /**
@@ -36,31 +36,32 @@ public class ConversionWorker {
 	 *            the String representing the number.
 	 * @return the word in target PROV_LANG.
 	 */
-	private String doConversion(String prm, ILangProvider provLangFac) {
+	private String doConversion(String prm, NumericalLangMapping provLangFac) {
 		prm = Objects.requireNonNull(prm);
 
 		final int n = Integer.parseInt(prm);
 		final String key = String.valueOf(n);
-		final String word = provLangFac.getWord(key);
+		final String word = provLangFac.getIntToWordMap().get(key);
 		if (!Objects.isNull(word)) {
 			return word.toLowerCase();
 		}
 		int nmod = n % 100;
-		final String hun = provLangFac.getWord(String.valueOf(n / 100));
+		final String hun = provLangFac.getIntToWordMap().get(String.valueOf(n / 100));
 		// determine whole hundreds
 		if (nmod == 0) {
-			return hun.toLowerCase() + provLangFac.getHundred();
+			return hun.toLowerCase() + provLangFac.getHund();
 
 		}
 
 		StringBuilder sb = new StringBuilder();
 		// build non whole hundreds..
-		if (!Objects.isNull(provLangFac.getWord(String.valueOf(nmod)))) {
-			if (provLangFac.getBillion().contains(DeFormat.BILLS.val())) {
-				sb.append(provLangFac.getHundred() + provLangFac.getWord(String.valueOf(nmod)).toLowerCase());
+		if (!Objects.isNull(provLangFac.getIntToWordMap().get(String.valueOf(nmod)))) {
+			if (provLangFac.getBilln().contains(DeFormat.BILLS.val())) {
+				sb.append(
+						provLangFac.getHund() + provLangFac.getIntToWordMap().get(String.valueOf(nmod)).toLowerCase());
 			} else {
-				sb.append(hun.toLowerCase() + provLangFac.getHundred() + SPACE.val() + provLangFac.getAnd()
-						+ provLangFac.getWord(String.valueOf(nmod)).toLowerCase());
+				sb.append(hun.toLowerCase() + provLangFac.getHund() + SPACE.val() + provLangFac.getAnd()
+						+ provLangFac.getIntToWordMap().get(String.valueOf(nmod)).toLowerCase());
 			}
 			String res = sb.toString();
 			if (res.endsWith(DeIntWordPair.ONE.getWord()))
@@ -73,20 +74,20 @@ public class ConversionWorker {
 		k -= nmod; // .. k == 20
 		if (inRange(n)) {// 0 to 99.
 
-			sb.append(provLangFac.getWord(String.valueOf(k)).toLowerCase() + SPACE.val()
-					+ provLangFac.getWord(String.valueOf(nmod)).toLowerCase());
+			sb.append(provLangFac.getIntToWordMap().get(String.valueOf(k)).toLowerCase() + SPACE.val()
+					+ provLangFac.getIntToWordMap().get(String.valueOf(nmod)).toLowerCase());
 			return sb.toString();
 
 		}
 
-		if (provLangFac.getBillion().contains(DeFormat.BILLS.val()))
-			sb.append(hun.toLowerCase() + provLangFac.getHundred()
-					+ provLangFac.getWord(String.valueOf(nmod)).toLowerCase() + provLangFac.getAnd()
-					+ provLangFac.getWord(String.valueOf(k)).toLowerCase());
+		if (provLangFac.getBilln().contains(DeFormat.BILLS.val()))
+			sb.append(hun.toLowerCase() + provLangFac.getHund()
+					+ provLangFac.getIntToWordMap().get(String.valueOf(nmod)).toLowerCase() + provLangFac.getAnd()
+					+ provLangFac.getIntToWordMap().get(String.valueOf(k)).toLowerCase());
 		else
-			sb.append(hun.toLowerCase() + provLangFac.getHundred() + SPACE.val() + provLangFac.getAnd()
-					+ provLangFac.getWord(String.valueOf(k)).toLowerCase() + SPACE.val()
-					+ provLangFac.getWord(String.valueOf(nmod)).toLowerCase());
+			sb.append(hun.toLowerCase() + provLangFac.getHund() + SPACE.val() + provLangFac.getAnd()
+					+ provLangFac.getIntToWordMap().get(String.valueOf(k)).toLowerCase() + SPACE.val()
+					+ provLangFac.getIntToWordMap().get(String.valueOf(nmod)).toLowerCase());
 
 		return sb.toString();
 	}
@@ -108,7 +109,7 @@ public class ConversionWorker {
 		int last = Integer.parseInt(numUnits.get(numUnits.size() - 1));
 		final List<String> words = new ArrayList<String>();
 		// singleton for provLang.
-		final ILangProvider provLangFac = getInstance().factoryForProvLang(provLang);
+		final NumericalLangMapping provLangFac = getInstance().factoryForProvLang(provLang);
 		// stream list.
 		numUnits.stream().filter(Objects::nonNull).forEach(s -> {
 			words.add(doConversion(s, provLangFac));
@@ -121,16 +122,16 @@ public class ConversionWorker {
 		WordResult.Builder builder = new WordResult.Builder();
 
 		if (sz == 4) {
-			builder.withBill(words.get(0) + provLangFac.getBillion());
-			builder.withMill(words.get(1) + provLangFac.getMillion());
-			builder.withThou(words.get(2) + provLangFac.getThousand());
+			builder.withBill(words.get(0) + provLangFac.getBilln());
+			builder.withMill(words.get(1) + provLangFac.getMilln());
+			builder.withThou(words.get(2) + provLangFac.getThoud());
 		}
 		if (sz == 3) {
-			builder.withMill(words.get(0) + provLangFac.getMillion());
-			builder.withThou(words.get(1) + provLangFac.getThousand());
+			builder.withMill(words.get(0) + provLangFac.getMilln());
+			builder.withThou(words.get(1) + provLangFac.getThoud());
 		}
 		if (sz == 2)
-			builder.withThou(words.get(0) + provLangFac.getThousand());
+			builder.withThou(words.get(0) + provLangFac.getThoud());
 
 		if (inRange(last)) // between 1 and 99.
 

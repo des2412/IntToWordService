@@ -15,9 +15,9 @@ public interface IntoWordServiceInterface<T extends Number> {
 	 * 
 	 * @param provLn
 	 *            the ProvLang.
-	 * @param the
-	 *            integer.
-	 * @return the word for num in provLn.
+	 * @param num
+	 *            the numerical represented as String.
+	 * @return the word representation of num according to language directive.
 	 * @throws IntToWordServiceException
 	 */
 	String getWordInLang(ProvLang provLn, String num) throws IntToWordServiceException;

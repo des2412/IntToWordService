@@ -12,23 +12,11 @@ import org.desz.inttoword.language.LanguageRepository.ProvLang;
  */
 public interface ILangProvider {
 
-	String getHundred();
-
-	String getMillion();
-
-	String getThousand();
-
-	String getAnd();
-
-	String getWord(String num);
-
-	String getBillion();
-
 	/**
 	 * 
 	 * @param provLang
 	 * @return ILangProvider for provLang.
 	 */
-	ILangProvider factoryForProvLang(final ProvLang provLang);
+	NumericalLangMapping factoryForProvLang(final ProvLang provLang);
 
 }

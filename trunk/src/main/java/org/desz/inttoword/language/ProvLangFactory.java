@@ -1,6 +1,5 @@
 package org.desz.inttoword.language;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -18,8 +17,6 @@ import org.desz.inttoword.language.LanguageRepository.ProvLang;
 import org.desz.inttoword.language.LanguageRepository.UkIntWordPair;
 import org.desz.inttoword.mapper.ConversionWorker;
 
-import com.google.common.collect.ImmutableMap;
-
 /**
  * Defines Strings for number constants for a ProvLang.
  * 
@@ -30,14 +27,7 @@ import com.google.common.collect.ImmutableMap;
  */
 public final class ProvLangFactory implements ILangProvider {
 
-	private String milln;
-	private String thoud;
-	private String hund;
-	private String and;
-	private String billn;
-	private ImmutableMap<String, String> wordIntMapping;
-	private static Map<ProvLang, ILangProvider> PROV_LANG_CACHE = Collections
-			.synchronizedMap(new HashMap<ProvLang, ILangProvider>());
+	private Map<ProvLang, NumericalLangMapping> unitsMap = new HashMap<ProvLang, NumericalLangMapping>();
 
 	private static ILangProvider langProvider;
 
@@ -58,60 +48,58 @@ public final class ProvLangFactory implements ILangProvider {
 	}
 
 	@Override
-	public ILangProvider factoryForProvLang(final ProvLang provLang) {
+	public NumericalLangMapping factoryForProvLang(final ProvLang provLang) {
 
-		if (PROV_LANG_CACHE.containsKey(provLang))
-			return PROV_LANG_CACHE.get(provLang);
-		// create Map of int to provLang word(s).
-		Map<String, String> intToWordMap = new HashMap<String, String>();
-
+		NumericalLangMapping.Builder builder = new NumericalLangMapping.Builder();
 		switch (provLang) {
 		case UK:
-			this.billn = Def.BILLS.val();
-			this.milln = Def.MILLS.val();
-			this.thoud = Def.THOUS.val();
-			this.hund = Def.HUNS.val();
-			this.and = Def.AND.val();
-			// populate Map of int to word for UK English
-			intToWordMap = Stream.of(UkIntWordPair.values())
-					.collect(Collectors.toMap(UkIntWordPair::getNum, UkIntWordPair::getWord));
+
+			builder.withBilln(Def.BILLS.val());
+			builder.withMilln(Def.MILLS.val());
+			builder.withThoud(Def.THOUS.val());
+			builder.withHund(Def.HUNS.val());
+			builder.withAnd(Def.AND.val());
+			builder.withIntToWordMap(Stream.of(UkIntWordPair.values())
+					.collect(Collectors.toMap(UkIntWordPair::getNum, UkIntWordPair::getWord)));
+
+			unitsMap.put(ProvLang.UK, builder.build());
+
 			break;
 		case FR:
 
-			this.billn = FrFormat.BILLS.val();
-			this.milln = FrFormat.MILLS.val();
-			this.thoud = FrFormat.THOUS.val();
-			this.hund = FrFormat.HUNS.val();
-			this.and = FrFormat.AND.val();
-
-			intToWordMap = Stream.of(FrIntWordPair.values())
-					.collect(Collectors.toMap(FrIntWordPair::getNum, FrIntWordPair::getWord));
+			builder.withBilln(FrFormat.BILLS.val());
+			builder.withMilln(FrFormat.MILLS.val());
+			builder.withThoud(FrFormat.THOUS.val());
+			builder.withHund(FrFormat.HUNS.val());
+			builder.withAnd(FrFormat.AND.val());
+			builder.withIntToWordMap(Stream.of(FrIntWordPair.values())
+					.collect(Collectors.toMap(FrIntWordPair::getNum, FrIntWordPair::getWord)));
+			unitsMap.put(ProvLang.FR, builder.build());
 
 			break;
 
 		case DE:
 
-			this.billn = DeFormat.BILLS.val();
-			this.milln = DeFormat.MILLS.val();
-			this.thoud = DeFormat.THOUS.val();
-			this.hund = DeFormat.HUNS.val();
-			this.and = DeFormat.AND.val();
-
-			intToWordMap = Stream.of(DeIntWordPair.values())
-					.collect(Collectors.toMap(DeIntWordPair::getNum, DeIntWordPair::getWord));
-
+			builder.withBilln(DeFormat.BILLS.val());
+			builder.withMilln(DeFormat.MILLS.val());
+			builder.withThoud(DeFormat.THOUS.val());
+			builder.withHund(DeFormat.HUNS.val());
+			builder.withAnd(DeFormat.AND.val());
+			builder.withIntToWordMap(Stream.of(DeIntWordPair.values())
+					.collect(Collectors.toMap(DeIntWordPair::getNum, DeIntWordPair::getWord)));
+			unitsMap.put(ProvLang.DE, builder.build());
 			break;
 
 		case NL:
 
-			this.billn = NlFormat.BILLS.val();
-			this.milln = NlFormat.MILLS.val();
-			this.thoud = NlFormat.THOUS.val();
-			this.hund = NlFormat.HUNS.val();
-			this.and = NlFormat.AND.val();
-
-			intToWordMap = Stream.of(NlIntWordPair.values())
-					.collect(Collectors.toMap(NlIntWordPair::getNum, NlIntWordPair::getWord));
+			builder.withBilln(NlFormat.BILLS.val());
+			builder.withMilln(NlFormat.MILLS.val());
+			builder.withThoud(NlFormat.THOUS.val());
+			builder.withHund(NlFormat.HUNS.val());
+			builder.withAnd(NlFormat.AND.val());
+			builder.withIntToWordMap(Stream.of(NlIntWordPair.values())
+					.collect(Collectors.toMap(NlIntWordPair::getNum, NlIntWordPair::getWord)));
+			unitsMap.put(ProvLang.NL, builder.build());
 
 			break;
 
@@ -119,45 +107,7 @@ public final class ProvLangFactory implements ILangProvider {
 			break;
 
 		}
-		// immutable list of integer to word for provLang.
-		wordIntMapping = new ImmutableMap.Builder<String, String>().putAll(intToWordMap).build();
-		// cache this Object keyed by provLang.
-		PROV_LANG_CACHE.put(provLang, this);
-		return PROV_LANG_CACHE.get(provLang);
-	}
-
-	/**
-	 * return the word for PROV_LN
-	 */
-	@Override
-	public String getWord(String num) {
-		Objects.requireNonNull(num);
-		return wordIntMapping.get(num);
-	}
-
-	@Override
-	public String getHundred() {
-		return hund;
-	}
-
-	@Override
-	public String getMillion() {
-		return milln;
-	}
-
-	@Override
-	public String getThousand() {
-		return thoud;
-	}
-
-	@Override
-	public String getAnd() {
-		return and;
-	}
-
-	@Override
-	public String getBillion() {
-		return billn;
+		return unitsMap.get(provLang);
 	}
 
 }
