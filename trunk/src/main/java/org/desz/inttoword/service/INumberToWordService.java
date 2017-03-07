@@ -10,7 +10,7 @@ import org.desz.inttoword.language.LanguageRepository.ProvLang;
  * @author des
  * 
  */
-public interface INumberToWordService<T extends Number> {
+public interface INumberToWordService {
 	/**
 	 * 
 	 * @param provLn
@@ -20,6 +20,7 @@ public interface INumberToWordService<T extends Number> {
 	 * @return the word representation of num according to language directive.
 	 * @throws IntToWordServiceException
 	 */
-	String getWordInLang(ProvLang provLn, String num) throws IntToWordServiceException;
+	String getWordInLang(ProvLang provLn, String num)
+			throws IntToWordServiceException;
 
 }

@@ -3,7 +3,6 @@
  */
 package org.desz.inttoword.service;
 
-import java.math.BigInteger;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -19,15 +18,16 @@ import org.springframework.stereotype.Service;
 
 /**
  * 
- * @author des Update conversion stats if possible.
+ * @author des. converts Integer, 0 to Integer.MAX_VALUE, to word.
  * 
  */
 @Service
-public final class IntToWordService implements INumberToWordService<BigInteger> {
+public final class IntToWordService implements INumberToWordService {
 
 	private static final String MSG = "Service requires non-null parameters";
 
-	protected final Logger log = LoggerFactory.getLogger(IntToWordService.class);
+	protected final Logger log = LoggerFactory
+			.getLogger(IntToWordService.class);
 
 	private final Optional<IntFreqRepoJpaRepository> optFreqRepo;
 
@@ -41,14 +41,17 @@ public final class IntToWordService implements INumberToWordService<BigInteger> 
 	 * @param conversionWorker
 	 */
 	@Autowired
-	public IntToWordService(Optional<IntFreqRepoJpaRepository> optFreqRepoSrv, ConversionWorker conversionWorker) {
+	public IntToWordService(Optional<IntFreqRepoJpaRepository> optFreqRepoSrv,
+			ConversionWorker conversionWorker) {
 		this.optFreqRepo = optFreqRepoSrv;
 		this.conversionWorker = conversionWorker;
 	}
 
 	@Override
-	public String getWordInLang(ProvLang provLang, String num) throws IntToWordServiceException {
+	public String getWordInLang(ProvLang provLang, String num)
+			throws IntToWordServiceException {
 		num = Objects.requireNonNull(num, MSG);
+		// TODO assert String converts to Integer.
 		provLang = Objects.requireNonNull(provLang, MSG);
 		if (!provLang.isValid())
 			throw new IntToWordServiceException("Invalid language specified");
@@ -59,7 +62,8 @@ public final class IntToWordService implements INumberToWordService<BigInteger> 
 			log.info("repository connection not permissible");
 
 		try {
-			return conversionWorker.convertIntToWord(Integer.parseInt(num), provLang);
+			return conversionWorker.convertIntToWord(Integer.parseInt(num),
+					provLang);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			throw new IntToWordServiceException(e.getLocalizedMessage());
