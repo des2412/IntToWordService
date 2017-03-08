@@ -17,10 +17,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 
 @Configuration(value = "intToWordServiceConfig")
-@Profile({ "dev", "cloud" })
-@Import(value = { IntFreqRepoConfig.class })
+@Profile({"dev", "cloud"})
+@Import(value = {IntFreqRepoConfig.class})
 public class IntToWordServiceConfig {
-	protected final Logger log = LoggerFactory.getLogger(IntToWordServiceConfig.class);
+	protected final Logger log = LoggerFactory
+			.getLogger(IntToWordServiceConfig.class);
 
 	@Autowired()
 	private IntFreqRepoConfig intFreqRepoConfig;
@@ -35,7 +36,7 @@ public class IntToWordServiceConfig {
 	}
 
 	@Bean
-	public INumberToWordService<BigInteger> intToWordService() {
+	public INumberToWordService intToWordService() {
 		Optional<IntFreqRepoJpaRepository> opt = Optional.empty();
 		if (Objects.nonNull(cloudrepo)) {
 			log.info("creating empty repository for IntToWordService");

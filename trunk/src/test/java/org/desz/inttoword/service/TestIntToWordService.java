@@ -18,17 +18,18 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { IntToWordServiceConfig.class })
-@ActiveProfiles({ "dev", "cloud" })
+@ContextConfiguration(classes = {IntToWordServiceConfig.class})
+@ActiveProfiles({"dev", "cloud"})
 public class TestIntToWordService {
 
 	@Autowired
-	private INumberToWordService<BigInteger> intToWordService;
+	private INumberToWordService intToWordService;
 
 	@Test
 	public void testGetWord() throws IntToWordServiceException {
 
-		assertEquals("one hundred", intToWordService.getWordInLang(ProvLang.UK, "100"));
+		assertEquals("one hundred",
+				intToWordService.getWordInLang(ProvLang.UK, "100"));
 	}
 
 	@Test(expected = IntToWordServiceException.class)
@@ -43,7 +44,8 @@ public class TestIntToWordService {
 	 */
 	@Test
 	public void testWithMockedRepo() throws IntToWordServiceException {
-		IntFreqRepoJpaRepositoryImpl mock = mock(IntFreqRepoJpaRepositoryImpl.class);
+		IntFreqRepoJpaRepositoryImpl mock = mock(
+				IntFreqRepoJpaRepositoryImpl.class);
 		when(mock.isAvailable()).thenReturn(false);
 		intToWordService.getWordInLang(ProvLang.UK, "100");
 	}
