@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.desz.inttoword.language.LanguageRepository.DeFormat;
-import org.desz.inttoword.language.LanguageRepository.DeIntWordPair;
+import org.desz.inttoword.language.LanguageRepository.GermanIntWordPair;
 import org.desz.inttoword.language.LanguageRepository.Def;
 import org.desz.inttoword.language.LanguageRepository.FrFormat;
 import org.desz.inttoword.language.LanguageRepository.FrIntWordPair;
@@ -48,7 +48,7 @@ public final class ProvLangFactory implements ILangProvider {
 	}
 
 	@Override
-	public NumericalLangMapping factoryForProvLang(final ProvLang provLang) {
+	public NumericalLangMapping numericMap(final ProvLang provLang) {
 
 		NumericalLangMapping.Builder builder = new NumericalLangMapping.Builder();
 		switch (provLang) {
@@ -85,8 +85,8 @@ public final class ProvLangFactory implements ILangProvider {
 			builder.withThoud(DeFormat.THOUS.val());
 			builder.withHund(DeFormat.HUNS.val());
 			builder.withAnd(DeFormat.AND.val());
-			builder.withIntToWordMap(Stream.of(DeIntWordPair.values())
-					.collect(Collectors.toMap(DeIntWordPair::getNum, DeIntWordPair::getWord)));
+			builder.withIntToWordMap(Stream.of(GermanIntWordPair.values())
+					.collect(Collectors.toMap(GermanIntWordPair::getNum, GermanIntWordPair::getWord)));
 			unitsMap.put(ProvLang.DE, builder.build());
 			break;
 

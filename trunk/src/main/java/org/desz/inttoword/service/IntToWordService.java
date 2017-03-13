@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.desz.domain.mongodb.NumberFrequency;
+import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.exceptions.IntToWordServiceException;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
 import org.desz.inttoword.mapper.ConversionWorker;
@@ -51,20 +52,20 @@ public final class IntToWordService implements INumberToWordService {
 	public String getWordInLang(ProvLang provLang, String num)
 			throws IntToWordServiceException {
 		num = Objects.requireNonNull(num, MSG);
-		// TODO assert String converts to Integer.
 		provLang = Objects.requireNonNull(provLang, MSG);
 		if (!provLang.isValid())
 			throw new IntToWordServiceException("Invalid language specified");
+
 		if (optFreqRepo.isPresent()) {
-			log.info(String.format("saving %s", num));
+			log.info(String.format("Saving %s to persistence repository", num));
 			optFreqRepo.get().save(new NumberFrequency(num));
 		} else
-			log.info("repository connection not permissible");
+			log.info("repository connection unavailable");
 
 		try {
 			return conversionWorker.convertIntToWord(Integer.parseInt(num),
 					provLang);
-		} catch (Exception e) {
+		} catch (AppConversionException e) {
 			log.error(e.getMessage());
 			throw new IntToWordServiceException(e.getLocalizedMessage());
 		}

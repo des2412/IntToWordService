@@ -104,7 +104,7 @@ public final class LanguageRepository {
 
 	};
 
-	public enum DeIntWordPair {
+	public enum GermanIntWordPair {
 		ZERO("0", "Null"), ONE("1", "ein"), TWO("2", "Zwei"), THREE("3", "Drei"), FOUR("4", "Vier"), FIVE("5",
 				"Fünf"), SIX("6", "Sechs"), SEVEN("7", "Sieben"), EIGHT("8", "Acht"), NINE("9", "Neun"), TEN("10",
 						"Zehn"), ELEVEN("11", "Elf"), TWELVE("12", "Zwölf"), THIRTEEN("13", "Dreizehn"), FOURTEEN("14",
@@ -140,7 +140,7 @@ public final class LanguageRepository {
 		private String word;
 		private String num;
 
-		private DeIntWordPair(String num, String word) {
+		private GermanIntWordPair(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}

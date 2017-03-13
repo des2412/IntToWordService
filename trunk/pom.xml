@@ -17,12 +17,32 @@
 http://maven.apache.org
     </url>
 	<properties>
-		<org.springframework.version>4.2.3.RELEASE</org.springframework.version>
+		<org.springframework.version>5.0.0.M5</org.springframework.version>
 		<powermock.version>1.6.4</powermock.version>
 		<!-- <morphia.version>0.98</morphia.version> -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>spring-libs-snapshot</id>
+			<name>Spring project release, milestone, and snapshot artifacts and transitive dependencies</name>
+			<url>http://repo.springsource.org/libs-snapshot</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>repository.springsource.milestone</id>
+			<name>SpringSource Milestone Repository</name>
+			<url>http://repo.springsource.org/milestone</url>
+		</repository>
+	</repositories>
+	
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

@@ -17,6 +17,6 @@ public interface ILangProvider {
 	 * @param provLang
 	 * @return ILangProvider for provLang.
 	 */
-	NumericalLangMapping factoryForProvLang(final ProvLang provLang);
+	NumericalLangMapping numericMap(final ProvLang provLang);
 
 }

@@ -5,7 +5,7 @@ import static org.desz.inttoword.language.LanguageRepository.Def.SPACE;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import org.desz.inttoword.language.LanguageRepository.DeIntWordPair;
+import org.desz.inttoword.language.LanguageRepository.GermanIntWordPair;
 import org.desz.inttoword.language.LanguageRepository.FrIntWordPair;
 import org.desz.inttoword.language.LanguageRepository.NlIntWordPair;
 import org.desz.inttoword.language.LanguageRepository.UkIntWordPair;
@@ -90,7 +90,7 @@ public class WordResult {
 		}
 
 		private static Pattern p1 = Pattern.compile("(?i:.*" + UkIntWordPair.ZERO.getWord() + ".*)");
-		private static Pattern p2 = Pattern.compile("(?i:.*" + DeIntWordPair.ZERO.getWord() + ".*)");
+		private static Pattern p2 = Pattern.compile("(?i:.*" + GermanIntWordPair.ZERO.getWord() + ".*)");
 		private static Pattern p3 = Pattern.compile("(?i:.*" + NlIntWordPair.ZERO.getWord() + ".*)");
 		private static Pattern p4 = Pattern.compile("(?i:.*" + FrIntWordPair.ZERO.getWord() + ".*)");
 
