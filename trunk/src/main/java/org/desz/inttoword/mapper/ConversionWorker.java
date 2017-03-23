@@ -14,8 +14,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.desz.inttoword.language.LanguageRepository.DeFormat;
-import org.desz.inttoword.language.LanguageRepository.GermanIntWordPair;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
+import org.desz.inttoword.output.DeWordBuilderDecorator;
+import org.desz.inttoword.output.WordResult;
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.language.NumericalLangMapping;
 import org.springframework.stereotype.Component;
@@ -61,21 +62,27 @@ public class ConversionWorker {
 		// build non whole hundreds..
 		if (!Objects.isNull(
 				numericalLangMap.getIntToWordMap().get(String.valueOf(nmod)))) {
-			if (numericalLangMap.getBilln().contains(DeFormat.BILLS.val())) {
-				sb.append(numericalLangMap.getHund()
-						+ numericalLangMap.getIntToWordMap()
-								.get(String.valueOf(nmod)).toLowerCase());
-			} else {
-				sb.append(hun.toLowerCase() + numericalLangMap.getHund()
-						+ SPACE.val() + numericalLangMap.getAnd()
-						+ numericalLangMap.getIntToWordMap()
-								.get(String.valueOf(nmod)).toLowerCase());
-			}
-			String res = sb.toString();
-			if (res.endsWith(GermanIntWordPair.ONE.getWord()))
-				res += "s";
-			return res;
+			sb.append(hun.toLowerCase() + numericalLangMap.getHund()
+					+ SPACE.val() + numericalLangMap.getAnd()
+					+ numericalLangMap.getIntToWordMap()
+							.get(String.valueOf(nmod)).toLowerCase());
+
+			// deal with XXXX DE numbering.
+			/*
+			 * if (numericalLangMap.getBilln().contains(DeFormat.BILLS.val())) {
+			 * sb.delete(0, sb.length()); if
+			 * (!hun.equals(DeIntWordPair.ONE.getWord())) {
+			 * sb.append(hun.toLowerCase()); }
+			 * sb.append(numericalLangMap.getHund() +
+			 * numericalLangMap.getIntToWordMap()
+			 * .get(String.valueOf(nmod)).toLowerCase());
+			 * 
+			 * if (sb.toString().endsWith(DeIntWordPair.ONE.getWord()))
+			 * sb.append("s"); }
+			 */
+			return sb.toString();
 		}
+
 		// nmod % 10 > 0)
 		int k = nmod;// e.g., nmod = 23
 		nmod %= 10;// ..nmod = 3
@@ -150,17 +157,36 @@ public class ConversionWorker {
 		if (sz == 3) {
 			builder.withMill(words.get(0) + numericalLangMap.getMilln());
 			builder.withThou(words.get(1) + numericalLangMap.getThoud());
+
 		}
 		if (sz == 2)
 			builder.withThou(words.get(0) + numericalLangMap.getThoud());
 
 		if (inRange(last)) // between 1 and 99.
+		{
 
 			builder.withHund(numericalLangMap.getAnd() + words.get(sz - 1));
-		else
-			builder.withHund(words.get(sz - 1));
 
-		return builder.build().toString();
+		} else {
+			builder.withHund(words.get(sz - 1));
+		}
+
+		final WordResult res = builder.build();
+
+		if (provLang.equals(ProvLang.DE)) {
+			WordResult.Builder de = new WordResult.Builder();
+			de.withMill(res.getMill().trim());
+			de.withThou(res.getThou());
+			de.withHund(words.get(sz - 1));
+			DeWordBuilderDecorator deWordDecorator = new DeWordBuilderDecorator(
+					de.build());
+			WordResult deRes = deWordDecorator.pluraliseUnitRule();
+			deRes = deWordDecorator.pluraliseWordRule(deRes, "ein");
+			return deRes.toString();
+
+		}
+
+		return res.toString();
 
 	}
 

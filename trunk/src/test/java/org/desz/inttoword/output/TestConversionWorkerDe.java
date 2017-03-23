@@ -1,9 +1,10 @@
-package org.desz.inttoword.mapper;
+package org.desz.inttoword.output;
 
 import static org.junit.Assert.*;
 
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
+import org.desz.inttoword.mapper.ConversionWorker;
 import org.desz.inttoword.spring.config.IntToWordServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ActiveProfiles({"dev", "cloud"})
 public class TestConversionWorkerDe {
 
-	private static final String MAX_INT = "zwei milliarde eins hundert und vierzig sieben million vier hundert und achtzig drei tausend sechs hundert und vierzig sieben";
+	private static final String MAX_INT = "zwei milliarden einhundertsiebenundvierzig millionen vierhundertdreiundachtzigtausendsechshundertsiebenundvierzig";
 	@Autowired
 	protected ConversionWorker converterService;
 
@@ -37,6 +38,20 @@ public class TestConversionWorkerDe {
 	}
 
 	@Test
+	public final void test1000000() throws AppConversionException {
+		String s = converterService.convertIntToWord(1000000, ProvLang.DE);
+		assertNotNull("null unexpected", s);
+		assertEquals("ein million", s);
+	}
+
+	@Test
+	public final void test2000001() throws AppConversionException {
+		String s = converterService.convertIntToWord(2000001, ProvLang.DE);
+		assertNotNull("null unexpected", s);
+		assertEquals("zwei millionen eins", s);
+	}
+
+	@Test
 	public final void test101() throws AppConversionException {
 		String s = converterService.convertIntToWord(101, ProvLang.DE);
 		assertNotNull("null unexpected", s);
@@ -49,6 +64,21 @@ public class TestConversionWorkerDe {
 		String s = converterService.convertIntToWord(131, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("einhunderteinunddreißig", s);
+	}
+
+	// neunhundertfϋnf
+	@Test
+	public final void test905() throws AppConversionException {
+		String s = converterService.convertIntToWord(905, ProvLang.DE);
+		assertNotNull("null unexpected", s);
+		assertEquals("neunhundertfϋnf", s);
+	}
+
+	@Test
+	public final void test327() throws AppConversionException {
+		String s = converterService.convertIntToWord(327, ProvLang.DE);
+		assertNotNull("null unexpected", s);
+		assertEquals("dreihundertsiebenundzwanzig", s);
 	}
 
 }

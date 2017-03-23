@@ -1,10 +1,11 @@
-package org.desz.inttoword.mapper;
+package org.desz.inttoword.output;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
+import org.desz.inttoword.mapper.ConversionWorker;
 import org.desz.inttoword.spring.config.IntToWordServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;

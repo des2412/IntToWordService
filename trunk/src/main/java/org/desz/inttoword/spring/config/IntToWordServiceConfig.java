@@ -1,6 +1,5 @@
 package org.desz.inttoword.spring.config;
 
-import java.math.BigInteger;
 import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
