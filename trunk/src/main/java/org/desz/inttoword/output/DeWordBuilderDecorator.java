@@ -11,25 +11,26 @@ import org.desz.inttoword.language.LanguageRepository.DeIntWordPair;
  * @author des
  *
  */
-public class DeWordBuilderDecorator implements WordDecorator {
+public class DeWordBuilderDecorator implements IWordDecorator {
 
 	private WordResult wordResult;
 
-	public DeWordBuilderDecorator(WordResult builder) {
-		super();
-		this.wordResult = builder;
+	public DeWordBuilderDecorator(WordResult wordResult) {
+		Objects.requireNonNull(wordResult);
+		this.wordResult = wordResult;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.desz.inttoword.output.WordDecorator#pluraliseUnitRule(java.lang.
+	 * @see
+	 * org.desz.inttoword.output.IWordDecorator#pluraliseUnitRule(java.lang.
 	 * String)
 	 */
 	@Override
 	public WordResult pluraliseUnitRule() {
 
-		// check for million to be pluralised
+		// million and billion pluralised
 
 		WordResult.Builder builder = new WordResult.Builder();
 
@@ -39,7 +40,7 @@ public class DeWordBuilderDecorator implements WordDecorator {
 				final String num = bill.split(" ")[0];
 				final String mtch = DeIntWordPair.ONE.getWord();
 				if (!num.matches(mtch))
-					builder.withBill(wordResult.getBill().trim() + "n");
+					builder.withBill(bill + "n");
 
 				else
 					builder.withMill(wordResult.getBill());
@@ -71,15 +72,34 @@ public class DeWordBuilderDecorator implements WordDecorator {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.desz.inttoword.output.WordDecorator#removeWordRule(java.lang.String)
+	 * org.desz.inttoword.output.IWordDecorator#removeWordRule(java.lang.String)
 	 */
 	@Override
-	public WordResult removeWordRule(String word) {
-		return null;
+	public WordResult replaceSpaceWithEmptyRule() {
+
+		WordResult res = new WordResult.Builder().build();
+		if (Objects.nonNull(wordResult.getBill()))
+			res.setBill(wordResult.getBill());
+
+		if (Objects.nonNull(wordResult.getMill()))
+			res.setMill(wordResult.getMill().trim());
+
+		if (Objects.nonNull(wordResult.getThou())) {
+			String s = wordResult.getThou().replaceAll("\\s+", "");
+			res.setThou(s);
+		}
+
+		if (Objects.nonNull(wordResult.getHund())) {
+			String s = wordResult.getHund().replaceAll("\\s+", "");
+			res.setHund(s);
+		}
+
+		return res;
+
 	}
 
 	@Override
-	public WordResult pluraliseWordRule(WordResult wordResult, String word) {
+	public WordResult pluraliseValueOfOneRule(WordResult wordResult, int val) {
 		WordResult.Builder builder = new WordResult.Builder();
 
 		if (Objects.nonNull(wordResult.getBill()))
@@ -91,8 +111,14 @@ public class DeWordBuilderDecorator implements WordDecorator {
 		if (Objects.nonNull(wordResult.getThou()))
 			builder.withThou(wordResult.getThou());
 
-		if (Objects.nonNull(wordResult.getHund()))
-			builder.withHund(wordResult.getHund() + "s");
+		if (Objects.nonNull(wordResult.getHund())) {
+			String s = wordResult.getHund();
+
+			if (val % 100 == 1)
+				s += "s";
+
+			builder.withHund(s);
+		}
 
 		return builder.build();
 	}

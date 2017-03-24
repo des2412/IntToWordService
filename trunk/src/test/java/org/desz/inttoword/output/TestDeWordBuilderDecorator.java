@@ -2,7 +2,7 @@ package org.desz.inttoword.output;
 
 import static org.desz.inttoword.language.ProvLangFactory.getInstance;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertFalse;
 
 import org.desz.inttoword.language.LanguageRepository;
 import org.desz.inttoword.language.LanguageRepository.DeIntWordPair;
@@ -48,14 +48,30 @@ public class TestDeWordBuilderDecorator {
 
 	}
 
-	@Test
-	public void testRemoveWordRule() {
-		fail("Not yet implemented");
+	@Test(expected = NullPointerException.class)
+	public void testConstructor() {
+		new DeWordBuilderDecorator(null);
 	}
 
 	@Test
-	public void testPluraliseWordRule() {
-		fail("Not yet implemented");
+	public void testReplaceSpaceWithEmptyRule() {
+
+		WordResult.Builder builder = new WordResult.Builder()
+				.withThou("hundert und seben tausend")
+				.withHund("drei und zwanzig");
+		DeWordBuilderDecorator wordBuilderDecorator = new DeWordBuilderDecorator(
+				builder.build());
+		assertFalse("Empty Space should not be present", wordBuilderDecorator
+				.replaceSpaceWithEmptyRule().getThou().contains(" "));
+	}
+
+	@Test
+	public void testPluraliseValueOfOneRule() {
+		WordResult.Builder builder = new WordResult.Builder().withHund("ein");
+		DeWordBuilderDecorator wordBuilderDecorator = new DeWordBuilderDecorator(
+				builder.build());
+		assertEquals("Pluralisation Failed", "eins", wordBuilderDecorator
+				.pluraliseValueOfOneRule(builder.build(), 1).getHund());
 	}
 
 }

@@ -66,6 +66,15 @@ public class TestConversionWorkerDe {
 		assertEquals("einhunderteinunddreißig", s);
 	}
 
+	// einhundertdreiundzwanzigtausendvierhundertsechsundfünfzig
+
+	@Test
+	public final void test123456() throws AppConversionException {
+		String s = converterService.convertIntToWord(123456, ProvLang.DE);
+		assertNotNull("null unexpected", s);
+		assertEquals(
+				"einhundertdreiundzwanzigtausendvierhundertsechsundfünfzig", s);
+	}
 	// neunhundertfϋnf
 	@Test
 	public final void test905() throws AppConversionException {

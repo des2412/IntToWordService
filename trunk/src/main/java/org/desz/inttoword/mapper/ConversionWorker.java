@@ -60,26 +60,22 @@ public class ConversionWorker {
 
 		StringBuilder sb = new StringBuilder();
 		// build non whole hundreds..
+
 		if (!Objects.isNull(
 				numericalLangMap.getIntToWordMap().get(String.valueOf(nmod)))) {
-			sb.append(hun.toLowerCase() + numericalLangMap.getHund()
-					+ SPACE.val() + numericalLangMap.getAnd()
-					+ numericalLangMap.getIntToWordMap()
-							.get(String.valueOf(nmod)).toLowerCase());
+			if (numericalLangMap.getBilln().equals(DeFormat.BILLS.val())) {
+				sb.append(hun.toLowerCase() + numericalLangMap.getHund()
+						+ numericalLangMap.getIntToWordMap()
+								.get(String.valueOf(nmod)).toLowerCase());
+			} else {
+				sb.append(hun.toLowerCase() + numericalLangMap.getHund()
+						+ SPACE.val() + numericalLangMap.getAnd()
+						+ numericalLangMap.getIntToWordMap()
+								.get(String.valueOf(nmod)).toLowerCase());
+			}
 
 			// deal with XXXX DE numbering.
-			/*
-			 * if (numericalLangMap.getBilln().contains(DeFormat.BILLS.val())) {
-			 * sb.delete(0, sb.length()); if
-			 * (!hun.equals(DeIntWordPair.ONE.getWord())) {
-			 * sb.append(hun.toLowerCase()); }
-			 * sb.append(numericalLangMap.getHund() +
-			 * numericalLangMap.getIntToWordMap()
-			 * .get(String.valueOf(nmod)).toLowerCase());
-			 * 
-			 * if (sb.toString().endsWith(DeIntWordPair.ONE.getWord()))
-			 * sb.append("s"); }
-			 */
+
 			return sb.toString();
 		}
 
@@ -132,10 +128,11 @@ public class ConversionWorker {
 		final String fmt = NumberFormat.getIntegerInstance(Locale.UK).format(n);
 		// split formatted String into list
 		final List<String> numUnits = Arrays.asList(fmt.split(","));
+		DeWordBuilderDecorator deWordDecorator = null;
 		// save last int.
 		int last = Integer.parseInt(numUnits.get(numUnits.size() - 1));
 		final List<String> words = new ArrayList<String>();
-		// singleton for provLang.
+		// singleton NumericalLangMapping per ProvLang.
 		final NumericalLangMapping numericalLangMap = getInstance()
 				.numericMap(provLang);
 		// stream list.
@@ -143,11 +140,21 @@ public class ConversionWorker {
 			words.add(doConversion(s, numericalLangMap));
 		});
 		final int sz = words.size();
+		final WordResult.Builder builder = new WordResult.Builder();
 
-		if (sz == 1)
+		if (sz == 1) {
+			if (provLang.equals(ProvLang.DE)) {
+				WordResult deRes = builder.withHund(words.get(sz - 1)).build();
+				// decorate
+				deWordDecorator = new DeWordBuilderDecorator(
+						builder.withHund(words.get(sz - 1)).build());
+
+				return deWordDecorator.pluraliseValueOfOneRule(deRes, last)
+						.toString();
+
+			}
 			return words.get(0);
-
-		WordResult.Builder builder = new WordResult.Builder();
+		}
 
 		if (sz == 4) {
 			builder.withBill(words.get(0) + numericalLangMap.getBilln());
@@ -172,16 +179,23 @@ public class ConversionWorker {
 		}
 
 		final WordResult res = builder.build();
-
 		if (provLang.equals(ProvLang.DE)) {
-			WordResult.Builder de = new WordResult.Builder();
-			de.withMill(res.getMill().trim());
-			de.withThou(res.getThou());
-			de.withHund(words.get(sz - 1));
-			DeWordBuilderDecorator deWordDecorator = new DeWordBuilderDecorator(
-					de.build());
+			WordResult.Builder deBuilder = new WordResult.Builder();
+			if (Objects.nonNull(res.getBill()))
+				deBuilder.withBill(res.getBill().trim());
+			if (Objects.nonNull(res.getMill()))
+				deBuilder.withMill(res.getMill().trim());
+			if (Objects.nonNull(res.getThou()))
+				deBuilder.withThou(res.getThou());
+			if (Objects.nonNull(res.getHund()))
+				deBuilder.withHund(words.get(sz - 1));
+			// decorate
+			deWordDecorator = new DeWordBuilderDecorator(deBuilder.build());
 			WordResult deRes = deWordDecorator.pluraliseUnitRule();
-			deRes = deWordDecorator.pluraliseWordRule(deRes, "ein");
+			deRes = deWordDecorator.pluraliseValueOfOneRule(deRes, last);
+			if (n < 1000000)
+				deRes = deWordDecorator.replaceSpaceWithEmptyRule();
+
 			return deRes.toString();
 
 		}
