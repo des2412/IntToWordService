@@ -13,12 +13,13 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.apache.commons.lang3.StringUtils;
+import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.language.LanguageRepository.DeFormat;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
+import org.desz.inttoword.language.NumericalLangMapping;
 import org.desz.inttoword.output.DeWordBuilderDecorator;
 import org.desz.inttoword.output.WordResult;
-import org.desz.inttoword.exceptions.AppConversionException;
-import org.desz.inttoword.language.NumericalLangMapping;
 import org.springframework.stereotype.Component;
 
 /**
@@ -52,7 +53,7 @@ public class ConversionWorker {
 		int nmod = n % 100;
 		final String hun = numericalLangMap.getIntToWordMap()
 				.get(String.valueOf(n / 100));
-		// determine whole hundreds
+		// if true it's whole hundreds
 		if (nmod == 0) {
 			return hun.toLowerCase() + numericalLangMap.getHund();
 
@@ -192,11 +193,16 @@ public class ConversionWorker {
 			// decorate
 			deWordDecorator = new DeWordBuilderDecorator(deBuilder.build());
 			WordResult deRes = deWordDecorator.pluraliseUnitRule();
+			deWordDecorator = new DeWordBuilderDecorator(deRes);
 			deRes = deWordDecorator.pluraliseValueOfOneRule(deRes, last);
+			deWordDecorator = new DeWordBuilderDecorator(deRes);
+
 			if (n < 1000000)
 				deRes = deWordDecorator.replaceSpaceWithEmptyRule();
 
-			return deRes.toString();
+			deRes = deWordDecorator.combineThousandsAndHundreds();
+
+			return StringUtils.normalizeSpace(deRes.toString());
 
 		}
 

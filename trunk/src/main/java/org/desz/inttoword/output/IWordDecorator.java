@@ -8,4 +8,6 @@ public interface IWordDecorator {
 
 	WordResult pluraliseUnitRule();
 
+	WordResult combineThousandsAndHundreds();
+
 }

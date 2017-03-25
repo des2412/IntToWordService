@@ -82,7 +82,7 @@ public class DeWordBuilderDecorator implements IWordDecorator {
 			res.setBill(wordResult.getBill());
 
 		if (Objects.nonNull(wordResult.getMill()))
-			res.setMill(wordResult.getMill().trim());
+			res.setMill(wordResult.getMill());
 
 		if (Objects.nonNull(wordResult.getThou())) {
 			String s = wordResult.getThou().replaceAll("\\s+", "");
@@ -121,6 +121,28 @@ public class DeWordBuilderDecorator implements IWordDecorator {
 		}
 
 		return builder.build();
+	}
+
+	@Override
+	public WordResult combineThousandsAndHundreds() {
+		WordResult res = new WordResult.Builder().build();
+		if (Objects.nonNull(wordResult.getBill()))
+			res.setBill(wordResult.getBill());
+
+		if (Objects.nonNull(wordResult.getMill()))
+			res.setMill(wordResult.getMill());
+
+		StringBuilder sb = new StringBuilder();
+		if (Objects.nonNull(wordResult.getThou())) {
+			sb.append(wordResult.getThou().replaceAll("\\s+", ""));
+
+		}
+
+		if (Objects.nonNull(wordResult.getHund())) {
+			sb.append(wordResult.getHund().replaceAll("\\s+", ""));
+		}
+		res.setThou(sb.toString());
+		return res;
 	}
 
 }
