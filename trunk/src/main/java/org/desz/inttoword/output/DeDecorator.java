@@ -11,11 +11,11 @@ import org.desz.inttoword.language.LanguageRepository.DeIntWordPair;
  * @author des
  *
  */
-public class DeWordBuilderDecorator implements IWordDecorator {
+public class DeDecorator implements IWordDecorator {
 
 	private WordResult wordResult;
 
-	public DeWordBuilderDecorator(WordResult wordResult) {
+	public DeDecorator(WordResult wordResult) {
 		Objects.requireNonNull(wordResult);
 		this.wordResult = wordResult;
 	}
@@ -99,7 +99,7 @@ public class DeWordBuilderDecorator implements IWordDecorator {
 	}
 
 	@Override
-	public WordResult pluraliseValueOfOneRule(WordResult wordResult, int val) {
+	public WordResult pluraliseOneRule(WordResult wordResult, int val) {
 		WordResult.Builder builder = new WordResult.Builder();
 
 		if (Objects.nonNull(wordResult.getBill()))
@@ -124,7 +124,7 @@ public class DeWordBuilderDecorator implements IWordDecorator {
 	}
 
 	@Override
-	public WordResult combineThousandsAndHundreds() {
+	public WordResult combineThouHundRule() {
 		WordResult res = new WordResult.Builder().build();
 		if (Objects.nonNull(wordResult.getBill()))
 			res.setBill(wordResult.getBill());

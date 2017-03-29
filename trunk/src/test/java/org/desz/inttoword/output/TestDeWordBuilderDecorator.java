@@ -12,7 +12,7 @@ import org.junit.Test;
 
 public class TestDeWordBuilderDecorator {
 
-	private DeWordBuilderDecorator wordBuilderDecorator;
+	private DeDecorator wordBuilderDecorator;
 	@Test
 	public void testPluraliseUnitRule() {
 
@@ -21,28 +21,28 @@ public class TestDeWordBuilderDecorator {
 
 		WordResult.Builder builder = new WordResult.Builder();
 		String input = DeIntWordPair.ONE.getWord()
-				+ LanguageRepository.Def.SPACE.val() + deLangMap.getMilln();
+				+ LanguageRepository.DefUnit.SPACE.val() + deLangMap.getMilln();
 		builder.withMill(input);
 
-		wordBuilderDecorator = new DeWordBuilderDecorator(builder.build());
+		wordBuilderDecorator = new DeDecorator(builder.build());
 		WordResult res = wordBuilderDecorator.pluraliseUnitRule();
 
 		assertEquals("", input, res.getMill().trim());
 		// assert pluralisation
 
-		input = DeIntWordPair.TWO.getWord() + LanguageRepository.Def.SPACE.val()
+		input = DeIntWordPair.TWO.getWord() + LanguageRepository.DefUnit.SPACE.val()
 				+ deLangMap.getMilln();
 		builder = new WordResult.Builder();
 		builder.withMill(input);
-		wordBuilderDecorator = new DeWordBuilderDecorator(builder.build());
+		wordBuilderDecorator = new DeDecorator(builder.build());
 		res = wordBuilderDecorator.pluraliseUnitRule();
 		assertEquals("", input + "en", res.getMill().trim());
 
-		input = DeIntWordPair.TWO.getWord() + LanguageRepository.Def.SPACE.val()
+		input = DeIntWordPair.TWO.getWord() + LanguageRepository.DefUnit.SPACE.val()
 				+ deLangMap.getBilln();
 		builder = new WordResult.Builder();
 		builder.withBill(input);
-		wordBuilderDecorator = new DeWordBuilderDecorator(builder.build());
+		wordBuilderDecorator = new DeDecorator(builder.build());
 		res = wordBuilderDecorator.pluraliseUnitRule();
 		assertEquals("", input + "n", res.getBill().trim());
 
@@ -50,7 +50,7 @@ public class TestDeWordBuilderDecorator {
 
 	@Test(expected = NullPointerException.class)
 	public void testConstructor() {
-		new DeWordBuilderDecorator(null);
+		new DeDecorator(null);
 	}
 
 	@Test
@@ -59,7 +59,7 @@ public class TestDeWordBuilderDecorator {
 		WordResult.Builder builder = new WordResult.Builder()
 				.withThou("hundert und seben tausend")
 				.withHund("drei und zwanzig");
-		DeWordBuilderDecorator wordBuilderDecorator = new DeWordBuilderDecorator(
+		DeDecorator wordBuilderDecorator = new DeDecorator(
 				builder.build());
 		assertFalse("Empty Space should not be present", wordBuilderDecorator
 				.replaceSpaceWithEmptyRule().getThou().contains(" "));
@@ -68,10 +68,10 @@ public class TestDeWordBuilderDecorator {
 	@Test
 	public void testPluraliseValueOfOneRule() {
 		WordResult.Builder builder = new WordResult.Builder().withHund("ein");
-		DeWordBuilderDecorator wordBuilderDecorator = new DeWordBuilderDecorator(
+		DeDecorator wordBuilderDecorator = new DeDecorator(
 				builder.build());
 		assertEquals("Pluralisation Failed", "eins", wordBuilderDecorator
-				.pluraliseValueOfOneRule(builder.build(), 1).getHund());
+				.pluraliseOneRule(builder.build(), 1).getHund());
 	}
 
 }

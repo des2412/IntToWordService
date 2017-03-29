@@ -69,7 +69,7 @@ public class NumericalLangMapping {
 	/**
 	 * @return the intToWordMap
 	 */
-	public Map<String, String> getIntToWordMap() {
+	public Map<String, String> intWords() {
 		return intToWordMap;
 	}
 
@@ -118,13 +118,19 @@ public class NumericalLangMapping {
 		}
 
 		private void validate() {
-			Preconditions.checkArgument(!StringUtils.isBlank(milln), "milln may not be blank");
-			Preconditions.checkArgument(!StringUtils.isBlank(thoud), "thoud may not be blank");
-			Preconditions.checkArgument(!StringUtils.isBlank(hund), "hund may not be blank");
-			Preconditions.checkArgument(!StringUtils.isBlank(and), "and may not be blank");
-			Preconditions.checkArgument(!StringUtils.isBlank(billn), "billn may not be blank");
+			Preconditions.checkArgument(!StringUtils.isBlank(milln),
+					"milln may not be blank");
+			Preconditions.checkArgument(!StringUtils.isBlank(thoud),
+					"thoud may not be blank");
+			Preconditions.checkArgument(!StringUtils.isBlank(hund),
+					"hund may not be blank");
+			Preconditions.checkArgument(!StringUtils.isBlank(and),
+					"and may not be blank");
+			Preconditions.checkArgument(!StringUtils.isBlank(billn),
+					"billn may not be blank");
 
-			Preconditions.checkArgument(!intToWordMap.isEmpty(), "intToWordMap may not be empty");
+			Preconditions.checkArgument(!intToWordMap.isEmpty(),
+					"Integer Word Map is empty.");
 		}
 	}
 

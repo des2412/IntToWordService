@@ -1,6 +1,6 @@
 package org.desz.inttoword.output;
 
-import static org.desz.inttoword.language.LanguageRepository.Def.SPACE;
+import static org.desz.inttoword.language.LanguageRepository.DefUnit.SPACE;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -104,6 +104,12 @@ public class WordResult {
 		return builder2.toString().trim();
 	}
 
+	/**
+	 * Builder of WordResult.
+	 * 
+	 * @author des
+	 *
+	 */
 	public static class Builder {
 
 		private String bill;
