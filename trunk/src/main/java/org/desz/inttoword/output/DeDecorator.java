@@ -5,6 +5,7 @@ package org.desz.inttoword.output;
 
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.desz.inttoword.language.LanguageRepository.DeIntWordPair;
 
 /**
@@ -37,7 +38,7 @@ public class DeDecorator implements IWordDecorator {
 		if (Objects.nonNull(wordResult)) {
 			if (Objects.nonNull(wordResult.getBill())) {
 				final String bill = wordResult.getBill().trim();
-				final String num = bill.split(" ")[0];
+				final String num = bill.split(StringUtils.EMPTY)[0];
 				final String mtch = DeIntWordPair.ONE.getWord();
 				if (!num.matches(mtch))
 					builder.withBill(bill + "n");

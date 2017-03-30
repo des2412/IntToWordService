@@ -67,44 +67,46 @@ public class ConversionWorker {
 		final int sz = wordMap.size();
 		final WordResult.Builder wordBuilder = new WordResult.Builder();
 
-		if (sz == 1) {
-			if (provLang.equals(ProvLang.DE)) {
-				WordResult deRes = wordBuilder.withHund(wordMap.get(0)).build();
-				// apply DeDecorator.
-				deDecorator = new DeDecorator(
-						wordBuilder.withHund(wordMap.get(0)).build());
+		// build with UNIT added to each part.
+		switch (sz) {
+			case 1 :
+				// result for return.
+				if (provLang.equals(ProvLang.DE)) {
+					WordResult deRes = wordBuilder.withHund(wordMap.get(0))
+							.build();
 
-				return deDecorator.pluraliseOneRule(deRes,
-						Integer.valueOf(wordMap.get(0))).toString();
+					deDecorator = new DeDecorator(
+							wordBuilder.withHund(wordMap.get(0)).build());
+					// invoke DeDecorator to pluralise EIN.
+					return deDecorator.pluraliseOneRule(deRes, last).toString();
 
-			}
-			return wordMap.get(0);
+				}
+				return wordMap.get(0);
+			case 4 :
+				wordBuilder.withBill(wordMap.get(0) + langMap.getBilln())
+						.withMill(wordMap.get(1) + langMap.getMilln())
+						.withThou(wordMap.get(2) + langMap.getThoud());
+				break;
+
+			case 3 :
+				wordBuilder.withMill(wordMap.get(0) + langMap.getMilln())
+						.withThou(wordMap.get(1) + langMap.getThoud());
+				break;
+
+			case 2 :
+				wordBuilder.withThou(wordMap.get(0) + langMap.getThoud());
+				break;
 		}
-
-		if (sz == 4) {
-			wordBuilder.withBill(wordMap.get(0) + langMap.getBilln())
-					.withMill(wordMap.get(1) + langMap.getMilln())
-					.withThou(wordMap.get(2) + langMap.getThoud());
-		}
-		if (sz == 3) {
-			wordBuilder.withMill(wordMap.get(0) + langMap.getMilln())
-					.withThou(wordMap.get(1) + langMap.getThoud());
-
-		}
-		if (sz == 2)
-			wordBuilder.withThou(wordMap.get(0) + langMap.getThoud());
-
-		// process the final part of formattedNumber
-		if (CentIntConverter.inRange(last)) {
+		if (CentIntConverter.inRange(last))
 			// 1 to 99 -> prepend with AND.
 			wordBuilder.withHund(langMap.getAnd() + wordMap.get(sz - 1));
 
-		} else {
+		else
 			wordBuilder.withHund(wordMap.get(sz - 1));
-		}
+
 		// wordResult is output.
 		final WordResult wordResult = wordBuilder.build();
-		// apply decorator to DE.
+		// build and decorate DE word.
 		if (provLang.equals(ProvLang.DE)) {
 			WordResult.Builder deBuilder = new WordResult.Builder();
 			if (Objects.nonNull(wordResult.getBill()))
@@ -113,6 +115,8 @@ public class ConversionWorker {
 				deBuilder.withMill(wordResult.getMill().trim());
 			if (Objects.nonNull(wordResult.getThou()))
 				deBuilder.withThou(wordResult.getThou());
+			// hund may contain und incorrectly, hence the deBuilder. TODO this
+			// should be fixable.
 			if (Objects.nonNull(wordResult.getHund()))
 				deBuilder.withHund(wordMap.get(sz - 1));
 			deDecorator = new DeDecorator(deBuilder.build());
@@ -120,12 +124,8 @@ public class ConversionWorker {
 			deDecorator = new DeDecorator(deRes);
 			deRes = deDecorator.pluraliseOneRule(deRes, last);
 			deDecorator = new DeDecorator(deRes);
-
-			if (n < 1000000)
-				deRes = deDecorator.replaceSpaceWithEmptyRule();
-
 			deRes = deDecorator.combineThouHundRule();
-			// remove additional whitespace.
+			// trim and single whitespace.
 			return StringUtils.normalizeSpace(deRes.toString());
 
 		}
