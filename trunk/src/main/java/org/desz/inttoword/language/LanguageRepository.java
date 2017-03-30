@@ -146,41 +146,23 @@ public final class LanguageRepository {
 																								"18",
 																								"Achtzehn"), NINETEEN(
 																										"19",
-																										"Nehnzehn"), TWENTY(
+																										"Neunzehn"), TWENTY(
 																												"20",
-																												"Zwanzig"), TWENTYONE(
-																														"21",
-																														"Einundzwanzig"), TWENTYTWO(
-																																"22",
-																																"Zweiundzwanzig"), TWENTYTHREE(
-																																		"23",
-																																		"Dreiundzwanzig"), TWENTYFOUR(
-																																				"24",
-																																				"Vierundzwanzig"), TWENTYFIVE(
-																																						"25",
-																																						"Fünfundzwanzig"), TWENTYSIX(
-																																								"26",
-																																								"Sechsundzwanzig"), TWENTYSEVEN(
-																																										"27",
-																																										"Siebenundzwanzig"), TWENTYEIGHT(
-																																												"28",
-																																												"Achtundzwanzig"), TWENTYNINE(
-																																														"29",
-																																														"Neunundzwanzig"), THIRTY(
-																																																"30",
-																																																"Dreißig"), FORTY(
-																																																		"40",
-																																																		"Vierzig"), FIFTY(
-																																																				"50",
-																																																				"Fünfzig"), SIXTY(
-																																																						"60",
-																																																						"Sechzig"), SEVENTY(
-																																																								"70",
-																																																								"Siebzig"), EIGHTY(
-																																																										"80",
-																																																										"Achtzig"), NINETY(
-																																																												"90",
-																																																												"Neunzig");
+																												"Zwanzig"), THIRTY(
+																														"30",
+																														"Dreißig"), FORTY(
+																																"40",
+																																"Vierzig"), FIFTY(
+																																		"50",
+																																		"Fünfzig"), SIXTY(
+																																				"60",
+																																				"Sechzig"), SEVENTY(
+																																						"70",
+																																						"Siebzig"), EIGHTY(
+																																								"80",
+																																								"Achtzig"), NINETY(
+																																										"90",
+																																										"Neunzig");
 
 		private String word;
 		private String num;

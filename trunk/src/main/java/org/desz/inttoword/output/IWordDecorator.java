@@ -9,12 +9,14 @@ public interface IWordDecorator {
 	 * @param val
 	 * @return
 	 */
-	WordResult pluraliseOneRule(WordResult wordResult, int val);
+	WordResult pluraliseOneRule(int val);
 
 	WordResult replaceSpaceWithEmptyRule();
 
 	WordResult pluraliseUnitRule();
 
 	WordResult combineThouHundRule();
+
+	WordResult restructureHundrethRule();
 
 }

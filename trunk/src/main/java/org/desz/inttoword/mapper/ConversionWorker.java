@@ -74,15 +74,14 @@ public class ConversionWorker {
 				if (provLang.equals(ProvLang.DE)) {
 					WordResult deRes = wordBuilder.withHund(wordMap.get(0))
 							.build();
-
-					deDecorator = new DeDecorator(
-							wordBuilder.withHund(wordMap.get(0)).build());
-					// invoke DeDecorator to pluralise EIN.
-					return deDecorator.pluraliseOneRule(deRes, last).toString();
+					deRes = new DeDecorator(deRes).restructureHundrethRule();
+					return new DeDecorator(deRes).pluraliseOneRule(last)
+							.toString();
 
 				}
 				return wordMap.get(0);
 			case 4 :
+
 				wordBuilder.withBill(wordMap.get(0) + langMap.getBilln())
 						.withMill(wordMap.get(1) + langMap.getMilln())
 						.withThou(wordMap.get(2) + langMap.getThoud());
@@ -91,6 +90,7 @@ public class ConversionWorker {
 			case 3 :
 				wordBuilder.withMill(wordMap.get(0) + langMap.getMilln())
 						.withThou(wordMap.get(1) + langMap.getThoud());
+
 				break;
 
 			case 2 :
@@ -104,7 +104,7 @@ public class ConversionWorker {
 		else
 			wordBuilder.withHund(wordMap.get(sz - 1));
 
-		// wordResult is output.
+		// wordResult is output for non DE case.
 		final WordResult wordResult = wordBuilder.build();
 		// build and decorate DE word.
 		if (provLang.equals(ProvLang.DE)) {
@@ -115,17 +115,17 @@ public class ConversionWorker {
 				deBuilder.withMill(wordResult.getMill().trim());
 			if (Objects.nonNull(wordResult.getThou()))
 				deBuilder.withThou(wordResult.getThou());
-			// hund may contain und incorrectly, hence the deBuilder. TODO this
-			// should be fixable.
 			if (Objects.nonNull(wordResult.getHund()))
 				deBuilder.withHund(wordMap.get(sz - 1));
 			deDecorator = new DeDecorator(deBuilder.build());
 			WordResult deRes = deDecorator.pluraliseUnitRule();
 			deDecorator = new DeDecorator(deRes);
-			deRes = deDecorator.pluraliseOneRule(deRes, last);
+			deRes = deDecorator.pluraliseOneRule(last);
+			deDecorator = new DeDecorator(deRes);
+			deRes = deDecorator.restructureHundrethRule();
 			deDecorator = new DeDecorator(deRes);
 			deRes = deDecorator.combineThouHundRule();
-			// trim and single whitespace.
+			// trim, multi to single whitespace.
 			return StringUtils.normalizeSpace(deRes.toString());
 
 		}
