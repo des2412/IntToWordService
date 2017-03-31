@@ -2,9 +2,9 @@ package org.desz.inttoword.output;
 
 import static org.junit.Assert.*;
 
+import org.desz.inttoword.converter.ConversionDelegate;
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
-import org.desz.inttoword.mapper.ConversionService;
 import org.desz.inttoword.spring.config.IntToWordServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,11 +20,11 @@ public class TestConversionWorkerDe {
 
 	private static final String MAX_INT = "zwei milliarden einhundertsiebenundvierzig millionen vierhundertdreiundachtzigtausendsechshundertsiebenundvierzig";
 	@Autowired
-	protected ConversionService converterService;
+	protected ConversionDelegate conversionDelg;
 
 	@Test
 	public void testMaxGerman() throws AppConversionException {
-		String s = converterService.convertIntToWord(Integer.MAX_VALUE,
+		String s = conversionDelg.convertIntToWord(Integer.MAX_VALUE,
 				ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals(MAX_INT, s);
@@ -32,28 +32,28 @@ public class TestConversionWorkerDe {
 
 	@Test
 	public final void test100() throws AppConversionException {
-		String s = converterService.convertIntToWord(100, ProvLang.DE);
+		String s = conversionDelg.convertIntToWord(100, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("einhundert", s);
 	}
 
 	@Test
 	public final void test1000000() throws AppConversionException {
-		String s = converterService.convertIntToWord(1000000, ProvLang.DE);
+		String s = conversionDelg.convertIntToWord(1000000, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("ein million", s);
 	}
 
 	@Test
 	public final void test21012301() throws AppConversionException {
-		String s = converterService.convertIntToWord(21012301, ProvLang.DE);
+		String s = conversionDelg.convertIntToWord(21012301, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("einundzwanzig millionen zwölftausenddreihunderteins", s);
 	}
 
 	@Test
 	public final void test21021301() throws AppConversionException {
-		String s = converterService.convertIntToWord(21021301, ProvLang.DE);
+		String s = conversionDelg.convertIntToWord(21021301, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals(
 				"einundzwanzig millionen einundzwanzigtausenddreihunderteins",
@@ -62,7 +62,7 @@ public class TestConversionWorkerDe {
 
 	@Test
 	public final void test2000001() throws AppConversionException {
-		String s = converterService.convertIntToWord(2000001, ProvLang.DE);
+		String s = conversionDelg.convertIntToWord(2000001, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("zwei millionen eins", s);
 	}
@@ -70,7 +70,7 @@ public class TestConversionWorkerDe {
 	// zwei Millionen einundzwanzig
 	@Test
 	public final void test2000021() throws AppConversionException {
-		String s = converterService.convertIntToWord(2000021, ProvLang.DE);
+		String s = conversionDelg.convertIntToWord(2000021, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("zwei millionen einundzwanzig", s);
 	}
@@ -78,41 +78,41 @@ public class TestConversionWorkerDe {
 	// zwei Millionen zweihunderteinundzwanzig
 	@Test
 	public final void test2000221() throws AppConversionException {
-		String s = converterService.convertIntToWord(2000221, ProvLang.DE);
+		String s = conversionDelg.convertIntToWord(2000221, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("zwei millionen zweihunderteinundzwanzig", s);
 	}
 
 	@Test
 	public final void test30() throws AppConversionException {
-		String s = converterService.convertIntToWord(30, ProvLang.DE);
+		String s = conversionDelg.convertIntToWord(30, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("dreißig", s);
 	}
 
 	@Test
 	public final void test21() throws AppConversionException {
-		String s = converterService.convertIntToWord(21, ProvLang.DE);
+		String s = conversionDelg.convertIntToWord(21, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("einundzwanzig", s);
 	}
 
 	@Test
 	public final void test101() throws AppConversionException {
-		String s = converterService.convertIntToWord(101, ProvLang.DE);
+		String s = conversionDelg.convertIntToWord(101, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("einhunderteins", s);
 	}
 	@Test
 	public final void test102() throws AppConversionException {
-		String s = converterService.convertIntToWord(102, ProvLang.DE);
+		String s = conversionDelg.convertIntToWord(102, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("einhundertzwei", s);
 	}
 	// einhunderteinunddreißig
 	@Test
 	public final void test131() throws AppConversionException {
-		String s = converterService.convertIntToWord(131, ProvLang.DE);
+		String s = conversionDelg.convertIntToWord(131, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("einhunderteinunddreißig", s);
 	}
@@ -121,7 +121,7 @@ public class TestConversionWorkerDe {
 
 	@Test
 	public final void test123456() throws AppConversionException {
-		String s = converterService.convertIntToWord(123456, ProvLang.DE);
+		String s = conversionDelg.convertIntToWord(123456, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals(
 				"einhundertdreiundzwanzigtausendvierhundertsechsundfünfzig", s);
@@ -129,14 +129,14 @@ public class TestConversionWorkerDe {
 	// neunhundertfϋnf
 	@Test
 	public final void test905() throws AppConversionException {
-		String s = converterService.convertIntToWord(905, ProvLang.DE);
+		String s = conversionDelg.convertIntToWord(905, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("neunhundertfϋnf", s);
 	}
 
 	@Test
 	public final void test327() throws AppConversionException {
-		String s = converterService.convertIntToWord(327, ProvLang.DE);
+		String s = conversionDelg.convertIntToWord(327, ProvLang.DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("dreihundertsiebenundzwanzig", s);
 	}

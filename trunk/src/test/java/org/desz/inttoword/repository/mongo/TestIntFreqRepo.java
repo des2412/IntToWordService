@@ -39,7 +39,7 @@ public class TestIntFreqRepo {
 	private IntFreqRepoJpaRepository intFreqRepo;
 
 	private String id = "1";
-	private final String idNot = "-1x";
+	private final String xid = "-1x";
 
 	@Autowired
 	private String restApi;
@@ -67,7 +67,7 @@ public class TestIntFreqRepo {
 
 			intFreqRepo.save(numberFreq);
 			assertTrue(intFreqRepo.exists(id));
-			assertFalse(intFreqRepo.exists(idNot));
+			assertFalse(intFreqRepo.exists(xid));
 		}
 	}
 

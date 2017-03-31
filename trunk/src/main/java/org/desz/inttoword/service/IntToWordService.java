@@ -7,10 +7,10 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.desz.domain.mongodb.NumberFrequency;
+import org.desz.inttoword.converter.ConversionDelegate;
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.exceptions.IntToWordServiceException;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
-import org.desz.inttoword.mapper.ConversionService;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,20 +32,20 @@ public final class IntToWordService implements INumberToWordService {
 
 	private final Optional<IntFreqRepoJpaRepository> optFreqRepo;
 
-	private final ConversionService conversionWorker;
+	private final ConversionDelegate conversionDelegate;
 
 	/**
 	 * 
 	 * @param optFreqRepoSrv
 	 *            Optional containing JpaRepository or empty if connection is
 	 *            not possible.
-	 * @param conversionWorker
+	 * @param conversionDelegate
 	 */
 	@Autowired
 	public IntToWordService(Optional<IntFreqRepoJpaRepository> optFreqRepoSrv,
-			ConversionService conversionWorker) {
+			ConversionDelegate cd) {
 		this.optFreqRepo = optFreqRepoSrv;
-		this.conversionWorker = conversionWorker;
+		this.conversionDelegate = cd;
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public final class IntToWordService implements INumberToWordService {
 			log.info("repository connection unavailable");
 
 		try {
-			return conversionWorker.convertIntToWord(Integer.parseInt(num),
+			return conversionDelegate.convertIntToWord(Integer.parseInt(num),
 					provLang);
 		} catch (AppConversionException e) {
 			log.error(e.getMessage());

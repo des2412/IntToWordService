@@ -1,4 +1,4 @@
-package org.desz.inttoword.mapper;
+package org.desz.inttoword.conv;
 
 import static org.desz.inttoword.language.ProvLangFactory.getInstance;
 
@@ -27,9 +27,9 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component
-public class ConversionService {
+public class ConversionDelegate {
 	protected final Logger log = Logger
-			.getLogger(ConversionService.class.getName());
+			.getLogger(ConversionDelegate.class.getName());
 
 	/**
 	 * funcHunConv.

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.desz.inttoword.language.LanguageRepository.DeUnit;
+import org.desz.inttoword.converter.ConversionDelegate;
 import org.desz.inttoword.language.LanguageRepository.DeIntWordPair;
 import org.desz.inttoword.language.LanguageRepository.DefUnit;
 import org.desz.inttoword.language.LanguageRepository.FrUnit;
@@ -15,12 +16,11 @@ import org.desz.inttoword.language.LanguageRepository.NlUnit;
 import org.desz.inttoword.language.LanguageRepository.NlIntWordPair;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
 import org.desz.inttoword.language.LanguageRepository.UkIntWordPair;
-import org.desz.inttoword.mapper.ConversionService;
 
 /**
  * Defines Strings for number constants for a ProvLang.
  * 
- * @see ConversionService
+ * @see ConversionDelegate
  * 
  * @author des
  * 

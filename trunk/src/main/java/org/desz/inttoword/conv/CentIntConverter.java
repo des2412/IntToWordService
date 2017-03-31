@@ -1,4 +1,4 @@
-package org.desz.inttoword.mapper;
+package org.desz.inttoword.conv;
 
 import static org.desz.inttoword.language.LanguageRepository.DefUnit.SPC;
 
