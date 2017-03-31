@@ -18,8 +18,7 @@ http://maven.apache.org
     </url>
 	<properties>
 		<org.springframework.version>5.0.0.M5</org.springframework.version>
-		<powermock.version>1.6.4</powermock.version>
-		<!-- <morphia.version>0.98</morphia.version> -->
+		<powermock.version>1.7.0RC4</powermock.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -42,7 +41,7 @@ http://maven.apache.org
 			<url>http://repo.springsource.org/milestone</url>
 		</repository>
 	</repositories>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -57,14 +56,14 @@ http://maven.apache.org
 
 
 	<dependencies>
-	
-	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-<dependency>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-lang3</artifactId>
-    <version>3.5</version>
-</dependency>
-	
+
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.5</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.glassfish.jersey.ext.rx</groupId>
@@ -92,11 +91,6 @@ http://maven.apache.org
 			<version>2.4</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.4</version>
-		</dependency>
 
 		<dependency>
 			<groupId>log4j</groupId>
@@ -107,20 +101,20 @@ http://maven.apache.org
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
-			<version>3.1.1</version>
+			<version>3.4.2</version>
 		</dependency>
 
 
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongodb-driver-core</artifactId>
-			<version>3.1.1</version>
+			<version>3.4.2</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>bson</artifactId>
-			<version>3.1.1</version>
+			<version>3.4.2</version>
 		</dependency>
 
 
@@ -176,13 +170,13 @@ http://maven.apache.org
 			<artifactId>spring-data-commons-core</artifactId>
 			<version>1.4.1.RELEASE</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.13</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
@@ -192,7 +186,7 @@ http://maven.apache.org
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>17.0</version>
+			<version>21.0</version>
 		</dependency>
 
 		<dependency>
@@ -410,7 +404,7 @@ http://maven.apache.org
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
+										<ignore />
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
