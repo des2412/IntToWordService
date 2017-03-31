@@ -1,13 +1,13 @@
 package org.desz.inttoword.output;
 
-import static org.desz.inttoword.language.ProvLangFactory.getInstance;
+import static org.desz.inttoword.factory.ProvLangFactory.getInstance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.desz.inttoword.language.LanguageRepository.DeIntWordPair;
-import org.desz.inttoword.language.LanguageRepository.DefUnit;
-import org.desz.inttoword.language.LanguageRepository.ProvLang;
+import org.desz.inttoword.language.ProvLangFactoryParts.DeIntWordPair;
+import org.desz.inttoword.language.ProvLangFactoryParts.DefUnit;
+import org.desz.inttoword.language.ProvLangFactoryParts.ProvLang;
 import org.desz.inttoword.language.NumericalLangMapping;
 import org.junit.Test;
 

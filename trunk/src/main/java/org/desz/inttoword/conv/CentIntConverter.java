@@ -1,13 +1,13 @@
 package org.desz.inttoword.conv;
 
-import static org.desz.inttoword.language.LanguageRepository.DefUnit.SPC;
+import static org.desz.inttoword.language.ProvLangFactoryParts.DefUnit.SPC;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.desz.inttoword.language.NumericalLangMapping;
-import org.desz.inttoword.language.LanguageRepository.DeUnit;
+import org.desz.inttoword.language.ProvLangFactoryParts.DeUnit;
 
 @FunctionalInterface
 public interface CentIntConverter {

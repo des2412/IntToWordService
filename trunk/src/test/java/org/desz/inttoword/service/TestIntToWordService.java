@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.desz.inttoword.config.IntToWordServiceConfig;
 import org.desz.inttoword.exceptions.IntToWordServiceException;
-import org.desz.inttoword.language.LanguageRepository.ProvLang;
+import org.desz.inttoword.language.ProvLangFactoryParts.ProvLang;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepositoryImpl;
-import org.desz.inttoword.spring.config.IntToWordServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

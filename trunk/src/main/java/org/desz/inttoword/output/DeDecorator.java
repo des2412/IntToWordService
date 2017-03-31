@@ -7,9 +7,9 @@ import java.math.BigInteger;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
-import org.desz.inttoword.language.LanguageRepository.DeIntWordPair;
-import org.desz.inttoword.language.LanguageRepository.DeUnit;
-import org.desz.inttoword.language.LanguageRepository.DefUnit;
+import org.desz.inttoword.language.ProvLangFactoryParts.DeIntWordPair;
+import org.desz.inttoword.language.ProvLangFactoryParts.DeUnit;
+import org.desz.inttoword.language.ProvLangFactoryParts.DefUnit;
 
 /**
  * @author des

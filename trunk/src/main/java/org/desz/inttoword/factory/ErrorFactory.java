@@ -1,4 +1,4 @@
-package org.desz.inttoword.languages.error;
+package org.desz.inttoword.factory;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,11 +9,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
-import org.desz.inttoword.language.LanguageRepository.DeError;
-import org.desz.inttoword.language.LanguageRepository.FrError;
-import org.desz.inttoword.language.LanguageRepository.NlError;
-import org.desz.inttoword.language.LanguageRepository.ProvLang;
-import org.desz.inttoword.language.LanguageRepository.UkError;
+import org.desz.inttoword.language.ProvLangFactoryParts.DeError;
+import org.desz.inttoword.language.ProvLangFactoryParts.FrError;
+import org.desz.inttoword.language.ProvLangFactoryParts.NlError;
+import org.desz.inttoword.language.ProvLangFactoryParts.ProvLang;
+import org.desz.inttoword.language.ProvLangFactoryParts.UkError;
 
 public class ErrorFactory {
 

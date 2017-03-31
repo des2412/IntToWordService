@@ -1,11 +1,12 @@
 package org.desz.inttoword.output;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import org.desz.inttoword.converter.ConversionDelegate;
+import org.desz.inttoword.config.IntToWordServiceConfig;
+import org.desz.inttoword.conv.ConversionDelegate;
 import org.desz.inttoword.exceptions.AppConversionException;
-import org.desz.inttoword.language.LanguageRepository.ProvLang;
-import org.desz.inttoword.spring.config.IntToWordServiceConfig;
+import org.desz.inttoword.language.ProvLangFactoryParts.ProvLang;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {IntToWordServiceConfig.class})
 @ActiveProfiles({"dev", "cloud"})
-public class TestConversionWorkerDe {
+public class TestConversionDelegateDe {
 
 	private static final String MAX_INT = "zwei milliarden einhundertsiebenundvierzig millionen vierhundertdreiundachtzigtausendsechshundertsiebenundvierzig";
 	@Autowired

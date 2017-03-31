@@ -1,14 +1,14 @@
 package org.desz.inttoword.output;
 
-import static org.desz.inttoword.language.LanguageRepository.DefUnit.SPC;
+import static org.desz.inttoword.language.ProvLangFactoryParts.DefUnit.SPC;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import org.desz.inttoword.language.LanguageRepository.DeIntWordPair;
-import org.desz.inttoword.language.LanguageRepository.FrIntWordPair;
-import org.desz.inttoword.language.LanguageRepository.NlIntWordPair;
-import org.desz.inttoword.language.LanguageRepository.UkIntWordPair;
+import org.desz.inttoword.language.ProvLangFactoryParts.DeIntWordPair;
+import org.desz.inttoword.language.ProvLangFactoryParts.FrIntWordPair;
+import org.desz.inttoword.language.ProvLangFactoryParts.NlIntWordPair;
+import org.desz.inttoword.language.ProvLangFactoryParts.UkIntWordPair;
 
 public class WordResult {
 

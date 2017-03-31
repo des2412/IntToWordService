@@ -3,10 +3,10 @@ package org.desz.inttoword.output;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.desz.inttoword.converter.ConversionDelegate;
+import org.desz.inttoword.config.IntToWordServiceConfig;
+import org.desz.inttoword.conv.ConversionDelegate;
 import org.desz.inttoword.exceptions.AppConversionException;
-import org.desz.inttoword.language.LanguageRepository.ProvLang;
-import org.desz.inttoword.spring.config.IntToWordServiceConfig;
+import org.desz.inttoword.language.ProvLangFactoryParts.ProvLang;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

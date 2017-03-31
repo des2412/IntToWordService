@@ -1,4 +1,4 @@
-package org.desz.inttoword.spring.config;
+package org.desz.inttoword.config;
 
 import java.util.logging.Logger;
 

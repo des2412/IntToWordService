@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
 
-import org.desz.domain.mongodb.NumberFrequency;
+import org.desz.inttoword.persistence.document.NumberFrequency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

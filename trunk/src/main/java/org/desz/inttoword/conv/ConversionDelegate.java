@@ -1,6 +1,6 @@
 package org.desz.inttoword.conv;
 
-import static org.desz.inttoword.language.ProvLangFactory.getInstance;
+import static org.desz.inttoword.factory.ProvLangFactory.getInstance;
 
 import java.text.NumberFormat;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.desz.inttoword.exceptions.AppConversionException;
-import org.desz.inttoword.language.LanguageRepository.ProvLang;
+import org.desz.inttoword.language.ProvLangFactoryParts.ProvLang;
 import org.desz.inttoword.language.NumericalLangMapping;
 import org.desz.inttoword.output.DeDecorator;
 import org.desz.inttoword.output.WordResult;
@@ -54,13 +54,12 @@ public class ConversionDelegate {
 		final List<String> numUnits = Arrays.asList(NumberFormat
 				.getIntegerInstance(Locale.UK).format(n).split(","));
 		DeDecorator deDecorator = null;
-		// save last element of numUnits.
+		// save last element of numUnits..
 		final int prmLastHun = Integer
 				.valueOf(numUnits.get(numUnits.size() - 1));
 		// singleton NumericalLangMapping per ProvLang.
 		final NumericalLangMapping langMap = getInstance().numericMap(provLang);
-
-		// convert every hundreth to word. Collect into Map, wordMap.
+		// convert every hundreth to word stored in wordMap.
 		final Map<Integer, String> wordMap = IntStream.range(0, numUnits.size())
 				.boxed().collect(Collectors.toMap(Function.identity(),
 						i -> funcHunConv.apply(numUnits.get(i), langMap)));
@@ -71,7 +70,7 @@ public class ConversionDelegate {
 		// build with UNIT added to each part.
 		switch (sz) {
 			case 1 :
-				// result for return.
+				// result returned.
 				if (provLang.equals(ProvLang.DE)) {
 					WordResult deRes = wordBuilder.withHund(wordMap.get(0))
 							.build();

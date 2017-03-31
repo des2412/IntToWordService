@@ -9,7 +9,7 @@ package org.desz.inttoword.language;
  *         Enums for language, int -> word mappings, Errors, Format and Units
  * 
  */
-public final class LanguageRepository {
+public final class ProvLangFactoryParts {
 
 	/**
 	 * ProvLang members for multiple languages.

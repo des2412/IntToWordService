@@ -1,13 +1,14 @@
-package org.desz.inttoword.spring.config;
+package org.desz.inttoword.config;
 
 import java.util.Objects;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.desz.inttoword.converter.ConversionDelegate;
+
+import org.desz.inttoword.conv.ConversionDelegate;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.desz.inttoword.service.INumberToWordService;
 import org.desz.inttoword.service.IntToWordService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +31,7 @@ public class IntToWordServiceConfig {
 	private String cloudrepo;
 
 	@Bean
-	public ConversionDelegate converterService() {
+	public ConversionDelegate converterDelegate() {
 		return new ConversionDelegate();
 	}
 
@@ -39,7 +40,7 @@ public class IntToWordServiceConfig {
 		Optional<IntFreqRepoJpaRepository> opt = Optional.empty();
 		if (Objects.nonNull(cloudrepo)) {
 			log.info("creating empty repository for IntToWordService");
-			return new IntToWordService(opt, converterService());
+			return new IntToWordService(opt, converterDelegate());
 		}
 
 		try {
@@ -49,6 +50,6 @@ public class IntToWordServiceConfig {
 			log.error("investigate:" + e.getMessage());
 
 		}
-		return new IntToWordService(opt, converterService());
+		return new IntToWordService(opt, converterDelegate());
 	}
 }

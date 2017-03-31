@@ -7,8 +7,8 @@ import static org.junit.Assert.assertTrue;
 import java.net.UnknownHostException;
 import java.util.logging.Logger;
 
-import org.desz.domain.mongodb.NumberFrequency;
 import org.desz.inttoword.config.repo.TestRepoConfig;
+import org.desz.inttoword.persistence.document.NumberFrequency;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepositoryImpl;
 import org.junit.Before;

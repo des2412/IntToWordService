@@ -4,7 +4,7 @@
 package org.desz.inttoword.service;
 
 import org.desz.inttoword.exceptions.IntToWordServiceException;
-import org.desz.inttoword.language.LanguageRepository.ProvLang;
+import org.desz.inttoword.language.ProvLangFactoryParts.ProvLang;
 
 /**
  * @author des

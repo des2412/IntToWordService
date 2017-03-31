@@ -5,8 +5,8 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.logging.Logger;
 
-import org.desz.domain.mongodb.NumberFrequency;
 import org.desz.inttoword.config.repo.EmbeddedConfig;
+import org.desz.inttoword.persistence.document.NumberFrequency;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

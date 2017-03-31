@@ -6,11 +6,11 @@ package org.desz.inttoword.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.desz.domain.mongodb.NumberFrequency;
-import org.desz.inttoword.converter.ConversionDelegate;
+import org.desz.inttoword.conv.ConversionDelegate;
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.exceptions.IntToWordServiceException;
-import org.desz.inttoword.language.LanguageRepository.ProvLang;
+import org.desz.inttoword.language.ProvLangFactoryParts.ProvLang;
+import org.desz.inttoword.persistence.document.NumberFrequency;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

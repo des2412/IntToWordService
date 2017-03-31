@@ -1,4 +1,4 @@
-package org.desz.domain.mongodb;
+package org.desz.inttoword.persistence.document;
 
 import java.io.Serializable;
 
