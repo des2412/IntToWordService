@@ -1,6 +1,6 @@
 package org.desz.inttoword.output;
 
-import static org.desz.inttoword.language.LanguageRepository.DefUnit.SPACE;
+import static org.desz.inttoword.language.LanguageRepository.DefUnit.SPC;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -12,11 +12,10 @@ import org.desz.inttoword.language.LanguageRepository.UkIntWordPair;
 
 public class WordResult {
 
-	private String bill;
-	private String mill;
-	private String thou;
-
-	private String hund;
+	private final String bill;
+	private final String mill;
+	private final String thou;
+	private final String hund;
 
 	private WordResult(Builder builder) {
 		this.bill = builder.bill;
@@ -36,23 +35,11 @@ public class WordResult {
 	 * @param bill
 	 *            the bill to set
 	 */
-	public void setBill(String bill) {
-		this.bill = bill;
-	}
-
 	/**
 	 * @return the mill
 	 */
 	public String getMill() {
 		return mill;
-	}
-
-	/**
-	 * @param mill
-	 *            the mill to set
-	 */
-	public void setMill(String mill) {
-		this.mill = mill;
 	}
 
 	/**
@@ -63,26 +50,10 @@ public class WordResult {
 	}
 
 	/**
-	 * @param thou
-	 *            the thou to set
-	 */
-	public void setThou(String thou) {
-		this.thou = thou;
-	}
-
-	/**
 	 * @return the hund
 	 */
 	public String getHund() {
 		return hund;
-	}
-
-	/**
-	 * @param hund
-	 *            the hund to set
-	 */
-	public void setHund(String hund) {
-		this.hund = hund;
 	}
 
 	/*
@@ -118,17 +89,17 @@ public class WordResult {
 		private String hund;
 
 		public Builder withBill(String bill) {
-			this.bill = bill + SPACE.val();
+			this.bill = bill + SPC.val();
 			return this;
 		}
 
 		public Builder withMill(String mill) {
-			this.mill = mill + SPACE.val();
+			this.mill = mill + SPC.val();
 			return this;
 		}
 
 		public Builder withThou(String thou) {
-			this.thou = thou + SPACE.val();
+			this.thou = thou + SPC.val();
 			return this;
 		}
 

@@ -42,22 +42,26 @@ public class DeDecorator implements IWordDecorator {
 			if (Objects.nonNull(wordResult.getBill())) {
 				final String bill = StringUtils
 						.normalizeSpace(wordResult.getBill());
-				final String num = bill.split(" ")[0];
+				final String num = bill.split(DefUnit.SPC.val())[0];
 				if (!num.matches(DeIntWordPair.ONE.getWord()))
-					builder.withBill(bill + "n");
+					builder.withBill(StringUtils.normalizeSpace(bill + "n"));
 
 				else
-					builder.withBill(wordResult.getBill());
+					builder.withBill(
+							StringUtils.normalizeSpace(wordResult.getBill()));
 			}
 
 			if (Objects.nonNull(wordResult.getMill())) {
 				final String mill = wordResult.getMill().trim();
-				final String num = mill.split(" ")[0];
+				final String num = mill.split(DefUnit.SPC.val())[0];
 				if (!num.matches(DeIntWordPair.ONE.getWord()))
-					builder.withMill(wordResult.getMill().trim() + "en");
+					builder.withMill(
+							StringUtils.normalizeSpace(wordResult.getMill())
+									+ "en");
 
 				else
-					builder.withMill(wordResult.getMill());
+					builder.withMill(
+							StringUtils.normalizeSpace(wordResult.getMill()));
 			}
 			if (Objects.nonNull(wordResult.getThou()))
 				builder.withThou(wordResult.getThou());
@@ -80,21 +84,22 @@ public class DeDecorator implements IWordDecorator {
 	@Override
 	public WordResult replaceSpaceWithEmptyRule() {
 
-		WordResult res = new WordResult.Builder().build();
+		WordResult.Builder res = new WordResult.Builder();
 		if (Objects.nonNull(wordResult.getBill()))
-			res.setBill(wordResult.getBill());
+			res.withBill(wordResult.getBill());
 
 		if (Objects.nonNull(wordResult.getMill()))
-			res.setMill(wordResult.getMill());
+			res.withMill(wordResult.getMill());
 
 		if (Objects.nonNull(wordResult.getThou()))
-
-			res.setThou(wordResult.getThou().replaceAll("\\s+", ""));
+			res.withThou(StringUtils.remove(wordResult.getThou(),
+					DefUnit.SPC.val()));
 
 		if (Objects.nonNull(wordResult.getHund()))
-			res.setHund(wordResult.getHund().replaceAll("\\s+", ""));
+			res.withHund(StringUtils.remove(wordResult.getHund(),
+					DefUnit.SPC.val()));
 
-		return res;
+		return res.build();
 
 	}
 
@@ -123,54 +128,56 @@ public class DeDecorator implements IWordDecorator {
 
 	@Override
 	public WordResult combineThouHundRule() {
-		WordResult res = new WordResult.Builder().build();
+		WordResult.Builder res = new WordResult.Builder();
 		if (Objects.nonNull(wordResult.getBill()))
-			res.setBill(wordResult.getBill());
+			res.withBill(wordResult.getBill());
 
 		if (Objects.nonNull(wordResult.getMill()))
-			res.setMill(wordResult.getMill());
+			res.withMill(wordResult.getMill());
 
 		StringBuilder sb = new StringBuilder();
 		if (Objects.nonNull(wordResult.getThou()))
-			sb.append(wordResult.getThou().replaceAll("\\s+", ""));
+			sb.append(StringUtils.remove(wordResult.getThou(),
+					DefUnit.SPC.val()));
 
 		if (Objects.nonNull(wordResult.getHund()))
-			sb.append(wordResult.getHund().replaceAll("\\s+", ""));
+			sb.append(StringUtils.remove(wordResult.getHund(),
+					DefUnit.SPC.val()));
 
-		res.setThou(sb.toString());
-		return res;
+		res.withThou(sb.toString());
+		return res.build();
 
 	}
 
 	@Override
 	public WordResult restructureHundrethRule() {
-		WordResult res = new WordResult.Builder().build();
+		WordResult.Builder res = new WordResult.Builder();
 		String[] arr = null;
 		if (Objects.nonNull(wordResult.getBill()))
-			res.setBill(wordResult.getBill());
+			res.withBill(wordResult.getBill());
 
 		if (Objects.nonNull(wordResult.getMill())) {
 			arr = wordResult.getMill().split(" ");
 			if (arr.length > 2) {
 				String s = arr[1] + DeUnit.AND.val() + arr[0]
-						+ DefUnit.SPACE.val() + arr[2] + DefUnit.SPACE.val();
-				res.setMill(s);
+						+ DefUnit.SPC.val() + arr[2] + DefUnit.SPC.val();
+				res.withMill(s);
 
 			} else {
-				res.setMill(wordResult.getMill());
+				res.withMill(wordResult.getMill());
 			}
 
 		}
 
 		if (Objects.nonNull(wordResult.getThou())) {
-			arr = wordResult.getThou().split(" ");
+			arr = wordResult.getThou().split(DefUnit.SPC.val());
 			if (arr.length > 2) {
 				String s = arr[1] + DeUnit.AND.val() + arr[0]
-						+ DefUnit.SPACE.val() + arr[2] + DefUnit.SPACE.val();
-				res.setThou(s);
+						+ DefUnit.SPC.val() + arr[2] + DefUnit.SPC.val();
+				res.withThou(s);
 
 			} else {
-				res.setThou(wordResult.getThou());
+				res.withThou(wordResult.getThou());
 			}
 		}
 
@@ -178,13 +185,13 @@ public class DeDecorator implements IWordDecorator {
 			arr = wordResult.getHund().split(" ");
 			if (arr.length > 1) {
 				String s = arr[1] + DeUnit.AND.val() + arr[0]
-						+ DefUnit.SPACE.val();
-				res.setHund(s);
+						+ DefUnit.SPC.val();
+				res.withHund(s);
 
 			} else {
-				res.setHund(wordResult.getHund());
+				res.withHund(wordResult.getHund());
 			}
 		}
-		return res;
+		return res.build();
 	}
 }

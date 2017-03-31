@@ -15,12 +15,12 @@ import org.desz.inttoword.language.LanguageRepository.NlUnit;
 import org.desz.inttoword.language.LanguageRepository.NlIntWordPair;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
 import org.desz.inttoword.language.LanguageRepository.UkIntWordPair;
-import org.desz.inttoword.mapper.ConversionWorker;
+import org.desz.inttoword.mapper.ConversionService;
 
 /**
  * Defines Strings for number constants for a ProvLang.
  * 
- * @see ConversionWorker
+ * @see ConversionService
  * 
  * @author des
  * 

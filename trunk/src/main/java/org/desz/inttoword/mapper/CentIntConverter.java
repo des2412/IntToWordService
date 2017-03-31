@@ -1,6 +1,6 @@
 package org.desz.inttoword.mapper;
 
-import static org.desz.inttoword.language.LanguageRepository.DefUnit.SPACE;
+import static org.desz.inttoword.language.LanguageRepository.DefUnit.SPC;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -49,7 +49,7 @@ public interface CentIntConverter {
 								.toLowerCase());
 			} else {
 				sb.append(hun.toLowerCase() + numericalLangMap.getHund()
-						+ SPACE.val() + numericalLangMap.getAnd()
+						+ SPC.val() + numericalLangMap.getAnd()
 						+ numericalLangMap.intWords().get(String.valueOf(nmod))
 								.toLowerCase());
 			}
@@ -64,7 +64,7 @@ public interface CentIntConverter {
 		if (inRange(n)) {// 0 to 99.
 
 			sb.append(numericalLangMap.intWords().get(String.valueOf(k))
-					.toLowerCase() + SPACE.val()
+					.toLowerCase() + SPC.val()
 					+ numericalLangMap.intWords().get(String.valueOf(nmod))
 							.toLowerCase());
 			return sb.toString();
@@ -79,10 +79,10 @@ public interface CentIntConverter {
 							.get(String.valueOf(k)).toLowerCase());
 		else
 			sb.append(hun.toLowerCase() + numericalLangMap.getHund()
-					+ SPACE.val() + numericalLangMap.getAnd()
+					+ SPC.val() + numericalLangMap.getAnd()
 					+ numericalLangMap.intWords().get(String.valueOf(k))
 							.toLowerCase()
-					+ SPACE.val() + numericalLangMap.intWords()
+					+ SPC.val() + numericalLangMap.intWords()
 							.get(String.valueOf(nmod)).toLowerCase());
 
 		return sb.toString();

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
-import org.desz.inttoword.mapper.ConversionWorker;
+import org.desz.inttoword.mapper.ConversionService;
 import org.desz.inttoword.spring.config.IntToWordServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ActiveProfiles({"dev", "cloud"})
 public class TestConversionWorkerUk {
 	@Autowired
-	protected ConversionWorker conversionWorker;
+	protected ConversionService conversionWorker;
 	private static final String MAX_INT = "two billion one hundred and forty seven million four hundred and eighty three thousand six hundred and forty seven";
 
 	@Test(expected = NullPointerException.class)

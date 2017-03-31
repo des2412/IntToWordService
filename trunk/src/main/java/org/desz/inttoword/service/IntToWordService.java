@@ -10,7 +10,7 @@ import org.desz.domain.mongodb.NumberFrequency;
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.exceptions.IntToWordServiceException;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
-import org.desz.inttoword.mapper.ConversionWorker;
+import org.desz.inttoword.mapper.ConversionService;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public final class IntToWordService implements INumberToWordService {
 
 	private final Optional<IntFreqRepoJpaRepository> optFreqRepo;
 
-	private final ConversionWorker conversionWorker;
+	private final ConversionService conversionWorker;
 
 	/**
 	 * 
@@ -43,7 +43,7 @@ public final class IntToWordService implements INumberToWordService {
 	 */
 	@Autowired
 	public IntToWordService(Optional<IntFreqRepoJpaRepository> optFreqRepoSrv,
-			ConversionWorker conversionWorker) {
+			ConversionService conversionWorker) {
 		this.optFreqRepo = optFreqRepoSrv;
 		this.conversionWorker = conversionWorker;
 	}

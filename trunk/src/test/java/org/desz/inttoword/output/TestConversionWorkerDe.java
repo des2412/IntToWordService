@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.language.LanguageRepository.ProvLang;
-import org.desz.inttoword.mapper.ConversionWorker;
+import org.desz.inttoword.mapper.ConversionService;
 import org.desz.inttoword.spring.config.IntToWordServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +20,7 @@ public class TestConversionWorkerDe {
 
 	private static final String MAX_INT = "zwei milliarden einhundertsiebenundvierzig millionen vierhundertdreiundachtzigtausendsechshundertsiebenundvierzig";
 	@Autowired
-	protected ConversionWorker converterService;
+	protected ConversionService converterService;
 
 	@Test
 	public void testMaxGerman() throws AppConversionException {

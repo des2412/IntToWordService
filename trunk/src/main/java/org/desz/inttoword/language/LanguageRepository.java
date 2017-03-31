@@ -410,12 +410,12 @@ public final class LanguageRepository {
 	 */
 	public enum DefUnit {
 
-		SPACE(" "), AND("and" + SPACE.val()), EMPTY(""), ERR_SEP(
-				SPACE.val() + "/" + SPACE.val()), BILLS(
-						SPACE.val() + "billion"), MILLS(
-								SPACE.val() + "million"), THOUS(
-										SPACE.val() + "thousand"), HUNS(
-												SPACE.val() + "hundred");
+		SPC(" "), AND("and" + SPC.val()), ERR_SEP(
+				SPC.val() + "/" + SPC.val()), BILLS(
+						SPC.val() + "billion"), MILLS(
+								SPC.val() + "million"), THOUS(
+										SPC.val() + "thousand"), HUNS(
+												SPC.val() + "hundred");
 
 		private String val;
 
@@ -434,11 +434,11 @@ public final class LanguageRepository {
 	 * 
 	 */
 	public enum FrUnit {
-		AND("et" + DefUnit.SPACE.val()), MILLS(
-				DefUnit.SPACE.val() + "million"), THOUS(
-						DefUnit.SPACE.val() + "mille"), HUNS(
-								DefUnit.SPACE.val() + "cent"), BILLS(
-										DefUnit.SPACE.val() + "milliard");
+		AND("et" + DefUnit.SPC.val()), MILLS(
+				DefUnit.SPC.val() + "million"), THOUS(
+						DefUnit.SPC.val() + "mille"), HUNS(
+								DefUnit.SPC.val() + "cent"), BILLS(
+										DefUnit.SPC.val() + "milliard");
 
 		private String val;
 
@@ -460,9 +460,9 @@ public final class LanguageRepository {
 	 */
 	public enum DeUnit {
 
-		AND("und"), MILLS(DefUnit.SPACE.val() + "million"), BILLS(
-				DefUnit.SPACE.val() + "milliarde"), THOUS(
-						DefUnit.SPACE.val() + "tausend"), HUNS("hundert");
+		AND("und"), MILLS(DefUnit.SPC.val() + "million"), BILLS(
+				DefUnit.SPC.val() + "milliarde"), THOUS(
+						DefUnit.SPC.val() + "tausend"), HUNS("hundert");
 
 		private String val;
 
@@ -477,11 +477,11 @@ public final class LanguageRepository {
 
 	public enum NlUnit {
 
-		AND("en" + DefUnit.SPACE.val()), MILLS(
-				DefUnit.SPACE.val() + "miljeon"), BILLS(
-						DefUnit.SPACE.val() + "miljard"), THOUS(
-								DefUnit.SPACE.val() + "duizend"), HUNS(
-										DefUnit.SPACE.val() + "honderd");
+		AND("en" + DefUnit.SPC.val()), MILLS(
+				DefUnit.SPC.val() + "miljeon"), BILLS(
+						DefUnit.SPC.val() + "miljard"), THOUS(
+								DefUnit.SPC.val() + "duizend"), HUNS(
+										DefUnit.SPC.val() + "honderd");
 
 		private String val;
 

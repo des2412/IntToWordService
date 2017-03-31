@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.desz.inttoword.mapper.ConversionWorker;
+import org.desz.inttoword.mapper.ConversionService;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.desz.inttoword.service.INumberToWordService;
 import org.desz.inttoword.service.IntToWordService;
@@ -30,8 +30,8 @@ public class IntToWordServiceConfig {
 	private String cloudrepo;
 
 	@Bean
-	public ConversionWorker converterService() {
-		return new ConversionWorker();
+	public ConversionService converterService() {
+		return new ConversionService();
 	}
 
 	@Bean

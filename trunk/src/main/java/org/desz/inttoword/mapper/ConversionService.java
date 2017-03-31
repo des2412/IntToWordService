@@ -27,9 +27,9 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component
-public class ConversionWorker {
+public class ConversionService {
 	protected final Logger log = Logger
-			.getLogger(ConversionWorker.class.getName());
+			.getLogger(ConversionService.class.getName());
 
 	/**
 	 * funcHunConv.
@@ -55,7 +55,8 @@ public class ConversionWorker {
 				.getIntegerInstance(Locale.UK).format(n).split(","));
 		DeDecorator deDecorator = null;
 		// save last element of numUnits.
-		final int last = Integer.valueOf(numUnits.get(numUnits.size() - 1));
+		final int prmLastHun = Integer
+				.valueOf(numUnits.get(numUnits.size() - 1));
 		// singleton NumericalLangMapping per ProvLang.
 		final NumericalLangMapping langMap = getInstance().numericMap(provLang);
 
@@ -75,7 +76,7 @@ public class ConversionWorker {
 					WordResult deRes = wordBuilder.withHund(wordMap.get(0))
 							.build();
 					deRes = new DeDecorator(deRes).restructureHundrethRule();
-					return new DeDecorator(deRes).pluraliseOneRule(last)
+					return new DeDecorator(deRes).pluraliseOneRule(prmLastHun)
 							.toString();
 
 				}
@@ -96,17 +97,19 @@ public class ConversionWorker {
 			case 2 :
 				wordBuilder.withThou(wordMap.get(0) + langMap.getThoud());
 				break;
+			default :
+				break;
 		}
-		if (CentIntConverter.inRange(last))
+		if (CentIntConverter.inRange(prmLastHun))
 			// 1 to 99 -> prepend with AND.
 			wordBuilder.withHund(langMap.getAnd() + wordMap.get(sz - 1));
 
 		else
 			wordBuilder.withHund(wordMap.get(sz - 1));
 
-		// wordResult is output for non DE case.
+		// wordResult output for non DE case.
 		final WordResult wordResult = wordBuilder.build();
-		// build and decorate DE word.
+		// decorate DE word.
 		if (provLang.equals(ProvLang.DE)) {
 			WordResult.Builder deBuilder = new WordResult.Builder();
 			if (Objects.nonNull(wordResult.getBill()))
@@ -120,7 +123,7 @@ public class ConversionWorker {
 			deDecorator = new DeDecorator(deBuilder.build());
 			WordResult deRes = deDecorator.pluraliseUnitRule();
 			deDecorator = new DeDecorator(deRes);
-			deRes = deDecorator.pluraliseOneRule(last);
+			deRes = deDecorator.pluraliseOneRule(prmLastHun);
 			deDecorator = new DeDecorator(deRes);
 			deRes = deDecorator.restructureHundrethRule();
 			deDecorator = new DeDecorator(deRes);
