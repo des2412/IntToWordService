@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import org.desz.inttoword.config.IntToWordServiceConfig;
 import org.desz.inttoword.conv.ConversionDelegate;
 import org.desz.inttoword.exceptions.AppConversionException;
-import org.desz.inttoword.language.ProvLangFactoryParts.ProvLang;
+import org.desz.inttoword.language.ProvLang;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -16,8 +16,8 @@ import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.desz.inttoword.exceptions.AppConversionException;
-import org.desz.inttoword.language.ProvLangFactoryParts.ProvLang;
-import org.desz.inttoword.language.NumericalLangMapping;
+import org.desz.inttoword.language.IntWordMapping;
+import org.desz.inttoword.language.ProvLang;
 import org.desz.inttoword.output.DeDecorator;
 import org.desz.inttoword.output.WordResult;
 import org.springframework.stereotype.Component;
@@ -34,8 +34,8 @@ public class ConversionDelegate {
 	/**
 	 * funcHunConv.
 	 */
-	BiFunction<String, NumericalLangMapping, String> funcHunConv = (x, y) -> {
-		return CentIntConverter.hundredToWord(x, y);
+	BiFunction<String, IntWordMapping, String> funcHunConv = (x, y) -> {
+		return CenturionConverter.hundredToWord(x, y);
 	};
 	/**
 	 * 
@@ -45,26 +45,27 @@ public class ConversionDelegate {
 	 * @throws AppConversionException
 	 */
 
-	public String convertIntToWord(Integer n, ProvLang provLang)
+	public String convertIntToWord(Integer n, ProvLang p_provLang)
 			throws AppConversionException {
 
 		n = Objects.requireNonNull(n, "Integer parameter required");
+		final ProvLang provLang = Objects.requireNonNull(p_provLang);
 		if (provLang.equals(ProvLang.EMPTY))
 			throw new AppConversionException();
 		final List<String> numUnits = Arrays.asList(NumberFormat
 				.getIntegerInstance(Locale.UK).format(n).split(","));
 		DeDecorator deDecorator = null;
+		final int sz = numUnits.size();
 		// save last element of numUnits..
 		final int prmLastHun = Integer
-				.valueOf(numUnits.get(numUnits.size() - 1));
-		// singleton NumericalLangMapping per ProvLang.
-		final NumericalLangMapping langMap = getInstance().numericMap(provLang);
+				.parseInt(numUnits.get(numUnits.size() - 1));
+		// singleton IntWordMapping per ProvLang.
+		final IntWordMapping langMap = getInstance().getIntWordMap(provLang);
 		// convert every hundreth to word stored in wordMap.
-		final Map<Integer, String> wordMap = IntStream.range(0, numUnits.size())
-				.boxed().collect(Collectors.toMap(Function.identity(),
+		final Map<Integer, String> wordMap = IntStream.range(0, sz).boxed()
+				.collect(Collectors.toMap(Function.identity(),
 						i -> funcHunConv.apply(numUnits.get(i), langMap)));
 
-		final int sz = wordMap.size();
 		final WordResult.Builder wordBuilder = new WordResult.Builder();
 
 		// build with UNIT added to each part.
@@ -99,7 +100,7 @@ public class ConversionDelegate {
 			default :
 				break;
 		}
-		if (CentIntConverter.inRange(prmLastHun))
+		if (CenturionConverter.inRange(prmLastHun))
 			// 1 to 99 -> prepend with AND.
 			wordBuilder.withHund(langMap.getAnd() + wordMap.get(sz - 1));
 

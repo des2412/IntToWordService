@@ -13,7 +13,7 @@ import com.google.common.base.Preconditions;
  * @author des
  *
  */
-public class NumericalLangMapping {
+public class IntWordMapping {
 
 	private String milln;
 	private String thoud;
@@ -22,7 +22,7 @@ public class NumericalLangMapping {
 	private String billn;
 	private Map<String, String> intToWordMap;
 
-	private NumericalLangMapping(Builder builder) {
+	private IntWordMapping(Builder builder) {
 		this.milln = builder.milln;
 		this.thoud = builder.thoud;
 		this.hund = builder.hund;
@@ -112,9 +112,9 @@ public class NumericalLangMapping {
 			return this;
 		}
 
-		public NumericalLangMapping build() {
+		public IntWordMapping build() {
 			validate();
-			return new NumericalLangMapping(this);
+			return new IntWordMapping(this);
 		}
 
 		private void validate() {

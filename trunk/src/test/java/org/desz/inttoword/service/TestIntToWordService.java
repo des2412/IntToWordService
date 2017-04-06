@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 
 import org.desz.inttoword.config.IntToWordServiceConfig;
 import org.desz.inttoword.exceptions.IntToWordServiceException;
-import org.desz.inttoword.language.ProvLangFactoryParts.ProvLang;
+import org.desz.inttoword.language.ProvLang;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepositoryImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;

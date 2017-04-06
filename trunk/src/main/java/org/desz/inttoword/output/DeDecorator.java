@@ -7,9 +7,9 @@ import java.math.BigInteger;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
+import static org.desz.inttoword.language.Punct.SPC;
 import org.desz.inttoword.language.ProvLangFactoryParts.DeIntWordPair;
 import org.desz.inttoword.language.ProvLangFactoryParts.DeUnit;
-import org.desz.inttoword.language.ProvLangFactoryParts.DefUnit;
 
 /**
  * @author des
@@ -42,7 +42,7 @@ public class DeDecorator implements IWordDecorator {
 			if (Objects.nonNull(wordResult.getBill())) {
 				final String bill = StringUtils
 						.normalizeSpace(wordResult.getBill());
-				final String num = bill.split(DefUnit.SPC.val())[0];
+				final String num = bill.split(SPC.val())[0];
 				if (!num.matches(DeIntWordPair.ONE.getWord()))
 					builder.withBill(StringUtils.normalizeSpace(bill + "n"));
 
@@ -53,7 +53,7 @@ public class DeDecorator implements IWordDecorator {
 
 			if (Objects.nonNull(wordResult.getMill())) {
 				final String mill = wordResult.getMill().trim();
-				final String num = mill.split(DefUnit.SPC.val())[0];
+				final String num = mill.split(SPC.val())[0];
 				if (!num.matches(DeIntWordPair.ONE.getWord()))
 					builder.withMill(
 							StringUtils.normalizeSpace(wordResult.getMill())
@@ -92,12 +92,10 @@ public class DeDecorator implements IWordDecorator {
 			res.withMill(wordResult.getMill());
 
 		if (Objects.nonNull(wordResult.getThou()))
-			res.withThou(StringUtils.remove(wordResult.getThou(),
-					DefUnit.SPC.val()));
+			res.withThou(StringUtils.remove(wordResult.getThou(), SPC.val()));
 
 		if (Objects.nonNull(wordResult.getHund()))
-			res.withHund(StringUtils.remove(wordResult.getHund(),
-					DefUnit.SPC.val()));
+			res.withHund(StringUtils.remove(wordResult.getHund(), SPC.val()));
 
 		return res.build();
 
@@ -137,12 +135,10 @@ public class DeDecorator implements IWordDecorator {
 
 		StringBuilder sb = new StringBuilder();
 		if (Objects.nonNull(wordResult.getThou()))
-			sb.append(StringUtils.remove(wordResult.getThou(),
-					DefUnit.SPC.val()));
+			sb.append(StringUtils.remove(wordResult.getThou(), SPC.val()));
 
 		if (Objects.nonNull(wordResult.getHund()))
-			sb.append(StringUtils.remove(wordResult.getHund(),
-					DefUnit.SPC.val()));
+			sb.append(StringUtils.remove(wordResult.getHund(), SPC.val()));
 
 		res.withThou(sb.toString());
 		return res.build();
@@ -159,8 +155,8 @@ public class DeDecorator implements IWordDecorator {
 		if (Objects.nonNull(wordResult.getMill())) {
 			arr = wordResult.getMill().split(" ");
 			if (arr.length > 2) {
-				String s = arr[1] + DeUnit.AND.val() + arr[0]
-						+ DefUnit.SPC.val() + arr[2] + DefUnit.SPC.val();
+				String s = arr[1] + DeUnit.AND.val() + arr[0] + SPC.val()
+						+ arr[2] + SPC.val();
 				res.withMill(s);
 
 			} else {
@@ -170,10 +166,10 @@ public class DeDecorator implements IWordDecorator {
 		}
 
 		if (Objects.nonNull(wordResult.getThou())) {
-			arr = wordResult.getThou().split(DefUnit.SPC.val());
+			arr = wordResult.getThou().split(SPC.val());
 			if (arr.length > 2) {
-				String s = arr[1] + DeUnit.AND.val() + arr[0]
-						+ DefUnit.SPC.val() + arr[2] + DefUnit.SPC.val();
+				String s = arr[1] + DeUnit.AND.val() + arr[0] + SPC.val()
+						+ arr[2] + SPC.val();
 				res.withThou(s);
 
 			} else {
@@ -184,8 +180,7 @@ public class DeDecorator implements IWordDecorator {
 		if (Objects.nonNull(wordResult.getHund())) {
 			arr = wordResult.getHund().split(" ");
 			if (arr.length > 1) {
-				String s = arr[1] + DeUnit.AND.val() + arr[0]
-						+ DefUnit.SPC.val();
+				String s = arr[1] + DeUnit.AND.val() + arr[0] + SPC.val();
 				res.withHund(s);
 
 			} else {

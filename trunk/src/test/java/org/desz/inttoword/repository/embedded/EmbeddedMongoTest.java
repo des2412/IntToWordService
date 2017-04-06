@@ -1,4 +1,4 @@
-package org.desz.inttoword.repository.mongo.embedded;
+package org.desz.inttoword.repository.embedded;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

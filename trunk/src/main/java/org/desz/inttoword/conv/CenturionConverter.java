@@ -1,26 +1,25 @@
 package org.desz.inttoword.conv;
 
-import static org.desz.inttoword.language.ProvLangFactoryParts.DefUnit.SPC;
+import static org.desz.inttoword.language.Punct.SPC;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.desz.inttoword.language.NumericalLangMapping;
+import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLangFactoryParts.DeUnit;
 
 @FunctionalInterface
-public interface CentIntConverter {
+public interface CenturionConverter {
 
-	String mapToWord(String number, NumericalLangMapping langMapping);
+	String mapToWord(String number, IntWordMapping langMapping);
 	/**
 	 * 
 	 * @param prm
 	 * @param numericalLangMap
 	 * @return
 	 */
-	static String hundredToWord(String prm,
-			NumericalLangMapping numericalLangMap) {
+	static String hundredToWord(String prm, IntWordMapping numericalLangMap) {
 		prm = Objects.requireNonNull(prm);
 
 		final int n = Integer.parseInt(prm);
@@ -78,8 +77,8 @@ public interface CentIntConverter {
 					+ numericalLangMap.getAnd() + numericalLangMap.intWords()
 							.get(String.valueOf(k)).toLowerCase());
 		else
-			sb.append(hun.toLowerCase() + numericalLangMap.getHund()
-					+ SPC.val() + numericalLangMap.getAnd()
+			sb.append(hun.toLowerCase() + numericalLangMap.getHund() + SPC.val()
+					+ numericalLangMap.getAnd()
 					+ numericalLangMap.intWords().get(String.valueOf(k))
 							.toLowerCase()
 					+ SPC.val() + numericalLangMap.intWords()

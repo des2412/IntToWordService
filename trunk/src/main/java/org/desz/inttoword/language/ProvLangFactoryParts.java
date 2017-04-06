@@ -2,6 +2,7 @@
  * 
  */
 package org.desz.inttoword.language;
+import static org.desz.inttoword.language.Punct.SPC;
 
 /**
  * @author des
@@ -10,46 +11,6 @@ package org.desz.inttoword.language;
  * 
  */
 public final class ProvLangFactoryParts {
-
-	/**
-	 * ProvLang members for multiple languages.
-	 * 
-	 */
-	public enum ProvLang {
-		EMPTY("EMPTY", "Select...", false), UK("UK", "UK-English", true), FR(
-				"FR", "Français",
-				true), DE("DE", "Deutsch", true), NL("NL", "Nederlandse", true);
-
-		private String code;
-		private String description;
-		private boolean valid; /* the validation */
-
-		public boolean isValid() {
-			return valid;
-		}
-
-		/**
-		 * Constructor
-		 * 
-		 * @param code
-		 * @param description
-		 * @param valid
-		 */
-		private ProvLang(String code, String description, boolean valid) {
-			this.code = code;
-			this.description = description;
-			this.valid = valid;
-		}
-
-		public String getCode() {
-			return code;
-		}
-
-		public String getDescription() {
-			return description;
-		}
-
-	};
 
 	/**
 	 * XX_WORDS specific mappings.
@@ -405,40 +366,13 @@ public final class ProvLangFactoryParts {
 	};
 
 	/**
-	 * DefUnit => space, separators etc.
-	 * 
-	 */
-	public enum DefUnit {
-
-		SPC(" "), AND("and" + SPC.val()), ERR_SEP(
-				SPC.val() + "/" + SPC.val()), BILLS(
-						SPC.val() + "billion"), MILLS(
-								SPC.val() + "million"), THOUS(
-										SPC.val() + "thousand"), HUNS(
-												SPC.val() + "hundred");
-
-		private String val;
-
-		DefUnit(String val) {
-			this.val = val;
-		}
-
-		public String val() {
-			return val;
-		}
-
-	};
-
-	/**
 	 * French.
 	 * 
 	 */
 	public enum FrUnit {
-		AND("et" + DefUnit.SPC.val()), MILLS(
-				DefUnit.SPC.val() + "million"), THOUS(
-						DefUnit.SPC.val() + "mille"), HUNS(
-								DefUnit.SPC.val() + "cent"), BILLS(
-										DefUnit.SPC.val() + "milliard");
+		AND("et" + SPC.val()), MILLS(SPC.val() + "million"), THOUS(
+				SPC.val() + "mille"), HUNS(
+						SPC.val() + "cent"), BILLS(SPC.val() + "milliard");
 
 		private String val;
 
@@ -460,9 +394,9 @@ public final class ProvLangFactoryParts {
 	 */
 	public enum DeUnit {
 
-		AND("und"), MILLS(DefUnit.SPC.val() + "million"), BILLS(
-				DefUnit.SPC.val() + "milliarde"), THOUS(
-						DefUnit.SPC.val() + "tausend"), HUNS("hundert");
+		AND("und"), MILLS(SPC.val() + "million"), BILLS(
+				SPC.val() + "milliarde"), THOUS(
+						SPC.val() + "tausend"), HUNS("hundert");
 
 		private String val;
 
@@ -477,11 +411,9 @@ public final class ProvLangFactoryParts {
 
 	public enum NlUnit {
 
-		AND("en" + DefUnit.SPC.val()), MILLS(
-				DefUnit.SPC.val() + "miljeon"), BILLS(
-						DefUnit.SPC.val() + "miljard"), THOUS(
-								DefUnit.SPC.val() + "duizend"), HUNS(
-										DefUnit.SPC.val() + "honderd");
+		AND("en" + SPC.val()), MILLS(SPC.val() + "miljeon"), BILLS(
+				SPC.val() + "miljard"), THOUS(
+						SPC.val() + "duizend"), HUNS(SPC.val() + "honderd");
 
 		private String val;
 
@@ -493,5 +425,23 @@ public final class ProvLangFactoryParts {
 			return val;
 		}
 	};
+
+	public enum UkUnit {
+
+		AND("and" + SPC.val()), BILLS(SPC.val() + "billion"), MILLS(
+				SPC.val() + "million"), THOUS(
+						SPC.val() + "thousand"), HUNS(SPC.val() + "hundred");
+
+		private String val;
+
+		UkUnit(String val) {
+			this.val = val;
+		}
+
+		public String val() {
+			return val;
+		}
+
+	}
 
 }

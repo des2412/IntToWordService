@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
-import org.desz.inttoword.repository.mongo.TestIntFreqRepo;
+import org.desz.inttoword.repository.TestIntFreqRepo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

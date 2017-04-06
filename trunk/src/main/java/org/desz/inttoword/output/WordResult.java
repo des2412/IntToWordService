@@ -1,6 +1,6 @@
 package org.desz.inttoword.output;
 
-import static org.desz.inttoword.language.ProvLangFactoryParts.DefUnit.SPC;
+import static org.desz.inttoword.language.Punct.SPC;
 
 import java.util.Objects;
 import java.util.regex.Pattern;

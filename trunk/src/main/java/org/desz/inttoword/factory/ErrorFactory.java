@@ -9,10 +9,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
+import org.desz.inttoword.language.ProvLang;
 import org.desz.inttoword.language.ProvLangFactoryParts.DeError;
 import org.desz.inttoword.language.ProvLangFactoryParts.FrError;
 import org.desz.inttoword.language.ProvLangFactoryParts.NlError;
-import org.desz.inttoword.language.ProvLangFactoryParts.ProvLang;
 import org.desz.inttoword.language.ProvLangFactoryParts.UkError;
 
 public class ErrorFactory {

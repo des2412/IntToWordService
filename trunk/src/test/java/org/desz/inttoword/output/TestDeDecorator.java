@@ -1,14 +1,14 @@
 package org.desz.inttoword.output;
 
 import static org.desz.inttoword.factory.ProvLangFactory.getInstance;
+import static org.desz.inttoword.language.Punct.SPC;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.desz.inttoword.language.IntWordMapping;
+import org.desz.inttoword.language.ProvLang;
 import org.desz.inttoword.language.ProvLangFactoryParts.DeIntWordPair;
-import org.desz.inttoword.language.ProvLangFactoryParts.DefUnit;
-import org.desz.inttoword.language.ProvLangFactoryParts.ProvLang;
-import org.desz.inttoword.language.NumericalLangMapping;
 import org.junit.Test;
 
 public class TestDeDecorator {
@@ -16,8 +16,8 @@ public class TestDeDecorator {
 	@Test
 	public void testPluraliseOneRule() {
 
-		final NumericalLangMapping deLangMap = getInstance()
-				.numericMap(ProvLang.DE);
+		final IntWordMapping deLangMap = getInstance()
+				.getIntWordMap(ProvLang.DE);
 
 		WordResult.Builder builder = new WordResult.Builder().withHund("ein");
 		DeDecorator deDecorator = new DeDecorator(builder.build());
@@ -25,8 +25,8 @@ public class TestDeDecorator {
 				deDecorator.pluraliseOneRule(1).getHund());
 
 		builder = new WordResult.Builder();
-		String input = StringUtils.normalizeSpace(DeIntWordPair.ONE.getWord()
-				+ DefUnit.SPC.val() + deLangMap.getMilln());
+		String input = StringUtils.normalizeSpace(
+				DeIntWordPair.ONE.getWord() + SPC.val() + deLangMap.getMilln());
 		builder.withMill(input);
 
 		deDecorator = new DeDecorator(builder.build());
@@ -35,8 +35,8 @@ public class TestDeDecorator {
 		assertEquals("Actual should contain million", input,
 				res.getMill().trim());
 		// TWO should be pluralised (million -> millionen).
-		input = StringUtils.normalizeSpace(DeIntWordPair.TWO.getWord()
-				+ DefUnit.SPC.val() + deLangMap.getMilln());
+		input = StringUtils.normalizeSpace(
+				DeIntWordPair.TWO.getWord() + SPC.val() + deLangMap.getMilln());
 		builder = new WordResult.Builder();
 		builder.withMill(input);
 		deDecorator = new DeDecorator(builder.build());
@@ -44,8 +44,8 @@ public class TestDeDecorator {
 		assertEquals("Actual should match with ...en", input + "en",
 				res.getMill().trim());
 
-		input = StringUtils.normalizeSpace(DeIntWordPair.TWO.getWord()
-				+ DefUnit.SPC.val() + deLangMap.getBilln());
+		input = StringUtils.normalizeSpace(
+				DeIntWordPair.TWO.getWord() + SPC.val() + deLangMap.getBilln());
 		builder = new WordResult.Builder();
 		builder.withBill(input);
 		deDecorator = new DeDecorator(builder.build());
@@ -69,7 +69,7 @@ public class TestDeDecorator {
 		DeDecorator wordBuilderDecorator = new DeDecorator(builder.build());
 		WordResult res = wordBuilderDecorator.replaceSpaceWithEmptyRule();
 		assertFalse("Empty Space in thousandth unit shouldn't be present",
-				res.getThou().trim().contains(DefUnit.SPC.val()));
+				res.getThou().trim().contains(SPC.val()));
 	}
 
 	@Test

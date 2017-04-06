@@ -9,7 +9,7 @@ import java.util.Optional;
 import org.desz.inttoword.conv.ConversionDelegate;
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.exceptions.IntToWordServiceException;
-import org.desz.inttoword.language.ProvLangFactoryParts.ProvLang;
+import org.desz.inttoword.language.ProvLang;
 import org.desz.inttoword.persistence.document.NumberFrequency;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.slf4j.Logger;
