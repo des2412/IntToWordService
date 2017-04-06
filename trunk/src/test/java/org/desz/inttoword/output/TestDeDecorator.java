@@ -17,7 +17,7 @@ public class TestDeDecorator {
 	public void testPluraliseOneRule() {
 
 		final IntWordMapping deLangMap = getInstance()
-				.getIntWordMap(ProvLang.DE);
+				.getMapForProvLang(ProvLang.DE);
 
 		WordResult.Builder builder = new WordResult.Builder().withHund("ein");
 		DeDecorator deDecorator = new DeDecorator(builder.build());

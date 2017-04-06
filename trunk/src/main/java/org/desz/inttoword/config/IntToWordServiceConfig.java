@@ -3,7 +3,10 @@ package org.desz.inttoword.config;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.desz.inttoword.conv.CenturionConverter;
+import org.desz.inttoword.conv.CenturionConverterImpl;
 import org.desz.inttoword.conv.ConversionDelegate;
+import org.desz.inttoword.exceptions.ConversionParameterException;
 import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.desz.inttoword.service.INumberToWordService;
 import org.desz.inttoword.service.IntToWordService;
@@ -32,7 +35,8 @@ public class IntToWordServiceConfig {
 
 	@Bean
 	public ConversionDelegate converterDelegate() {
-		return new ConversionDelegate();
+		CenturionConverter<ConversionParameterException> centurionConverter = new CenturionConverterImpl();
+		return new ConversionDelegate(centurionConverter);
 	}
 
 	@Bean

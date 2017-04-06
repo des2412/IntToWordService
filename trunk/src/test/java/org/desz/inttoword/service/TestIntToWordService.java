@@ -40,7 +40,7 @@ public class TestIntToWordService {
 	 * 
 	 * @throws IntToWordServiceException
 	 */
-	@Test
+	// @Test
 	public void testWithMockedRepo() throws IntToWordServiceException {
 		IntFreqRepoJpaRepositoryImpl mock = mock(
 				IntFreqRepoJpaRepositoryImpl.class);

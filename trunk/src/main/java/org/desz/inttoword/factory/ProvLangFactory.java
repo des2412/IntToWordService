@@ -57,7 +57,7 @@ public final class ProvLangFactory implements ILangProvider {
 	}
 
 	@Override
-	public IntWordMapping getIntWordMap(final ProvLang p_provLang) {
+	public IntWordMapping getMapForProvLang(final ProvLang p_provLang) {
 
 		final ProvLang provLang = Objects.requireNonNull(p_provLang);
 		synchronized (provLangIntToWordCache) {

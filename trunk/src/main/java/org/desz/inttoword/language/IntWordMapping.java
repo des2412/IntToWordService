@@ -12,8 +12,15 @@ import com.google.common.base.Preconditions;
 /**
  * @author des
  *
+ *         Builder pattern implemetation.
+ * 
+ *         Enforces the creation of a valid IntWordMapping instance where nulls
+ *         for instance variables are not allowed.
+ * 
+ *         TODO: check for empty Strings etc.
+ * 
  */
-public class IntWordMapping {
+public final class IntWordMapping {
 
 	private String milln;
 	private String thoud;
