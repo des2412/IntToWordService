@@ -3,6 +3,7 @@
  */
 package org.desz.inttoword.language;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +13,7 @@ import com.google.common.base.Preconditions;
 /**
  * @author des
  *
- *         Builder pattern implemetation.
+ *         Builder pattern implementation.
  * 
  *         Enforces the creation of a valid IntWordMapping instance where nulls
  *         for instance variables are not allowed.
@@ -74,10 +75,14 @@ public final class IntWordMapping {
 	}
 
 	/**
-	 * @return the intToWordMap
+	 * @return word mapped to num orElse -> empty String.
 	 */
-	public Map<String, String> intWords() {
-		return intToWordMap;
+	public String wordForNum(int num) {
+		Map<String, String> empty = new HashMap<>();
+		empty.put(StringUtils.EMPTY, StringUtils.EMPTY);
+		return intToWordMap.entrySet().stream()
+				.filter(s -> s.getKey().equals(String.valueOf(num))).findFirst()
+				.orElse(empty.entrySet().iterator().next()).getValue();
 	}
 
 	public static class Builder {

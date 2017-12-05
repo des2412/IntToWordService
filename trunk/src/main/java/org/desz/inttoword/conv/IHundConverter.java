@@ -1,5 +1,6 @@
 package org.desz.inttoword.conv;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.desz.inttoword.language.IntWordMapping;
@@ -8,7 +9,7 @@ import org.desz.inttoword.language.IntWordMapping;
  * parameterised with Exception subtype.
  */
 @FunctionalInterface
-public interface CenturionConverter<E extends Exception> {
+public interface IHundConverter {
 
 	/**
 	 * 
@@ -16,10 +17,8 @@ public interface CenturionConverter<E extends Exception> {
 	 *            the number.
 	 * @param langMapping
 	 * @return the word for the hundreth
-	 * @throws E
-	 *             subclass of Exception.
 	 */
-	String hundrethToWord(String number, IntWordMapping langMapping) throws E;
+	Optional<String> hundrethToWord(String number, IntWordMapping langMapping);
 
 	static boolean inRange(int i) {
 		return IntStream.range(1, 100).boxed().collect(Collectors.toSet())

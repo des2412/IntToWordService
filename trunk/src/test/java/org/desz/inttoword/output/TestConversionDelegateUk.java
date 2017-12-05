@@ -3,34 +3,22 @@ package org.desz.inttoword.output;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.desz.inttoword.config.IntToWordServiceConfig;
+import org.desz.inttoword.conv.HundConverter;
 import org.desz.inttoword.conv.ConversionDelegate;
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.language.ProvLang;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {IntToWordServiceConfig.class})
-@ActiveProfiles({"dev", "cloud"})
 public class TestConversionDelegateUk {
-	@Autowired
-	protected ConversionDelegate delegate;
+
+	protected ConversionDelegate delegate = new ConversionDelegate(
+			new HundConverter());
 	private static final String MAX_INT = "two billion one hundred and forty seven million four hundred and eighty three thousand six hundred and forty seven";
 
 	@Test(expected = NullPointerException.class)
 	public void testNull() throws AppConversionException {
 		delegate.convertIntToWord(null, null);
 
-	}
-
-	@Test(expected = NullPointerException.class)
-	public void testNonInt() throws AppConversionException {
-		delegate.convertIntToWord(Integer.MAX_VALUE + 1, ProvLang.UK);
 	}
 
 	@Test
@@ -57,8 +45,7 @@ public class TestConversionDelegateUk {
 
 	@Test
 	public void testMax() throws AppConversionException {
-		String s = delegate.convertIntToWord(Integer.MAX_VALUE,
-				ProvLang.UK);
+		String s = delegate.convertIntToWord(Integer.MAX_VALUE, ProvLang.UK);
 		assertNotNull("null unexpected", s);
 		assertEquals(MAX_INT, s);
 	}
@@ -68,6 +55,13 @@ public class TestConversionDelegateUk {
 		String s = delegate.convertIntToWord(15, ProvLang.UK);
 		assertNotNull("null unexpected", s);
 		assertEquals("fifteen", s);
+	}
+	
+	@Test
+	public final void test23() throws AppConversionException {
+		String s = delegate.convertIntToWord(23, ProvLang.UK);
+		assertNotNull("null unexpected", s);
+		assertEquals("twenty three", s);
 	}
 
 	@Test

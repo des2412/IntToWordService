@@ -8,8 +8,8 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import static org.desz.inttoword.language.Punct.SPC;
-import org.desz.inttoword.language.ProvLangFactoryParts.DeIntWordPair;
-import org.desz.inttoword.language.ProvLangFactoryParts.DeUnit;
+import org.desz.inttoword.language.ProvLangValues.DePair;
+import org.desz.inttoword.language.ProvLangValues.DeUnit;
 
 /**
  * @author des
@@ -43,7 +43,7 @@ public class DeDecorator implements IWordDecorator {
 				final String bill = StringUtils
 						.normalizeSpace(wordResult.getBill());
 				final String num = bill.split(SPC.val())[0];
-				if (!num.matches(DeIntWordPair.ONE.getWord()))
+				if (!num.matches(DePair.ONE.getWord()))
 					builder.withBill(StringUtils.normalizeSpace(bill + "n"));
 
 				else
@@ -54,7 +54,7 @@ public class DeDecorator implements IWordDecorator {
 			if (Objects.nonNull(wordResult.getMill())) {
 				final String mill = wordResult.getMill().trim();
 				final String num = mill.split(SPC.val())[0];
-				if (!num.matches(DeIntWordPair.ONE.getWord()))
+				if (!num.matches(DePair.ONE.getWord()))
 					builder.withMill(
 							StringUtils.normalizeSpace(wordResult.getMill())
 									+ "en");

@@ -10,8 +10,6 @@ import org.desz.inttoword.conv.ConversionDelegate;
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.exceptions.IntToWordServiceException;
 import org.desz.inttoword.language.ProvLang;
-import org.desz.inttoword.persistence.document.NumberFrequency;
-import org.desz.inttoword.repository.IntFreqRepoJpaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +28,6 @@ public final class IntToWordService implements INumberToWordService {
 	protected final Logger log = LoggerFactory
 			.getLogger(IntToWordService.class);
 
-	private final Optional<IntFreqRepoJpaRepository> optFreqRepo;
-
 	private final ConversionDelegate conversionDelegate;
 
 	/**
@@ -42,9 +38,7 @@ public final class IntToWordService implements INumberToWordService {
 	 * @param conversionDelegate
 	 */
 	@Autowired
-	public IntToWordService(Optional<IntFreqRepoJpaRepository> optFreqRepoSrv,
-			ConversionDelegate cd) {
-		this.optFreqRepo = optFreqRepoSrv;
+	public IntToWordService(Optional<?> optFreqRepoSrv, ConversionDelegate cd) {
 		this.conversionDelegate = cd;
 	}
 
@@ -55,12 +49,6 @@ public final class IntToWordService implements INumberToWordService {
 		provLang = Objects.requireNonNull(provLang, MSG);
 		if (!provLang.isValid())
 			throw new IntToWordServiceException("Invalid language specified");
-
-		if (optFreqRepo.isPresent()) {
-			log.info(String.format("Saving %s to persistence repository", num));
-			optFreqRepo.get().save(new NumberFrequency(num));
-		} else
-			log.info("repository connection unavailable");
 
 		try {
 			return conversionDelegate.convertIntToWord(Integer.parseInt(num),

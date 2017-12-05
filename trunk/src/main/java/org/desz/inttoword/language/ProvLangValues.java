@@ -10,12 +10,12 @@ import static org.desz.inttoword.language.Punct.SPC;
  *         Enums for language, int -> word mappings, Errors, Format and Units
  * 
  */
-public final class ProvLangFactoryParts {
+public final class ProvLangValues {
 
 	/**
 	 * XX_WORDS specific mappings.
 	 */
-	public enum NlIntWordPair {
+	public enum NlPair {
 		ZERO("0", "Nul"), ONE("1", "Een"), TWO("2", "Twee"), THREE("3",
 				"Drei"), FOUR("4", "Vier"), FIVE("5", "Vijf"), SIX("6",
 						"Zes"), SEVEN("7", "Zeven"), EIGHT("8", "Acht"), NINE(
@@ -73,7 +73,7 @@ public final class ProvLangFactoryParts {
 		private String word;
 		private String num;
 
-		private NlIntWordPair(String num, String word) {
+		private NlPair(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}
@@ -88,7 +88,7 @@ public final class ProvLangFactoryParts {
 
 	};
 
-	public enum DeIntWordPair {
+	public enum DePair {
 		ZERO("0", "Null"), ONE("1", "ein"), TWO("2", "Zwei"), THREE("3",
 				"Drei"), FOUR("4", "Vier"), FIVE("5", "Fünf"), SIX("6",
 						"Sechs"), SEVEN("7", "Sieben"), EIGHT("8",
@@ -128,7 +128,7 @@ public final class ProvLangFactoryParts {
 		private String word;
 		private String num;
 
-		private DeIntWordPair(String num, String word) {
+		private DePair(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}
@@ -149,7 +149,7 @@ public final class ProvLangFactoryParts {
 	 * @author des
 	 * 
 	 */
-	public enum FrIntWordPair {
+	public enum FrPair {
 		ZERO("0", "Zéro"), ONE("1", "Un"), TWO("2", "Deux"), THREE("3",
 				"Trois"), FOUR("4", "Quatre"), FIVE("5", "Cinq"), SIX("6",
 						"Six"), SEVEN("7", "Sept"), EIGHT("8", "Huit"), NINE(
@@ -189,7 +189,7 @@ public final class ProvLangFactoryParts {
 		private String word;
 		private String num;
 
-		private FrIntWordPair(String num, String word) {
+		private FrPair(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}
@@ -204,7 +204,7 @@ public final class ProvLangFactoryParts {
 
 	};
 
-	public enum UkIntWordPair {
+	public enum UkPair {
 		ZERO("0", "Zero"), ONE("1", "One"), TWO("2", "Two"), THREE("3",
 				"Three"), FOUR("4", "Four"), FIVE("5", "Five"), SIX("6",
 						"Six"), SEVEN("7", "Seven"), EIGHT("8", "Eight"), NINE(
@@ -244,7 +244,7 @@ public final class ProvLangFactoryParts {
 		private String word;
 		private String num;
 
-		private UkIntWordPair(String num, String word) {
+		private UkPair(String num, String word) {
 			this.num = num;
 			this.word = word;
 		}

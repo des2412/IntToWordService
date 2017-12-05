@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.logging.Logger;
@@ -33,43 +34,23 @@ public class ConversionDelegate {
 	protected final Logger log = Logger
 			.getLogger(ConversionDelegate.class.getName());
 
-	private CenturionConverter<?> centurionConverter;
+	private IHundConverter centurionConverter;
 
 	/**
 	 * 
-	 * @param centurionConverter
+	 * @param hundConverter
 	 *            the parameterised instance.
 	 */
 	@Autowired
-	public ConversionDelegate(CenturionConverter<?> centurionConverter) {
+	public ConversionDelegate(IHundConverter centurionConverter) {
 		this.centurionConverter = centurionConverter;
 	}
 
 	/**
-	 * TODO: Deduce type of centurionConverter at Runtime.
-	 * 
-	 * Method is required to throw Exception from funcHunConverter.
-	 *
-	 * @throws ConversionParameterException
-	 */
-	private void throwExc() throws ConversionParameterException {
-		throw new ConversionParameterException();
-	}
-	/**
 	 * Function funcHunConv.
 	 */
 	private BiFunction<String, IntWordMapping, String> funcHunConv = (x, y) -> {
-		String res = null;
-		try {
-			res = centurionConverter.hundrethToWord(x, y);
-
-		} catch (Exception e) {
-			try {
-				throwExc();
-			} catch (ConversionParameterException e1) {
-			}
-		}
-		return res;
+		return centurionConverter.hundrethToWord(x,y).orElse(StringUtils.EMPTY);
 	};
 
 	/**
@@ -137,7 +118,7 @@ public class ConversionDelegate {
 			default :
 				break;
 		}
-		if (CenturionConverter.inRange(prmLastHun))
+		if (IHundConverter.inRange(prmLastHun))
 			// 1 to 99 -> prepend with AND.
 			wordBuilder.withHund(langMap.getAnd() + wordMap.get(sz - 1));
 

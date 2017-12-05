@@ -5,10 +5,10 @@ import static org.desz.inttoword.language.Punct.SPC;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import org.desz.inttoword.language.ProvLangFactoryParts.DeIntWordPair;
-import org.desz.inttoword.language.ProvLangFactoryParts.FrIntWordPair;
-import org.desz.inttoword.language.ProvLangFactoryParts.NlIntWordPair;
-import org.desz.inttoword.language.ProvLangFactoryParts.UkIntWordPair;
+import org.desz.inttoword.language.ProvLangValues.DePair;
+import org.desz.inttoword.language.ProvLangValues.FrPair;
+import org.desz.inttoword.language.ProvLangValues.NlPair;
+import org.desz.inttoword.language.ProvLangValues.UkPair;
 
 public class WordResult {
 
@@ -127,13 +127,13 @@ public class WordResult {
 		}
 
 		private static Pattern p1 = Pattern
-				.compile("(?i:.*" + UkIntWordPair.ZERO.getWord() + ".*)");
+				.compile("(?i:.*" + UkPair.ZERO.getWord() + ".*)");
 		private static Pattern p2 = Pattern
-				.compile("(?i:.*" + DeIntWordPair.ZERO.getWord() + ".*)");
+				.compile("(?i:.*" + DePair.ZERO.getWord() + ".*)");
 		private static Pattern p3 = Pattern
-				.compile("(?i:.*" + NlIntWordPair.ZERO.getWord() + ".*)");
+				.compile("(?i:.*" + NlPair.ZERO.getWord() + ".*)");
 		private static Pattern p4 = Pattern
-				.compile("(?i:.*" + FrIntWordPair.ZERO.getWord() + ".*)");
+				.compile("(?i:.*" + FrPair.ZERO.getWord() + ".*)");
 
 		private boolean matchesZero(String s) {
 			if (p1.matcher(s).matches())

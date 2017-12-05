@@ -10,48 +10,52 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.desz.inttoword.language.ProvLang;
-import org.desz.inttoword.language.ProvLangFactoryParts.DeError;
-import org.desz.inttoword.language.ProvLangFactoryParts.FrError;
-import org.desz.inttoword.language.ProvLangFactoryParts.NlError;
-import org.desz.inttoword.language.ProvLangFactoryParts.UkError;
+import org.desz.inttoword.language.ProvLangValues.DeError;
+import org.desz.inttoword.language.ProvLangValues.FrError;
+import org.desz.inttoword.language.ProvLangValues.NlError;
+import org.desz.inttoword.language.ProvLangValues.UkError;
 
 public class ErrorFactory {
 
 	private static Map<ProvLang, Map<String, String>> PROV_LANG_ERR_CACHE = Collections
 			.synchronizedMap(new HashMap<ProvLang, Map<String, String>>());
 
-	private void cacheLanguageErrors(ProvLang provLang) {
+	private void enCacheErrors(ProvLang provLang) {
 
 		if ((PROV_LANG_ERR_CACHE.containsKey(provLang)))
 			return;
 
 		Map<String, String> errs = new HashMap<String, String>();
 		switch (provLang) {
-		case UK:
-			errs = Stream.of(UkError.values()).collect(Collectors.toMap(UkError::name, UkError::getError));
-			PROV_LANG_ERR_CACHE.put(ProvLang.UK, errs);
+			case UK :
+				errs = Stream.of(UkError.values()).collect(
+						Collectors.toMap(UkError::name, UkError::getError));
+				PROV_LANG_ERR_CACHE.put(ProvLang.UK, errs);
 
-			break;
-		case FR:
-			errs = Stream.of(FrError.values()).collect(Collectors.toMap(FrError::name, FrError::getError));
-			PROV_LANG_ERR_CACHE.put(ProvLang.FR, errs);
+				break;
+			case FR :
+				errs = Stream.of(FrError.values()).collect(
+						Collectors.toMap(FrError::name, FrError::getError));
+				PROV_LANG_ERR_CACHE.put(ProvLang.FR, errs);
 
-			break;
+				break;
 
-		case DE:
-			errs = Stream.of(DeError.values()).collect(Collectors.toMap(DeError::name, DeError::getError));
-			PROV_LANG_ERR_CACHE.put(ProvLang.DE, errs);
+			case DE :
+				errs = Stream.of(DeError.values()).collect(
+						Collectors.toMap(DeError::name, DeError::getError));
+				PROV_LANG_ERR_CACHE.put(ProvLang.DE, errs);
 
-			break;
+				break;
 
-		case NL:
-			errs = Stream.of(NlError.values()).collect(Collectors.toMap(NlError::name, NlError::getError));
-			PROV_LANG_ERR_CACHE.put(ProvLang.NL, errs);
+			case NL :
+				errs = Stream.of(NlError.values()).collect(
+						Collectors.toMap(NlError::name, NlError::getError));
+				PROV_LANG_ERR_CACHE.put(ProvLang.NL, errs);
 
-			break;
+				break;
 
-		default:
-			break;
+			default :
+				break;
 
 		}
 
@@ -60,21 +64,22 @@ public class ErrorFactory {
 	/**
 	 * 
 	 * @param provLang
+	 *            the ProvLang.
 	 * @param key
-	 * @return
+	 *            the key for the error.
+	 * @return the error mapped to (provLang) key.
 	 */
 	public String getErrorForProvLang(ProvLang provLang, String key) {
 		if (provLang.equals(ProvLang.EMPTY))
 			return StringUtils.EMPTY;
 
 		if (!(PROV_LANG_ERR_CACHE.containsKey(provLang)))
-			cacheLanguageErrors(provLang);
+			enCacheErrors(provLang);
 
-		List<Entry<String, String>> lst = PROV_LANG_ERR_CACHE.get(provLang).entrySet().stream()
-				.filter(s -> s.getKey().equals(key)).collect(Collectors.toList());
+		return PROV_LANG_ERR_CACHE.get(provLang).entrySet().stream()
+				.filter(s -> s.getKey().equals(key)).findFirst().get()
+				.getValue();
 
-		String s = lst.get(0).getValue();
-		return s;
 	}
 
 }

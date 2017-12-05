@@ -7,31 +7,28 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
-import org.desz.inttoword.conv.ConversionDelegate;
 import org.desz.inttoword.language.ILangProvider;
 import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLang;
-import org.desz.inttoword.language.ProvLangFactoryParts.DeIntWordPair;
-import org.desz.inttoword.language.ProvLangFactoryParts.DeUnit;
-import org.desz.inttoword.language.ProvLangFactoryParts.FrIntWordPair;
-import org.desz.inttoword.language.ProvLangFactoryParts.FrUnit;
-import org.desz.inttoword.language.ProvLangFactoryParts.NlIntWordPair;
-import org.desz.inttoword.language.ProvLangFactoryParts.NlUnit;
-import org.desz.inttoword.language.ProvLangFactoryParts.UkIntWordPair;
-import org.desz.inttoword.language.ProvLangFactoryParts.UkUnit;
+import org.desz.inttoword.language.ProvLangValues.DePair;
+import org.desz.inttoword.language.ProvLangValues.DeUnit;
+import org.desz.inttoword.language.ProvLangValues.FrPair;
+import org.desz.inttoword.language.ProvLangValues.FrUnit;
+import org.desz.inttoword.language.ProvLangValues.NlPair;
+import org.desz.inttoword.language.ProvLangValues.NlUnit;
+import org.desz.inttoword.language.ProvLangValues.UkPair;
+import org.desz.inttoword.language.ProvLangValues.UkUnit;
+
 /**
- * Factory for numberic values associated to ProvLang.
- * 
- * @see ConversionDelegate
+ * Factory for numeric and error values associated to supported ProvLang.
  * 
  * @author des
  * 
  */
 public final class ProvLangFactory implements ILangProvider {
 
-	private Map<ProvLang, IntWordMapping> provLangIntToWordCache = new HashMap<ProvLang, IntWordMapping>();
+	private final Map<ProvLang, IntWordMapping> provLangStorageCache = new HashMap<ProvLang, IntWordMapping>();
 
-	private static volatile ILangProvider langProvider;
 	private static Logger log = Logger.getLogger(ProvLangFactory.class);
 
 	/**
@@ -41,26 +38,28 @@ public final class ProvLangFactory implements ILangProvider {
 	}
 
 	/**
+	 * static class not loaded until referenced.
+	 * 
+	 * @author des
+	 *
+	 */
+	private static class ProvLangHolder {
+		private static final ILangProvider provLangStore = new ProvLangFactory();
+	}
+
+	/**
 	 * 
 	 * @return singleton instance.
 	 */
 	public static ILangProvider getInstance() {
-		if (Objects.isNull(langProvider)) {
-			synchronized (ILangProvider.class) {
-				if (Objects.isNull(langProvider)) {
-					langProvider = new ProvLangFactory();
-				}
-			}
-
-		}
-		return langProvider;
+		return ProvLangHolder.provLangStore;
 	}
 
 	@Override
 	public IntWordMapping getMapForProvLang(final ProvLang p_provLang) {
 
 		final ProvLang provLang = Objects.requireNonNull(p_provLang);
-		synchronized (provLangIntToWordCache) {
+		synchronized (provLangStorageCache) {
 			IntWordMapping.Builder builder = new IntWordMapping.Builder();
 			switch (provLang) {
 				case UK :
@@ -70,11 +69,10 @@ public final class ProvLangFactory implements ILangProvider {
 					builder.withThoud(UkUnit.THOUS.val());
 					builder.withHund(UkUnit.HUNS.val());
 					builder.withAnd(UkUnit.AND.val());
-					builder.withIntToWordMap(Stream.of(UkIntWordPair.values())
-							.collect(Collectors.toMap(UkIntWordPair::getNum,
-									UkIntWordPair::getWord)));
+					builder.withIntToWordMap(Stream.of(UkPair.values()).collect(
+							Collectors.toMap(UkPair::getNum, UkPair::getWord)));
 
-					provLangIntToWordCache.put(ProvLang.UK, builder.build());
+					provLangStorageCache.put(ProvLang.UK, builder.build());
 
 					break;
 				case FR :
@@ -84,10 +82,9 @@ public final class ProvLangFactory implements ILangProvider {
 					builder.withThoud(FrUnit.THOUS.val());
 					builder.withHund(FrUnit.HUNS.val());
 					builder.withAnd(FrUnit.AND.val());
-					builder.withIntToWordMap(Stream.of(FrIntWordPair.values())
-							.collect(Collectors.toMap(FrIntWordPair::getNum,
-									FrIntWordPair::getWord)));
-					provLangIntToWordCache.put(ProvLang.FR, builder.build());
+					builder.withIntToWordMap(Stream.of(FrPair.values()).collect(
+							Collectors.toMap(FrPair::getNum, FrPair::getWord)));
+					provLangStorageCache.put(ProvLang.FR, builder.build());
 
 					break;
 
@@ -98,10 +95,9 @@ public final class ProvLangFactory implements ILangProvider {
 					builder.withThoud(DeUnit.THOUS.val());
 					builder.withHund(DeUnit.HUNS.val());
 					builder.withAnd(DeUnit.AND.val());
-					builder.withIntToWordMap(Stream.of(DeIntWordPair.values())
-							.collect(Collectors.toMap(DeIntWordPair::getNum,
-									DeIntWordPair::getWord)));
-					provLangIntToWordCache.put(ProvLang.DE, builder.build());
+					builder.withIntToWordMap(Stream.of(DePair.values()).collect(
+							Collectors.toMap(DePair::getNum, DePair::getWord)));
+					provLangStorageCache.put(ProvLang.DE, builder.build());
 					break;
 
 				case NL :
@@ -111,10 +107,9 @@ public final class ProvLangFactory implements ILangProvider {
 					builder.withThoud(NlUnit.THOUS.val());
 					builder.withHund(NlUnit.HUNS.val());
 					builder.withAnd(NlUnit.AND.val());
-					builder.withIntToWordMap(Stream.of(NlIntWordPair.values())
-							.collect(Collectors.toMap(NlIntWordPair::getNum,
-									NlIntWordPair::getWord)));
-					provLangIntToWordCache.put(ProvLang.NL, builder.build());
+					builder.withIntToWordMap(Stream.of(NlPair.values()).collect(
+							Collectors.toMap(NlPair::getNum, NlPair::getWord)));
+					provLangStorageCache.put(ProvLang.NL, builder.build());
 
 					break;
 
@@ -124,7 +119,7 @@ public final class ProvLangFactory implements ILangProvider {
 
 			}
 		}
-		return provLangIntToWordCache.get(provLang);
+		return provLangStorageCache.get(provLang);
 	}
 
 }

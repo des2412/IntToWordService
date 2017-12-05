@@ -8,7 +8,7 @@ import static org.junit.Assert.assertFalse;
 import org.apache.commons.lang3.StringUtils;
 import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLang;
-import org.desz.inttoword.language.ProvLangFactoryParts.DeIntWordPair;
+import org.desz.inttoword.language.ProvLangValues.DePair;
 import org.junit.Test;
 
 public class TestDeDecorator {
@@ -21,12 +21,12 @@ public class TestDeDecorator {
 
 		WordResult.Builder builder = new WordResult.Builder().withHund("ein");
 		DeDecorator deDecorator = new DeDecorator(builder.build());
-		assertEquals("expected eins", DeIntWordPair.ONE.getWord() + "s",
+		assertEquals("expected eins", DePair.ONE.getWord() + "s",
 				deDecorator.pluraliseOneRule(1).getHund());
 
 		builder = new WordResult.Builder();
 		String input = StringUtils.normalizeSpace(
-				DeIntWordPair.ONE.getWord() + SPC.val() + deLangMap.getMilln());
+				DePair.ONE.getWord() + SPC.val() + deLangMap.getMilln());
 		builder.withMill(input);
 
 		deDecorator = new DeDecorator(builder.build());
@@ -36,7 +36,7 @@ public class TestDeDecorator {
 				res.getMill().trim());
 		// TWO should be pluralised (million -> millionen).
 		input = StringUtils.normalizeSpace(
-				DeIntWordPair.TWO.getWord() + SPC.val() + deLangMap.getMilln());
+				DePair.TWO.getWord() + SPC.val() + deLangMap.getMilln());
 		builder = new WordResult.Builder();
 		builder.withMill(input);
 		deDecorator = new DeDecorator(builder.build());
@@ -45,7 +45,7 @@ public class TestDeDecorator {
 				res.getMill().trim());
 
 		input = StringUtils.normalizeSpace(
-				DeIntWordPair.TWO.getWord() + SPC.val() + deLangMap.getBilln());
+				DePair.TWO.getWord() + SPC.val() + deLangMap.getBilln());
 		builder = new WordResult.Builder();
 		builder.withBill(input);
 		deDecorator = new DeDecorator(builder.build());
