@@ -10,12 +10,14 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.desz.inttoword.language.IntWordMapping;
+import org.springframework.stereotype.Component;
 
 /**
  * @author des
  *
  */
-public class HundConverter implements IHundConverter {
+@Component
+public class HundredthConverter implements IHundConverter {
 
 	/*
 	 * (non-Javadoc)

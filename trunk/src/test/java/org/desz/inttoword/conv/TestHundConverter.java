@@ -12,7 +12,7 @@ import org.junit.Test;
 import net.jodah.typetools.TypeResolver;
 
 public class TestHundConverter {
-	protected IHundConverter hundConverter = new HundConverter();
+	protected IHundConverter hundConverter = new HundredthConverter();
 
 	IntWordMapping mapping = getInstance().getMapForProvLang(ProvLang.UK);
 	@Test
