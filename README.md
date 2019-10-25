@@ -1,15 +1,13 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
 ### What is this repository for? ###
 
 * Convert integer to word in one of several language.
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* RELEASE.1.0
 
 ### How do I get set up? ###
-Maven project. Install to repository and use as dependency.
+
+* Maven 3.x project. Install to repository and use as dependency.
 
 ### Contribution guidelines ###
 
@@ -19,5 +17,4 @@ Maven project. Install to repository and use as dependency.
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+* Des, des_williams_2000@yahoo.com
