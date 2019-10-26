@@ -5,9 +5,8 @@ package org.desz.inttoword.language;
  * 
  */
 public enum ProvLang {
-	EMPTY("EMPTY", "Select...", false), UK("UK", "UK-English", true), FR(
-			"FR", "Français",
-			true), DE("DE", "Deutsch", true), NL("NL", "Nederlandse", true);
+	EMPTY("EMPTY", "Select...", false), UK("UK", "UK-English", true), FR("FR", "Français", true),
+	DE("DE", "Deutsch", true), NL("NL", "Nederlandse", true);
 
 	private String code;
 	private String description;

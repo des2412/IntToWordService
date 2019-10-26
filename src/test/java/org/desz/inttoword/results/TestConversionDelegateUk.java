@@ -1,18 +1,17 @@
-package org.desz.inttoword.output;
+package org.desz.inttoword.results;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.desz.inttoword.conv.HundredthConverter;
-import org.desz.inttoword.conv.ConversionDelegate;
+import org.desz.inttoword.converters.ConversionDelegate;
+import org.desz.inttoword.converters.HundredthConverter;
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.language.ProvLang;
 import org.junit.Test;
 
 public class TestConversionDelegateUk {
 
-	protected ConversionDelegate delegate = new ConversionDelegate(
-			new HundredthConverter());
+	protected ConversionDelegate delegate = new ConversionDelegate(new HundredthConverter());
 	private static final String MAX_INT = "two billion one hundred and forty seven million four hundred and eighty three thousand six hundred and forty seven";
 
 	@Test(expected = NullPointerException.class)
@@ -24,9 +23,7 @@ public class TestConversionDelegateUk {
 	@Test
 	public void test12123113() throws AppConversionException {
 		String s = delegate.convertIntToWord(12123113, ProvLang.UK);
-		assertEquals(
-				"twelve million one hundred and twenty three thousand one hundred and thirteen",
-				s);
+		assertEquals("twelve million one hundred and twenty three thousand one hundred and thirteen", s);
 	}
 
 	@Test
@@ -56,7 +53,7 @@ public class TestConversionDelegateUk {
 		assertNotNull("null unexpected", s);
 		assertEquals("fifteen", s);
 	}
-	
+
 	@Test
 	public final void test23() throws AppConversionException {
 		String s = delegate.convertIntToWord(23, ProvLang.UK);
@@ -89,9 +86,7 @@ public class TestConversionDelegateUk {
 	public final void test123456() throws AppConversionException {
 		String s = delegate.convertIntToWord(123456, ProvLang.UK);
 		assertNotNull("null unexpected", s);
-		assertEquals(
-				"one hundred and twenty three thousand four hundred and fifty six",
-				s);
+		assertEquals("one hundred and twenty three thousand four hundred and fifty six", s);
 	}
 
 	@Test
@@ -181,9 +176,7 @@ public class TestConversionDelegateUk {
 		String s = delegate.convertIntToWord(1123456, ProvLang.UK);
 		assertNotNull("null unexpected", s);
 
-		assertEquals(
-				"one million one hundred and twenty three thousand four hundred and fifty six",
-				s);
+		assertEquals("one million one hundred and twenty three thousand four hundred and fifty six", s);
 	}
 
 }

@@ -1,8 +1,10 @@
-package org.desz.inttoword.conv;
+package org.desz.inttoword.converters;
 
 import static org.desz.inttoword.factory.ProvLangFactory.getInstance;
 import static org.junit.Assert.assertNotNull;
 
+import org.desz.inttoword.converters.HundredthConverter;
+import org.desz.inttoword.converters.IHundConverter;
 import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLang;
 import org.junit.Test;

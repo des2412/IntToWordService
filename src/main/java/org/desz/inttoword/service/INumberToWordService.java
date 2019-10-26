@@ -13,14 +13,11 @@ import org.desz.inttoword.language.ProvLang;
 public interface INumberToWordService {
 	/**
 	 * 
-	 * @param provLn
-	 *            the ProvLang.
-	 * @param num
-	 *            the numerical represented as String.
+	 * @param provLn the ProvLang.
+	 * @param num    the numerical represented as String.
 	 * @return the word representation of num according to language directive.
 	 * @throws IntToWordServiceException
 	 */
-	String getWordInLang(ProvLang provLn, String num)
-			throws IntToWordServiceException;
+	String getWordInLang(ProvLang provLn, String num) throws IntToWordServiceException;
 
 }

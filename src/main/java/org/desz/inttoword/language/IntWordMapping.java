@@ -80,8 +80,7 @@ public final class IntWordMapping {
 	public String wordForNum(int num) {
 		Map<String, String> empty = new HashMap<>();
 		empty.put(StringUtils.EMPTY, StringUtils.EMPTY);
-		return intToWordMap.entrySet().stream()
-				.filter(s -> s.getKey().equals(String.valueOf(num))).findFirst()
+		return intToWordMap.entrySet().stream().filter(s -> s.getKey().equals(String.valueOf(num))).findFirst()
 				.orElse(empty.entrySet().iterator().next()).getValue();
 	}
 
@@ -130,19 +129,13 @@ public final class IntWordMapping {
 		}
 
 		private void validate() {
-			Preconditions.checkArgument(!StringUtils.isBlank(milln),
-					"milln may not be blank");
-			Preconditions.checkArgument(!StringUtils.isBlank(thoud),
-					"thoud may not be blank");
-			Preconditions.checkArgument(!StringUtils.isBlank(hund),
-					"hund may not be blank");
-			Preconditions.checkArgument(!StringUtils.isBlank(and),
-					"and may not be blank");
-			Preconditions.checkArgument(!StringUtils.isBlank(billn),
-					"billn may not be blank");
+			Preconditions.checkArgument(!StringUtils.isBlank(milln), "milln may not be blank");
+			Preconditions.checkArgument(!StringUtils.isBlank(thoud), "thoud may not be blank");
+			Preconditions.checkArgument(!StringUtils.isBlank(hund), "hund may not be blank");
+			Preconditions.checkArgument(!StringUtils.isBlank(and), "and may not be blank");
+			Preconditions.checkArgument(!StringUtils.isBlank(billn), "billn may not be blank");
 
-			Preconditions.checkArgument(!intToWordMap.isEmpty(),
-					"Integer Word Map is empty.");
+			Preconditions.checkArgument(!intToWordMap.isEmpty(), "Integer Word Map is empty.");
 		}
 	}
 

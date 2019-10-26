@@ -9,6 +9,7 @@ package org.desz.inttoword.language;
  */
 public enum Punct {
 	SPC(" "), ERR_SEP(SPC.val() + "/" + SPC.val());
+
 	private String val;
 
 	private Punct(String val) {

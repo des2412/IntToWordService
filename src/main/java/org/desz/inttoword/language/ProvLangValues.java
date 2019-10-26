@@ -2,6 +2,7 @@
  * 
  */
 package org.desz.inttoword.language;
+
 import static org.desz.inttoword.language.Punct.SPC;
 
 /**
@@ -16,59 +17,16 @@ public final class ProvLangValues {
 	 * XX_WORDS specific mappings.
 	 */
 	public enum NlPair {
-		ZERO("0", "Nul"), ONE("1", "Een"), TWO("2", "Twee"), THREE("3",
-				"Drei"), FOUR("4", "Vier"), FIVE("5", "Vijf"), SIX("6",
-						"Zes"), SEVEN("7", "Zeven"), EIGHT("8", "Acht"), NINE(
-								"9", "Negen"), TEN("10", "Tien"), ELEVEN("11",
-										"Elf"), TWELVE("12",
-												"Twaalf"), THIRTEEN("13",
-														"Dertein"), FOURTEEN(
-																"14",
-																"Veertien"), FIFTEEN(
-																		"15",
-																		"Vijftien"), SIXTEEN(
-																				"16",
-																				"Zestien"), SEVENTEEN(
-																						"17",
-																						"Zeventien"), EIGHTEEN(
-																								"18",
-																								"Achttien"), NINETEEN(
-																										"19",
-																										"Negentien"), TWENTY(
-																												"20",
-																												"Twintig"), TWENTYONE(
-																														"21",
-																														"Eenentwintig"), TWENTYTWO(
-																																"22",
-																																"Tweeëntwintig"), TWENTYTHREE(
-																																		"23",
-																																		"Dreieëntwintig"), TWENTYFOUR(
-																																				"24",
-																																				"Vierentwintig"), TWENTYFIVE(
-																																						"25",
-																																						"Vijfentwintig"), TWENTYSIX(
-																																								"26",
-																																								"Zesentwintig"), TWENTYSEVEN(
-																																										"27",
-																																										"Zevenentwintig"), TWENTYEIGHT(
-																																												"28",
-																																												"Achtentwintig"), TWENTYNINE(
-																																														"29",
-																																														"Negenentwintig"), THIRTY(
-																																																"30",
-																																																"Dertig"), FORTY(
-																																																		"40",
-																																																		"Veertig"), FIFTY(
-																																																				"50",
-																																																				"Vijftig"), SIXTY(
-																																																						"60",
-																																																						"Zestig"), SEVENTY(
-																																																								"70",
-																																																								"Zeventig"), EIGHTY(
-																																																										"80",
-																																																										"Tachtig"), NINETY(
-																																																												"90",
-																																																												"Negentig");
+		ZERO("0", "Nul"), ONE("1", "Een"), TWO("2", "Twee"), THREE("3", "Drei"), FOUR("4", "Vier"), FIVE("5", "Vijf"),
+		SIX("6", "Zes"), SEVEN("7", "Zeven"), EIGHT("8", "Acht"), NINE("9", "Negen"), TEN("10", "Tien"),
+		ELEVEN("11", "Elf"), TWELVE("12", "Twaalf"), THIRTEEN("13", "Dertein"), FOURTEEN("14", "Veertien"),
+		FIFTEEN("15", "Vijftien"), SIXTEEN("16", "Zestien"), SEVENTEEN("17", "Zeventien"), EIGHTEEN("18", "Achttien"),
+		NINETEEN("19", "Negentien"), TWENTY("20", "Twintig"), TWENTYONE("21", "Eenentwintig"),
+		TWENTYTWO("22", "Tweeëntwintig"), TWENTYTHREE("23", "Dreieëntwintig"), TWENTYFOUR("24", "Vierentwintig"),
+		TWENTYFIVE("25", "Vijfentwintig"), TWENTYSIX("26", "Zesentwintig"), TWENTYSEVEN("27", "Zevenentwintig"),
+		TWENTYEIGHT("28", "Achtentwintig"), TWENTYNINE("29", "Negenentwintig"), THIRTY("30", "Dertig"),
+		FORTY("40", "Veertig"), FIFTY("50", "Vijftig"), SIXTY("60", "Zestig"), SEVENTY("70", "Zeventig"),
+		EIGHTY("80", "Tachtig"), NINETY("90", "Negentig");
 
 		private String word;
 		private String num;
@@ -89,41 +47,13 @@ public final class ProvLangValues {
 	};
 
 	public enum DePair {
-		ZERO("0", "Null"), ONE("1", "ein"), TWO("2", "Zwei"), THREE("3",
-				"Drei"), FOUR("4", "Vier"), FIVE("5", "Fünf"), SIX("6",
-						"Sechs"), SEVEN("7", "Sieben"), EIGHT("8",
-								"Acht"), NINE("9", "Neun"), TEN("10",
-										"Zehn"), ELEVEN("11", "Elf"), TWELVE(
-												"12", "Zwölf"), THIRTEEN("13",
-														"Dreizehn"), FOURTEEN(
-																"14",
-																"Vierzehn"), FIFTEEN(
-																		"15",
-																		"Fünfzehn"), SIXTEEN(
-																				"16",
-																				"Sechzehn"), SEVENTEEN(
-																						"17",
-																						"Siebzehn"), EIGHTEEN(
-																								"18",
-																								"Achtzehn"), NINETEEN(
-																										"19",
-																										"Neunzehn"), TWENTY(
-																												"20",
-																												"Zwanzig"), THIRTY(
-																														"30",
-																														"Dreißig"), FORTY(
-																																"40",
-																																"Vierzig"), FIFTY(
-																																		"50",
-																																		"Fünfzig"), SIXTY(
-																																				"60",
-																																				"Sechzig"), SEVENTY(
-																																						"70",
-																																						"Siebzig"), EIGHTY(
-																																								"80",
-																																								"Achtzig"), NINETY(
-																																										"90",
-																																										"Neunzig");
+		ZERO("0", "Null"), ONE("1", "ein"), TWO("2", "Zwei"), THREE("3", "Drei"), FOUR("4", "Vier"), FIVE("5", "Fünf"),
+		SIX("6", "Sechs"), SEVEN("7", "Sieben"), EIGHT("8", "Acht"), NINE("9", "Neun"), TEN("10", "Zehn"),
+		ELEVEN("11", "Elf"), TWELVE("12", "Zwölf"), THIRTEEN("13", "Dreizehn"), FOURTEEN("14", "Vierzehn"),
+		FIFTEEN("15", "Fünfzehn"), SIXTEEN("16", "Sechzehn"), SEVENTEEN("17", "Siebzehn"), EIGHTEEN("18", "Achtzehn"),
+		NINETEEN("19", "Neunzehn"), TWENTY("20", "Zwanzig"), THIRTY("30", "Dreißig"), FORTY("40", "Vierzig"),
+		FIFTY("50", "Fünfzig"), SIXTY("60", "Sechzig"), SEVENTY("70", "Siebzig"), EIGHTY("80", "Achtzig"),
+		NINETY("90", "Neunzig");
 
 		private String word;
 		private String num;
@@ -150,41 +80,13 @@ public final class ProvLangValues {
 	 * 
 	 */
 	public enum FrPair {
-		ZERO("0", "Zéro"), ONE("1", "Un"), TWO("2", "Deux"), THREE("3",
-				"Trois"), FOUR("4", "Quatre"), FIVE("5", "Cinq"), SIX("6",
-						"Six"), SEVEN("7", "Sept"), EIGHT("8", "Huit"), NINE(
-								"9", "Neuf"), TEN("10", "Dix"), ELEVEN("11",
-										"Onze"), TWELVE("12",
-												"Douze"), THIRTEEN("13",
-														"Treize"), FOURTEEN(
-																"14",
-																"Quatorze"), FIFTEEN(
-																		"15",
-																		"Quinze"), SIXTEEN(
-																				"16",
-																				"Seize"), SEVENTEEN(
-																						"17",
-																						"Dix-sept"), EIGHTEEN(
-																								"18",
-																								"Dix-huit"), NINETEEN(
-																										"19",
-																										"Dix-neuf"), TWENTY(
-																												"20",
-																												"Vingt"), THIRTY(
-																														"30",
-																														"Trente"), FORTY(
-																																"40",
-																																"Quarante"), FIFTY(
-																																		"50",
-																																		"Cinquante"), SIXTY(
-																																				"60",
-																																				"Soixante"), SEVENTY(
-																																						"70",
-																																						"Soixante-dix"), EIGHTY(
-																																								"80",
-																																								"Soixante-vingt"), NINETY(
-																																										"90",
-																																										"Quarante-vingt-dix");
+		ZERO("0", "Zéro"), ONE("1", "Un"), TWO("2", "Deux"), THREE("3", "Trois"), FOUR("4", "Quatre"),
+		FIVE("5", "Cinq"), SIX("6", "Six"), SEVEN("7", "Sept"), EIGHT("8", "Huit"), NINE("9", "Neuf"), TEN("10", "Dix"),
+		ELEVEN("11", "Onze"), TWELVE("12", "Douze"), THIRTEEN("13", "Treize"), FOURTEEN("14", "Quatorze"),
+		FIFTEEN("15", "Quinze"), SIXTEEN("16", "Seize"), SEVENTEEN("17", "Dix-sept"), EIGHTEEN("18", "Dix-huit"),
+		NINETEEN("19", "Dix-neuf"), TWENTY("20", "Vingt"), THIRTY("30", "Trente"), FORTY("40", "Quarante"),
+		FIFTY("50", "Cinquante"), SIXTY("60", "Soixante"), SEVENTY("70", "Soixante-dix"),
+		EIGHTY("80", "Soixante-vingt"), NINETY("90", "Quarante-vingt-dix");
 
 		private String word;
 		private String num;
@@ -205,41 +107,13 @@ public final class ProvLangValues {
 	};
 
 	public enum UkPair {
-		ZERO("0", "Zero"), ONE("1", "One"), TWO("2", "Two"), THREE("3",
-				"Three"), FOUR("4", "Four"), FIVE("5", "Five"), SIX("6",
-						"Six"), SEVEN("7", "Seven"), EIGHT("8", "Eight"), NINE(
-								"9", "Nine"), TEN("10", "Ten"), ELEVEN("11",
-										"Eleven"), TWELVE("12",
-												"Twelve"), THIRTEEN("13",
-														"Thirteen"), FOURTEEN(
-																"14",
-																"Fourteen"), FIFTEEN(
-																		"15",
-																		"Fifteen"), SIXTEEN(
-																				"16",
-																				"Sixteen"), SEVENTEEN(
-																						"17",
-																						"Seventeen"), EIGHTEEN(
-																								"18",
-																								"Eighteen"), NINETEEN(
-																										"19",
-																										"Nineteen"), TWENTY(
-																												"20",
-																												"Twenty"), THIRTY(
-																														"30",
-																														"Thirty"), FORTY(
-																																"40",
-																																"Forty"), FIFTY(
-																																		"50",
-																																		"Fifty"), SIXTY(
-																																				"60",
-																																				"Sixty"), SEVENTY(
-																																						"70",
-																																						"Seventy"), EIGHTY(
-																																								"80",
-																																								"Eighty"), NINETY(
-																																										"90",
-																																										"Ninety");
+		ZERO("0", "Zero"), ONE("1", "One"), TWO("2", "Two"), THREE("3", "Three"), FOUR("4", "Four"), FIVE("5", "Five"),
+		SIX("6", "Six"), SEVEN("7", "Seven"), EIGHT("8", "Eight"), NINE("9", "Nine"), TEN("10", "Ten"),
+		ELEVEN("11", "Eleven"), TWELVE("12", "Twelve"), THIRTEEN("13", "Thirteen"), FOURTEEN("14", "Fourteen"),
+		FIFTEEN("15", "Fifteen"), SIXTEEN("16", "Sixteen"), SEVENTEEN("17", "Seventeen"), EIGHTEEN("18", "Eighteen"),
+		NINETEEN("19", "Nineteen"), TWENTY("20", "Twenty"), THIRTY("30", "Thirty"), FORTY("40", "Forty"),
+		FIFTY("50", "Fifty"), SIXTY("60", "Sixty"), SEVENTY("70", "Seventy"), EIGHTY("80", "Eighty"),
+		NINETY("90", "Ninety");
 
 		private String word;
 		private String num;
@@ -266,20 +140,16 @@ public final class ProvLangValues {
 	 * 
 	 * UK is default if invalid language is selected.
 	 * 
-	 * Each XX_ERRORS Enum is a discrete set with common name but language
-	 * dependent values.
+	 * Each XX_ERRORS Enum is a discrete set with common name but language dependent
+	 * values.
 	 * 
 	 * @author des
 	 * 
 	 */
 	public enum UkError {
-		INVALID_INPUT("Invalid input"), INVALID_NUMBER(
-				"Fractional or non integral numbers disallowed"), NULL_INPUT(
-						"Enter Integer to convert"), UNKNOWN(
-								"Unknown error"), NEGATIVE_INPUT(
-										"Negative Integer disallowed"), NUMBER_FORMAT(
-												"Number Format Exception.. Integer too Large"), LANG_ERR(
-														"Select a valid language");
+		INVALID_INPUT("Invalid input"), INVALID_NUMBER("Fractional or non integral numbers disallowed"),
+		NULL_INPUT("Enter Integer to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT("Negative Integer disallowed"),
+		NUMBER_FORMAT("Number Format Exception.. Integer too Large"), LANG_ERR("Select a valid language");
 
 		private final String error;
 
@@ -294,13 +164,11 @@ public final class ProvLangValues {
 	};
 
 	public enum FrError {
-		INVALID_INPUT("Invalid d'entrée"), INVALID_NUMBER(
-				"Fractionnées ou non nombres entiers a refusé"), NULL_INPUT(
-						"Aucun numero de convertir"), UNKNOWN(
-								"erreur inconnue"), NEGATIVE_INPUT(
-										"Entier négatif non autorisé"), NUMBER_FORMAT(
-												"Exception Format de nombre.. Entier trop grand"), LANG_ERR(
-														"Sélectionnez une langue valide");
+		INVALID_INPUT("Invalid d'entrée"), INVALID_NUMBER("Fractionnées ou non nombres entiers a refusé"),
+		NULL_INPUT("Aucun numero de convertir"), UNKNOWN("erreur inconnue"),
+		NEGATIVE_INPUT("Entier négatif non autorisé"), NUMBER_FORMAT("Exception Format de nombre.. Entier trop grand"),
+		LANG_ERR("Sélectionnez une langue valide");
+
 		private String error;
 
 		private FrError(String error) {
@@ -320,13 +188,10 @@ public final class ProvLangValues {
 	 * 
 	 */
 	public enum DeError {
-		INVALID_INPUT("ungültige Eingabe"), INVALID_NUMBER(
-				"Gebrochene oder nicht ganze Zahlen aberkannt"), NULL_INPUT(
-						"null-Eingang"), UNKNOWN(
-								"unbekannter Fehler"), NEGATIVE_INPUT(
-										"Negative Integer nicht erlaubt"), NUMBER_FORMAT(
-												"Zahlenformat Ausnahme.. Integer zu groß"), LANG_ERR(
-														"Wählen Sie eine gültige Sprache");
+		INVALID_INPUT("ungültige Eingabe"), INVALID_NUMBER("Gebrochene oder nicht ganze Zahlen aberkannt"),
+		NULL_INPUT("null-Eingang"), UNKNOWN("unbekannter Fehler"), NEGATIVE_INPUT("Negative Integer nicht erlaubt"),
+		NUMBER_FORMAT("Zahlenformat Ausnahme.. Integer zu groß"), LANG_ERR("Wählen Sie eine gültige Sprache");
+
 		private String error;
 
 		private DeError(String error) {
@@ -346,13 +211,10 @@ public final class ProvLangValues {
 	 * 
 	 */
 	public enum NlError {
-		INVALID_INPUT("Ongeldige Invoer"), INVALID_NUMBER(
-				"Fractionele of niet-gehele getallen niet toegestaan"), NULL_INPUT(
-						"null-Eingang"), UNKNOWN(
-								"Onbekende Fout"), NEGATIVE_INPUT(
-										"Negatieve Integer niet toegestaan"), NUMBER_FORMAT(
-												"Getalnotatie Uitzondering..Integer te groot"), LANG_ERR(
-														"Selecteer een geldige taal");
+		INVALID_INPUT("Ongeldige Invoer"), INVALID_NUMBER("Fractionele of niet-gehele getallen niet toegestaan"),
+		NULL_INPUT("null-Eingang"), UNKNOWN("Onbekende Fout"), NEGATIVE_INPUT("Negatieve Integer niet toegestaan"),
+		NUMBER_FORMAT("Getalnotatie Uitzondering..Integer te groot"), LANG_ERR("Selecteer een geldige taal");
+
 		private String error;
 
 		private NlError(String error) {
@@ -370,9 +232,8 @@ public final class ProvLangValues {
 	 * 
 	 */
 	public enum FrUnit {
-		AND("et" + SPC.val()), MILLS(SPC.val() + "million"), THOUS(
-				SPC.val() + "mille"), HUNS(
-						SPC.val() + "cent"), BILLS(SPC.val() + "milliard");
+		AND("et" + SPC.val()), MILLS(SPC.val() + "million"), THOUS(SPC.val() + "mille"), HUNS(SPC.val() + "cent"),
+		BILLS(SPC.val() + "milliard");
 
 		private String val;
 
@@ -394,9 +255,8 @@ public final class ProvLangValues {
 	 */
 	public enum DeUnit {
 
-		AND("und"), MILLS(SPC.val() + "million"), BILLS(
-				SPC.val() + "milliarde"), THOUS(
-						SPC.val() + "tausend"), HUNS("hundert");
+		AND("und"), MILLS(SPC.val() + "million"), BILLS(SPC.val() + "milliarde"), THOUS(SPC.val() + "tausend"),
+		HUNS("hundert");
 
 		private String val;
 
@@ -411,9 +271,8 @@ public final class ProvLangValues {
 
 	public enum NlUnit {
 
-		AND("en" + SPC.val()), MILLS(SPC.val() + "miljeon"), BILLS(
-				SPC.val() + "miljard"), THOUS(
-						SPC.val() + "duizend"), HUNS(SPC.val() + "honderd");
+		AND("en" + SPC.val()), MILLS(SPC.val() + "miljeon"), BILLS(SPC.val() + "miljard"), THOUS(SPC.val() + "duizend"),
+		HUNS(SPC.val() + "honderd");
 
 		private String val;
 
@@ -428,9 +287,8 @@ public final class ProvLangValues {
 
 	public enum UkUnit {
 
-		AND("and" + SPC.val()), BILLS(SPC.val() + "billion"), MILLS(
-				SPC.val() + "million"), THOUS(
-						SPC.val() + "thousand"), HUNS(SPC.val() + "hundred");
+		AND("and" + SPC.val()), BILLS(SPC.val() + "billion"), MILLS(SPC.val() + "million"),
+		THOUS(SPC.val() + "thousand"), HUNS(SPC.val() + "hundred");
 
 		private String val;
 

@@ -7,12 +7,12 @@ import java.util.Random;
 
 public class RandomGenerator {
 
-	private final static List<Integer> c = Arrays.asList(1, 5, 10, 50, 100, 500,
-			1000, 10000, 100000, 1000000, 10000000, 1000000000);
+	private final static List<Integer> c = Arrays.asList(1, 5, 10, 50, 100, 500, 1000, 10000, 100000, 1000000, 10000000,
+			1000000000);
 
 	/**
-	 * achieves a good spread of values (power of 10) determined empirically by
-	 * test case.
+	 * achieves a good spread of values (power of 10) determined empirically by test
+	 * case.
 	 * 
 	 * @return
 	 */

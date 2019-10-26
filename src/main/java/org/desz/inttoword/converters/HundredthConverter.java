@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.desz.inttoword.conv;
+package org.desz.inttoword.converters;
 
 import static org.desz.inttoword.language.Punct.SPC;
 
@@ -22,12 +22,11 @@ public class HundredthConverter implements IHundConverter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.desz.inttoword.conv.IHundConverter#mapToWord(java.lang.String,
+	 * @see org.desz.inttoword.converters.IHundConverter#mapToWord(java.lang.String,
 	 * org.desz.inttoword.language.IntWordMapping)
 	 */
 	@Override
-	public Optional<String> hundrethToWord(String number,
-			IntWordMapping langMapping) {
+	public Optional<String> hundrethToWord(String number, IntWordMapping langMapping) {
 		number = Objects.requireNonNull(number);
 		// contract specifies hundreths maximum.
 		if (number.length() > 3) {
@@ -38,8 +37,7 @@ public class HundredthConverter implements IHundConverter {
 		if (!word.equals(StringUtils.EMPTY))
 			return Optional.of(word.toLowerCase());
 
-		String hun = (langMapping.wordForNum(n / 100) + langMapping.getHund())
-				.toLowerCase();
+		String hun = (langMapping.wordForNum(n / 100) + langMapping.getHund()).toLowerCase();
 
 		if (n % 100 == 0)
 			return Optional.of(hun.toLowerCase());
@@ -63,8 +61,8 @@ public class HundredthConverter implements IHundConverter {
 		k -= nmod; // .. k == 20
 
 		// the last possible value.
-		return Optional.of(hun + langMapping.wordForNum(k).toLowerCase()
-				+ SPC.val() + langMapping.wordForNum(nmod).toLowerCase());
+		return Optional.of(
+				hun + langMapping.wordForNum(k).toLowerCase() + SPC.val() + langMapping.wordForNum(nmod).toLowerCase());
 	}
 
 }

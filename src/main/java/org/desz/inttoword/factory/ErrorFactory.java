@@ -25,35 +25,31 @@ public class ErrorFactory {
 
 		Map<String, String> errs = new HashMap<String, String>();
 		switch (provLang) {
-			case UK :
-				errs = Stream.of(UkError.values()).collect(
-						Collectors.toMap(UkError::name, UkError::getError));
-				PROV_LANG_ERR_CACHE.put(ProvLang.UK, errs);
+		case UK:
+			errs = Stream.of(UkError.values()).collect(Collectors.toMap(UkError::name, UkError::getError));
+			PROV_LANG_ERR_CACHE.put(ProvLang.UK, errs);
 
-				break;
-			case FR :
-				errs = Stream.of(FrError.values()).collect(
-						Collectors.toMap(FrError::name, FrError::getError));
-				PROV_LANG_ERR_CACHE.put(ProvLang.FR, errs);
+			break;
+		case FR:
+			errs = Stream.of(FrError.values()).collect(Collectors.toMap(FrError::name, FrError::getError));
+			PROV_LANG_ERR_CACHE.put(ProvLang.FR, errs);
 
-				break;
+			break;
 
-			case DE :
-				errs = Stream.of(DeError.values()).collect(
-						Collectors.toMap(DeError::name, DeError::getError));
-				PROV_LANG_ERR_CACHE.put(ProvLang.DE, errs);
+		case DE:
+			errs = Stream.of(DeError.values()).collect(Collectors.toMap(DeError::name, DeError::getError));
+			PROV_LANG_ERR_CACHE.put(ProvLang.DE, errs);
 
-				break;
+			break;
 
-			case NL :
-				errs = Stream.of(NlError.values()).collect(
-						Collectors.toMap(NlError::name, NlError::getError));
-				PROV_LANG_ERR_CACHE.put(ProvLang.NL, errs);
+		case NL:
+			errs = Stream.of(NlError.values()).collect(Collectors.toMap(NlError::name, NlError::getError));
+			PROV_LANG_ERR_CACHE.put(ProvLang.NL, errs);
 
-				break;
+			break;
 
-			default :
-				break;
+		default:
+			break;
 
 		}
 
@@ -61,10 +57,8 @@ public class ErrorFactory {
 
 	/**
 	 * 
-	 * @param provLang
-	 *            the ProvLang.
-	 * @param key
-	 *            the key for the error.
+	 * @param provLang the ProvLang.
+	 * @param key      the key for the error.
 	 * @return the error mapped to (provLang) key.
 	 */
 	public String getErrorForProvLang(ProvLang provLang, String key) {
@@ -74,9 +68,8 @@ public class ErrorFactory {
 		if (!(PROV_LANG_ERR_CACHE.containsKey(provLang)))
 			enCacheErrors(provLang);
 
-		return PROV_LANG_ERR_CACHE.get(provLang).entrySet().stream()
-				.filter(s -> s.getKey().equals(key)).findFirst().get()
-				.getValue();
+		return PROV_LANG_ERR_CACHE.get(provLang).entrySet().stream().filter(s -> s.getKey().equals(key)).findFirst()
+				.get().getValue();
 
 	}
 

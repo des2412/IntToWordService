@@ -1,13 +1,12 @@
-package org.desz.inttoword.output;
+package org.desz.inttoword.results;
 
 public interface IWordDecorator {
 
 	/**
 	 * Add s to EIN.
 	 * 
-	 * @param wordResult
 	 * @param val
-	 * @return
+	 * @return the WordResult.
 	 */
 	WordResult pluraliseOneRule(int val);
 

@@ -49,8 +49,8 @@ public class ConversionParameterException extends Exception {
 	 * @param enableSuppression
 	 * @param writableStackTrace
 	 */
-	public ConversionParameterException(String message, Throwable cause,
-			boolean enableSuppression, boolean writableStackTrace) {
+	public ConversionParameterException(String message, Throwable cause, boolean enableSuppression,
+			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 
 	}

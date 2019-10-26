@@ -1,8 +1,12 @@
-package org.desz.inttoword.output;
+package org.desz.inttoword.results;
 
+import static java.util.Arrays.asList;
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+import static java.util.regex.Pattern.compile;
 import static org.desz.inttoword.language.Punct.SPC;
 
-import java.util.Objects;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.desz.inttoword.language.ProvLangValues.DePair;
@@ -32,8 +36,7 @@ public class WordResult {
 	}
 
 	/**
-	 * @param bill
-	 *            the bill to set
+	 * @param bill the bill to set
 	 */
 	/**
 	 * @return the mill
@@ -63,16 +66,16 @@ public class WordResult {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder builder2 = new StringBuilder();
-		if (Objects.nonNull(bill))
-			builder2.append(bill);
-		if (Objects.nonNull(mill))
-			builder2.append(mill);
-		if (Objects.nonNull(thou))
-			builder2.append(thou);
-		if (Objects.nonNull(hund))
-			builder2.append(hund);
-		return builder2.toString().trim();
+		StringBuilder sb = new StringBuilder();
+		if (nonNull(bill))
+			sb.append(bill);
+		if (nonNull(mill))
+			sb.append(mill);
+		if (nonNull(thou))
+			sb.append(thou);
+		if (nonNull(hund))
+			sb.append(hund);
+		return sb.toString().trim();
 	}
 
 	/**
@@ -87,6 +90,12 @@ public class WordResult {
 		private String mill;
 		private String thou;
 		private String hund;
+
+		private static final List<Pattern> matches = asList(compile("(?i:.*" + UkPair.ZERO.getWord() + ".*)"),
+				compile("(?i:.*" + DePair.ZERO.getWord() + ".*)"), compile("(?i:.*" + NlPair.ZERO.getWord() + ".*)"),
+				compile("(?i:.*" + FrPair.ZERO.getWord() + ".*)")
+
+		);
 
 		public Builder withBill(String bill) {
 			this.bill = bill + SPC.val();
@@ -115,40 +124,19 @@ public class WordResult {
 
 		private void validate() {
 
-			if (!Objects.isNull(hund) && matchesZero(hund))
+			if (!isNull(hund) && matchesZero(hund))
 				hund = null;
-			if (!Objects.isNull(thou) && matchesZero(thou))
+			if (!isNull(thou) && matchesZero(thou))
 				thou = null;
-			if (!Objects.isNull(mill) && matchesZero(mill))
+			if (!isNull(mill) && matchesZero(mill))
 				mill = null;
-			if (!Objects.isNull(bill) && matchesZero(bill))
+			if (!isNull(bill) && matchesZero(bill))
 				bill = null;
 
 		}
 
-		private static Pattern p1 = Pattern
-				.compile("(?i:.*" + UkPair.ZERO.getWord() + ".*)");
-		private static Pattern p2 = Pattern
-				.compile("(?i:.*" + DePair.ZERO.getWord() + ".*)");
-		private static Pattern p3 = Pattern
-				.compile("(?i:.*" + NlPair.ZERO.getWord() + ".*)");
-		private static Pattern p4 = Pattern
-				.compile("(?i:.*" + FrPair.ZERO.getWord() + ".*)");
-
-		private boolean matchesZero(String s) {
-			if (p1.matcher(s).matches())
-				return true;
-
-			if (p2.matcher(s).matches())
-				return true;
-
-			if (p3.matcher(s).matches())
-				return true;
-
-			if (p4.matcher(s).matches())
-				return true;
-
-			return false;
+		private boolean matchesZero(final String s) {
+			return matches.stream().anyMatch(k -> k.matcher(s).matches());
 		}
 	}
 
