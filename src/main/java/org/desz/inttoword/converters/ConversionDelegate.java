@@ -33,22 +33,22 @@ public class ConversionDelegate {
 	protected final Logger log = Logger.getLogger(ConversionDelegate.class.getName());
 	private static final NumberFormat nf = NumberFormat.getIntegerInstance(UK);
 
-	private IHundConverter centurionConverter;
+	private IHundConverter hundredthConverter;
 
 	/**
 	 * 
-	 * @param hundConverter the parameterised instance.
+	 * @param hundredthConverter the IHundConverter.
 	 */
 	@Autowired
-	public ConversionDelegate(IHundConverter centurionConverter) {
-		this.centurionConverter = centurionConverter;
+	public ConversionDelegate(IHundConverter hundredthConverter) {
+		this.hundredthConverter = hundredthConverter;
 	}
 
 	/**
 	 * Function funcHunConv.
 	 */
 	private BiFunction<String, IntWordMapping, String> funcHunConv = (x, y) -> {
-		return centurionConverter.hundrethToWord(x, y).orElse(EMPTY);
+		return hundredthConverter.hundrethToWord(x, y).orElse(EMPTY);
 	};
 
 	/**
@@ -70,10 +70,10 @@ public class ConversionDelegate {
 		// save last element of numUnits..
 		final int prmLastHun = Integer.parseInt(numUnits.get(numUnits.size() - 1));
 		// singleton IntWordMapping per ProvLang.
-		final IntWordMapping langMap = getInstance().getMapForProvLang(provLang);
-		// convert each hundreth to word.
+		final IntWordMapping intToWordMapping = getInstance().getMapForProvLang(provLang);
+		// convert each hundredth to word.
 		final Map<Integer, String> wordMap = range(0, sz).boxed()
-				.collect(toMap(identity(), i -> funcHunConv.apply(numUnits.get(i), langMap)));
+				.collect(toMap(identity(), i -> funcHunConv.apply(numUnits.get(i), intToWordMapping)));
 
 		final WordResult.Builder wordBuilder = new WordResult.Builder();
 
@@ -82,32 +82,32 @@ public class ConversionDelegate {
 		case 1:
 			// result returned.
 			if (provLang.equals(ProvLang.DE)) {
-				WordResult deRes = wordBuilder.withHund(wordMap.get(0)).build();
-				deRes = new DeDecorator(deRes).restructureHundrethRule();
-				return new DeDecorator(deRes).pluraliseOneRule(prmLastHun).toString();
+				WordResult wordResult = wordBuilder.withHund(wordMap.get(0)).build();
+				wordResult = new DeDecorator(wordResult).restructureHundrethRule();
+				return new DeDecorator(wordResult).pluraliseOneRule(prmLastHun).toString();
 
 			}
 			return wordMap.get(0);
 		case 4:
 
-			wordBuilder.withBill(wordMap.get(0) + langMap.getBilln()).withMill(wordMap.get(1) + langMap.getMilln())
-					.withThou(wordMap.get(2) + langMap.getThoud());
+			wordBuilder.withBill(wordMap.get(0) + intToWordMapping.getBilln()).withMill(wordMap.get(1) + intToWordMapping.getMilln())
+					.withThou(wordMap.get(2) + intToWordMapping.getThoud());
 			break;
 
 		case 3:
-			wordBuilder.withMill(wordMap.get(0) + langMap.getMilln()).withThou(wordMap.get(1) + langMap.getThoud());
+			wordBuilder.withMill(wordMap.get(0) + intToWordMapping.getMilln()).withThou(wordMap.get(1) + intToWordMapping.getThoud());
 
 			break;
 
 		case 2:
-			wordBuilder.withThou(wordMap.get(0) + langMap.getThoud());
+			wordBuilder.withThou(wordMap.get(0) + intToWordMapping.getThoud());
 			break;
 		default:
 			break;
 		}
 		if (IHundConverter.inRange(prmLastHun))
 			// 1 to 99 -> prepend with AND.
-			wordBuilder.withHund(langMap.getAnd() + wordMap.get(sz - 1));
+			wordBuilder.withHund(intToWordMapping.getAnd() + wordMap.get(sz - 1));
 
 		else
 			wordBuilder.withHund(wordMap.get(sz - 1));
