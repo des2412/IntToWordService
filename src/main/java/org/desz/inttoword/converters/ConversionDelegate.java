@@ -58,10 +58,10 @@ public class ConversionDelegate {
 	 * @throws AppConversionException
 	 */
 
-	public String convertIntToWord(Integer n, ProvLang p_provLang) throws AppConversionException {
+	public String convertIntToWord(Integer n, ProvLang pl) throws AppConversionException {
 
 		n = requireNonNull(n, "Integer parameter required to be non-null");
-		final ProvLang provLang = requireNonNull(p_provLang);
+		final ProvLang provLang = requireNonNull(pl);
 		if (provLang.equals(ProvLang.EMPTY))
 			throw new AppConversionException();
 		final List<String> numUnits = asList(nf.format(n).split(","));
@@ -81,21 +81,24 @@ public class ConversionDelegate {
 		switch (sz) {
 		case 1:
 			// result returned.
-			if (provLang.equals(ProvLang.DE)) {
+			if (provLang.equals(ProvLang.DE) & n > 20) {
 				WordResult wordResult = wordBuilder.withHund(wordMap.get(0)).build();
-				wordResult = new DeDecorator(wordResult).restructureHundrethRule();
+				wordResult = new DeDecorator(wordResult).rearrangeHundredthRule();
+				wordResult = new DeDecorator(wordResult).spaceWithEmptyRule();
 				return new DeDecorator(wordResult).pluraliseOneRule(prmLastHun).toString();
 
 			}
 			return wordMap.get(0);
 		case 4:
 
-			wordBuilder.withBill(wordMap.get(0) + intToWordMapping.getBilln()).withMill(wordMap.get(1) + intToWordMapping.getMilln())
+			wordBuilder.withBill(wordMap.get(0) + intToWordMapping.getBilln())
+					.withMill(wordMap.get(1) + intToWordMapping.getMilln())
 					.withThou(wordMap.get(2) + intToWordMapping.getThoud());
 			break;
 
 		case 3:
-			wordBuilder.withMill(wordMap.get(0) + intToWordMapping.getMilln()).withThou(wordMap.get(1) + intToWordMapping.getThoud());
+			wordBuilder.withMill(wordMap.get(0) + intToWordMapping.getMilln())
+					.withThou(wordMap.get(1) + intToWordMapping.getThoud());
 
 			break;
 
@@ -130,7 +133,7 @@ public class ConversionDelegate {
 			deDecorator = new DeDecorator(deRes);
 			deRes = deDecorator.pluraliseOneRule(prmLastHun);
 			deDecorator = new DeDecorator(deRes);
-			deRes = deDecorator.restructureHundrethRule();
+			deRes = deDecorator.rearrangeHundredthRule();
 			deDecorator = new DeDecorator(deRes);
 			deRes = deDecorator.combineThouHundRule();
 			// trim, multi to single whitespace.

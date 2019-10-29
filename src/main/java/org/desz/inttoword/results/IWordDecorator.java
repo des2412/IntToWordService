@@ -10,12 +10,12 @@ public interface IWordDecorator {
 	 */
 	WordResult pluraliseOneRule(int val);
 
-	WordResult replaceSpaceWithEmptyRule();
+	WordResult spaceWithEmptyRule();
 
 	WordResult pluraliseUnitRule();
 
 	WordResult combineThouHundRule();
 
-	WordResult restructureHundrethRule();
+	WordResult rearrangeHundredthRule();
 
 }

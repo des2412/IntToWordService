@@ -11,12 +11,20 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import static org.apache.commons.lang3.StringUtils.remove;
 import static org.desz.inttoword.language.Punct.SPC;
+import static java.util.stream.Collectors.toMap;
 
 import static java.util.Arrays.asList;
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
+import static org.apache.commons.lang3.StringUtils.capitalize;
+
+import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLangValues.DePair;
-import org.desz.inttoword.language.ProvLangValues.DeUnit;
+import org.desz.inttoword.results.WordResult.Builder;
+
+import static org.desz.inttoword.language.ProvLangValues.DeUnit.AND;
 
 /**
  * @author des
@@ -66,14 +74,8 @@ public class DeDecorator implements IWordDecorator {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.desz.inttoword.results.IWordDecorator#removeWordRule(java.lang.String)
-	 */
 	@Override
-	public WordResult replaceSpaceWithEmptyRule() {
+	public WordResult spaceWithEmptyRule() {
 
 		WordResult.Builder builder = new WordResult.Builder();
 		builder = nonNull(wordResult.getBill()) ? builder.withBill(wordResult.getBill()) : builder;
@@ -124,36 +126,134 @@ public class DeDecorator implements IWordDecorator {
 
 	}
 
-	// TODO create test!
-	@Override
-	public WordResult restructureHundrethRule() {
-		WordResult.Builder builder = new WordResult.Builder();
+	class OrdNum {
+		private final String ord;
+		private final int size;
+
+		public OrdNum(String ord, int size) {
+			super();
+			this.ord = ord;
+			this.size = size;
+		}
+
+		public String getOrd() {
+			return ord;
+		}
+
+		public int getSize() {
+			return size;
+		}
+
+	}
+
+	private BiFunction<OrdNum, WordResult.Builder, WordResult.Builder> funcHunConv = (x, bld) -> {
+
+		int i = x.getSize();
+
 		List<String> arr = null;
-		builder = nonNull(wordResult.getBill()) ? builder.withBill(wordResult.getBill()) : builder;
+		switch (x.getOrd()) {
+		case "B":
+			arr = asList(wordResult.getBill().split(SPC.val()));
+			switch (i) {
 
-		final StringBuilder sb = new StringBuilder();
-		if (nonNull(wordResult.getMill())) {
+			case 4:
+				bld.withBill(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val() + capitalize(arr.get(3)));
+				break;
+			case 3:
+				bld.withBill(arr.get(1) + AND.val() + arr.get(0) + SPC.val() + capitalize(arr.get(2)) + SPC.val());
+				break;
+
+			case 2:
+				bld.withBill(arr.get(0) + SPC.val() + capitalize(arr.get(1)) + SPC.val());
+				break;
+			case 1:
+				bld.withBill(arr.get(0));
+				break;
+			}
+			break;
+
+		case "M":
 			arr = asList(wordResult.getMill().split(SPC.val()));
-			builder = arr.size() > 2
-					? builder.withMill(arr.get(1) + DeUnit.AND.val() + arr.get(0) + SPC.val() + arr.get(2) + SPC.val())
-					: builder.withMill(wordResult.getMill());
+			switch (i) {
+			case 4:
+				bld.withMill(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val() + capitalize(arr.get(3)));
+				break;
+			case 3:
+				bld.withMill(arr.get(1) + AND.val() + arr.get(0) + SPC.val() + arr.get(2) + SPC.val());
+				break;
 
-		}
+			case 2:
+				bld.withMill(arr.get(0) + SPC.val() + capitalize(arr.get(1)) + SPC.val());
+				break;
+			case 1:
+				bld.withMill(arr.get(0));
+				break;
+			}
 
-		if (nonNull(wordResult.getThou())) {
+			break;
+
+		case "T":
 			arr = asList(wordResult.getThou().split(SPC.val()));
-			builder = arr.size() > 2
-					? builder.withThou(arr.get(1) + DeUnit.AND.val() + arr.get(0) + SPC.val() + arr.get(2) + SPC.val())
-					: builder.withThou(wordResult.getThou());
+			switch (i) {
+			case 4:
+				bld.withThou(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val() + capitalize(arr.get(3)));
+				break;
+			case 3:
+				bld.withThou(arr.get(1) + AND.val() + arr.get(0) + SPC.val() + arr.get(2) + SPC.val());
+				break;
 
-		}
+			case 2:
+				bld.withThou(arr.get(0) + SPC.val() + arr.get(1) + SPC.val());
+				break;
+			case 1:
+				bld.withThou(arr.get(0));
+				break;
+			}
 
-		if (nonNull(wordResult.getHund())) {
+			break;
+		case "H":
 			arr = asList(wordResult.getHund().split(SPC.val()));
-			builder = arr.size() > 2 ? builder.withHund(arr.get(1) + DeUnit.AND.val() + arr.get(0) + SPC.val())
-					: builder.withHund(wordResult.getHund());
+			switch (i) {
+			case 4:
+				bld.withHund(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val() + capitalize(arr.get(3)));
+				break;
+			case 3:
+				bld.withHund(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val());
+				break;
 
+			case 2:
+				bld.withHund(arr.get(1) + AND.val() + arr.get(0) + SPC.val());
+				break;
+			case 1:
+				bld.withHund(arr.get(0));
+				break;
+			}
+			break;
 		}
+
+		return bld;
+	};
+
+	@Override
+	public WordResult rearrangeHundredthRule() {
+		Builder builder = new WordResult.Builder();
+
+		builder = nonNull(wordResult.getBill())
+				? funcHunConv.apply(new OrdNum("B", asList(wordResult.getBill().split(SPC.val())).size()), builder)
+				: builder;
+
+		builder = nonNull(wordResult.getMill())
+				? funcHunConv.apply(new OrdNum("M", asList(wordResult.getMill().split(SPC.val())).size()), builder)
+				: builder;
+
+		builder = nonNull(wordResult.getThou())
+				? funcHunConv.apply(new OrdNum("T", asList(wordResult.getThou().split(SPC.val())).size()), builder)
+				: builder;
+
+		builder = nonNull(wordResult.getHund())
+				? funcHunConv.apply(new OrdNum("H", asList(wordResult.getHund().split(SPC.val())).size()), builder)
+				: builder;
+
 		return builder.build();
 	}
 }
