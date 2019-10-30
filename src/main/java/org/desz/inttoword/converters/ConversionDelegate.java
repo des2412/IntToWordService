@@ -48,7 +48,7 @@ public class ConversionDelegate {
 	 * Function funcHunConv.
 	 */
 	private BiFunction<String, IntWordMapping, String> funcHunConv = (x, y) -> {
-		return hundredthConverter.hundrethToWord(x, y).orElse(EMPTY);
+		return hundredthConverter.hundredthToWord(x, y).orElse(EMPTY);
 	};
 
 	/**

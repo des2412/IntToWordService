@@ -1,10 +1,11 @@
 package org.desz.inttoword.converters;
 
 import static org.desz.inttoword.factory.ProvLangFactory.getInstance;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
-import org.desz.inttoword.converters.HundredthConverter;
-import org.desz.inttoword.converters.IHundConverter;
+import java.util.Optional;
+
 import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLang;
 import org.junit.Test;
@@ -15,15 +16,11 @@ public class TestHundConverter {
 	IntWordMapping mapping = getInstance().getMapForProvLang(ProvLang.UK);
 
 	@Test
-	public void testMapToWord() throws Exception {
+	public void testHundredthToWord() throws Exception {
 
-		assertNotNull(hundConverter.hundrethToWord("123", mapping));
-
-	}
-
-	@Test
-	public void testMapToWordFail() throws Exception {
-		hundConverter.hundrethToWord("1231", getInstance().getMapForProvLang(ProvLang.UK));
+		Optional<String> opt = hundConverter.hundredthToWord("123", mapping);
+		assertFalse(opt.isEmpty());
+		assertEquals("one hundred and twenty three", opt.get());
 
 	}
 

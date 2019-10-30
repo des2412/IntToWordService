@@ -18,7 +18,7 @@ public interface IHundConverter {
 	 * @param langMapping
 	 * @return the word for the hundreth
 	 */
-	Optional<String> hundrethToWord(String number, IntWordMapping langMapping);
+	Optional<String> hundredthToWord(String number, IntWordMapping langMapping);
 
 	static boolean inRange(int i) {
 		return IntStream.range(1, 100).boxed().collect(Collectors.toSet()).contains(i);

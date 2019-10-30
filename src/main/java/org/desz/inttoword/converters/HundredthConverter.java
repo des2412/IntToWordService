@@ -5,7 +5,7 @@ package org.desz.inttoword.converters;
 
 import static org.desz.inttoword.language.Punct.SPC;
 
-import java.util.Objects;
+import static java.util.Objects.requireNonNull;
 import java.util.Optional;
 
 import static java.util.Optional.empty;
@@ -29,8 +29,8 @@ public class HundredthConverter implements IHundConverter {
 	 * org.desz.inttoword.language.IntWordMapping)
 	 */
 	@Override
-	public Optional<String> hundrethToWord(String number, IntWordMapping langMapping) {
-		number = Objects.requireNonNull(number);
+	public Optional<String> hundredthToWord(String number, IntWordMapping langMapping) {
+		number = requireNonNull(number);
 
 		if (number.length() > 3) {
 			return empty();
@@ -45,25 +45,20 @@ public class HundredthConverter implements IHundConverter {
 		if (n % 100 == 0)
 			return of(hun.toLowerCase());
 
-		if (n < 100)
-			hun = EMPTY;
-		else
-			hun += SPC.val() + langMapping.getAnd();
+		hun = (n < 100) ? EMPTY : hun + SPC.val() + langMapping.getAnd();
 
 		// build non whole hundreds..
 
 		int nmod = n % 100;
 		final String rem = langMapping.wordForNum(nmod).toLowerCase();
-		if (!rem.equals(EMPTY))
-			return of(hun + rem);// e.g., 110,
-									// 120..190.
+		if (Boolean.valueOf(rem.equals(EMPTY)) == false)
+			return of(hun + rem);// e.g., n = 110, 120,..990.
 
 		// otherwise more work to do..,
 		int k = nmod;// e.g., nmod = 23
 		nmod %= 10;// ..nmod = 3
-		k -= nmod; // .. k == 20
+		k -= nmod; // .. k = 20
 
-		// the last possible value.
 		return of(
 				hun + langMapping.wordForNum(k).toLowerCase() + SPC.val() + langMapping.wordForNum(nmod).toLowerCase());
 	}

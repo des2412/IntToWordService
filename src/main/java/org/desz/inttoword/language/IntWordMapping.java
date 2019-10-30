@@ -29,7 +29,7 @@ public class IntWordMapping {
 	private Map<String, String> intToWordMap;
 
 	/**
-	 * @return word mapped to num orElse -> empty String.
+	 * @return word mapped to num or empty String.
 	 */
 	public String wordForNum(int num) {
 		return intToWordMap.containsKey(String.valueOf(num)) ? intToWordMap.get(String.valueOf(num)) : EMPTY;
