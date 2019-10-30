@@ -9,6 +9,7 @@ import static java.util.Objects.requireNonNull;
 
 import org.desz.inttoword.language.ILangProvider;
 import org.desz.inttoword.language.IntWordMapping;
+import org.desz.inttoword.language.IntWordMapping.IntWordMappingBuilder;
 import org.desz.inttoword.language.ProvLang;
 import org.desz.inttoword.language.ProvLangValues.DePair;
 import org.desz.inttoword.language.ProvLangValues.DeUnit;
@@ -30,7 +31,7 @@ public final class ProvLangFactory implements ILangProvider {
 	private static final Map<ProvLang, IntWordMapping> provLangCache = new HashMap<ProvLang, IntWordMapping>();
 
 	/**
-	 * singleton.
+	 * withBilln singleton.
 	 */
 	private ProvLangFactory() {
 	}
@@ -62,51 +63,51 @@ public final class ProvLangFactory implements ILangProvider {
 	private IntWordMapping get(final ProvLang pl) {
 		final ProvLang provLang = requireNonNull(pl);
 		synchronized (provLangCache) {
-			IntWordMapping.Builder builder = new IntWordMapping.Builder();
+			IntWordMappingBuilder builder = IntWordMapping.builder();
 			switch (provLang) {
 			case UK:
 
-				builder.withBilln(UkUnit.BILLS.val());
-				builder.withMilln(UkUnit.MILLS.val());
-				builder.withThoud(UkUnit.THOUS.val());
-				builder.withHund(UkUnit.HUNS.val());
-				builder.withAnd(UkUnit.AND.val());
-				builder.withIntToWordMap(of(UkPair.values()).collect(toMap(UkPair::getNum, UkPair::getWord)));
+				builder.billn(UkUnit.BILLS.val());
+				builder.milln(UkUnit.MILLS.val());
+				builder.thoud(UkUnit.THOUS.val());
+				builder.hund(UkUnit.HUNS.val());
+				builder.and(UkUnit.AND.val());
+				builder.intToWordMap(of(UkPair.values()).collect(toMap(UkPair::getNum, UkPair::getWord)));
 
 				provLangCache.put(ProvLang.UK, builder.build());
 
 				break;
 			case FR:
 
-				builder.withBilln(FrUnit.BILLS.val());
-				builder.withMilln(FrUnit.MILLS.val());
-				builder.withThoud(FrUnit.THOUS.val());
-				builder.withHund(FrUnit.HUNS.val());
-				builder.withAnd(FrUnit.AND.val());
-				builder.withIntToWordMap(of(FrPair.values()).collect(toMap(FrPair::getNum, FrPair::getWord)));
+				builder.billn(FrUnit.BILLS.val());
+				builder.milln(FrUnit.MILLS.val());
+				builder.thoud(FrUnit.THOUS.val());
+				builder.hund(FrUnit.HUNS.val());
+				builder.and(FrUnit.AND.val());
+				builder.intToWordMap(of(FrPair.values()).collect(toMap(FrPair::getNum, FrPair::getWord)));
 				provLangCache.put(ProvLang.FR, builder.build());
 
 				break;
 
 			case DE:
 
-				builder.withBilln(DeUnit.BILLS.val());
-				builder.withMilln(DeUnit.MILLS.val());
-				builder.withThoud(DeUnit.THOUS.val());
-				builder.withHund(DeUnit.HUNS.val());
-				builder.withAnd(DeUnit.AND.val());
-				builder.withIntToWordMap(of(DePair.values()).collect(toMap(DePair::getNum, DePair::getWord)));
+				builder.billn(DeUnit.BILLS.val());
+				builder.milln(DeUnit.MILLS.val());
+				builder.thoud(DeUnit.THOUS.val());
+				builder.hund(DeUnit.HUNS.val());
+				builder.and(DeUnit.AND.val());
+				builder.intToWordMap(of(DePair.values()).collect(toMap(DePair::getNum, DePair::getWord)));
 				provLangCache.put(ProvLang.DE, builder.build());
 				break;
 
 			case NL:
 
-				builder.withBilln(NlUnit.BILLS.val());
-				builder.withMilln(NlUnit.MILLS.val());
-				builder.withThoud(NlUnit.THOUS.val());
-				builder.withHund(NlUnit.HUNS.val());
-				builder.withAnd(NlUnit.AND.val());
-				builder.withIntToWordMap(of(NlPair.values()).collect(toMap(NlPair::getNum, NlPair::getWord)));
+				builder.billn(NlUnit.BILLS.val());
+				builder.milln(NlUnit.MILLS.val());
+				builder.thoud(NlUnit.THOUS.val());
+				builder.hund(NlUnit.HUNS.val());
+				builder.and(NlUnit.AND.val());
+				builder.intToWordMap(of(NlPair.values()).collect(toMap(NlPair::getNum, NlPair::getWord)));
 				provLangCache.put(ProvLang.NL, builder.build());
 
 				break;
