@@ -5,26 +5,23 @@ package org.desz.inttoword.results;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.valueOf;
+import static java.util.Arrays.asList;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import static org.apache.commons.lang3.StringUtils.remove;
+import static org.desz.inttoword.language.ProvLangValues.DeUnit.AND;
 import static org.desz.inttoword.language.Punct.SPC;
-import static java.util.stream.Collectors.toMap;
 
-import static java.util.Arrays.asList;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
-import static org.apache.commons.lang3.StringUtils.capitalize;
-
-import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLangValues.DePair;
 import org.desz.inttoword.results.WordResult.Builder;
 
-import static org.desz.inttoword.language.ProvLangValues.DeUnit.AND;
+import lombok.Value;
 
 /**
  * @author des
@@ -55,7 +52,7 @@ public class DeDecorator implements IWordDecorator {
 		builder = nonNull(wordResult.getBill()) ?
 
 				builder = !normalizeSpace(wordResult.getBill()).split(SPC.val())[0].matches(DePair.ONE.getWord())
-						? builder.withBill(normalizeSpace(wordResult.getBill().trim() + "n"))
+						? builder.withBill(normalizeSpace(wordResult.getBill()) + "n")
 						: builder.withBill(normalizeSpace(wordResult.getBill()))
 				: builder;
 
@@ -96,7 +93,7 @@ public class DeDecorator implements IWordDecorator {
 
 		builder = nonNull(wordResult.getBill()) ? builder.withBill(wordResult.getBill()) : builder;
 
-		builder = nonNull(wordResult.getMill()) ? builder.withMill(wordResult.getMill().trim()) : builder;
+		builder = nonNull(wordResult.getMill()) ? builder.withMill(wordResult.getMill()) : builder;
 
 		builder = nonNull(wordResult.getThou()) ? builder.withThou(wordResult.getThou()) : builder;
 
@@ -115,34 +112,20 @@ public class DeDecorator implements IWordDecorator {
 
 		builder = nonNull(wordResult.getMill()) ? builder.withMill(wordResult.getMill()) : builder;
 
-		final StringBuilder sb = new StringBuilder();
-		String s = nonNull(wordResult.getThou()) ? sb.append(remove(wordResult.getThou(), SPC.val())).toString()
-				: EMPTY;
+		StringBuilder sb = new StringBuilder();
+		sb = nonNull(wordResult.getThou()) ? sb.append(remove(wordResult.getThou(), SPC.val())) : sb.append(EMPTY);
 
-		s = nonNull(wordResult.getHund()) ? sb.append(remove(wordResult.getHund(), SPC.val())).toString() : EMPTY;
+		sb = nonNull(wordResult.getHund()) ? sb.append(remove(wordResult.getHund(), SPC.val())) : sb.append(EMPTY);
 
 		builder.withThou(sb.toString());
 		return builder.build();
 
 	}
 
+	@Value
 	class OrdNum {
-		private final String ord;
-		private final int size;
-
-		public OrdNum(String ord, int size) {
-			super();
-			this.ord = ord;
-			this.size = size;
-		}
-
-		public String getOrd() {
-			return ord;
-		}
-
-		public int getSize() {
-			return size;
-		}
+		String ord;
+		int size;
 
 	}
 
@@ -176,10 +159,10 @@ public class DeDecorator implements IWordDecorator {
 			arr = asList(wordResult.getMill().split(SPC.val()));
 			switch (i) {
 			case 4:
-				bld.withMill(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val() + capitalize(arr.get(3)));
+				bld.withMill(arr.get(0) + arr.get(2) + arr.get(1) + SPC.val() + capitalize(arr.get(3)));
 				break;
 			case 3:
-				bld.withMill(arr.get(1) + AND.val() + arr.get(0) + SPC.val() + arr.get(2) + SPC.val());
+				bld.withMill(arr.get(1) + AND.val() + arr.get(0) + SPC.val() + capitalize(arr.get(2)) + SPC.val());
 				break;
 
 			case 2:
@@ -196,7 +179,7 @@ public class DeDecorator implements IWordDecorator {
 			arr = asList(wordResult.getThou().split(SPC.val()));
 			switch (i) {
 			case 4:
-				bld.withThou(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val() + capitalize(arr.get(3)));
+				bld.withThou(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val() + arr.get(3));
 				break;
 			case 3:
 				bld.withThou(arr.get(1) + AND.val() + arr.get(0) + SPC.val() + arr.get(2) + SPC.val());

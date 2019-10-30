@@ -55,8 +55,8 @@ public final class ProvLangFactory implements ILangProvider {
 
 	@Override
 	public IntWordMapping getMapForProvLang(final ProvLang pl) {
-		 IntWordMapping b = provLangCache.containsKey(pl) ?  provLangCache.get(pl) : get(pl);
-		 return b;
+		IntWordMapping b = provLangCache.containsKey(pl) ? provLangCache.get(pl) : get(pl);
+		return b;
 	}
 
 	private IntWordMapping get(final ProvLang pl) {
