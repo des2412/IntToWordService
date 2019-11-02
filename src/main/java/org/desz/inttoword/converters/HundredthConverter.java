@@ -3,15 +3,15 @@
  */
 package org.desz.inttoword.converters;
 
-import static org.desz.inttoword.language.Punct.SPC;
-
 import static java.util.Objects.requireNonNull;
-import java.util.Optional;
-
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.desz.inttoword.language.Punct.SPC;
+
+import java.util.Optional;
+
 import org.desz.inttoword.language.IntWordMapping;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +31,7 @@ public class HundredthConverter implements IHundConverter {
 	@Override
 	public Optional<String> toWordForLang(String number, IntWordMapping langMapping) {
 		number = requireNonNull(number);
-
+		langMapping = requireNonNull(langMapping);
 		if (number.length() > 3) {
 			return empty();
 		}
@@ -53,7 +53,7 @@ public class HundredthConverter implements IHundConverter {
 
 		int nmod = n % 100;
 		final String rem = langMapping.wordForNum(nmod).toLowerCase();
-		if (Boolean.valueOf(rem.equals(EMPTY)) == false)
+		if (!isEmpty(rem))
 			return of(hun + rem);// e.g., n = 110, 120,..990.
 
 		// otherwise more work to do..,
