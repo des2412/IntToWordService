@@ -14,10 +14,10 @@ public interface IHundConverter {
 	/**
 	 * 
 	 * @param number      the number.
-	 * @param langMapping the IntWordMapping.
-	 * @return the word for the hundredth
+	 * @param intWordMapping the IntWordMapping.
+	 * @return the word for the hundredth specified by langMapping.
 	 */
-	Optional<String> toWordForLang(String number, IntWordMapping langMapping);
+	Optional<String> toWordForLang(String number, IntWordMapping intWordMapping);
 
 	static boolean inRange(int i) {
 		return range(1, 100).boxed().collect(toSet()).contains(i);

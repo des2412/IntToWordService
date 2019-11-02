@@ -29,40 +29,39 @@ public class HundredthConverter implements IHundConverter {
 	 * org.desz.inttoword.language.IntWordMapping)
 	 */
 	@Override
-	public Optional<String> toWordForLang(String number, IntWordMapping langMapping) {
+	public Optional<String> toWordForLang(String number, IntWordMapping intWordMapping) {
 		number = requireNonNull(number);
-		langMapping = requireNonNull(langMapping);
+		intWordMapping = requireNonNull(intWordMapping);
 		if (number.length() > 3) {
 			return empty();
 		}
 		final int n = Integer.parseInt(number);
 		if (n == 0)
 			return Optional.empty();
-		final String word = langMapping.wordForNum(n);
+		final String word = intWordMapping.wordForNum(n);
 		if (!word.equals(EMPTY))
 			return of(word.toLowerCase());
 
-		String hun = (langMapping.wordForNum(n / 100) + langMapping.getHund()).toLowerCase();
+		String hun = (intWordMapping.wordForNum(n / 100) + intWordMapping.getHund()).toLowerCase();
 
 		if (n % 100 == 0)
 			return of(hun.toLowerCase());
 
-		hun = (n < 100) ? EMPTY : hun + SPC.val() + langMapping.getAnd();
+		hun = (n < 100) ? EMPTY : hun + SPC.val() + intWordMapping.getAnd();
 
 		// build non whole hundreds..
 
 		int nmod = n % 100;
-		final String rem = langMapping.wordForNum(nmod).toLowerCase();
+		final String rem = intWordMapping.wordForNum(nmod).toLowerCase();
 		if (!isEmpty(rem))
 			return of(hun + rem);// e.g., n = 110, 120,..990.
 
-		// otherwise more work to do..,
 		int k = nmod;// e.g., nmod = 23
 		nmod %= 10;// ..nmod = 3
 		k -= nmod; // .. k = 20
 
 		return of(
-				hun + langMapping.wordForNum(k).toLowerCase() + SPC.val() + langMapping.wordForNum(nmod).toLowerCase());
+				hun + intWordMapping.wordForNum(k).toLowerCase() + SPC.val() + intWordMapping.wordForNum(nmod).toLowerCase());
 	}
 
 }
