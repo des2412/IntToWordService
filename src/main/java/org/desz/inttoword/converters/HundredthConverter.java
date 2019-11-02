@@ -29,7 +29,7 @@ public class HundredthConverter implements IHundConverter {
 	 * org.desz.inttoword.language.IntWordMapping)
 	 */
 	@Override
-	public Optional<String> hundredthToWord(String number, IntWordMapping langMapping) {
+	public Optional<String> toWordForLang(String number, IntWordMapping langMapping) {
 		number = requireNonNull(number);
 
 		if (number.length() > 3) {

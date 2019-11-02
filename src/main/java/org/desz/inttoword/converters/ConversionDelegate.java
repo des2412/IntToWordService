@@ -51,7 +51,7 @@ public class ConversionDelegate {
 	 * Function fnhunConv.
 	 */
 	private BiFunction<String, IntWordMapping, String> fnhunConv = (x, y) -> {
-		return hundredthConverter.hundredthToWord(x, y).orElse(EMPTY);
+		return hundredthConverter.toWordForLang(x, y).orElse(EMPTY);
 	};
 
 	/**
@@ -71,15 +71,14 @@ public class ConversionDelegate {
 
 		DeDecorator deDecorator = null;
 		final int sz = numUnits.size();
-		// save last element of numUnits..
+		// save last element of numUnits.
 		final int prmLastHun = Integer.parseInt(numUnits.get(numUnits.size() - 1));
 
-		// singleton IntWordMapping per ProvLang.
 		final IntWordMapping intToWordMapping = getInstance().getMapForProvLang(provLang);
 		// check input, n, is zero.
 		if (sz == 1 & prmLastHun == 0)
 			return intToWordMapping.wordForNum(0).toLowerCase();
-		// convert each hundredth to word.
+		// map each hundredth.
 		final Map<Integer, String> wordMap = range(0, sz).boxed()
 				.collect(toMap(identity(), i -> fnhunConv.apply(numUnits.get(i), intToWordMapping)));
 

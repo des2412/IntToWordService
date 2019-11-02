@@ -18,7 +18,7 @@ public class TestHundConverter {
 	@Test
 	public void testHundredthToWord() throws Exception {
 
-		Optional<String> opt = hundConverter.hundredthToWord("123", mapping);
+		Optional<String> opt = hundConverter.toWordForLang("123", mapping);
 		assertFalse(opt.isEmpty());
 		assertEquals("one hundred and twenty three", opt.get());
 
