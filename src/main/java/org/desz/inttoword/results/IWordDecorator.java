@@ -6,16 +6,16 @@ public interface IWordDecorator {
 	 * Add s to EIN.
 	 * 
 	 * @param val
-	 * @return the WordResult.
+	 * @return the Word.
 	 */
-	WordResult pluraliseOneRule(int val);
+	Word pluraliseRule(int val);
 
-	WordResult spaceWithEmptyRule();
+	Word spaceWithEmptyRule();
 
-	WordResult pluraliseUnitRule();
+	Word pluraliseUnitRule();
 
-	WordResult combineThouHundRule();
+	Word combineThouHundRule();
 
-	WordResult rearrangeHundredthRule();
+	Word reArrangeHundredthRule();
 
 }

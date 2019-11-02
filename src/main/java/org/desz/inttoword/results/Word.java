@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Builder
 @Value
-public class WordResult {
+public class Word {
 
 	private final String bill;
 	private final String mill;

@@ -22,8 +22,8 @@ import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLang;
 import org.desz.inttoword.results.DeDecorator;
-import org.desz.inttoword.results.WordResult;
-import org.desz.inttoword.results.WordResult.WordResultBuilder;
+import org.desz.inttoword.results.Word;
+import org.desz.inttoword.results.Word.WordBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -48,9 +48,9 @@ public class ConversionDelegate {
 	}
 
 	/**
-	 * Function funcHunConv.
+	 * Function fnhunConv.
 	 */
-	private BiFunction<String, IntWordMapping, String> funcHunConv = (x, y) -> {
+	private BiFunction<String, IntWordMapping, String> fnhunConv = (x, y) -> {
 		return hundredthConverter.hundredthToWord(x, y).orElse(EMPTY);
 	};
 
@@ -63,7 +63,7 @@ public class ConversionDelegate {
 
 	public String convertIntToWord(Integer n, ProvLang pl) throws AppConversionException {
 
-		n = requireNonNull(n, "Integer parameter required to be non-null");
+		n = requireNonNull(n, "Integer parameter required");
 		final ProvLang provLang = requireNonNull(pl);
 		if (provLang.equals(ProvLang.EMPTY))
 			throw new AppConversionException();
@@ -81,19 +81,19 @@ public class ConversionDelegate {
 			return intToWordMapping.wordForNum(0).toLowerCase();
 		// convert each hundredth to word.
 		final Map<Integer, String> wordMap = range(0, sz).boxed()
-				.collect(toMap(identity(), i -> funcHunConv.apply(numUnits.get(i), intToWordMapping)));
+				.collect(toMap(identity(), i -> fnhunConv.apply(numUnits.get(i), intToWordMapping)));
 
-		WordResultBuilder wordBuilder = WordResult.builder();
+		WordBuilder wordBuilder = Word.builder();
 
 		// build with billion, million.. added.
 		switch (sz) {
 		case 1:
 			// result returned.
 			if (provLang.equals(ProvLang.DE) & n > 20) {
-				WordResult wordResult = wordBuilder.hund(wordMap.get(0)).build();
-				wordResult = new DeDecorator(wordResult).rearrangeHundredthRule();
+				Word wordResult = wordBuilder.hund(wordMap.get(0)).build();
+				wordResult = new DeDecorator(wordResult).reArrangeHundredthRule();
 				wordResult = new DeDecorator(wordResult).spaceWithEmptyRule();
-				return new DeDecorator(wordResult).pluraliseOneRule(prmLastHun).getHund();
+				return new DeDecorator(wordResult).pluraliseRule(prmLastHun).getHund();
 
 			}
 			return wordMap.get(0);
@@ -128,26 +128,25 @@ public class ConversionDelegate {
 				: wordBuilder.hund(wordMap.get(sz - 1));
 
 		// wordResult output for non DE case.
-		final WordResult wordResult = wordBuilder.build();
+		final Word wordResult = wordBuilder.build();
 		// decorate DE word.
 		if (provLang.equals(ProvLang.DE)) {
-			WordResultBuilder deBuilder = WordResult.builder();
+			WordBuilder deBuilder = Word.builder();
 			deBuilder = !isEmpty(wordResult.getBill()) ? deBuilder.bill(wordResult.getBill()) : deBuilder;
 			deBuilder = !isEmpty(wordResult.getMill()) ? deBuilder.mill(wordResult.getMill()) : deBuilder;
 			deBuilder = !isEmpty(wordResult.getThou()) ? deBuilder.thou(wordResult.getThou()) : deBuilder;
 			deBuilder = !isEmpty(wordResult.getHund()) ? deBuilder.hund(wordMap.get(sz - 1)) : deBuilder;
 
 			deDecorator = new DeDecorator(deBuilder.build());
-			WordResult deRes = deDecorator.pluraliseUnitRule();
-			deDecorator = new DeDecorator(deRes);
-			deRes = deDecorator.pluraliseOneRule(prmLastHun);
-			deDecorator = new DeDecorator(deRes);
-			deRes = deDecorator.rearrangeHundredthRule();
-			deDecorator = new DeDecorator(deRes);
-			deRes = deDecorator.combineThouHundRule();
-			// trim, multi to single whitespace.
-			String k = procWordResult(deRes);
-			return normalizeSpace(k);
+			Word deWord = deDecorator.pluraliseUnitRule();
+			deDecorator = new DeDecorator(deWord);
+			deWord = deDecorator.pluraliseRule(prmLastHun);
+			deDecorator = new DeDecorator(deWord);
+			deWord = deDecorator.reArrangeHundredthRule();
+			deDecorator = new DeDecorator(deWord);
+			deWord = deDecorator.combineThouHundRule();
+
+			return normalizeSpace(procWordResult(deWord));
 
 		}
 
@@ -156,7 +155,7 @@ public class ConversionDelegate {
 	}
 
 //TODO add another rule to append space to mill if thou not null.
-	private String procWordResult(WordResult res) {
+	private String procWordResult(Word res) {
 		StringBuilder sb = new StringBuilder();
 		sb = !isNull(res.getBill()) ? sb.append(res.getBill() + SPC.val()) : sb;
 		sb = !isNull(res.getMill()) ? sb.append(res.getMill() + SPC.val()) : sb;

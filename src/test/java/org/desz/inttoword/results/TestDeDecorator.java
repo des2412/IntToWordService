@@ -20,19 +20,19 @@ public class TestDeDecorator {
 	public void testPluraliseOneRule() {
 
 		assertEquals("expected eins", ONE.getWord() + "s",
-				new DeDecorator(WordResult.builder().hund("ein").build()).pluraliseOneRule(1).getHund());
+				new DeDecorator(Word.builder().hund("ein").build()).pluraliseRule(1).getHund());
 
 		String input = normalizeSpace(ONE.getWord() + SPC.val() + deWordMapping.getMilln());
-		assertEquals("Actual should contain million", input,
-				new DeDecorator(WordResult.builder().mill(input).build()).pluraliseUnitRule().getMill());
+		assertEquals("Should contain million", input,
+				new DeDecorator(Word.builder().mill(input).build()).pluraliseUnitRule().getMill());
 		// TWO should be pluralised (million -> millionen).
 		input = normalizeSpace(TWO.getWord() + SPC.val() + deWordMapping.getMilln());
-		assertEquals("Actual should match with ...en", input + "en",
-				new DeDecorator(WordResult.builder().mill(input).build()).pluraliseUnitRule().getMill());
+		assertEquals("Should match with ...en", input + "en",
+				new DeDecorator(Word.builder().mill(input).build()).pluraliseUnitRule().getMill());
 
 		input = normalizeSpace(TWO.getWord() + SPC.val() + deWordMapping.getBilln());
-		assertEquals("Actual should match with ...n", input + "n",
-				new DeDecorator(WordResult.builder().bill(input).build()).pluraliseUnitRule().getBill());
+		assertEquals("Should match with ...n", input + "n",
+				new DeDecorator(Word.builder().bill(input).build()).pluraliseUnitRule().getBill());
 
 	}
 
@@ -42,10 +42,10 @@ public class TestDeDecorator {
 	}
 
 	@Test
-	public void testReplaceSpaceWithEmptyRule() {
+	public void testSpaceWithEmptyRule() {
 
 		assertFalse("Not expecting empty in thousandth",
-				new DeDecorator(WordResult.builder().thou("hundert und seben tausend").hund("drei und zwanzig").build())
+				new DeDecorator(Word.builder().thou("hundert und seben tausend").hund("drei und zwanzig").build())
 						.spaceWithEmptyRule().getThou().trim().contains(SPC.val()));
 	}
 
@@ -53,7 +53,7 @@ public class TestDeDecorator {
 	public void testcombineThouHundRule() {
 
 		assertEquals("neunhundertneunundneunzigtausendneunhundertneunundneunzig", new DeDecorator(
-				WordResult.builder().thou("neunhundertneunundneunzigtausend").hund("neunhundertneunundneunzig").build())
+				Word.builder().thou("neunhundertneunundneunzigtausend").hund("neunhundertneunundneunzig").build())
 						.combineThouHundRule().getThou());
 
 	}
