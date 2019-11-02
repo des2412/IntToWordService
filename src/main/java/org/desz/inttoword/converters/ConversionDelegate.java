@@ -56,8 +56,9 @@ public class ConversionDelegate {
 
 	/**
 	 * 
-	 * @param n the integer.
-	 * @return the word for n including units.
+	 * @param n  the integer.
+	 * @param pl the ProvLang.
+	 * @return the word for n.
 	 * @throws AppConversionException
 	 */
 
@@ -69,14 +70,14 @@ public class ConversionDelegate {
 			throw new AppConversionException();
 		final List<String> numUnits = asList(nf.format(n).split(","));
 
-		DeDecorator deDecorator = null;
+		// DeDecorator deDecorator = null;
 		final int sz = numUnits.size();
 		// save last element of numUnits.
-		final int prmLastHun = Integer.parseInt(numUnits.get(numUnits.size() - 1));
+		final int hundredth = Integer.parseInt(numUnits.get(numUnits.size() - 1));
 
 		final IntWordMapping intToWordMapping = getInstance().getMapForProvLang(provLang);
 		// check input, n, is zero.
-		if (sz == 1 & prmLastHun == 0)
+		if (sz == 1 & hundredth == 0)
 			return intToWordMapping.wordForNum(0).toLowerCase();
 		// map each hundredth.
 		final Map<Integer, String> wordMap = range(0, sz).boxed()
@@ -92,7 +93,7 @@ public class ConversionDelegate {
 				Word wordResult = wordBuilder.hund(wordMap.get(0)).build();
 				wordResult = new DeDecorator(wordResult).reArrangeHundredthRule();
 				wordResult = new DeDecorator(wordResult).spaceWithEmptyRule();
-				return new DeDecorator(wordResult).pluraliseRule(prmLastHun).getHund();
+				return new DeDecorator(wordResult).pluraliseRule(hundredth).getHund();
 
 			}
 			return wordMap.get(0);
@@ -122,44 +123,44 @@ public class ConversionDelegate {
 		default:
 			break;
 		}
-		wordBuilder = IHundConverter.inRange(prmLastHun)
+		wordBuilder = IHundConverter.inRange(hundredth)
 				? wordBuilder.hund(intToWordMapping.getAnd() + wordMap.get(sz - 1))
 				: wordBuilder.hund(wordMap.get(sz - 1));
 
-		// wordResult output for non DE case.
-		final Word wordResult = wordBuilder.build();
+		// word for non DE case.
+		final Word word = wordBuilder.build();
 		// decorate DE word.
 		if (provLang.equals(ProvLang.DE)) {
 			WordBuilder deBuilder = Word.builder();
-			deBuilder = !isEmpty(wordResult.getBill()) ? deBuilder.bill(wordResult.getBill()) : deBuilder;
-			deBuilder = !isEmpty(wordResult.getMill()) ? deBuilder.mill(wordResult.getMill()) : deBuilder;
-			deBuilder = !isEmpty(wordResult.getThou()) ? deBuilder.thou(wordResult.getThou()) : deBuilder;
-			deBuilder = !isEmpty(wordResult.getHund()) ? deBuilder.hund(wordMap.get(sz - 1)) : deBuilder;
+			deBuilder = !isEmpty(word.getBill()) ? deBuilder.bill(word.getBill()) : deBuilder;
+			deBuilder = !isEmpty(word.getMill()) ? deBuilder.mill(word.getMill()) : deBuilder;
+			deBuilder = !isEmpty(word.getThou()) ? deBuilder.thou(word.getThou()) : deBuilder;
+			deBuilder = !isEmpty(word.getHund()) ? deBuilder.hund(wordMap.get(sz - 1)) : deBuilder;
 
-			deDecorator = new DeDecorator(deBuilder.build());
+			DeDecorator deDecorator = new DeDecorator(deBuilder.build());
 			Word deWord = deDecorator.pluraliseUnitRule();
 			deDecorator = new DeDecorator(deWord);
-			deWord = deDecorator.pluraliseRule(prmLastHun);
+			deWord = deDecorator.pluraliseRule(hundredth);
 			deDecorator = new DeDecorator(deWord);
 			deWord = deDecorator.reArrangeHundredthRule();
 			deDecorator = new DeDecorator(deWord);
 			deWord = deDecorator.combineThouHundRule();
 
-			return normalizeSpace(procWordResult(deWord));
+			return normalizeSpace(processWord(deWord));
 
 		}
 
-		return normalizeSpace(procWordResult(wordResult));
+		return normalizeSpace(processWord(word));
 
 	}
 
 //TODO add another rule to append space to mill if thou not null.
-	private String procWordResult(Word res) {
+	private String processWord(Word word) {
 		StringBuilder sb = new StringBuilder();
-		sb = !isNull(res.getBill()) ? sb.append(res.getBill() + SPC.val()) : sb;
-		sb = !isNull(res.getMill()) ? sb.append(res.getMill() + SPC.val()) : sb;
-		sb = !isNull(res.getThou()) ? sb.append(res.getThou() + SPC.val()) : sb;
-		sb = !isNull(res.getHund()) ? sb.append(res.getHund()) : sb;
+		sb = !isNull(word.getBill()) ? sb.append(word.getBill() + SPC.val()) : sb;
+		sb = !isNull(word.getMill()) ? sb.append(word.getMill() + SPC.val()) : sb;
+		sb = !isNull(word.getThou()) ? sb.append(word.getThou() + SPC.val()) : sb;
+		sb = !isNull(word.getHund()) ? sb.append(word.getHund()) : sb;
 
 		return sb.toString();
 	}

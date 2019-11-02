@@ -29,11 +29,11 @@ import lombok.Value;
  */
 public class DeDecorator implements IWordDecorator {
 
-	private Word wordResult;
+	private Word word;
 
-	public DeDecorator(Word wordResult) {
-		requireNonNull(wordResult);
-		this.wordResult = wordResult;
+	public DeDecorator(Word word) {
+		requireNonNull(word);
+		this.word = word;
 	}
 
 	/*
@@ -49,23 +49,23 @@ public class DeDecorator implements IWordDecorator {
 
 		WordBuilder builder = Word.builder();
 
-		builder = nonNull(wordResult.getBill()) ?
+		builder = nonNull(word.getBill()) ?
 
-				builder = !normalizeSpace(wordResult.getBill()).split(SPC.val())[0].matches(DePair.ONE.getWord())
-						? builder.bill(normalizeSpace(wordResult.getBill()) + "n")
-						: builder.bill(normalizeSpace(wordResult.getBill()))
+				builder = !normalizeSpace(word.getBill()).split(SPC.val())[0].matches(DePair.ONE.getWord())
+						? builder.bill(normalizeSpace(word.getBill()) + "n")
+						: builder.bill(normalizeSpace(word.getBill()))
 				: builder;
 
-		builder = nonNull(wordResult.getMill()) ?
+		builder = nonNull(word.getMill()) ?
 
-				!wordResult.getMill().split(SPC.val())[0].matches(DePair.ONE.getWord())
-						? builder.mill(normalizeSpace(wordResult.getMill()) + "en")
-						: builder.mill(normalizeSpace(wordResult.getMill()))
+				!word.getMill().split(SPC.val())[0].matches(DePair.ONE.getWord())
+						? builder.mill(normalizeSpace(word.getMill()) + "en")
+						: builder.mill(normalizeSpace(word.getMill()))
 				: builder;
 
-		builder = nonNull(wordResult.getThou()) ? builder.thou(wordResult.getThou()) : builder;
+		builder = nonNull(word.getThou()) ? builder.thou(word.getThou()) : builder;
 
-		builder = nonNull(wordResult.getHund()) ? builder.hund(wordResult.getHund()) : builder;
+		builder = nonNull(word.getHund()) ? builder.hund(word.getHund()) : builder;
 
 		return builder.build();
 
@@ -76,9 +76,9 @@ public class DeDecorator implements IWordDecorator {
 
 		WordBuilder builder = Word.builder();
 
-		builder = nonNull(wordResult.getThou()) ? builder.thou(remove(wordResult.getThou(), SPC.val())) : builder;
+		builder = nonNull(word.getThou()) ? builder.thou(remove(word.getThou(), SPC.val())) : builder;
 
-		builder = nonNull(wordResult.getHund()) ? builder.hund(remove(wordResult.getHund(), SPC.val())) : builder;
+		builder = nonNull(word.getHund()) ? builder.hund(remove(word.getHund(), SPC.val())) : builder;
 
 		return builder.build();
 
@@ -88,15 +88,15 @@ public class DeDecorator implements IWordDecorator {
 	public Word pluraliseRule(int val) {
 		WordBuilder builder = Word.builder();
 
-		builder = nonNull(wordResult.getBill()) ? builder.bill(wordResult.getBill()) : builder;
+		builder = nonNull(word.getBill()) ? builder.bill(word.getBill()) : builder;
 
-		builder = nonNull(wordResult.getMill()) ? builder.mill(wordResult.getMill()) : builder;
+		builder = nonNull(word.getMill()) ? builder.mill(word.getMill()) : builder;
 
-		builder = nonNull(wordResult.getThou()) ? builder.thou(wordResult.getThou()) : builder;
+		builder = nonNull(word.getThou()) ? builder.thou(word.getThou()) : builder;
 
-		builder = nonNull(wordResult.getHund())
-				? valueOf(val).mod(valueOf(100)).equals(ONE) ? builder.hund(wordResult.getHund() + "s")
-						: builder.hund(wordResult.getHund())
+		builder = nonNull(word.getHund())
+				? valueOf(val).mod(valueOf(100)).equals(ONE) ? builder.hund(word.getHund() + "s")
+						: builder.hund(word.getHund())
 				: builder;
 
 		return builder.build();
@@ -105,14 +105,14 @@ public class DeDecorator implements IWordDecorator {
 	@Override
 	public Word combineThouHundRule() {
 		WordBuilder builder = Word.builder();
-		builder = nonNull(wordResult.getBill()) ? builder.bill(wordResult.getBill()) : builder;
+		builder = nonNull(word.getBill()) ? builder.bill(word.getBill()) : builder;
 
-		builder = nonNull(wordResult.getMill()) ? builder.mill(wordResult.getMill()) : builder;
+		builder = nonNull(word.getMill()) ? builder.mill(word.getMill()) : builder;
 
 		StringBuilder sb = new StringBuilder();
-		sb = nonNull(wordResult.getThou()) ? sb.append(remove(wordResult.getThou(), SPC.val())) : sb.append(EMPTY);
+		sb = nonNull(word.getThou()) ? sb.append(remove(word.getThou(), SPC.val())) : sb.append(EMPTY);
 
-		sb = nonNull(wordResult.getHund()) ? sb.append(remove(wordResult.getHund(), SPC.val())) : sb.append(EMPTY);
+		sb = nonNull(word.getHund()) ? sb.append(remove(word.getHund(), SPC.val())) : sb.append(EMPTY);
 
 		return builder.thou(sb.toString()).build();
 
@@ -133,7 +133,7 @@ public class DeDecorator implements IWordDecorator {
 		List<String> arr = null;
 		switch (intCharacteristic.getUnit()) {
 		case "B":
-			arr = asList(wordResult.getBill().split(SPC.val()));
+			arr = asList(word.getBill().split(SPC.val()));
 			switch (i) {
 
 			case 4:
@@ -153,7 +153,7 @@ public class DeDecorator implements IWordDecorator {
 			break;
 
 		case "M":
-			arr = asList(wordResult.getMill().split(SPC.val()));
+			arr = asList(word.getMill().split(SPC.val()));
 			switch (i) {
 			case 4:
 				bld.mill(arr.get(0) + arr.get(2) + arr.get(1) + SPC.val() + capitalize(arr.get(3)));
@@ -173,7 +173,7 @@ public class DeDecorator implements IWordDecorator {
 			break;
 
 		case "T":
-			arr = asList(wordResult.getThou().split(SPC.val()));
+			arr = asList(word.getThou().split(SPC.val()));
 			switch (i) {
 			case 4:
 				bld.thou(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val() + arr.get(3));
@@ -192,7 +192,7 @@ public class DeDecorator implements IWordDecorator {
 
 			break;
 		case "H":
-			arr = asList(wordResult.getHund().split(SPC.val()));
+			arr = asList(word.getHund().split(SPC.val()));
 			switch (i) {
 			case 4:
 				bld.hund(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val() + capitalize(arr.get(3)));
@@ -218,20 +218,20 @@ public class DeDecorator implements IWordDecorator {
 	public Word reArrangeHundredthRule() {
 		WordBuilder builder = Word.builder();
 
-		builder = nonNull(wordResult.getBill())
-				? funcHunConv.apply(new IntCharacteristic("B", asList(wordResult.getBill().split(SPC.val())).size()), builder)
+		builder = nonNull(word.getBill())
+				? funcHunConv.apply(new IntCharacteristic("B", asList(word.getBill().split(SPC.val())).size()), builder)
 				: builder;
 
-		builder = nonNull(wordResult.getMill())
-				? funcHunConv.apply(new IntCharacteristic("M", asList(wordResult.getMill().split(SPC.val())).size()), builder)
+		builder = nonNull(word.getMill())
+				? funcHunConv.apply(new IntCharacteristic("M", asList(word.getMill().split(SPC.val())).size()), builder)
 				: builder;
 
-		builder = nonNull(wordResult.getThou())
-				? funcHunConv.apply(new IntCharacteristic("T", asList(wordResult.getThou().split(SPC.val())).size()), builder)
+		builder = nonNull(word.getThou())
+				? funcHunConv.apply(new IntCharacteristic("T", asList(word.getThou().split(SPC.val())).size()), builder)
 				: builder;
 
-		builder = nonNull(wordResult.getHund())
-				? funcHunConv.apply(new IntCharacteristic("H", asList(wordResult.getHund().split(SPC.val())).size()), builder)
+		builder = nonNull(word.getHund())
+				? funcHunConv.apply(new IntCharacteristic("H", asList(word.getHund().split(SPC.val())).size()), builder)
 				: builder;
 
 		return builder.build();
