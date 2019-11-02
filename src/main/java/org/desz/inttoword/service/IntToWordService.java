@@ -3,7 +3,7 @@
  */
 package org.desz.inttoword.service;
 
-import java.util.Objects;
+import static java.util.Objects.requireNonNull;
 import java.util.Optional;
 
 import org.desz.inttoword.converters.ConversionDelegate;
@@ -42,8 +42,8 @@ public final class IntToWordService implements INumberToWordService {
 
 	@Override
 	public String getWordInLang(ProvLang provLang, String num) throws IntToWordServiceException {
-		num = Objects.requireNonNull(num, MSG);
-		provLang = Objects.requireNonNull(provLang, MSG);
+		num = requireNonNull(num, MSG);
+		provLang = requireNonNull(provLang, MSG);
 		if (!provLang.isValid())
 			throw new IntToWordServiceException("Invalid language specified");
 

@@ -36,6 +36,8 @@ public class HundredthConverter implements IHundConverter {
 			return empty();
 		}
 		final int n = Integer.parseInt(number);
+		if (n == 0)
+			return Optional.empty();
 		final String word = langMapping.wordForNum(n);
 		if (!word.equals(EMPTY))
 			return of(word.toLowerCase());

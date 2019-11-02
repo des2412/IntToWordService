@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 import org.desz.inttoword.language.ProvLangValues.DePair;
-import org.desz.inttoword.results.WordResult.Builder;
+import org.desz.inttoword.results.WordResult.WordResultBuilder;
 
 import lombok.Value;
 
@@ -47,25 +47,25 @@ public class DeDecorator implements IWordDecorator {
 
 		// million and billion pluralised
 
-		WordResult.Builder builder = new WordResult.Builder();
+		WordResultBuilder builder = WordResult.builder();
 
 		builder = nonNull(wordResult.getBill()) ?
 
 				builder = !normalizeSpace(wordResult.getBill()).split(SPC.val())[0].matches(DePair.ONE.getWord())
-						? builder.withBill(normalizeSpace(wordResult.getBill()) + "n")
-						: builder.withBill(normalizeSpace(wordResult.getBill()))
+						? builder.bill(normalizeSpace(wordResult.getBill()) + "n")
+						: builder.bill(normalizeSpace(wordResult.getBill()))
 				: builder;
 
 		builder = nonNull(wordResult.getMill()) ?
 
 				!wordResult.getMill().trim().split(SPC.val())[0].matches(DePair.ONE.getWord())
-						? builder.withMill(normalizeSpace(wordResult.getMill()) + "en")
-						: builder.withMill(normalizeSpace(wordResult.getMill()))
+						? builder.mill(normalizeSpace(wordResult.getMill()) + "en")
+						: builder.mill(normalizeSpace(wordResult.getMill()))
 				: builder;
 
-		builder = nonNull(wordResult.getThou()) ? builder.withThou(wordResult.getThou()) : builder;
+		builder = nonNull(wordResult.getThou()) ? builder.thou(wordResult.getThou()) : builder;
 
-		builder = nonNull(wordResult.getHund()) ? builder.withHund(wordResult.getHund()) : builder;
+		builder = nonNull(wordResult.getHund()) ? builder.hund(wordResult.getHund()) : builder;
 
 		return builder.build();
 
@@ -74,14 +74,14 @@ public class DeDecorator implements IWordDecorator {
 	@Override
 	public WordResult spaceWithEmptyRule() {
 
-		WordResult.Builder builder = new WordResult.Builder();
-		builder = nonNull(wordResult.getBill()) ? builder.withBill(wordResult.getBill()) : builder;
+		WordResultBuilder builder = WordResult.builder();
+		builder = nonNull(wordResult.getBill()) ? builder.bill(wordResult.getBill()) : builder;
 
-		builder = nonNull(wordResult.getMill()) ? builder.withMill(wordResult.getMill()) : builder;
+		builder = nonNull(wordResult.getMill()) ? builder.mill(wordResult.getMill()) : builder;
 
-		builder = nonNull(wordResult.getThou()) ? builder.withThou(remove(wordResult.getThou(), SPC.val())) : builder;
+		builder = nonNull(wordResult.getThou()) ? builder.thou(remove(wordResult.getThou(), SPC.val())) : builder;
 
-		builder = nonNull(wordResult.getHund()) ? builder.withHund(remove(wordResult.getHund(), SPC.val())) : builder;
+		builder = nonNull(wordResult.getHund()) ? builder.hund(remove(wordResult.getHund(), SPC.val())) : builder;
 
 		return builder.build();
 
@@ -89,17 +89,17 @@ public class DeDecorator implements IWordDecorator {
 
 	@Override
 	public WordResult pluraliseOneRule(int val) {
-		WordResult.Builder builder = new WordResult.Builder();
+		WordResultBuilder builder = WordResult.builder();
 
-		builder = nonNull(wordResult.getBill()) ? builder.withBill(wordResult.getBill()) : builder;
+		builder = nonNull(wordResult.getBill()) ? builder.bill(wordResult.getBill()) : builder;
 
-		builder = nonNull(wordResult.getMill()) ? builder.withMill(wordResult.getMill()) : builder;
+		builder = nonNull(wordResult.getMill()) ? builder.mill(wordResult.getMill()) : builder;
 
-		builder = nonNull(wordResult.getThou()) ? builder.withThou(wordResult.getThou()) : builder;
+		builder = nonNull(wordResult.getThou()) ? builder.thou(wordResult.getThou()) : builder;
 
 		builder = nonNull(wordResult.getHund())
-				? valueOf(val).mod(valueOf(100)).equals(ONE) ? builder.withHund(wordResult.getHund() + "s")
-						: builder.withHund(wordResult.getHund())
+				? valueOf(val).mod(valueOf(100)).equals(ONE) ? builder.hund(wordResult.getHund() + "s")
+						: builder.hund(wordResult.getHund())
 				: builder;
 
 		return builder.build();
@@ -107,17 +107,17 @@ public class DeDecorator implements IWordDecorator {
 
 	@Override
 	public WordResult combineThouHundRule() {
-		WordResult.Builder builder = new WordResult.Builder();
-		builder = nonNull(wordResult.getBill()) ? builder.withBill(wordResult.getBill()) : builder;
+		WordResultBuilder builder = WordResult.builder();
+		builder = nonNull(wordResult.getBill()) ? builder.bill(wordResult.getBill()) : builder;
 
-		builder = nonNull(wordResult.getMill()) ? builder.withMill(wordResult.getMill()) : builder;
+		builder = nonNull(wordResult.getMill()) ? builder.mill(wordResult.getMill()) : builder;
 
 		StringBuilder sb = new StringBuilder();
 		sb = nonNull(wordResult.getThou()) ? sb.append(remove(wordResult.getThou(), SPC.val())) : sb.append(EMPTY);
 
 		sb = nonNull(wordResult.getHund()) ? sb.append(remove(wordResult.getHund(), SPC.val())) : sb.append(EMPTY);
 
-		builder.withThou(sb.toString());
+		builder.thou(sb.toString());
 		return builder.build();
 
 	}
@@ -129,9 +129,9 @@ public class DeDecorator implements IWordDecorator {
 
 	}
 
-	private BiFunction<OrdNum, WordResult.Builder, WordResult.Builder> funcHunConv = (x, bld) -> {
+	private BiFunction<OrdNum, WordResultBuilder, WordResultBuilder> funcHunConv = (x, bld) -> {
 
-		int i = x.getSize();
+		final int i = x.getSize();
 
 		List<String> arr = null;
 		switch (x.getOrd()) {
@@ -140,17 +140,17 @@ public class DeDecorator implements IWordDecorator {
 			switch (i) {
 
 			case 4:
-				bld.withBill(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val() + capitalize(arr.get(3)));
+				bld.bill(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val() + capitalize(arr.get(3)));
 				break;
 			case 3:
-				bld.withBill(arr.get(1) + AND.val() + arr.get(0) + SPC.val() + capitalize(arr.get(2)) + SPC.val());
+				bld.bill(arr.get(1) + AND.val() + arr.get(0) + SPC.val() + capitalize(arr.get(2)) + SPC.val());
 				break;
 
 			case 2:
-				bld.withBill(arr.get(0) + SPC.val() + capitalize(arr.get(1)) + SPC.val());
+				bld.bill(arr.get(0) + SPC.val() + capitalize(arr.get(1)) + SPC.val());
 				break;
 			case 1:
-				bld.withBill(arr.get(0));
+				bld.bill(arr.get(0));
 				break;
 			}
 			break;
@@ -159,17 +159,17 @@ public class DeDecorator implements IWordDecorator {
 			arr = asList(wordResult.getMill().split(SPC.val()));
 			switch (i) {
 			case 4:
-				bld.withMill(arr.get(0) + arr.get(2) + arr.get(1) + SPC.val() + capitalize(arr.get(3)));
+				bld.mill(arr.get(0) + arr.get(2) + arr.get(1) + SPC.val() + capitalize(arr.get(3)));
 				break;
 			case 3:
-				bld.withMill(arr.get(1) + AND.val() + arr.get(0) + SPC.val() + capitalize(arr.get(2)) + SPC.val());
+				bld.mill(arr.get(1) + AND.val() + arr.get(0) + SPC.val() + capitalize(arr.get(2)) + SPC.val());
 				break;
 
 			case 2:
-				bld.withMill(arr.get(0) + SPC.val() + capitalize(arr.get(1)) + SPC.val());
+				bld.mill(arr.get(0) + SPC.val() + capitalize(arr.get(1)) + SPC.val());
 				break;
 			case 1:
-				bld.withMill(arr.get(0));
+				bld.mill(arr.get(0));
 				break;
 			}
 
@@ -179,17 +179,17 @@ public class DeDecorator implements IWordDecorator {
 			arr = asList(wordResult.getThou().split(SPC.val()));
 			switch (i) {
 			case 4:
-				bld.withThou(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val() + arr.get(3));
+				bld.thou(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val() + arr.get(3));
 				break;
 			case 3:
-				bld.withThou(arr.get(1) + AND.val() + arr.get(0) + SPC.val() + arr.get(2) + SPC.val());
+				bld.thou(arr.get(1) + AND.val() + arr.get(0) + SPC.val() + arr.get(2) + SPC.val());
 				break;
 
 			case 2:
-				bld.withThou(arr.get(0) + SPC.val() + arr.get(1) + SPC.val());
+				bld.thou(arr.get(0) + SPC.val() + arr.get(1) + SPC.val());
 				break;
 			case 1:
-				bld.withThou(arr.get(0));
+				bld.thou(arr.get(0));
 				break;
 			}
 
@@ -198,17 +198,17 @@ public class DeDecorator implements IWordDecorator {
 			arr = asList(wordResult.getHund().split(SPC.val()));
 			switch (i) {
 			case 4:
-				bld.withHund(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val() + capitalize(arr.get(3)));
+				bld.hund(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val() + capitalize(arr.get(3)));
 				break;
 			case 3:
-				bld.withHund(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val());
+				bld.hund(arr.get(0) + arr.get(2) + SPC.val() + arr.get(1) + SPC.val());
 				break;
 
 			case 2:
-				bld.withHund(arr.get(1) + AND.val() + arr.get(0) + SPC.val());
+				bld.hund(arr.get(1) + AND.val() + arr.get(0) + SPC.val());
 				break;
 			case 1:
-				bld.withHund(arr.get(0));
+				bld.hund(arr.get(0));
 				break;
 			}
 			break;
@@ -219,7 +219,7 @@ public class DeDecorator implements IWordDecorator {
 
 	@Override
 	public WordResult rearrangeHundredthRule() {
-		Builder builder = new WordResult.Builder();
+		WordResultBuilder builder = WordResult.builder();
 
 		builder = nonNull(wordResult.getBill())
 				? funcHunConv.apply(new OrdNum("B", asList(wordResult.getBill().split(SPC.val())).size()), builder)

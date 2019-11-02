@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class TestConversionDelegateUk {
 
-	protected ConversionDelegate delegate = new ConversionDelegate(new HundredthConverter());
+	ConversionDelegate delegate = new ConversionDelegate(new HundredthConverter());
 	private static final String MAX_INT = "two billion one hundred and forty seven million four hundred and eighty three thousand six hundred and forty seven";
 
 	@Test(expected = NullPointerException.class)
@@ -177,6 +177,30 @@ public class TestConversionDelegateUk {
 		assertNotNull("null unexpected", s);
 
 		assertEquals("one million one hundred and twenty three thousand four hundred and fifty six", s);
+	}
+
+	@Test
+	public final void test1000000000() throws AppConversionException {
+		String s = delegate.convertIntToWord(1000000000, ProvLang.UK);
+		assertNotNull("null unexpected", s);
+
+		assertEquals("one billion", s);
+	}
+	
+	@Test
+	public final void test1000000001() throws AppConversionException {
+		String s = delegate.convertIntToWord(1000000001, ProvLang.UK);
+		assertNotNull("null unexpected", s);
+
+		assertEquals("one billion and one", s);
+	}
+	
+	@Test
+	public final void test1000000100() throws AppConversionException {
+		String s = delegate.convertIntToWord(1000000100, ProvLang.UK);
+		assertNotNull("null unexpected", s);
+
+		assertEquals("one billion one hundred", s);
 	}
 
 }

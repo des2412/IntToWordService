@@ -31,7 +31,7 @@ public final class ProvLangFactory implements ILangProvider {
 	private static final Map<ProvLang, IntWordMapping> provLangCache = new HashMap<ProvLang, IntWordMapping>();
 
 	/**
-	 * withBilln singleton.
+	 * singleton.
 	 */
 	private ProvLangFactory() {
 	}
