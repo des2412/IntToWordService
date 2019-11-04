@@ -11,7 +11,7 @@ import org.desz.inttoword.language.ProvLang;
 import org.junit.Test;
 
 public class TestHundConverter {
-	protected IHundConverter hundConverter = new HundredthConverter();
+	IHundConverter hundConverter = new HundredthConverter();
 
 	IntWordMapping mapping = getInstance().getMapForProvLang(ProvLang.UK);
 
