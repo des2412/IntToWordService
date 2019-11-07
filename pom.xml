@@ -35,10 +35,12 @@
 			<name>SpringSource Milestone Repository</name>
 			<url>http://repo.springsource.org/milestone</url>
 		</repository>
+
 	</repositories>
 
 	<dependencyManagement>
 		<dependencies>
+
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-framework-bom</artifactId>
@@ -67,11 +69,13 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
+			<scope>provided</scope>
 			<version>1.7.28</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
+			<scope>provided</scope>
 			<version>1.7.7</version>
 		</dependency>
 
