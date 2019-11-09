@@ -7,7 +7,7 @@
 
 	<groupId>org.desz.conversion</groupId>
 	<artifactId>inttoword</artifactId>
-	<version>RELEASE.1.0.1</version>
+	<version>RELEASE.1.0.2</version>
 	<packaging>jar</packaging>
 
 	<name>IntegerToword</name>
