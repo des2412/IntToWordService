@@ -27,7 +27,11 @@ public class IntWordMapping {
 	private String and;
 	private String billn;
 	private Map<String, String> intToWordMap;
-
+	
+	public boolean containsMapping(int num)
+	{
+		return intToWordMap.containsKey(String.valueOf(num)); 
+	}
 	/**
 	 * @return word mapped to num or empty String.
 	 */

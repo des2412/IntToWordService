@@ -15,6 +15,7 @@
 	<properties>
 		<org.springframework.version>5.0.0.M5</org.springframework.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<mockito.version>2.28.2</mockito.version>
 	</properties>
 
 	<repositories>
@@ -40,7 +41,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-framework-bom</artifactId>
@@ -53,6 +53,19 @@
 
 
 	<dependencies>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.6</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -90,12 +103,14 @@
 			<artifactId>spring-context</artifactId>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<!-- <scope>test</scope> -->
+			<version>4.8.2</version>
+			<scope>test</scope>
 		</dependency>
+
 
 		<dependency>
 			<groupId>com.google.code.findbugs</groupId>

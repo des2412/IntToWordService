@@ -138,8 +138,6 @@ public final class ProvLangValues {
 	 * 
 	 * Languages: UK, FR, DE, NL
 	 * 
-	 * UK is default if invalid language is selected.
-	 * 
 	 * Each XX_ERRORS Enum is a discrete set with common name but language dependent
 	 * values.
 	 * 

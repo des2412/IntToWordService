@@ -5,14 +5,22 @@ import static org.junit.Assert.assertNotNull;
 
 import org.desz.inttoword.converters.ConversionDelegate;
 import org.desz.inttoword.converters.HundredthConverter;
+import org.desz.inttoword.converters.NumberFormatValidator;
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.language.ProvLang;
+import org.junit.Before;
 import org.junit.Test;
 
 public class TestConversionDelegateUk {
-
-	ConversionDelegate delegate = new ConversionDelegate(new HundredthConverter());
 	private static final String MAX_INT = "two billion one hundred and forty seven million four hundred and eighty three thousand six hundred and forty seven";
+
+	ConversionDelegate delegate;
+
+	@Before
+	public void init() {
+		delegate = new ConversionDelegate(new HundredthConverter());
+		delegate.setNumberFormatValidator(NumberFormatValidator.getInstance());
+	}
 
 	@Test(expected = NullPointerException.class)
 	public void testNull() throws AppConversionException {
@@ -186,7 +194,7 @@ public class TestConversionDelegateUk {
 
 		assertEquals("one billion", s);
 	}
-	
+
 	@Test
 	public final void test1000000001() throws AppConversionException {
 		String s = delegate.convertIntToWord(1000000001, ProvLang.UK);
@@ -194,7 +202,7 @@ public class TestConversionDelegateUk {
 
 		assertEquals("one billion and one", s);
 	}
-	
+
 	@Test
 	public final void test1000000100() throws AppConversionException {
 		String s = delegate.convertIntToWord(1000000100, ProvLang.UK);

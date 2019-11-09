@@ -1,17 +1,25 @@
 package org.desz.inttoword.results;
 
+import static org.desz.inttoword.language.ProvLang.DE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.desz.inttoword.converters.ConversionDelegate;
 import org.desz.inttoword.converters.HundredthConverter;
+import org.desz.inttoword.converters.NumberFormatValidator;
 import org.desz.inttoword.exceptions.AppConversionException;
-import static org.desz.inttoword.language.ProvLang.DE;
+import org.junit.Before;
 import org.junit.Test;
 
 public class TestConversionDelegateDe {
 
-	ConversionDelegate delegate = new ConversionDelegate(new HundredthConverter());
+	ConversionDelegate delegate;
+
+	@Before
+	public void init() {
+		delegate = new ConversionDelegate(new HundredthConverter());
+		delegate.setNumberFormatValidator(NumberFormatValidator.getInstance());
+	}
 
 	@Test
 	public final void testMaxInt() throws AppConversionException {

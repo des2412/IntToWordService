@@ -12,12 +12,15 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import static org.desz.inttoword.factory.ProvLangFactory.getInstance;
 import static org.desz.inttoword.language.Punct.SPC;
-
+import static org.desz.inttoword.converters.IHundConverter.inRange;
+import static org.desz.inttoword.factory.ErrorFactory.getErrorForProvLang;
+import static org.desz.inttoword.language.ProvLangValues.UkError.INVALID_INPUT;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.logging.Logger;
+
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLang;
@@ -37,6 +40,11 @@ public class ConversionDelegate {
 	private static final NumberFormat nf = NumberFormat.getIntegerInstance(UK);
 
 	private IHundConverter hundredthConverter;
+	private NumberFormatValidator numberFormatValidator;
+
+	public void setNumberFormatValidator(NumberFormatValidator numberFormatValidator) {
+		this.numberFormatValidator = numberFormatValidator;
+	}
 
 	/**
 	 * 
@@ -48,9 +56,9 @@ public class ConversionDelegate {
 	}
 
 	/**
-	 * Function fnhunConv.
+	 * Function func_hundredth_conv. usage: convert a hundredth to word.
 	 */
-	private BiFunction<String, IntWordMapping, String> fnhunConv = (x, y) -> {
+	private BiFunction<String, IntWordMapping, String> func_hundredth_conv = (x, y) -> {
 		return hundredthConverter.toWordForLang(x, y).orElse(EMPTY);
 	};
 
@@ -70,18 +78,28 @@ public class ConversionDelegate {
 			throw new AppConversionException();
 		final List<String> numUnits = asList(nf.format(n).split(","));
 
-		// DeDecorator deDecorator = null;
 		final int sz = numUnits.size();
+
+		// validate each element of numUnits is a valid integer.
+		if (!numberFormatValidator.isValidAndInRange(numUnits)) {
+			final String err = getErrorForProvLang(provLang, INVALID_INPUT.name());
+			log.severe(err);
+			return err;
+		}
 		// save last element of numUnits.
 		final int hundredth = Integer.parseInt(numUnits.get(numUnits.size() - 1));
 
 		final IntWordMapping intToWordMapping = getInstance().getMapForProvLang(provLang);
-		// check input, n, is zero.
-		if (sz == 1 & hundredth == 0)
-			return intToWordMapping.wordForNum(0).toLowerCase();
+
+		// return result if n is mapped and only single number element.
+		final String s = intToWordMapping.containsMapping(n) ? intToWordMapping.wordForNum(n) : EMPTY;
+
+		if (sz == 1 & !isEmpty(s))
+			return s.toLowerCase().toLowerCase();
+
 		// map each hundredth.
 		final Map<Integer, String> wordMap = range(0, sz).boxed()
-				.collect(toMap(identity(), i -> fnhunConv.apply(numUnits.get(i), intToWordMapping)));
+				.collect(toMap(identity(), i -> func_hundredth_conv.apply(numUnits.get(i), intToWordMapping)));
 
 		WordBuilder wordBuilder = Word.builder();
 
@@ -123,13 +141,13 @@ public class ConversionDelegate {
 		default:
 			break;
 		}
-		wordBuilder = IHundConverter.inRange(hundredth)
-				? wordBuilder.hund(intToWordMapping.getAnd() + wordMap.get(sz - 1))
+		wordBuilder = inRange(hundredth) ? wordBuilder.hund(intToWordMapping.getAnd() + wordMap.get(sz - 1))
 				: wordBuilder.hund(wordMap.get(sz - 1));
 
-		// word for non DE case.
+		// build word
 		final Word word = wordBuilder.build();
-		// decorate DE word.
+		// apply rules to 'decorate' DE word.
+		Word deWord = null;
 		if (provLang.equals(ProvLang.DE)) {
 			WordBuilder deBuilder = Word.builder();
 			deBuilder = !isEmpty(word.getBill()) ? deBuilder.bill(word.getBill()) : deBuilder;
@@ -138,7 +156,7 @@ public class ConversionDelegate {
 			deBuilder = !isEmpty(word.getHund()) ? deBuilder.hund(wordMap.get(sz - 1)) : deBuilder;
 
 			DeDecorator deDecorator = new DeDecorator(deBuilder.build());
-			Word deWord = deDecorator.pluraliseUnitRule();
+			deWord = deDecorator.pluraliseUnitRule();
 			deDecorator = new DeDecorator(deWord);
 			deWord = deDecorator.pluraliseRule(hundredth);
 			deDecorator = new DeDecorator(deWord);
@@ -146,11 +164,9 @@ public class ConversionDelegate {
 			deDecorator = new DeDecorator(deWord);
 			deWord = deDecorator.combineThouHundRule();
 
-			return normalizeSpace(processWord(deWord));
-
 		}
 
-		return normalizeSpace(processWord(word));
+		return isNull(deWord) ? normalizeSpace(processWord(word)) : normalizeSpace(processWord(deWord));
 
 	}
 
