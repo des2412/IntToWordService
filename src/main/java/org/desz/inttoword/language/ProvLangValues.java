@@ -230,8 +230,9 @@ public final class ProvLangValues {
 	 * 
 	 */
 	public enum FrUnit {
-		AND("et" + SPC.val()), MILLS(SPC.val() + "million"), THOUS(SPC.val() + "mille"), HUNS(SPC.val() + "cent"),
-		BILLS(SPC.val() + "milliard");
+		AND("et" + SPC.val()), QUINTS(SPC.val() + "quintillion"), QUADS(SPC.val() + "quadrillion"),
+		TRILLS(SPC.val() + "trillion"), BILLS(SPC.val() + "milliard"), MILLS(SPC.val() + "million"),
+		THOUS(SPC.val() + "mille"), HUNS(SPC.val() + "cent");
 
 		private String val;
 
@@ -253,8 +254,8 @@ public final class ProvLangValues {
 	 */
 	public enum DeUnit {
 
-		AND("und"), MILLS(SPC.val() + "million"), BILLS(SPC.val() + "milliarde"), THOUS(SPC.val() + "tausend"),
-		HUNS("hundert");
+		AND("und"), QUINTS(SPC.val() + "trillionen"), QUADS(SPC.val() + "billiarden"), TRILLS(SPC.val() + "billionen"),
+		BILLS(SPC.val() + "milliarde"), MILLS(SPC.val() + "million"), THOUS(SPC.val() + "tausend"), HUNS("hundert");
 
 		private String val;
 
@@ -269,8 +270,9 @@ public final class ProvLangValues {
 
 	public enum NlUnit {
 
-		AND("en" + SPC.val()), MILLS(SPC.val() + "miljeon"), BILLS(SPC.val() + "miljard"), THOUS(SPC.val() + "duizend"),
-		HUNS(SPC.val() + "honderd");
+		AND("en" + SPC.val()), QUINTS(SPC.val() + "triljoen"), QUADS(SPC.val() + "biljard"),
+		TRILLS(SPC.val() + "biljoen"), BILLS(SPC.val() + "miljard"), MILLS(SPC.val() + "miljeon"),
+		THOUS(SPC.val() + "duizend"), HUNS(SPC.val() + "honderd");
 
 		private String val;
 
@@ -285,7 +287,8 @@ public final class ProvLangValues {
 
 	public enum UkUnit {
 
-		AND("and" + SPC.val()), BILLS(SPC.val() + "billion"), MILLS(SPC.val() + "million"),
+		AND("and" + SPC.val()), QUINTS(SPC.val() + "quintillion"), QUADS(SPC.val() + "quadrillion"),
+		TRILLS(SPC.val() + "trillion"), BILLS(SPC.val() + "billion"), MILLS(SPC.val() + "million"),
 		THOUS(SPC.val() + "thousand"), HUNS(SPC.val() + "hundred");
 
 		private String val;

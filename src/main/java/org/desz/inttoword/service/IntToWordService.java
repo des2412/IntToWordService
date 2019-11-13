@@ -48,7 +48,7 @@ public final class IntToWordService implements INumberToWordService {
 			throw new IntToWordServiceException("Invalid language specified");
 
 		try {
-			return conversionDelegate.convertIntToWord(Integer.parseInt(num), provLang);
+			return conversionDelegate.convertIntToWord(Long.parseLong(num), provLang);
 		} catch (AppConversionException e) {
 			log.error(e.getMessage());
 			throw new IntToWordServiceException(e.getLocalizedMessage());

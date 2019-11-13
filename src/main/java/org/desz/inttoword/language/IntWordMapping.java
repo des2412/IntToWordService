@@ -21,17 +21,21 @@ import lombok.Value;
 @Value
 public class IntWordMapping {
 
+	private String quintn;
+	private String quadrn;
+	private String trilln;
+	private String billn;
 	private String milln;
 	private String thoud;
 	private String hund;
 	private String and;
-	private String billn;
+
 	private Map<String, String> intToWordMap;
-	
-	public boolean containsMapping(int num)
-	{
-		return intToWordMap.containsKey(String.valueOf(num)); 
+
+	public boolean containsMapping(int num) {
+		return intToWordMap.containsKey(String.valueOf(num));
 	}
+
 	/**
 	 * @return word mapped to num or empty String.
 	 */

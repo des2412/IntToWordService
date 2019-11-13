@@ -6,8 +6,6 @@ import static org.desz.inttoword.language.ProvLangValues.DePair.ONE;
 import static org.desz.inttoword.language.ProvLangValues.DePair.TWO;
 import static org.desz.inttoword.language.Punct.SPC;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
 import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLang;
 import org.junit.Test;
@@ -39,14 +37,6 @@ public class TestDeDecorator {
 	@Test(expected = NullPointerException.class)
 	public void testConstructor() {
 		new DeDecorator(null);
-	}
-
-	@Test
-	public void testSpaceWithEmptyRule() {
-
-		assertFalse("Not expecting empty in thousandth",
-				new DeDecorator(Word.builder().thou("hundert und seben tausend").hund("drei und zwanzig").build())
-						.spaceWithEmptyRule().getThou().trim().contains(SPC.val()));
 	}
 
 	@Test

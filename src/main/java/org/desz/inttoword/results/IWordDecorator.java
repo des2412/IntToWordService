@@ -10,8 +10,6 @@ public interface IWordDecorator {
 	 */
 	Word pluraliseRule(int val);
 
-	Word spaceWithEmptyRule();
-
 	Word pluraliseUnitRule();
 
 	Word combineThouHundRule();
