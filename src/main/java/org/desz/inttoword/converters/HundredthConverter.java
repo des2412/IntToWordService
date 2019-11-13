@@ -7,8 +7,8 @@ import static java.util.Objects.requireNonNull;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static org.desz.inttoword.language.Punct.SPC;
 
 import java.util.Optional;
 
@@ -21,6 +21,19 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class HundredthConverter implements IHundConverter {
+
+	private static class Holder {
+		private static final HundredthConverter singleton = new HundredthConverter();
+
+	}
+
+	/**
+	 * 
+	 * @return singleton instance.
+	 */
+	public static HundredthConverter getInstance() {
+		return Holder.singleton;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -47,7 +60,7 @@ public class HundredthConverter implements IHundConverter {
 		if (n % 100 == 0)
 			return of(hun.toLowerCase());
 
-		hun = (n < 100) ? EMPTY : hun + SPC.val() + intWordMapping.getAnd();
+		hun = (n < 100) ? EMPTY : hun + SPACE + intWordMapping.getAnd();
 
 		// build non whole hundreds..
 
@@ -60,8 +73,8 @@ public class HundredthConverter implements IHundConverter {
 		nmod %= 10;// ..nmod = 3
 		k -= nmod; // .. k = 20
 
-		return of(
-				hun + intWordMapping.wordForNum(k).toLowerCase() + SPC.val() + intWordMapping.wordForNum(nmod).toLowerCase());
+		return of(hun + intWordMapping.wordForNum(k).toLowerCase() + SPACE
+				+ intWordMapping.wordForNum(nmod).toLowerCase());
 	}
 
 }

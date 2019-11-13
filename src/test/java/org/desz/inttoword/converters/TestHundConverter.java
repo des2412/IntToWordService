@@ -2,8 +2,6 @@ package org.desz.inttoword.converters;
 
 import static org.desz.inttoword.factory.ProvLangFactory.getInstance;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
 import java.util.Optional;
 
 import org.desz.inttoword.language.IntWordMapping;

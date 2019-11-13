@@ -3,10 +3,12 @@ package org.desz.inttoword.results;
 import lombok.Builder;
 import lombok.Value;
 
-@Builder
+@Builder(toBuilder = true)
 @Value
 public class Word {
-
+	private final String quint;
+	private final String quadr;
+	private final String trill;
 	private final String bill;
 	private final String mill;
 	private final String thou;

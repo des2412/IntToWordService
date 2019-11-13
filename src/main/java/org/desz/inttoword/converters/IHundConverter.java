@@ -1,8 +1,10 @@
 package org.desz.inttoword.converters;
 
-import java.util.Optional;
 import static java.util.stream.Collectors.toSet;
 import static java.util.stream.IntStream.range;
+
+import java.util.Optional;
+
 import org.desz.inttoword.language.IntWordMapping;
 
 /*
@@ -13,7 +15,7 @@ public interface IHundConverter {
 
 	/**
 	 * 
-	 * @param number      the number.
+	 * @param number         the number.
 	 * @param intWordMapping the IntWordMapping.
 	 * @return the word for the hundredth specified by langMapping.
 	 */

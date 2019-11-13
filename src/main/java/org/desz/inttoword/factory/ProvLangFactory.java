@@ -66,7 +66,9 @@ public final class ProvLangFactory implements ILangProvider {
 			IntWordMappingBuilder builder = IntWordMapping.builder();
 			switch (provLang) {
 			case UK:
-
+				builder.quintn(UkUnit.QUINTS.val());
+				builder.quadrn(UkUnit.QUADS.val());
+				builder.trilln(UkUnit.TRILLS.val());
 				builder.billn(UkUnit.BILLS.val());
 				builder.milln(UkUnit.MILLS.val());
 				builder.thoud(UkUnit.THOUS.val());
@@ -78,7 +80,9 @@ public final class ProvLangFactory implements ILangProvider {
 
 				break;
 			case FR:
-
+				builder.quintn(FrUnit.QUINTS.val());
+				builder.quadrn(FrUnit.QUADS.val());
+				builder.trilln(FrUnit.TRILLS.val());
 				builder.billn(FrUnit.BILLS.val());
 				builder.milln(FrUnit.MILLS.val());
 				builder.thoud(FrUnit.THOUS.val());
@@ -90,7 +94,9 @@ public final class ProvLangFactory implements ILangProvider {
 				break;
 
 			case DE:
-
+				builder.quintn(DeUnit.QUINTS.val());
+				builder.quadrn(DeUnit.QUADS.val());
+				builder.trilln(DeUnit.TRILLS.val());
 				builder.billn(DeUnit.BILLS.val());
 				builder.milln(DeUnit.MILLS.val());
 				builder.thoud(DeUnit.THOUS.val());
@@ -101,7 +107,9 @@ public final class ProvLangFactory implements ILangProvider {
 				break;
 
 			case NL:
-
+				builder.quintn(NlUnit.QUINTS.val());
+				builder.quadrn(NlUnit.QUADS.val());
+				builder.trilln(NlUnit.TRILLS.val());
 				builder.billn(NlUnit.BILLS.val());
 				builder.milln(NlUnit.MILLS.val());
 				builder.thoud(NlUnit.THOUS.val());
