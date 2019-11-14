@@ -5,18 +5,15 @@ import static java.util.Locale.UK;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.joining;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
-import static org.apache.commons.lang3.StringUtils.remove;
 import static org.desz.inttoword.factory.ProvLangFactory.getInstance;
 
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.logging.Logger;
-
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLang;
@@ -95,23 +92,19 @@ public class ConversionDelegate {
 			deDecorator = new DeDecorator(deWord);
 			deWord = deDecorator.pluraliseRule(hun);
 			deDecorator = new DeDecorator(deWord);
+			// Update state from deWord to deBuilder.
+			deBuilder = deWord.toBuilder();
 
-			deWord = deDecorator.reArrangeHundredthRule();
-			if (sz > 1) {
-				String s = nonNull(deWord.getHund()) ? removeUnd(deBuilder.build().getHund(), hun) : EMPTY;
-				deWord = !isEmpty(s) ? deWord.toBuilder().hund(s).build() : deWord;
-			}
-			deWord = nonNull(deWord.getQuint()) ? deWord.toBuilder().quint(removeSpace(deWord.getQuint())).build()
-					: deWord;
-			deWord = nonNull(deWord.getQuadr()) ? deWord.toBuilder().quadr(removeSpace(deWord.getQuadr())).build()
-					: deWord;
-			deWord = nonNull(deWord.getTrill()) ? deWord.toBuilder().trill(removeSpace(deWord.getTrill())).build()
-					: deWord;
-			deWord = nonNull(deWord.getBill()) ? deWord.toBuilder().bill(removeSpace(deWord.getBill())).build()
+			deWord = nonNull(deWord.getHund()) ? deWord.toBuilder().hund(removeSpace(deWord.getHund())).build()
 					: deWord;
 
 			deDecorator = new DeDecorator(deWord);
-			deWord = deDecorator.combineThouHundRule();
+			deWord = nonNull(deWord.getThou()) ? deDecorator.combineThouHundRule() : deWord;
+
+			/*
+			 * deDecorator = new DeDecorator(deWord); deWord =
+			 * deDecorator.capitaliseUnits();
+			 */
 
 		}
 
@@ -121,25 +114,7 @@ public class ConversionDelegate {
 
 	private String removeSpace(String word) {
 
-		List<String> lst = asList(word.split(SPACE));
-		if (lst.size() < 3)
-			return word;
-		return lst.subList(0, lst.size() - 1).stream().map(x -> x.replaceAll(SPACE, EMPTY)).collect(joining()) + SPACE
-				+ lst.get(lst.size() - 1);
-	}
-
-	// TODO put this into DeDecorator.
-	private String removeUnd(String s, int val) {
-		StringBuilder sb = new StringBuilder();
-		final List<String> lst = asList(s.split(SPACE));
-		final int k = val % 100;
-		switch (lst.size()) {
-		case 2:
-			sb = !(k < 10) ? sb.append(lst.get(0) + lst.get(1)) : sb.append(lst.get(0) + remove(lst.get(1), "und"));
-			break;
-
-		}
-		return sb.toString();
+		return word.replaceAll(SPACE, EMPTY);
 	}
 
 //TODO add another rule to append space to mill if thou not null.

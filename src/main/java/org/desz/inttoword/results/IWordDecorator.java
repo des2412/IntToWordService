@@ -3,7 +3,7 @@ package org.desz.inttoword.results;
 public interface IWordDecorator {
 
 	/**
-	 * Add s to EIN.
+	 * pluralise EIN.
 	 * 
 	 * @param val
 	 * @return the Word.
@@ -13,7 +13,5 @@ public interface IWordDecorator {
 	Word pluraliseUnitRule();
 
 	Word combineThouHundRule();
-
-	Word reArrangeHundredthRule();
 
 }

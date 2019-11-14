@@ -6,6 +6,7 @@ import static org.desz.inttoword.language.ProvLangValues.DePair.ONE;
 import static org.desz.inttoword.language.ProvLangValues.DePair.TWO;
 import static org.desz.inttoword.language.Punct.SPC;
 import static org.junit.Assert.assertEquals;
+
 import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLang;
 import org.junit.Test;

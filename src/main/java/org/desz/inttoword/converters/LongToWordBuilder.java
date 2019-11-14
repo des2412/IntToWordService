@@ -1,10 +1,14 @@
 package org.desz.inttoword.converters;
 
+import static java.util.Arrays.asList;
+import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.SPACE;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+
 import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.results.Word;
 import org.desz.inttoword.results.Word.WordBuilder;
@@ -12,6 +16,24 @@ import org.desz.inttoword.results.Word.WordBuilder;
 public class LongToWordBuilder implements ILongToWordBuilder {
 
 	private static HundredthConverter hundredthConverter = HundredthConverter.getInstance();
+
+	private String rearrangeHun(String s) {
+		List<String> l = asList(s.split(SPACE));
+		StringBuilder sb = new StringBuilder();
+		switch (l.size()) {
+		case 1:
+			return s;
+		case 2:// add und
+			sb.append(l.get(1) + "und" + l.get(0));
+			break;
+		case 3:
+			sb.append(l.get(0) + l.get(2) + l.get(1));
+			break;
+
+		}
+
+		return sb.toString();
+	}
 
 	/**
 	 * tail recursion.
@@ -21,27 +43,31 @@ public class LongToWordBuilder implements ILongToWordBuilder {
 		final int sz = numbers.size();
 
 		// get zero element index and convert
-		final String num = hundredthConverter.toWordForLang(numbers.get(0), intWordMapping).orElse(EMPTY);
+		String num = hundredthConverter.toWordForLang(numbers.get(0), intWordMapping).orElse(EMPTY);
 
-		if (!StringUtils.isEmpty(num)) {
+		if (intWordMapping.getAnd().equalsIgnoreCase("und"))
+			num = Integer.parseInt(numbers.get(0)) % 10 != 0 ? rearrangeHun(num) : num;
+
+		if (!isEmpty(num)) {
 			switch (sz) {
 			case 7:
-				wordBuilder.quint(num + intWordMapping.getQuintn());
+				wordBuilder.quint(num + SPACE + capitalize(intWordMapping.getQuintn()));
 				break;
 			case 6:
-				wordBuilder.quadr(num + intWordMapping.getQuadrn());
+				wordBuilder.quadr(num + SPACE + capitalize(intWordMapping.getQuadrn().strip()));
 				break;
 			case 5:
-				wordBuilder.trill(num + intWordMapping.getTrilln());
+				wordBuilder.trill(num + SPACE + capitalize(intWordMapping.getTrilln().strip().toLowerCase()));
 				break;
 			case 4:
-				wordBuilder.bill(num + intWordMapping.getBilln());
+				wordBuilder.bill(num + SPACE + capitalize(intWordMapping.getBilln().strip().toLowerCase()));
 				break;
 			case 3:
-				wordBuilder.mill(num + intWordMapping.getMilln());
+				String s = intWordMapping.getMilln().strip();
+				wordBuilder.mill(num + SPACE + capitalize(intWordMapping.getMilln().strip()));
 				break;
 			case 2:
-				wordBuilder.thou(num + intWordMapping.getThoud());
+				wordBuilder.thou(num + SPACE + capitalize(intWordMapping.getThoud().strip().toLowerCase()));
 				break;
 
 			case 1:

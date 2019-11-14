@@ -134,7 +134,7 @@ public class DeDecorator implements IWordDecorator {
 
 		sb = nonNull(word.getHund()) ? sb.append(remove(word.getHund(), SPACE)) : sb.append(EMPTY);
 
-		builder.thou(sb.toString());
+		builder.thou(sb.toString().toLowerCase());
 
 		return builder.build();
 
@@ -285,7 +285,7 @@ public class DeDecorator implements IWordDecorator {
 				break;
 
 			case 2:
-				bld.hund(arr.get(1) + AND.val() + arr.get(0));
+				bld.hund(arr.get(0) + remove(arr.get(1), AND.val()));
 				break;
 			case 1:
 				bld.hund(arr.get(0));
@@ -297,39 +297,4 @@ public class DeDecorator implements IWordDecorator {
 		return bld;
 	};
 
-	@Override
-	public Word reArrangeHundredthRule() {
-		WordBuilder builder = Word.builder();
-
-		builder = nonNull(word.getQuint())
-				? funcHunConv.apply(new IntCharacteristic("QU", asList(word.getQuint().split(SPACE)).size()), builder)
-				: builder;
-
-		builder = nonNull(word.getQuadr())
-				? funcHunConv.apply(new IntCharacteristic("QR", asList(word.getQuadr().split(SPACE)).size()), builder)
-				: builder;
-
-		builder = nonNull(word.getTrill())
-				? funcHunConv.apply(new IntCharacteristic("TR", asList(word.getTrill().split(SPACE)).size()), builder)
-				: builder;
-
-		builder = nonNull(word.getBill())
-				? funcHunConv.apply(new IntCharacteristic("B", asList(word.getBill().split(SPACE)).size()), builder)
-				: builder;
-
-		builder = nonNull(word.getMill())
-				? funcHunConv.apply(new IntCharacteristic("M", asList(word.getMill().split(SPACE)).size()), builder)
-				: builder;
-
-		builder = nonNull(word.getThou())
-				? funcHunConv.apply(new IntCharacteristic("T", asList(word.getThou().strip().split(SPACE)).size()),
-						builder)
-				: builder;
-
-		builder = nonNull(word.getHund())
-				? funcHunConv.apply(new IntCharacteristic("H", asList(word.getHund().split(SPACE)).size()), builder)
-				: builder;
-
-		return builder.build();
-	}
 }

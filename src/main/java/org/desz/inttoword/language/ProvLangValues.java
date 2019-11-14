@@ -3,7 +3,7 @@
  */
 package org.desz.inttoword.language;
 
-import static org.desz.inttoword.language.Punct.SPC;
+import static org.apache.commons.lang3.StringUtils.SPACE;
 
 /**
  * @author des
@@ -230,9 +230,8 @@ public final class ProvLangValues {
 	 * 
 	 */
 	public enum FrUnit {
-		AND("et" + SPC.val()), QUINTS(SPC.val() + "quintillion"), QUADS(SPC.val() + "quadrillion"),
-		TRILLS(SPC.val() + "trillion"), BILLS(SPC.val() + "milliard"), MILLS(SPC.val() + "million"),
-		THOUS(SPC.val() + "mille"), HUNS(SPC.val() + "cent");
+		AND("et" + SPACE), QUINTS(SPACE + "quintillion"), QUADS(SPACE + "quadrillion"), TRILLS(SPACE + "trillion"),
+		BILLS(SPACE + "milliard"), MILLS(SPACE + "million"), THOUS(SPACE + "mille"), HUNS(SPACE + "cent");
 
 		private String val;
 
@@ -254,8 +253,8 @@ public final class ProvLangValues {
 	 */
 	public enum DeUnit {
 
-		AND("und"), QUINTS(SPC.val() + "trillionen"), QUADS(SPC.val() + "billiarden"), TRILLS(SPC.val() + "billionen"),
-		BILLS(SPC.val() + "milliarde"), MILLS(SPC.val() + "million"), THOUS(SPC.val() + "tausend"), HUNS("hundert");
+		AND("und"), QUINTS(SPACE + "trillionen"), QUADS(SPACE + "billiarden"), TRILLS(SPACE + "billionen"),
+		BILLS(SPACE + "milliarde"), MILLS(SPACE + "million"), THOUS(SPACE + "tausend"), HUNS("hundert");
 
 		private String val;
 
@@ -270,9 +269,8 @@ public final class ProvLangValues {
 
 	public enum NlUnit {
 
-		AND("en" + SPC.val()), QUINTS(SPC.val() + "triljoen"), QUADS(SPC.val() + "biljard"),
-		TRILLS(SPC.val() + "biljoen"), BILLS(SPC.val() + "miljard"), MILLS(SPC.val() + "miljeon"),
-		THOUS(SPC.val() + "duizend"), HUNS(SPC.val() + "honderd");
+		AND("en" + SPACE), QUINTS(SPACE + "triljoen"), QUADS(SPACE + "biljard"), TRILLS(SPACE + "biljoen"),
+		BILLS(SPACE + "miljard"), MILLS(SPACE + "miljeon"), THOUS(SPACE + "duizend"), HUNS(SPACE + "honderd");
 
 		private String val;
 
@@ -287,9 +285,8 @@ public final class ProvLangValues {
 
 	public enum UkUnit {
 
-		AND("and" + SPC.val()), QUINTS(SPC.val() + "quintillion"), QUADS(SPC.val() + "quadrillion"),
-		TRILLS(SPC.val() + "trillion"), BILLS(SPC.val() + "billion"), MILLS(SPC.val() + "million"),
-		THOUS(SPC.val() + "thousand"), HUNS(SPC.val() + "hundred");
+		AND("and" + SPACE), QUINTS(SPACE + "quintillion"), QUADS(SPACE + "quadrillion"), TRILLS(SPACE + "trillion"),
+		BILLS(SPACE + "billion"), MILLS(SPACE + "million"), THOUS(SPACE + "thousand"), HUNS(SPACE + "hundred");
 
 		private String val;
 
