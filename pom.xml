@@ -7,7 +7,7 @@
 
 	<groupId>org.desz.conversion</groupId>
 	<artifactId>longtoword</artifactId>
-	<version>RELEASE-3.0</version>
+	<version>RELEASE-3.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>LongToword</name>
