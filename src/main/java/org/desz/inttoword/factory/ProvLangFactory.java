@@ -64,8 +64,11 @@ public final class ProvLangFactory implements ILangProvider {
 		final ProvLang provLang = requireNonNull(pl);
 		synchronized (provLangCache) {
 			IntWordMappingBuilder builder = IntWordMapping.builder();
+			builder.id(provLang.name());
 			switch (provLang) {
+
 			case UK:
+
 				builder.quintn(UkUnit.QUINTS.val());
 				builder.quadrn(UkUnit.QUADS.val());
 				builder.trilln(UkUnit.TRILLS.val());

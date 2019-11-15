@@ -20,7 +20,7 @@ import lombok.Value;
 @Builder
 @Value
 public class IntWordMapping {
-
+	private String id;
 	private String quintn;
 	private String quadrn;
 	private String trilln;
