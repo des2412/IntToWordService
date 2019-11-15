@@ -7,6 +7,7 @@ import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import static org.desz.inttoword.factory.ProvLangFactory.getInstance;
 
@@ -65,7 +66,7 @@ public class ConversionDelegate {
 		if (sz == 1) {
 			final int val = n.intValue();
 			final String s = intWordMapping.containsMapping(val) ? intWordMapping.wordForNum(val) : EMPTY;
-			if (!s.isBlank())
+			if (!isBlank(s))
 				return s.toLowerCase();
 		}
 
