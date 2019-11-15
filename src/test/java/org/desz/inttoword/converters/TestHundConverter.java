@@ -2,7 +2,6 @@ package org.desz.inttoword.converters;
 
 import static org.desz.inttoword.factory.ProvLangFactory.getInstance;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 
 import java.util.Optional;
@@ -21,7 +20,7 @@ public class TestHundConverter {
 	public void testHundredthToWord() throws Exception {
 
 		Optional<String> opt = hundConverter.toWordForLang("123", mapping);
-		assertFalse(opt.isEmpty());
+		// assertFalse(opt.isEmpty());
 		assertEquals("one hundred and twenty three", opt.get());
 
 	}
@@ -38,7 +37,7 @@ public class TestHundConverter {
 	public void testHundredthToWord3() throws Exception {
 
 		Optional<String> opt = hundConverter.toWordForLang("31", mappingDe);
-		assertFalse(opt.isEmpty());
+		// assertFalse(opt.isEmpty());
 		assertNotEquals("einunddreißig", opt.get());
 
 	}
@@ -47,7 +46,7 @@ public class TestHundConverter {
 	public void testHundredthToWord4() throws Exception {
 
 		Optional<String> opt = hundConverter.toWordForLang("287", mappingDe);
-		assertFalse(opt.isEmpty());
+		// assertFalse(opt.isEmpty());
 		assertNotEquals("zweihundertsiebenundachtzig", opt.get());
 
 	}
