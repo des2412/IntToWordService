@@ -2,7 +2,7 @@
 
 ### What is this repository for? ###
 
-* Convert integer to word in one of several language.
+* Convert long to word in one of several languages.
 * RELEASE.1.0
 
 ### How do I get set up? ###

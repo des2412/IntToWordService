@@ -57,7 +57,7 @@ public class LongToWordBuilder implements ILongToWordBuilder {
 			switch (sz) {
 			case 7:
 				wordBuilder = isDe ? wordBuilder.quint(num + SPACE + capitalize(intWordMapping.getQuintn().strip()))
-						: wordBuilder.quint(num + SPACE + intWordMapping.getQuintn());
+						: wordBuilder.quint(num + SPACE + intWordMapping.getQuintn().strip());
 				break;
 			case 6:
 				wordBuilder = isDe ? wordBuilder.quadr(num + SPACE + capitalize(intWordMapping.getQuadrn().strip()))
@@ -69,7 +69,7 @@ public class LongToWordBuilder implements ILongToWordBuilder {
 				break;
 			case 4:
 				wordBuilder = isDe ? wordBuilder.bill(num + SPACE + capitalize(intWordMapping.getBilln().strip()))
-						: wordBuilder.bill(num + SPACE + intWordMapping.getBilln().strip().toLowerCase());
+						: wordBuilder.bill(num + SPACE + intWordMapping.getBilln().strip());
 				break;
 			case 3:
 				wordBuilder = isDe ? wordBuilder.mill(num + SPACE + capitalize(intWordMapping.getMilln().strip()))
@@ -77,7 +77,7 @@ public class LongToWordBuilder implements ILongToWordBuilder {
 				break;
 			case 2:
 				wordBuilder = isDe ? wordBuilder.thou(num + SPACE + capitalize(intWordMapping.getThoud().strip()))
-						: wordBuilder.thou(num + SPACE + intWordMapping.getThoud().strip().toLowerCase());
+						: wordBuilder.thou(num + SPACE + intWordMapping.getThoud().strip());
 				break;
 
 			case 1:
