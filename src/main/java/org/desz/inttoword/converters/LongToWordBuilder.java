@@ -56,28 +56,28 @@ public class LongToWordBuilder implements ILongToWordBuilder {
 		if (!isEmpty(num)) {
 			switch (sz) {
 			case 7:
-				wordBuilder = isDe ? wordBuilder.quint(num + SPACE + capitalize(intWordMapping.getQuintn().strip()))
-						: wordBuilder.quint(num + SPACE + intWordMapping.getQuintn().strip());
+				wordBuilder = isDe ? wordBuilder.quint(num + SPACE + capitalize(intWordMapping.getQuintn().trim()))
+						: wordBuilder.quint(num + SPACE + intWordMapping.getQuintn().trim());
 				break;
 			case 6:
-				wordBuilder = isDe ? wordBuilder.quadr(num + SPACE + capitalize(intWordMapping.getQuadrn().strip()))
-						: wordBuilder.quadr(num + SPACE + intWordMapping.getQuadrn().strip());
+				wordBuilder = isDe ? wordBuilder.quadr(num + SPACE + capitalize(intWordMapping.getQuadrn().trim()))
+						: wordBuilder.quadr(num + SPACE + intWordMapping.getQuadrn().trim());
 				break;
 			case 5:
-				wordBuilder = isDe ? wordBuilder.trill(num + SPACE + capitalize(intWordMapping.getTrilln().strip()))
-						: wordBuilder.trill(num + SPACE + intWordMapping.getTrilln().strip());
+				wordBuilder = isDe ? wordBuilder.trill(num + SPACE + capitalize(intWordMapping.getTrilln().trim()))
+						: wordBuilder.trill(num + SPACE + intWordMapping.getTrilln().trim());
 				break;
 			case 4:
-				wordBuilder = isDe ? wordBuilder.bill(num + SPACE + capitalize(intWordMapping.getBilln().strip()))
-						: wordBuilder.bill(num + SPACE + intWordMapping.getBilln().strip());
+				wordBuilder = isDe ? wordBuilder.bill(num + SPACE + capitalize(intWordMapping.getBilln().trim()))
+						: wordBuilder.bill(num + SPACE + intWordMapping.getBilln().trim());
 				break;
 			case 3:
-				wordBuilder = isDe ? wordBuilder.mill(num + SPACE + capitalize(intWordMapping.getMilln().strip()))
-						: wordBuilder.mill(num + SPACE + intWordMapping.getMilln().strip());
+				wordBuilder = isDe ? wordBuilder.mill(num + SPACE + capitalize(intWordMapping.getMilln().trim()))
+						: wordBuilder.mill(num + SPACE + intWordMapping.getMilln().trim());
 				break;
 			case 2:
-				wordBuilder = isDe ? wordBuilder.thou(num + SPACE + capitalize(intWordMapping.getThoud().strip()))
-						: wordBuilder.thou(num + SPACE + intWordMapping.getThoud().strip());
+				wordBuilder = isDe ? wordBuilder.thou(num + SPACE + capitalize(intWordMapping.getThoud().trim()))
+						: wordBuilder.thou(num + SPACE + intWordMapping.getThoud().trim());
 				break;
 
 			case 1:
