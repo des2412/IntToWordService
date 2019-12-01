@@ -39,7 +39,7 @@ public class LongToWordBuilder implements ILongToWordBuilder {
 	}
 
 	/**
-	 * tail recursion.
+	 * tail recursion using numbers sublist and WordBuilder on each recursion.
 	 */
 	@Override
 	public Word buildWord(List<String> numbers, WordBuilder wordBuilder, IntWordMapping intWordMapping) {
