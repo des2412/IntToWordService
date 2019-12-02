@@ -6,6 +6,7 @@ import static org.desz.inttoword.language.ProvLangValues.DePair.ONE;
 import static org.desz.inttoword.language.ProvLangValues.DePair.TWO;
 import static org.desz.inttoword.language.Punct.SPC;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLang;
@@ -16,6 +17,23 @@ public class TestDeDecorator {
 	final IntWordMapping deWordMapping = getInstance().getMapForProvLang(ProvLang.DE);
 
 	@Test
+	public void test_pluralise_unit_rule_ein() {
+
+		//
+		String input = normalizeSpace(ONE.getWord() + SPC.val() + deWordMapping.getQuintn());
+		assertEquals("Expected ein quintillion", input,
+				new DeDecorator(Word.builder().quint(input).build()).pluraliseUnitRule().getQuint());
+	}
+
+	@Test
+	public void test_pluralise_unit_rule_not_ein() {
+		final String input = normalizeSpace(TWO.getWord() + SPC.val() + deWordMapping.getQuintn());
+		Word res = new DeDecorator(Word.builder().quint(input).build()).pluraliseUnitRule();
+		assertEquals("zwei trillionen", res.getQuint().toLowerCase());
+
+	}
+
+	@Test
 	public void testPluraliseOneRule() {
 
 		assertEquals("expected eins", ONE.getWord() + "s",
@@ -24,14 +42,6 @@ public class TestDeDecorator {
 		String input = normalizeSpace(ONE.getWord() + SPC.val() + deWordMapping.getMilln());
 		assertEquals("Should contain million", input,
 				new DeDecorator(Word.builder().mill(input).build()).pluraliseUnitRule().getMill());
-		// TWO should be pluralised (million -> millionen).
-		input = normalizeSpace(TWO.getWord() + SPC.val() + deWordMapping.getMilln());
-		assertEquals("Should match with ...en", input + "en",
-				new DeDecorator(Word.builder().mill(input).build()).pluraliseUnitRule().getMill());
-
-		input = normalizeSpace(TWO.getWord() + SPC.val() + deWordMapping.getBilln());
-		assertEquals("Should match with ...n", input + "n",
-				new DeDecorator(Word.builder().bill(input).build()).pluraliseUnitRule().getBill());
 
 	}
 

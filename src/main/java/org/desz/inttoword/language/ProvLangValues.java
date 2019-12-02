@@ -227,6 +227,7 @@ public final class ProvLangValues {
 
 	/**
 	 * French.
+	 * https://en.wikipedia.org/wiki/Names_of_large_numbers
 	 * 
 	 */
 	public enum FrUnit {
@@ -253,7 +254,7 @@ public final class ProvLangValues {
 	 */
 	public enum DeUnit {
 
-		AND("und"), QUINTS(SPACE + "trillionen"), QUADS(SPACE + "billiarden"), TRILLS(SPACE + "billionen"),
+		AND("und"), QUINTS(SPACE + "trillion"), QUADS(SPACE + "billiarde"), TRILLS(SPACE + "billion"),
 		BILLS(SPACE + "milliarde"), MILLS(SPACE + "million"), THOUS(SPACE + "tausend"), HUNS("hundert");
 
 		private String val;

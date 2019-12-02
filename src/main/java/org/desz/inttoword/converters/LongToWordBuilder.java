@@ -18,7 +18,7 @@ public class LongToWordBuilder implements ILongToWordBuilder {
 	private static HundredthConverter hundredthConverter = HundredthConverter.getInstance();
 
 	private String processHun(String s, String and, boolean ipl) {
-		List<String> l = asList(s.split(SPACE));
+		final List<String> l = asList(s.split(SPACE));
 		StringBuilder sb = new StringBuilder();
 		switch (l.size()) {
 		case 1:
@@ -37,7 +37,8 @@ public class LongToWordBuilder implements ILongToWordBuilder {
 	}
 
 	/**
-	 * tail recursion using numbers sublist and adding to WordBuilder on each recursion.
+	 * tail recursion using numbers sublist and adding to WordBuilder on each
+	 * recursion.
 	 */
 	@Override
 	public Word buildWord(List<String> numbers, WordBuilder wordBuilder, IntWordMapping intWordMapping) {

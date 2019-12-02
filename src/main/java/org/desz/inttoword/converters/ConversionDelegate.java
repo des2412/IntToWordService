@@ -32,15 +32,15 @@ public class ConversionDelegate {
 	protected final Logger log = Logger.getLogger(ConversionDelegate.class.getName());
 	private static final NumberFormat nf = NumberFormat.getIntegerInstance(UK);
 
-	private ILongToWordBuilder functionalWordBuilder;
+	private ILongToWordBuilder wordBuilder;
 
 	/**
 	 * 
-	 * @param functionalWordBuilder the IHundConverter.
+	 * @param wordBuilder the ILongToWordBuilder.
 	 */
 	@Autowired
-	public ConversionDelegate(ILongToWordBuilder functionalWordBuilder) {
-		this.functionalWordBuilder = functionalWordBuilder;
+	public ConversionDelegate(ILongToWordBuilder wordBuilder) {
+		this.wordBuilder = wordBuilder;
 	}
 
 	/**
@@ -70,16 +70,15 @@ public class ConversionDelegate {
 				return s.toLowerCase();
 		}
 
-		Word word = functionalWordBuilder.buildWord(numbers, Word.builder(), intWordMapping);
+		Word word = wordBuilder.buildWord(numbers, Word.builder(), intWordMapping);
 
 		// apply rules to 'decorate' DE word.
 		Word deWord = null;
 		if (provLang.equals(ProvLang.DE)) {
-			final int hun = Integer.parseInt(numbers.get(numbers.size() - 1));
 			DeDecorator deDecorator = new DeDecorator(word.toBuilder().build());
 			deWord = deDecorator.pluraliseUnitRule();
 			deDecorator = new DeDecorator(deWord);
-			deWord = deDecorator.pluraliseRule(hun);
+			deWord = deDecorator.pluraliseRule(Integer.parseInt(numbers.get(numbers.size() - 1)));
 			deDecorator = new DeDecorator(deWord);
 
 			deWord = nonNull(deWord.getHund()) ? deWord.toBuilder().hund(removeSpace(deWord.getHund())).build()
@@ -87,10 +86,6 @@ public class ConversionDelegate {
 
 			deDecorator = new DeDecorator(deWord);
 			deWord = nonNull(deWord.getThou()) ? deDecorator.combineThouHundRule() : deWord;
-
-			/*
-			 * TODO capitalise word rule;
-			 */
 
 		}
 

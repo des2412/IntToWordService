@@ -75,20 +75,21 @@ public class TestConversionDelegateDe {
 		assertNotNull("null unexpected", s);
 		assertEquals("achthundertsieben", s);
 	}
-	
+
 	@Test
 	public final void test817() throws AppConversionException {
 		String s = delegate.convertIntToWord(817L, DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("achthundertsiebzehn", s);
 	}
-	
+
 	@Test
 	public final void test827() throws AppConversionException {
 		String s = delegate.convertIntToWord(827L, DE);
 		assertNotNull("null unexpected", s);
 		assertEquals("achthundertsiebenundzwanzig", s);
 	}
+
 	@Test
 	public final void test10000() throws AppConversionException {
 		String s = delegate.convertIntToWord(10000L, DE);
@@ -109,6 +110,7 @@ public class TestConversionDelegateDe {
 		assertNotNull("null unexpected", s);
 		assertEquals("ein Million eins", s);
 	}
+
 	@Test
 	public final void test100000007() throws AppConversionException {
 		String s = delegate.convertIntToWord(100000007L, DE);
@@ -122,7 +124,7 @@ public class TestConversionDelegateDe {
 		assertNotNull("null unexpected", s);
 		assertEquals("einhundert Millionen siebzehn", s);
 	}
-	
+
 	@Test
 	public final void test100000031() throws AppConversionException {
 		String s = delegate.convertIntToWord(100000031L, DE);

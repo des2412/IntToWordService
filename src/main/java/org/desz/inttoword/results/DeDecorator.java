@@ -12,7 +12,9 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import static org.apache.commons.lang3.StringUtils.remove;
 
-import org.desz.inttoword.language.ProvLangValues.DePair;
+import java.util.Arrays;
+import java.util.List;
+
 import org.desz.inttoword.results.Word.WordBuilder;
 
 /**
@@ -28,52 +30,35 @@ public class DeDecorator implements IWordDecorator {
 		this.word = word;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.desz.inttoword.results.IWordDecorator#pluraliseUnitRule(java.lang.
-	 * String)
-	 */
+	private String pluralise(String unitWord) {
+		List<String> l = Arrays.asList(unitWord.split(SPACE));
+		return !l.get(0).startsWith("ein") | l.get(0).length() > 3
+				? unitWord.endsWith("e") ? unitWord += "n" : unitWord + "en"
+				: unitWord;
+
+	}
+
 	@Override
 	public Word pluraliseUnitRule() {
 
-		// pluralise applicable units.
+		// pluralise units.
 
 		WordBuilder builder = Word.builder();
 		builder = nonNull(word.getQuint()) ?
 
-				builder = !normalizeSpace(word.getQuint()).split(SPACE)[0].matches(DePair.ONE.getWord())
-						? builder.quint(normalizeSpace(word.getQuint()))
-						: builder.quint(normalizeSpace(word.getQuint()))
-				: builder;
+				builder.quint(normalizeSpace(pluralise(word.getQuint()))) : builder;
 
-		builder = nonNull(word.getQuint()) ?
+		builder = nonNull(word.getQuadr()) ? builder.quadr(normalizeSpace(pluralise(word.getQuadr()))) : builder;
 
-				builder = !normalizeSpace(word.getQuadr()).split(SPACE)[0].matches(DePair.ONE.getWord())
-						? builder.quadr(normalizeSpace(word.getQuadr()))
-						: builder.quadr(normalizeSpace(word.getQuadr()))
-				: builder;
-
-		builder = nonNull(word.getTrill()) ?
-
-				builder = !normalizeSpace(word.getTrill()).split(SPACE)[0].matches(DePair.ONE.getWord())
-						? builder.trill(normalizeSpace(word.getTrill()))
-						: builder.trill(normalizeSpace(word.getTrill()))
-				: builder;
+		builder = nonNull(word.getTrill()) ? builder.trill(normalizeSpace(pluralise(word.getTrill()))) : builder;
 
 		builder = nonNull(word.getBill()) ?
 
-				builder = !normalizeSpace(word.getBill()).split(SPACE)[0].matches(DePair.ONE.getWord())
-						? builder.bill(normalizeSpace(word.getBill()) + "n")
-						: builder.bill(normalizeSpace(word.getBill()))
-				: builder;
+				builder.bill(normalizeSpace(pluralise(word.getBill()))) : builder;
 
 		builder = nonNull(word.getMill()) ?
 
-				!word.getMill().split(SPACE)[0].matches(DePair.ONE.getWord())
-						? builder.mill(normalizeSpace(word.getMill()) + "en")
-						: builder.mill(normalizeSpace(word.getMill()))
-				: builder;
+				builder.mill(normalizeSpace(pluralise(word.getMill()))) : builder;
 
 		builder = nonNull(word.getThou()) ? builder.thou(word.getThou()) : builder;
 

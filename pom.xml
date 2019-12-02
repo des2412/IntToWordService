@@ -13,31 +13,10 @@
 	<name>LongToword</name>
 
 	<properties>
-		<org.springframework.version>5.0.0.M5</org.springframework.version>
+		<org.springframework.version>5.2.1.RELEASE</org.springframework.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<mockito.version>2.28.2</mockito.version>
 	</properties>
-
-	<repositories>
-		<repository>
-			<id>spring-libs-snapshot</id>
-			<name>Spring project release, milestone, and snapshot artifacts and transitive dependencies</name>
-			<url>http://repo.springsource.org/libs-snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>repository.springsource.milestone</id>
-			<name>SpringSource Milestone Repository</name>
-			<url>http://repo.springsource.org/milestone</url>
-		</repository>
-
-	</repositories>
 
 	<dependencyManagement>
 		<dependencies>
@@ -73,12 +52,8 @@
 			<scope>provided</scope>
 			<version>1.7.28</version>
 		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<scope>provided</scope>
-			<version>1.7.7</version>
-		</dependency>
+		<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-log4j12</artifactId> 
+			<scope>provided</scope> <version>1.7.7</version> </dependency> -->
 
 		<dependency>
 			<groupId>org.springframework</groupId>

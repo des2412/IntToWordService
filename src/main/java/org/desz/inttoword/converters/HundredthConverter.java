@@ -22,6 +22,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class HundredthConverter implements IHundConverter {
 
+	/**
+	 * Required for IntToWordConverter as dependency injection does not work when
+	 * Lambda is created on AWS.
+	 * 
+	 * @author des
+	 *
+	 */
 	private static class Holder {
 		private static final HundredthConverter singleton = new HundredthConverter();
 
