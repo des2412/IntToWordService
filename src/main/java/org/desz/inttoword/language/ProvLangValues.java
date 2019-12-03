@@ -226,8 +226,7 @@ public final class ProvLangValues {
 	};
 
 	/**
-	 * French.
-	 * https://en.wikipedia.org/wiki/Names_of_large_numbers
+	 * French. https://en.wikipedia.org/wiki/Names_of_large_numbers
 	 * 
 	 */
 	public enum FrUnit {

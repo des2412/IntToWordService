@@ -6,8 +6,6 @@ import static org.desz.inttoword.language.ProvLangValues.DePair.ONE;
 import static org.desz.inttoword.language.ProvLangValues.DePair.TWO;
 import static org.desz.inttoword.language.Punct.SPC;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-
 import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLang;
 import org.junit.Test;
@@ -19,9 +17,8 @@ public class TestDeDecorator {
 	@Test
 	public void test_pluralise_unit_rule_ein() {
 
-		//
 		String input = normalizeSpace(ONE.getWord() + SPC.val() + deWordMapping.getQuintn());
-		assertEquals("Expected ein quintillion", input,
+		assertEquals("Expected ein trillion", input,
 				new DeDecorator(Word.builder().quint(input).build()).pluraliseUnitRule().getQuint());
 	}
 

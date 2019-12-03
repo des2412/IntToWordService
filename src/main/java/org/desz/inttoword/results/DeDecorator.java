@@ -12,7 +12,7 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import static org.apache.commons.lang3.StringUtils.remove;
 
-import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.List;
 
 import org.desz.inttoword.results.Word.WordBuilder;
@@ -31,10 +31,8 @@ public class DeDecorator implements IWordDecorator {
 	}
 
 	private String pluralise(String unitWord) {
-		List<String> l = Arrays.asList(unitWord.split(SPACE));
-		return !l.get(0).startsWith("ein") | l.get(0).length() > 3
-				? unitWord.endsWith("e") ? unitWord += "n" : unitWord + "en"
-				: unitWord;
+		List<String> l = asList(unitWord.split(SPACE));
+		return l.get(0).length() > 3 ? unitWord.endsWith("e") ? unitWord += "n" : unitWord + "en" : unitWord;
 
 	}
 

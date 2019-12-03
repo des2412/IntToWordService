@@ -20,7 +20,6 @@ import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLang;
 import org.desz.inttoword.results.DeDecorator;
 import org.desz.inttoword.results.Word;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,16 +30,10 @@ import org.springframework.stereotype.Component;
 public class ConversionDelegate {
 	protected final Logger log = Logger.getLogger(ConversionDelegate.class.getName());
 	private static final NumberFormat nf = NumberFormat.getIntegerInstance(UK);
+	private final ILongToWordBuilder wordBuilder;
 
-	private ILongToWordBuilder wordBuilder;
-
-	/**
-	 * 
-	 * @param wordBuilder the ILongToWordBuilder.
-	 */
-	@Autowired
-	public ConversionDelegate(ILongToWordBuilder wordBuilder) {
-		this.wordBuilder = wordBuilder;
+	public ConversionDelegate() {
+		wordBuilder = (j, k, l) -> (new LongToWordBuilder().buildWord(j, k, l));
 	}
 
 	/**
@@ -70,7 +63,7 @@ public class ConversionDelegate {
 				return s.toLowerCase();
 		}
 
-		Word word = wordBuilder.buildWord(numbers, Word.builder(), intWordMapping);
+		final Word word = wordBuilder.buildWord(numbers, Word.builder(), intWordMapping);
 
 		// apply rules to 'decorate' DE word.
 		Word deWord = null;

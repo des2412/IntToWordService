@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.desz.inttoword.converters.ConversionDelegate;
-import org.desz.inttoword.converters.LongToWordBuilder;
 import org.desz.inttoword.exceptions.AppConversionException;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +17,7 @@ public class TestConversionDelegateDe {
 
 	@Before
 	public void init() {
-		delegate = new ConversionDelegate(new LongToWordBuilder());
+		delegate = new ConversionDelegate();
 	}
 
 	@Test

@@ -23,7 +23,7 @@ public class LongToWordBuilder implements ILongToWordBuilder {
 		switch (l.size()) {
 		case 1:
 			return s;
-		case 2:// add or remove 'und'.
+		case 2:// add (if >= 20) or remove (< 20) 'und'.
 			sb = ipl ? sb.append(l.get(1) + and + l.get(0)) : sb.append(l.get(0) + l.get(1).substring(3));
 
 			break;
@@ -50,7 +50,7 @@ public class LongToWordBuilder implements ILongToWordBuilder {
 
 		final int val = Integer.parseInt(numbers.get(0));
 		// add 'und' to DE word.
-		num = (isDe & val % 10 != 0) ? processHun(num, intWordMapping.getAnd(), val % 100 > 20) : num;
+		num = (isDe && val % 10 != 0) ? processHun(num, intWordMapping.getAnd(), val % 100 > 20) : num;
 
 		if (!isEmpty(num)) {
 			switch (sz) {
