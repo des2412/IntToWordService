@@ -48,7 +48,8 @@ public class ConversionDelegate {
 
 		final ProvLang provLang = requireNonNull(pl);
 		if (provLang.equals(ProvLang.EMPTY))
-			throw new AppConversionException();
+			throw new AppConversionException("Empty ProvLang not permitted.");
+
 		final List<String> numbers = asList(nf.format(n).split(","));
 
 		final int sz = numbers.size();
@@ -68,27 +69,14 @@ public class ConversionDelegate {
 		// apply rules to 'decorate' DE word.
 		Word deWord = null;
 		if (provLang.equals(ProvLang.DE)) {
-			DeDecorator deDecorator = new DeDecorator(word.toBuilder().build());
-			deWord = deDecorator.pluraliseUnitRule();
-			deDecorator = new DeDecorator(deWord);
-			deWord = deDecorator.pluraliseRule(Integer.parseInt(numbers.get(numbers.size() - 1)));
-			deDecorator = new DeDecorator(deWord);
-
-			deWord = nonNull(deWord.getHund()) ? deWord.toBuilder().hund(removeSpace(deWord.getHund())).build()
-					: deWord;
-
-			deDecorator = new DeDecorator(deWord);
-			deWord = nonNull(deWord.getThou()) ? deDecorator.combineThouHundRule() : deWord;
+			deWord = new DeDecorator(word.toBuilder().build()).pluraliseUnitRule();
+			deWord = new DeDecorator(deWord).pluraliseHundredthRule(Integer.parseInt(numbers.get(numbers.size() - 1)));
+			deWord = nonNull(deWord.getThou()) ? new DeDecorator(deWord).combineThouHundRule() : deWord;
 
 		}
 
 		return isNull(deWord) ? normalizeSpace(stringifyWord(word)) : normalizeSpace(stringifyWord(deWord));
 
-	}
-
-	private String removeSpace(String word) {
-
-		return word.replaceAll(SPACE, EMPTY);
 	}
 
 	private String stringifyWord(Word word) {

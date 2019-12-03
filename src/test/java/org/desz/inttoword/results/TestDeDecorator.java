@@ -34,7 +34,7 @@ public class TestDeDecorator {
 	public void testPluraliseOneRule() {
 
 		assertEquals("expected eins", ONE.getWord() + "s",
-				new DeDecorator(Word.builder().hund("ein").build()).pluraliseRule(1).getHund());
+				new DeDecorator(Word.builder().hund("ein").build()).pluraliseHundredthRule(1).getHund());
 
 		String input = normalizeSpace(ONE.getWord() + SPC.val() + deWordMapping.getMilln());
 		assertEquals("Should contain million", input,

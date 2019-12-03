@@ -19,21 +19,18 @@ public class LongToWordBuilder implements ILongToWordBuilder {
 
 	private String processHun(String s, String and, boolean ipl) {
 		final List<String> l = asList(s.split(SPACE));
-		StringBuilder sb = new StringBuilder();
 		switch (l.size()) {
 		case 1:
 			return s;
-		case 2:// add (if >= 20) or remove (< 20) 'und'.
-			sb = ipl ? sb.append(l.get(1) + and + l.get(0)) : sb.append(l.get(0) + l.get(1).substring(3));
+		case 2:// add (if > 20) or remove (< 20) 'und'.
+			return ipl ? l.get(1) + and + l.get(0) : l.get(0) + l.get(1).substring(3);
 
-			break;
 		case 3:
-			sb.append(l.get(0) + l.get(2) + l.get(1));
-			break;
+			return l.get(0) + l.get(2) + l.get(1);
 
 		}
 
-		return sb.toString();
+		return null;
 	}
 
 	/**
@@ -49,7 +46,7 @@ public class LongToWordBuilder implements ILongToWordBuilder {
 		final boolean isDe = intWordMapping.getId().equals(DE.name());
 
 		final int val = Integer.parseInt(numbers.get(0));
-		// add 'und' to DE word.
+		// add or remove 'und' for DE word.
 		num = (isDe && val % 10 != 0) ? processHun(num, intWordMapping.getAnd(), val % 100 > 20) : num;
 
 		if (!isEmpty(num)) {

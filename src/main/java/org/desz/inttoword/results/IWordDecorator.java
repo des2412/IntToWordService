@@ -8,7 +8,7 @@ public interface IWordDecorator {
 	 * @param val
 	 * @return the Word.
 	 */
-	Word pluraliseRule(int val);
+	Word pluraliseHundredthRule(int val);
 
 	Word pluraliseUnitRule();
 

@@ -39,9 +39,7 @@ public class DeDecorator implements IWordDecorator {
 	@Override
 	public Word pluraliseUnitRule() {
 
-		// pluralise units.
-
-		WordBuilder builder = Word.builder();
+		WordBuilder builder = word.toBuilder();
 		builder = nonNull(word.getQuint()) ?
 
 				builder.quint(normalizeSpace(pluralise(word.getQuint()))) : builder;
@@ -67,7 +65,7 @@ public class DeDecorator implements IWordDecorator {
 	}
 
 	@Override
-	public Word pluraliseRule(int val) {
+	public Word pluraliseHundredthRule(int val) {
 		WordBuilder builder = word.toBuilder();
 
 		builder = nonNull(word.getHund())
