@@ -13,17 +13,23 @@ import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.results.Word;
 import org.desz.inttoword.results.Word.WordBuilder;
 
-public class LongToWordBuilder implements ILongToWordBuilder {
+public class LongToWordBuilder {
 
-	private static HundredthConverter hundredthConverter = HundredthConverter.getInstance();
+	private final IHundConverter hundredthConverter;
 
-	private String processHun(String s, String and, boolean ipl) {
+	public LongToWordBuilder() {
+		hundredthConverter = (j, k) -> (new HundredthConverter().toWordForLang(j, k));
+	}
+
+	private String processDeHun(String s, String and, boolean addAnd) {
+
 		final List<String> l = asList(s.split(SPACE));
+
 		switch (l.size()) {
 		case 1:
 			return s;
 		case 2:// add (if > 20) or remove (< 20) 'und'.
-			return ipl ? l.get(1) + and + l.get(0) : l.get(0) + l.get(1).substring(3);
+			return addAnd ? l.get(1) + and + l.get(0) : l.get(0) + l.get(1).substring(3);
 
 		case 3:
 			return l.get(0) + l.get(2) + l.get(1);
@@ -37,7 +43,6 @@ public class LongToWordBuilder implements ILongToWordBuilder {
 	 * tail recursion using numbers sublist and adding to WordBuilder on each
 	 * recursion.
 	 */
-	@Override
 	public Word buildWord(List<String> numbers, WordBuilder wordBuilder, IntWordMapping intWordMapping) {
 		final int sz = numbers.size();
 
@@ -47,7 +52,7 @@ public class LongToWordBuilder implements ILongToWordBuilder {
 
 		final int val = Integer.parseInt(numbers.get(0));
 		// add or remove 'und' for DE word.
-		num = (isDe && val % 10 != 0) ? processHun(num, intWordMapping.getAnd(), val % 100 > 20) : num;
+		num = (isDe && val % 10 != 0) ? processDeHun(num, intWordMapping.getAnd(), val % 100 > 20) : num;
 
 		if (!isEmpty(num)) {
 			switch (sz) {

@@ -5,7 +5,6 @@ import static java.util.Locale.UK;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
@@ -20,17 +19,17 @@ import org.desz.inttoword.language.IntWordMapping;
 import org.desz.inttoword.language.ProvLang;
 import org.desz.inttoword.results.DeDecorator;
 import org.desz.inttoword.results.Word;
-import org.springframework.stereotype.Component;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author des Converts integer to corresponding word format in ProvLang
  * 
  */
-@Component
+@Slf4j
 public class ConversionDelegate {
-	protected final Logger log = Logger.getLogger(ConversionDelegate.class.getName());
 	private static final NumberFormat nf = NumberFormat.getIntegerInstance(UK);
-	private final ILongToWordBuilder wordBuilder;
+	private final ILongToWordBuilder<Word> wordBuilder;
 
 	public ConversionDelegate() {
 		wordBuilder = (j, k, l) -> (new LongToWordBuilder().buildWord(j, k, l));
@@ -59,7 +58,7 @@ public class ConversionDelegate {
 		// return result if n < 1000 and contained by IntToWordMapping.
 		if (sz == 1) {
 			final int val = n.intValue();
-			final String s = intWordMapping.containsMapping(val) ? intWordMapping.wordForNum(val) : EMPTY;
+			final String s = intWordMapping.wordForNum(val);
 			if (!isBlank(s))
 				return s.toLowerCase();
 		}

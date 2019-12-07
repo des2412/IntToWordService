@@ -13,14 +13,12 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 import java.util.Optional;
 
 import org.desz.inttoword.language.IntWordMapping;
-import org.springframework.stereotype.Component;
 
 /**
  * @author des
  *
  */
-@Component
-public class HundredthConverter implements IHundConverter {
+public class HundredthConverter {
 
 	/**
 	 * Required for IntToWordConverter as dependency injection does not work when
@@ -42,13 +40,6 @@ public class HundredthConverter implements IHundConverter {
 		return Holder.singleton;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.desz.inttoword.converters.IHundConverter#mapToWord(java.lang.String,
-	 * org.desz.inttoword.language.IntWordMapping)
-	 */
-	@Override
 	public Optional<String> toWordForLang(String number, IntWordMapping intWordMapping) {
 		number = requireNonNull(number);
 		intWordMapping = requireNonNull(intWordMapping);

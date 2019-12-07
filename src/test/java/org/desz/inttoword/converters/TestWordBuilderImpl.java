@@ -10,8 +10,8 @@ import org.desz.inttoword.results.Word;
 import org.junit.Test;
 
 public class TestWordBuilderImpl {
-	static final ILongToWordBuilder wordBuilder = (j, k, l) -> new LongToWordBuilder().buildWord(j, k, l);
-	static final IntWordMapping intWordMapping = getInstance().getMapForProvLang(ProvLang.UK);
+	static final ILongToWordBuilder<Word> wordBuilder = (j, k, l) -> new LongToWordBuilder().buildWord(j, k, l);
+	static final IntWordMapping intWordMapping = getInstance().getMapForProvLang(ProvLang.DE);
 
 	@Test
 	public void test_thou() {
@@ -26,9 +26,8 @@ public class TestWordBuilderImpl {
 
 	@Test
 	public void test_quint() {
-		Word act = wordBuilder.buildWord(asList(new String[] { "9", "223", "372", "36", "854", "775", "807" }),
-				Word.builder(), intWordMapping);
-		assertNotNull(act);
+		assertNotNull(wordBuilder.buildWord(asList(new String[] { "9", "223", "372", "36", "854", "775", "807" }),
+				Word.builder(), intWordMapping));
 	}
 
 }
