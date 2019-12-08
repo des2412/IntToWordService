@@ -8,11 +8,10 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
-import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 import java.util.Optional;
 
-import org.desz.inttoword.language.IntWordMapping;
+import org.desz.inttoword.language.NumberWordMapping;
 
 /**
  * @author des
@@ -21,26 +20,12 @@ import org.desz.inttoword.language.IntWordMapping;
 public class HundredthConverter {
 
 	/**
-	 * Required for IntToWordConverter as dependency injection does not work when
-	 * Lambda is created on AWS.
 	 * 
-	 * @author des
-	 *
+	 * @param number
+	 * @param intWordMapping
+	 * @return empty Optional if 0.
 	 */
-	private static class Holder {
-		private static final HundredthConverter singleton = new HundredthConverter();
-
-	}
-
-	/**
-	 * 
-	 * @return singleton instance.
-	 */
-	public static HundredthConverter getInstance() {
-		return Holder.singleton;
-	}
-
-	public Optional<String> toWordForLang(String number, IntWordMapping intWordMapping) {
+	public Optional<String> toWordForLang(String number, NumberWordMapping intWordMapping) {
 		number = requireNonNull(number);
 		intWordMapping = requireNonNull(intWordMapping);
 		if (number.length() > 3) {
@@ -49,30 +34,30 @@ public class HundredthConverter {
 		final int n = Integer.parseInt(number);
 		if (n == 0)
 			return Optional.empty();
-		final String word = intWordMapping.wordForNum(n);
-		if (!word.equals(EMPTY))
-			return of(word.toLowerCase());
+		final Optional<String> word = intWordMapping.wordForNum(n);
+		if (!word.isEmpty())
+			return of(word.get().toLowerCase());
 
-		String hun = (intWordMapping.wordForNum(n / 100) + intWordMapping.getHund()).toLowerCase();
+		String hun = (intWordMapping.wordForNum(n / 100).orElse(EMPTY) + intWordMapping.getHund()).toLowerCase();
 
-		if (n % 100 == 0)
+		if (n % 100 == 0)// ie 100..900
 			return of(hun.toLowerCase());
 
-		hun = (n < 100) ? EMPTY : hun + SPACE + intWordMapping.getAnd();
+		hun = (n < 100) ? EMPTY : hun.toLowerCase() + SPACE + intWordMapping.getAnd();
 
-		// build non whole hundreds..
+		// build number with non-zero decimal.
 
 		int nmod = n % 100;
-		final String rem = intWordMapping.wordForNum(nmod).toLowerCase();
-		if (!isEmpty(rem))
-			return of(hun + rem);// e.g., n = 110, 120,..990.
+		final String rem = intWordMapping.wordForNum(nmod).orElse(EMPTY);
+		if (!rem.isEmpty())
+			return of(hun + rem.toLowerCase());// e.g., n = 110, 120,..990.
 
 		int k = nmod;// e.g., nmod = 23
 		nmod %= 10;// ..nmod = 3
 		k -= nmod; // .. k = 20
 
-		return of(hun + intWordMapping.wordForNum(k).toLowerCase() + SPACE
-				+ intWordMapping.wordForNum(nmod).toLowerCase());
+		return of(hun + intWordMapping.wordForNum(k).orElse(EMPTY).toLowerCase() + SPACE
+				+ intWordMapping.wordForNum(nmod).orElse(EMPTY).toLowerCase());
 	}
 
 }

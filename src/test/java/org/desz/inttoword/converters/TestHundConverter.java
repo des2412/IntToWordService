@@ -6,18 +6,18 @@ import static org.junit.Assert.assertNotEquals;
 
 import java.util.Optional;
 
-import org.desz.inttoword.language.IntWordMapping;
+import org.desz.inttoword.language.NumberWordMapping;
 import org.desz.inttoword.language.ProvLang;
 import org.junit.Test;
 
 public class TestHundConverter {
 	static final IHundConverter hundredthConverter = (j, k) -> (new HundredthConverter().toWordForLang(j, k));
 
-	IntWordMapping mapping = getInstance().getMapForProvLang(ProvLang.UK);
-	IntWordMapping mappingDe = getInstance().getMapForProvLang(ProvLang.DE);
+	NumberWordMapping mapping = getInstance().getMapForProvLang(ProvLang.UK);
+	NumberWordMapping mappingDe = getInstance().getMapForProvLang(ProvLang.DE);
 
 	@Test
-	public void testHundredthToWord() throws Exception {
+	public void test_123() throws Exception {
 
 		Optional<String> opt = hundredthConverter.toWordForLang("123", mapping);
 		// assertFalse(opt.isEmpty());
@@ -26,7 +26,16 @@ public class TestHundConverter {
 	}
 
 	@Test
-	public void testHundredthToWord2() throws Exception {
+	public void test_120() throws Exception {
+
+		Optional<String> opt = hundredthConverter.toWordForLang("120", mapping);
+		// assertFalse(opt.isEmpty());
+		assertEquals("one hundred and twenty", opt.get());
+
+	}
+
+	@Test
+	public void test_31() throws Exception {
 
 		Optional<String> opt = hundredthConverter.toWordForLang("31", mapping);
 		assertEquals("thirty one", opt.get());
@@ -34,16 +43,16 @@ public class TestHundConverter {
 	}
 
 	@Test
-	public void testHundredthToWord3() throws Exception {
+	public void test_200() throws Exception {
 
-		Optional<String> opt = hundredthConverter.toWordForLang("31", mappingDe);
+		Optional<String> opt = hundredthConverter.toWordForLang("200", mappingDe);
 		// assertFalse(opt.isEmpty());
-		assertNotEquals("einunddreißig", opt.get());
+		assertNotEquals("zwei hundert", opt.get());
 
 	}
 
 	@Test
-	public void testHundredthToWord4() throws Exception {
+	public void test_4() throws Exception {
 
 		Optional<String> opt = hundredthConverter.toWordForLang("287", mappingDe);
 		// assertFalse(opt.isEmpty());

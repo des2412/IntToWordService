@@ -15,6 +15,6 @@ public interface ILangProvider {
 	 * @param provLang
 	 * @return ILangProvider for provLang.
 	 */
-	IntWordMapping getMapForProvLang(final ProvLang provLang);
+	NumberWordMapping getMapForProvLang(final ProvLang provLang);
 
 }

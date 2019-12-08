@@ -3,9 +3,8 @@
  */
 package org.desz.inttoword.language;
 
-import static org.apache.commons.lang3.StringUtils.EMPTY;
-
 import java.util.Map;
+import java.util.Optional;
 
 import lombok.Builder;
 import lombok.Value;
@@ -19,7 +18,7 @@ import lombok.Value;
 
 @Builder
 @Value
-public class IntWordMapping {
+public class NumberWordMapping {
 	private String id;
 	private String quintn;
 	private String quadrn;
@@ -30,17 +29,17 @@ public class IntWordMapping {
 	private String hund;
 	private String and;
 
-	private Map<String, String> intToWordMap;
+	private Map<String, String> map;
 
 	public boolean containsMapping(int num) {
-		return intToWordMap.containsKey(String.valueOf(num));
+		return map.containsKey(String.valueOf(num));
 	}
 
 	/**
 	 * @return word mapped to num or empty String.
 	 */
-	public String wordForNum(int num) {
-		return intToWordMap.containsKey(String.valueOf(num)) ? intToWordMap.get(String.valueOf(num)) : EMPTY;
+	public Optional<String> wordForNum(int num) {
+		return map.containsKey(String.valueOf(num)) ? Optional.of(map.get(String.valueOf(num))) : Optional.empty();
 	}
 
 }

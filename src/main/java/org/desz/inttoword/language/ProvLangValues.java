@@ -253,8 +253,8 @@ public final class ProvLangValues {
 	 */
 	public enum DeUnit {
 
-		AND("und"), QUINTS(SPACE + "trillion"), QUADS(SPACE + "billiarde"), TRILLS(SPACE + "billion"),
-		BILLS(SPACE + "milliarde"), MILLS(SPACE + "million"), THOUS(SPACE + "tausend"), HUNS("hundert");
+		AND("und"), QUINTS(SPACE + "Trillion"), QUADS(SPACE + "Billiarde"), TRILLS(SPACE + "Billion"),
+		BILLS(SPACE + "Milliarde"), MILLS(SPACE + "Million"), THOUS(SPACE + "Tausend"), HUNS("hundert");
 
 		private String val;
 

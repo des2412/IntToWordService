@@ -6,13 +6,13 @@ import static org.desz.inttoword.language.ProvLangValues.DePair.ONE;
 import static org.desz.inttoword.language.ProvLangValues.DePair.TWO;
 import static org.desz.inttoword.language.Punct.SPC;
 import static org.junit.Assert.assertEquals;
-import org.desz.inttoword.language.IntWordMapping;
+import org.desz.inttoword.language.NumberWordMapping;
 import org.desz.inttoword.language.ProvLang;
 import org.junit.Test;
 
 public class TestDeDecorator {
 
-	final IntWordMapping deWordMapping = getInstance().getMapForProvLang(ProvLang.DE);
+	final NumberWordMapping deWordMapping = getInstance().getMapForProvLang(ProvLang.DE);
 
 	@Test
 	public void test_pluralise_unit_rule_ein() {

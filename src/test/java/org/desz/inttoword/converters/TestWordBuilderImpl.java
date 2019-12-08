@@ -4,14 +4,14 @@ import static java.util.Arrays.asList;
 import static org.desz.inttoword.factory.ProvLangFactory.getInstance;
 import static org.junit.Assert.assertNotNull;
 
-import org.desz.inttoword.language.IntWordMapping;
+import org.desz.inttoword.language.NumberWordMapping;
 import org.desz.inttoword.language.ProvLang;
 import org.desz.inttoword.results.Word;
 import org.junit.Test;
 
 public class TestWordBuilderImpl {
 	static final ILongToWordBuilder<Word> wordBuilder = (j, k, l) -> new LongToWordBuilder().buildWord(j, k, l);
-	static final IntWordMapping intWordMapping = getInstance().getMapForProvLang(ProvLang.DE);
+	static final NumberWordMapping intWordMapping = getInstance().getMapForProvLang(ProvLang.DE);
 
 	@Test
 	public void test_thou() {

@@ -1,15 +1,15 @@
 package org.desz.inttoword.factory;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Stream.of;
 
 import java.util.HashMap;
 import java.util.Map;
-import static java.util.Objects.requireNonNull;
 
 import org.desz.inttoword.language.ILangProvider;
-import org.desz.inttoword.language.IntWordMapping;
-import org.desz.inttoword.language.IntWordMapping.IntWordMappingBuilder;
+import org.desz.inttoword.language.NumberWordMapping;
+import org.desz.inttoword.language.NumberWordMapping.NumberWordMappingBuilder;
 import org.desz.inttoword.language.ProvLang;
 import org.desz.inttoword.language.ProvLangValues.DePair;
 import org.desz.inttoword.language.ProvLangValues.DeUnit;
@@ -28,7 +28,7 @@ import org.desz.inttoword.language.ProvLangValues.UkUnit;
  */
 public final class ProvLangFactory implements ILangProvider {
 
-	private static final Map<ProvLang, IntWordMapping> provLangCache = new HashMap<ProvLang, IntWordMapping>();
+	private static final Map<ProvLang, NumberWordMapping> provLangCache = new HashMap<ProvLang, NumberWordMapping>();
 
 	/**
 	 * singleton.
@@ -55,15 +55,15 @@ public final class ProvLangFactory implements ILangProvider {
 	}
 
 	@Override
-	public IntWordMapping getMapForProvLang(final ProvLang pl) {
-		IntWordMapping b = provLangCache.containsKey(pl) ? provLangCache.get(pl) : get(pl);
+	public NumberWordMapping getMapForProvLang(final ProvLang pl) {
+		NumberWordMapping b = provLangCache.containsKey(pl) ? provLangCache.get(pl) : get(pl);
 		return b;
 	}
 
-	private IntWordMapping get(final ProvLang pl) {
+	private NumberWordMapping get(final ProvLang pl) {
 		final ProvLang provLang = requireNonNull(pl);
 		synchronized (provLangCache) {
-			IntWordMappingBuilder builder = IntWordMapping.builder();
+			NumberWordMappingBuilder builder = NumberWordMapping.builder();
 			builder.id(provLang.name());
 			switch (provLang) {
 
@@ -77,7 +77,7 @@ public final class ProvLangFactory implements ILangProvider {
 				builder.thoud(UkUnit.THOUS.val());
 				builder.hund(UkUnit.HUNS.val());
 				builder.and(UkUnit.AND.val());
-				builder.intToWordMap(of(UkPair.values()).collect(toMap(UkPair::getNum, UkPair::getWord)));
+				builder.map(of(UkPair.values()).collect(toMap(UkPair::getNum, UkPair::getWord)));
 
 				provLangCache.put(ProvLang.UK, builder.build());
 
@@ -91,7 +91,7 @@ public final class ProvLangFactory implements ILangProvider {
 				builder.thoud(FrUnit.THOUS.val());
 				builder.hund(FrUnit.HUNS.val());
 				builder.and(FrUnit.AND.val());
-				builder.intToWordMap(of(FrPair.values()).collect(toMap(FrPair::getNum, FrPair::getWord)));
+				builder.map(of(FrPair.values()).collect(toMap(FrPair::getNum, FrPair::getWord)));
 				provLangCache.put(ProvLang.FR, builder.build());
 
 				break;
@@ -105,7 +105,7 @@ public final class ProvLangFactory implements ILangProvider {
 				builder.thoud(DeUnit.THOUS.val());
 				builder.hund(DeUnit.HUNS.val());
 				builder.and(DeUnit.AND.val());
-				builder.intToWordMap(of(DePair.values()).collect(toMap(DePair::getNum, DePair::getWord)));
+				builder.map(of(DePair.values()).collect(toMap(DePair::getNum, DePair::getWord)));
 				provLangCache.put(ProvLang.DE, builder.build());
 				break;
 
@@ -118,7 +118,7 @@ public final class ProvLangFactory implements ILangProvider {
 				builder.thoud(NlUnit.THOUS.val());
 				builder.hund(NlUnit.HUNS.val());
 				builder.and(NlUnit.AND.val());
-				builder.intToWordMap(of(NlPair.values()).collect(toMap(NlPair::getNum, NlPair::getWord)));
+				builder.map(of(NlPair.values()).collect(toMap(NlPair::getNum, NlPair::getWord)));
 				provLangCache.put(ProvLang.NL, builder.build());
 
 				break;

@@ -6,16 +6,15 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.lang3.StringUtils.SPACE;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import static org.desz.inttoword.factory.ProvLangFactory.getInstance;
 
 import java.text.NumberFormat;
 import java.util.List;
-import java.util.logging.Logger;
-
 import org.desz.inttoword.exceptions.AppConversionException;
-import org.desz.inttoword.language.IntWordMapping;
+import org.desz.inttoword.language.NumberWordMapping;
 import org.desz.inttoword.language.ProvLang;
 import org.desz.inttoword.results.DeDecorator;
 import org.desz.inttoword.results.Word;
@@ -53,12 +52,12 @@ public class ConversionDelegate {
 
 		final int sz = numbers.size();
 
-		final IntWordMapping intWordMapping = getInstance().getMapForProvLang(provLang);
+		final NumberWordMapping intWordMapping = getInstance().getMapForProvLang(provLang);
 
 		// return result if n < 1000 and contained by IntToWordMapping.
 		if (sz == 1) {
 			final int val = n.intValue();
-			final String s = intWordMapping.wordForNum(val);
+			final String s = intWordMapping.wordForNum(val).orElse(EMPTY);
 			if (!isBlank(s))
 				return s.toLowerCase();
 		}
